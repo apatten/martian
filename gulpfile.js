@@ -17,7 +17,7 @@ gulp.task('default', function(cb) {
     jspm.bundleSFX('martian', outFile, bundleOptions).then(function() {
         var stream = gulp.src(outFile)
             .pipe(plumber())
-            .pipe(gulp.dest('out'));
+            .pipe(gulp.dest('.'));
         cb();
     }).catch(function(err) {
         cb(err);
