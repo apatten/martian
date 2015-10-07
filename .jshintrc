@@ -1,0 +1,42 @@
+{
+    "globals": {
+        "Deki": true,
+        "_": false,
+
+        "CKEDITOR": false,
+
+        /* Jasmine */
+        "jasmine": false,
+        "describe": false,
+        "it": false,
+        "xdescribe": false,
+        "xit": false,
+        "expect": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "Mocks": false,
+
+        /* Rollbar */
+        "Rollbar": true
+
+    },
+    "esnext": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": true,
+    "trailing": true,
+    "browser": true,
+    "jquery": true,
+    "node": true,
+    "immed": true
+}
