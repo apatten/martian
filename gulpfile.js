@@ -3,13 +3,17 @@
 var jspm = require('jspm');
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
 var karma = require('karma').server;
 var bundleOptions = {
         minify: false,
         sourceMaps: false
     };
+var inspectSrc = [
+    'src/lib/*',
+    'src/model/*',
+    'src/api/*',
+    'src/error/*'
+];
 
 /*** js sub tasks ***/
 gulp.task('default', function(cb) {
@@ -31,3 +35,24 @@ gulp.task('test', function(done) {
         singleRun: true
     }, done);
 });
+
+
+/*** sub tasks ***/
+gulp.task('inspect:lint', function() {
+    var jshint = require('gulp-jshint');
+    var stylish = require('jshint-stylish');
+    return gulp.src(inspectSrc)
+        .pipe(cached('inspect:lint'))
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter(stylish));
+});
+
+gulp.task('inspect:jscs', function() {
+    var codeStyle = require('gulp-jscs');
+    return gulp.src(inspectSrc)
+        .pipe(cached('inspect:jscs'))
+        .pipe(codeStyle());
+});
+
+/*** main tasks ***/
+gulp.task('inspect', [ 'inspect:lint', 'inspect:jscs' ]);

@@ -22,6 +22,7 @@
  */
 import Url from 'url';
 import UriHash from './uriHash';
+import stringUtility from './stringUtility';
 export default class Uri {
     constructor(url = '') {
         this.parsedUrl = Url.parse(url, true);
@@ -32,8 +33,8 @@ export default class Uri {
     }
     getSegments() {
         var path = this.path();
-        if(startsWith(path, '/')) {
-            path = ltrim(path, '/');
+        if(stringUtility.startsWith(path, '/')) {
+            path = stringUtility.leftTrim(path, '/');
         }
         return path.split('/');
     }

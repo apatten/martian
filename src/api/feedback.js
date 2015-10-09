@@ -1,9 +1,10 @@
 import Plug from 'lib/plug';
 import utility from 'lib/utility';
+import stringUtility from 'lib/stringUtility';
 import pageRatingsModel from 'models/pageRatings.model';
 let feedback = {
     submit: function(options) {
-        let path = options.path || utility.leftTrim(window.location.pathname, '/');
+        let path = options.path || stringUtility.leftTrim(window.location.pathname, '/');
         let request = JSON.stringify({
             _path: encodeURIComponent(path),
             userEmail: options.userEmail,

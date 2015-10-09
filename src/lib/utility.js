@@ -18,12 +18,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var utility = {
+import stringUtility from './stringUtility';
+let utility = {
     getStringParams: function(queryString) {
-        var retVal = {};
-        var params = words(strRight(queryString, '?'), '&');
+        let retVal = {};
+        let params = stringUtility.words(stringUtility.stringRight(queryString, '?'), '&');
         params.forEach(function(pair) {
-            var myPair = pair.split('=');
+            let myPair = pair.split('=');
             if(myPair[0]) {
                 retVal[decodeURIComponent(myPair[0])] = decodeURIComponent(myPair[1]);
             }
@@ -31,22 +32,14 @@ var utility = {
         return retVal;
     },
     buildQueryString: function(paramObject) {
-        return _(paramObject).reduce(function(acc, num, key) {
-            var nextQueryStr = acc.querystring + acc.delim + encodeURIComponent(key) + '=';
-            if(num) {
-                nextQueryStr += encodeURIComponent(num);
+        let queryString = '';
+        Object.keys(paramObject).forEach(function(key, index, arr) {
+            queryString += encodeURIComponent(key) + '=' + encodeURIComponent(paramObject[key]);
+            if(index < arr.length - 1) {
+                queryString += '&';
             }
-            return {
-                querystring: nextQueryStr,
-                delim: '&'
-            };
-        }, { querystring: '', delim: '' }).querystring;
-    },
-    leftTrim: function(str, char) {
-        if(!char) {
-            char = '\s';
-        }
-        return str.replace(new RegExp('^' + char + '+'), '');
+        });
+        return queryString;
     }
 };
 export default utility;

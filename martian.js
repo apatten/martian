@@ -1,3468 +1,3 @@
-/* */ 
-"format global";
-"exports $traceurRuntime";
-(function(global) {
-  'use strict';
-  if (global.$traceurRuntime) {
-    return ;
-  }
-  var $Object = Object;
-  var $TypeError = TypeError;
-  var $create = $Object.create;
-  var $defineProperties = $Object.defineProperties;
-  var $defineProperty = $Object.defineProperty;
-  var $freeze = $Object.freeze;
-  var $getOwnPropertyDescriptor = $Object.getOwnPropertyDescriptor;
-  var $getOwnPropertyNames = $Object.getOwnPropertyNames;
-  var $keys = $Object.keys;
-  var $hasOwnProperty = $Object.prototype.hasOwnProperty;
-  var $toString = $Object.prototype.toString;
-  var $preventExtensions = Object.preventExtensions;
-  var $seal = Object.seal;
-  var $isExtensible = Object.isExtensible;
-  var $apply = Function.prototype.call.bind(Function.prototype.apply);
-  function $bind(operand, thisArg, args) {
-    var argArray = [thisArg];
-    for (var i = 0; i < args.length; i++) {
-      argArray[i + 1] = args[i];
-    }
-    var func = $apply(Function.prototype.bind, operand, argArray);
-    return func;
-  }
-  function $construct(func, argArray) {
-    var object = new ($bind(func, null, argArray));
-    return object;
-  }
-  var counter = 0;
-  function newUniqueString() {
-    return '__$' + Math.floor(Math.random() * 1e9) + '$' + ++counter + '$__';
-  }
-  var privateNames = $create(null);
-  function isPrivateName(s) {
-    return privateNames[s];
-  }
-  function createPrivateName() {
-    var s = newUniqueString();
-    privateNames[s] = true;
-    return s;
-  }
-  var CONTINUATION_TYPE = Object.create(null);
-  function createContinuation(operand, thisArg, argsArray) {
-    return [CONTINUATION_TYPE, operand, thisArg, argsArray];
-  }
-  function isContinuation(object) {
-    return object && object[0] === CONTINUATION_TYPE;
-  }
-  var isTailRecursiveName = null;
-  function setupProperTailCalls() {
-    isTailRecursiveName = createPrivateName();
-    Function.prototype.call = initTailRecursiveFunction(function call(thisArg) {
-      var result = tailCall(function(thisArg) {
-        var argArray = [];
-        for (var i = 1; i < arguments.length; ++i) {
-          argArray[i - 1] = arguments[i];
-        }
-        var continuation = createContinuation(this, thisArg, argArray);
-        return continuation;
-      }, this, arguments);
-      return result;
-    });
-    Function.prototype.apply = initTailRecursiveFunction(function apply(thisArg, argArray) {
-      var result = tailCall(function(thisArg, argArray) {
-        var continuation = createContinuation(this, thisArg, argArray);
-        return continuation;
-      }, this, arguments);
-      return result;
-    });
-  }
-  function initTailRecursiveFunction(func) {
-    if (isTailRecursiveName === null) {
-      setupProperTailCalls();
-    }
-    func[isTailRecursiveName] = true;
-    return func;
-  }
-  function isTailRecursive(func) {
-    return !!func[isTailRecursiveName];
-  }
-  function tailCall(func, thisArg, argArray) {
-    var continuation = argArray[0];
-    if (isContinuation(continuation)) {
-      continuation = $apply(func, thisArg, continuation[3]);
-      return continuation;
-    }
-    continuation = createContinuation(func, thisArg, argArray);
-    while (true) {
-      if (isTailRecursive(func)) {
-        continuation = $apply(func, continuation[2], [continuation]);
-      } else {
-        continuation = $apply(func, continuation[2], continuation[3]);
-      }
-      if (!isContinuation(continuation)) {
-        return continuation;
-      }
-      func = continuation[1];
-    }
-  }
-  function construct() {
-    var object;
-    if (isTailRecursive(this)) {
-      object = $construct(this, [createContinuation(null, null, arguments)]);
-    } else {
-      object = $construct(this, arguments);
-    }
-    return object;
-  }
-  var $traceurRuntime = {
-    initTailRecursiveFunction: initTailRecursiveFunction,
-    call: tailCall,
-    continuation: createContinuation,
-    construct: construct
-  };
-  (function() {
-    function nonEnum(value) {
-      return {
-        configurable: true,
-        enumerable: false,
-        value: value,
-        writable: true
-      };
-    }
-    var method = nonEnum;
-    var symbolInternalProperty = newUniqueString();
-    var symbolDescriptionProperty = newUniqueString();
-    var symbolDataProperty = newUniqueString();
-    var symbolValues = $create(null);
-    function isShimSymbol(symbol) {
-      return typeof symbol === 'object' && symbol instanceof SymbolValue;
-    }
-    function typeOf(v) {
-      if (isShimSymbol(v))
-        return 'symbol';
-      return typeof v;
-    }
-    function Symbol(description) {
-      var value = new SymbolValue(description);
-      if (!(this instanceof Symbol))
-        return value;
-      throw new TypeError('Symbol cannot be new\'ed');
-    }
-    $defineProperty(Symbol.prototype, 'constructor', nonEnum(Symbol));
-    $defineProperty(Symbol.prototype, 'toString', method(function() {
-      var symbolValue = this[symbolDataProperty];
-      return symbolValue[symbolInternalProperty];
-    }));
-    $defineProperty(Symbol.prototype, 'valueOf', method(function() {
-      var symbolValue = this[symbolDataProperty];
-      if (!symbolValue)
-        throw TypeError('Conversion from symbol to string');
-      if (!getOption('symbols'))
-        return symbolValue[symbolInternalProperty];
-      return symbolValue;
-    }));
-    function SymbolValue(description) {
-      var key = newUniqueString();
-      $defineProperty(this, symbolDataProperty, {value: this});
-      $defineProperty(this, symbolInternalProperty, {value: key});
-      $defineProperty(this, symbolDescriptionProperty, {value: description});
-      freeze(this);
-      symbolValues[key] = this;
-    }
-    $defineProperty(SymbolValue.prototype, 'constructor', nonEnum(Symbol));
-    $defineProperty(SymbolValue.prototype, 'toString', {
-      value: Symbol.prototype.toString,
-      enumerable: false
-    });
-    $defineProperty(SymbolValue.prototype, 'valueOf', {
-      value: Symbol.prototype.valueOf,
-      enumerable: false
-    });
-    var hashProperty = createPrivateName();
-    var hashPropertyDescriptor = {value: undefined};
-    var hashObjectProperties = {
-      hash: {value: undefined},
-      self: {value: undefined}
-    };
-    var hashCounter = 0;
-    function getOwnHashObject(object) {
-      var hashObject = object[hashProperty];
-      if (hashObject && hashObject.self === object)
-        return hashObject;
-      if ($isExtensible(object)) {
-        hashObjectProperties.hash.value = hashCounter++;
-        hashObjectProperties.self.value = object;
-        hashPropertyDescriptor.value = $create(null, hashObjectProperties);
-        $defineProperty(object, hashProperty, hashPropertyDescriptor);
-        return hashPropertyDescriptor.value;
-      }
-      return undefined;
-    }
-    function freeze(object) {
-      getOwnHashObject(object);
-      return $freeze.apply(this, arguments);
-    }
-    function preventExtensions(object) {
-      getOwnHashObject(object);
-      return $preventExtensions.apply(this, arguments);
-    }
-    function seal(object) {
-      getOwnHashObject(object);
-      return $seal.apply(this, arguments);
-    }
-    freeze(SymbolValue.prototype);
-    function isSymbolString(s) {
-      return symbolValues[s] || privateNames[s];
-    }
-    function toProperty(name) {
-      if (isShimSymbol(name))
-        return name[symbolInternalProperty];
-      return name;
-    }
-    function removeSymbolKeys(array) {
-      var rv = [];
-      for (var i = 0; i < array.length; i++) {
-        if (!isSymbolString(array[i])) {
-          rv.push(array[i]);
-        }
-      }
-      return rv;
-    }
-    function getOwnPropertyNames(object) {
-      return removeSymbolKeys($getOwnPropertyNames(object));
-    }
-    function keys(object) {
-      return removeSymbolKeys($keys(object));
-    }
-    function getOwnPropertySymbols(object) {
-      var rv = [];
-      var names = $getOwnPropertyNames(object);
-      for (var i = 0; i < names.length; i++) {
-        var symbol = symbolValues[names[i]];
-        if (symbol) {
-          rv.push(symbol);
-        }
-      }
-      return rv;
-    }
-    function getOwnPropertyDescriptor(object, name) {
-      return $getOwnPropertyDescriptor(object, toProperty(name));
-    }
-    function hasOwnProperty(name) {
-      return $hasOwnProperty.call(this, toProperty(name));
-    }
-    function getOption(name) {
-      return global.$traceurRuntime.options[name];
-    }
-    function defineProperty(object, name, descriptor) {
-      if (isShimSymbol(name)) {
-        name = name[symbolInternalProperty];
-      }
-      $defineProperty(object, name, descriptor);
-      return object;
-    }
-    function polyfillObject(Object) {
-      $defineProperty(Object, 'defineProperty', {value: defineProperty});
-      $defineProperty(Object, 'getOwnPropertyNames', {value: getOwnPropertyNames});
-      $defineProperty(Object, 'getOwnPropertyDescriptor', {value: getOwnPropertyDescriptor});
-      $defineProperty(Object.prototype, 'hasOwnProperty', {value: hasOwnProperty});
-      $defineProperty(Object, 'freeze', {value: freeze});
-      $defineProperty(Object, 'preventExtensions', {value: preventExtensions});
-      $defineProperty(Object, 'seal', {value: seal});
-      $defineProperty(Object, 'keys', {value: keys});
-    }
-    function exportStar(object) {
-      for (var i = 1; i < arguments.length; i++) {
-        var names = $getOwnPropertyNames(arguments[i]);
-        for (var j = 0; j < names.length; j++) {
-          var name = names[j];
-          if (name === '__esModule' || isSymbolString(name))
-            continue;
-          (function(mod, name) {
-            $defineProperty(object, name, {
-              get: function() {
-                return mod[name];
-              },
-              enumerable: true
-            });
-          })(arguments[i], names[j]);
-        }
-      }
-      return object;
-    }
-    function isObject(x) {
-      return x != null && (typeof x === 'object' || typeof x === 'function');
-    }
-    function toObject(x) {
-      if (x == null)
-        throw $TypeError();
-      return $Object(x);
-    }
-    function checkObjectCoercible(argument) {
-      if (argument == null) {
-        throw new TypeError('Value cannot be converted to an Object');
-      }
-      return argument;
-    }
-    function polyfillSymbol(global, Symbol) {
-      if (!global.Symbol) {
-        global.Symbol = Symbol;
-        Object.getOwnPropertySymbols = getOwnPropertySymbols;
-      }
-      if (!global.Symbol.iterator) {
-        global.Symbol.iterator = Symbol('Symbol.iterator');
-      }
-      if (!global.Symbol.observer) {
-        global.Symbol.observer = Symbol('Symbol.observer');
-      }
-    }
-    function setupGlobals(global) {
-      polyfillSymbol(global, Symbol);
-      global.Reflect = global.Reflect || {};
-      global.Reflect.global = global.Reflect.global || global;
-      polyfillObject(global.Object);
-    }
-    setupGlobals(global);
-    global.$traceurRuntime = {
-      call: tailCall,
-      checkObjectCoercible: checkObjectCoercible,
-      construct: construct,
-      continuation: createContinuation,
-      createPrivateName: createPrivateName,
-      defineProperties: $defineProperties,
-      defineProperty: $defineProperty,
-      exportStar: exportStar,
-      getOwnHashObject: getOwnHashObject,
-      getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-      getOwnPropertyNames: $getOwnPropertyNames,
-      initTailRecursiveFunction: initTailRecursiveFunction,
-      isObject: isObject,
-      isPrivateName: isPrivateName,
-      isSymbolString: isSymbolString,
-      keys: $keys,
-      options: {},
-      setupGlobals: setupGlobals,
-      toObject: toObject,
-      toProperty: toProperty,
-      typeof: typeOf
-    };
-  })();
-})(typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : this);
-(function() {
-  function buildFromEncodedParts(opt_scheme, opt_userInfo, opt_domain, opt_port, opt_path, opt_queryData, opt_fragment) {
-    var out = [];
-    if (opt_scheme) {
-      out.push(opt_scheme, ':');
-    }
-    if (opt_domain) {
-      out.push('//');
-      if (opt_userInfo) {
-        out.push(opt_userInfo, '@');
-      }
-      out.push(opt_domain);
-      if (opt_port) {
-        out.push(':', opt_port);
-      }
-    }
-    if (opt_path) {
-      out.push(opt_path);
-    }
-    if (opt_queryData) {
-      out.push('?', opt_queryData);
-    }
-    if (opt_fragment) {
-      out.push('#', opt_fragment);
-    }
-    return out.join('');
-  }
-  ;
-  var splitRe = new RegExp('^' + '(?:' + '([^:/?#.]+)' + ':)?' + '(?://' + '(?:([^/?#]*)@)?' + '([\\w\\d\\-\\u0100-\\uffff.%]*)' + '(?::([0-9]+))?' + ')?' + '([^?#]+)?' + '(?:\\?([^#]*))?' + '(?:#(.*))?' + '$');
-  var ComponentIndex = {
-    SCHEME: 1,
-    USER_INFO: 2,
-    DOMAIN: 3,
-    PORT: 4,
-    PATH: 5,
-    QUERY_DATA: 6,
-    FRAGMENT: 7
-  };
-  function split(uri) {
-    return (uri.match(splitRe));
-  }
-  function removeDotSegments(path) {
-    if (path === '/')
-      return '/';
-    var leadingSlash = path[0] === '/' ? '/' : '';
-    var trailingSlash = path.slice(-1) === '/' ? '/' : '';
-    var segments = path.split('/');
-    var out = [];
-    var up = 0;
-    for (var pos = 0; pos < segments.length; pos++) {
-      var segment = segments[pos];
-      switch (segment) {
-        case '':
-        case '.':
-          break;
-        case '..':
-          if (out.length)
-            out.pop();
-          else
-            up++;
-          break;
-        default:
-          out.push(segment);
-      }
-    }
-    if (!leadingSlash) {
-      while (up-- > 0) {
-        out.unshift('..');
-      }
-      if (out.length === 0)
-        out.push('.');
-    }
-    return leadingSlash + out.join('/') + trailingSlash;
-  }
-  function joinAndCanonicalizePath(parts) {
-    var path = parts[ComponentIndex.PATH] || '';
-    path = removeDotSegments(path);
-    parts[ComponentIndex.PATH] = path;
-    return buildFromEncodedParts(parts[ComponentIndex.SCHEME], parts[ComponentIndex.USER_INFO], parts[ComponentIndex.DOMAIN], parts[ComponentIndex.PORT], parts[ComponentIndex.PATH], parts[ComponentIndex.QUERY_DATA], parts[ComponentIndex.FRAGMENT]);
-  }
-  function canonicalizeUrl(url) {
-    var parts = split(url);
-    return joinAndCanonicalizePath(parts);
-  }
-  function resolveUrl(base, url) {
-    var parts = split(url);
-    var baseParts = split(base);
-    if (parts[ComponentIndex.SCHEME]) {
-      return joinAndCanonicalizePath(parts);
-    } else {
-      parts[ComponentIndex.SCHEME] = baseParts[ComponentIndex.SCHEME];
-    }
-    for (var i = ComponentIndex.SCHEME; i <= ComponentIndex.PORT; i++) {
-      if (!parts[i]) {
-        parts[i] = baseParts[i];
-      }
-    }
-    if (parts[ComponentIndex.PATH][0] == '/') {
-      return joinAndCanonicalizePath(parts);
-    }
-    var path = baseParts[ComponentIndex.PATH];
-    var index = path.lastIndexOf('/');
-    path = path.slice(0, index + 1) + parts[ComponentIndex.PATH];
-    parts[ComponentIndex.PATH] = path;
-    return joinAndCanonicalizePath(parts);
-  }
-  function isAbsolute(name) {
-    if (!name)
-      return false;
-    if (name[0] === '/')
-      return true;
-    var parts = split(name);
-    if (parts[ComponentIndex.SCHEME])
-      return true;
-    return false;
-  }
-  $traceurRuntime.canonicalizeUrl = canonicalizeUrl;
-  $traceurRuntime.isAbsolute = isAbsolute;
-  $traceurRuntime.removeDotSegments = removeDotSegments;
-  $traceurRuntime.resolveUrl = resolveUrl;
-})();
-(function(global) {
-  'use strict';
-  var $__1 = $traceurRuntime,
-      canonicalizeUrl = $__1.canonicalizeUrl,
-      resolveUrl = $__1.resolveUrl,
-      isAbsolute = $__1.isAbsolute;
-  var moduleInstantiators = Object.create(null);
-  var baseURL;
-  if (global.location && global.location.href)
-    baseURL = resolveUrl(global.location.href, './');
-  else
-    baseURL = '';
-  function UncoatedModuleEntry(url, uncoatedModule) {
-    this.url = url;
-    this.value_ = uncoatedModule;
-  }
-  function ModuleEvaluationError(erroneousModuleName, cause) {
-    this.message = this.constructor.name + ': ' + this.stripCause(cause) + ' in ' + erroneousModuleName;
-    if (!(cause instanceof ModuleEvaluationError) && cause.stack)
-      this.stack = this.stripStack(cause.stack);
-    else
-      this.stack = '';
-  }
-  ModuleEvaluationError.prototype = Object.create(Error.prototype);
-  ModuleEvaluationError.prototype.constructor = ModuleEvaluationError;
-  ModuleEvaluationError.prototype.stripError = function(message) {
-    return message.replace(/.*Error:/, this.constructor.name + ':');
-  };
-  ModuleEvaluationError.prototype.stripCause = function(cause) {
-    if (!cause)
-      return '';
-    if (!cause.message)
-      return cause + '';
-    return this.stripError(cause.message);
-  };
-  ModuleEvaluationError.prototype.loadedBy = function(moduleName) {
-    this.stack += '\n loaded by ' + moduleName;
-  };
-  ModuleEvaluationError.prototype.stripStack = function(causeStack) {
-    var stack = [];
-    causeStack.split('\n').some((function(frame) {
-      if (/UncoatedModuleInstantiator/.test(frame))
-        return true;
-      stack.push(frame);
-    }));
-    stack[0] = this.stripError(stack[0]);
-    return stack.join('\n');
-  };
-  function beforeLines(lines, number) {
-    var result = [];
-    var first = number - 3;
-    if (first < 0)
-      first = 0;
-    for (var i = first; i < number; i++) {
-      result.push(lines[i]);
-    }
-    return result;
-  }
-  function afterLines(lines, number) {
-    var last = number + 1;
-    if (last > lines.length - 1)
-      last = lines.length - 1;
-    var result = [];
-    for (var i = number; i <= last; i++) {
-      result.push(lines[i]);
-    }
-    return result;
-  }
-  function columnSpacing(columns) {
-    var result = '';
-    for (var i = 0; i < columns - 1; i++) {
-      result += '-';
-    }
-    return result;
-  }
-  function UncoatedModuleInstantiator(url, func) {
-    UncoatedModuleEntry.call(this, url, null);
-    this.func = func;
-  }
-  UncoatedModuleInstantiator.prototype = Object.create(UncoatedModuleEntry.prototype);
-  UncoatedModuleInstantiator.prototype.getUncoatedModule = function() {
-    var $__0 = this;
-    if (this.value_)
-      return this.value_;
-    try {
-      var relativeRequire;
-      if (typeof $traceurRuntime !== undefined && $traceurRuntime.require) {
-        relativeRequire = $traceurRuntime.require.bind(null, this.url);
-      }
-      return this.value_ = this.func.call(global, relativeRequire);
-    } catch (ex) {
-      if (ex instanceof ModuleEvaluationError) {
-        ex.loadedBy(this.url);
-        throw ex;
-      }
-      if (ex.stack) {
-        var lines = this.func.toString().split('\n');
-        var evaled = [];
-        ex.stack.split('\n').some((function(frame, index) {
-          if (frame.indexOf('UncoatedModuleInstantiator.getUncoatedModule') > 0)
-            return true;
-          var m = /(at\s[^\s]*\s).*>:(\d*):(\d*)\)/.exec(frame);
-          if (m) {
-            var line = parseInt(m[2], 10);
-            evaled = evaled.concat(beforeLines(lines, line));
-            if (index === 1) {
-              evaled.push(columnSpacing(m[3]) + '^ ' + $__0.url);
-            } else {
-              evaled.push(columnSpacing(m[3]) + '^');
-            }
-            evaled = evaled.concat(afterLines(lines, line));
-            evaled.push('= = = = = = = = =');
-          } else {
-            evaled.push(frame);
-          }
-        }));
-        ex.stack = evaled.join('\n');
-      }
-      throw new ModuleEvaluationError(this.url, ex);
-    }
-  };
-  function getUncoatedModuleInstantiator(name) {
-    if (!name)
-      return ;
-    var url = ModuleStore.normalize(name);
-    return moduleInstantiators[url];
-  }
-  ;
-  var moduleInstances = Object.create(null);
-  var liveModuleSentinel = {};
-  function Module(uncoatedModule) {
-    var isLive = arguments[1];
-    var coatedModule = Object.create(null);
-    Object.getOwnPropertyNames(uncoatedModule).forEach((function(name) {
-      var getter,
-          value;
-      if (isLive === liveModuleSentinel) {
-        var descr = Object.getOwnPropertyDescriptor(uncoatedModule, name);
-        if (descr.get)
-          getter = descr.get;
-      }
-      if (!getter) {
-        value = uncoatedModule[name];
-        getter = function() {
-          return value;
-        };
-      }
-      Object.defineProperty(coatedModule, name, {
-        get: getter,
-        enumerable: true
-      });
-    }));
-    Object.preventExtensions(coatedModule);
-    return coatedModule;
-  }
-  var ModuleStore = {
-    normalize: function(name, refererName, refererAddress) {
-      if (typeof name !== 'string')
-        throw new TypeError('module name must be a string, not ' + typeof name);
-      if (isAbsolute(name))
-        return canonicalizeUrl(name);
-      if (/[^\.]\/\.\.\//.test(name)) {
-        throw new Error('module name embeds /../: ' + name);
-      }
-      if (name[0] === '.' && refererName)
-        return resolveUrl(refererName, name);
-      return canonicalizeUrl(name);
-    },
-    get: function(normalizedName) {
-      var m = getUncoatedModuleInstantiator(normalizedName);
-      if (!m)
-        return undefined;
-      var moduleInstance = moduleInstances[m.url];
-      if (moduleInstance)
-        return moduleInstance;
-      moduleInstance = Module(m.getUncoatedModule(), liveModuleSentinel);
-      return moduleInstances[m.url] = moduleInstance;
-    },
-    set: function(normalizedName, module) {
-      normalizedName = String(normalizedName);
-      moduleInstantiators[normalizedName] = new UncoatedModuleInstantiator(normalizedName, (function() {
-        return module;
-      }));
-      moduleInstances[normalizedName] = module;
-    },
-    get baseURL() {
-      return baseURL;
-    },
-    set baseURL(v) {
-      baseURL = String(v);
-    },
-    registerModule: function(name, deps, func) {
-      var normalizedName = ModuleStore.normalize(name);
-      if (moduleInstantiators[normalizedName])
-        throw new Error('duplicate module named ' + normalizedName);
-      moduleInstantiators[normalizedName] = new UncoatedModuleInstantiator(normalizedName, func);
-    },
-    bundleStore: Object.create(null),
-    register: function(name, deps, func) {
-      if (!deps || !deps.length && !func.length) {
-        this.registerModule(name, deps, func);
-      } else {
-        this.bundleStore[name] = {
-          deps: deps,
-          execute: function() {
-            var $__0 = arguments;
-            var depMap = {};
-            deps.forEach((function(dep, index) {
-              return depMap[dep] = $__0[index];
-            }));
-            var registryEntry = func.call(this, depMap);
-            registryEntry.execute.call(this);
-            return registryEntry.exports;
-          }
-        };
-      }
-    },
-    getAnonymousModule: function(func) {
-      return new Module(func.call(global), liveModuleSentinel);
-    },
-    getForTesting: function(name) {
-      var $__0 = this;
-      if (!this.testingPrefix_) {
-        Object.keys(moduleInstances).some((function(key) {
-          var m = /(traceur@[^\/]*\/)/.exec(key);
-          if (m) {
-            $__0.testingPrefix_ = m[1];
-            return true;
-          }
-        }));
-      }
-      return this.get(this.testingPrefix_ + name);
-    }
-  };
-  var moduleStoreModule = new Module({ModuleStore: ModuleStore});
-  ModuleStore.set('@traceur/src/runtime/ModuleStore.js', moduleStoreModule);
-  var setupGlobals = $traceurRuntime.setupGlobals;
-  $traceurRuntime.setupGlobals = function(global) {
-    setupGlobals(global);
-  };
-  $traceurRuntime.ModuleStore = ModuleStore;
-  global.System = {
-    register: ModuleStore.register.bind(ModuleStore),
-    registerModule: ModuleStore.registerModule.bind(ModuleStore),
-    get: ModuleStore.get,
-    set: ModuleStore.set,
-    normalize: ModuleStore.normalize
-  };
-})(typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : this);
-System.registerModule("traceur-runtime@0.0.88/src/runtime/async.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/async.js";
-  if (typeof $traceurRuntime !== 'object') {
-    throw new Error('traceur runtime not found.');
-  }
-  var $createPrivateName = $traceurRuntime.createPrivateName;
-  var $defineProperty = $traceurRuntime.defineProperty;
-  var $defineProperties = $traceurRuntime.defineProperties;
-  var $create = Object.create;
-  var thisName = $createPrivateName();
-  var argsName = $createPrivateName();
-  var observeName = $createPrivateName();
-  function AsyncGeneratorFunction() {}
-  function AsyncGeneratorFunctionPrototype() {}
-  AsyncGeneratorFunction.prototype = AsyncGeneratorFunctionPrototype;
-  AsyncGeneratorFunctionPrototype.constructor = AsyncGeneratorFunction;
-  $defineProperty(AsyncGeneratorFunctionPrototype, 'constructor', {enumerable: false});
-  var AsyncGeneratorContext = (function() {
-    function AsyncGeneratorContext(observer) {
-      var $__0 = this;
-      this.decoratedObserver = $traceurRuntime.createDecoratedGenerator(observer, (function() {
-        $__0.done = true;
-      }));
-      this.done = false;
-      this.inReturn = false;
-    }
-    return ($traceurRuntime.createClass)(AsyncGeneratorContext, {
-      throw: function(error) {
-        if (!this.inReturn) {
-          throw error;
-        }
-      },
-      yield: function(value) {
-        if (this.done) {
-          this.inReturn = true;
-          throw undefined;
-        }
-        var result;
-        try {
-          result = this.decoratedObserver.next(value);
-        } catch (e) {
-          this.done = true;
-          throw e;
-        }
-        if (result === undefined) {
-          return ;
-        }
-        if (result.done) {
-          this.done = true;
-          this.inReturn = true;
-          throw undefined;
-        }
-        return result.value;
-      },
-      yieldFor: function(observable) {
-        var ctx = this;
-        return $traceurRuntime.observeForEach(observable[$traceurRuntime.toProperty(Symbol.observer)].bind(observable), function(value) {
-          if (ctx.done) {
-            this.return();
-            return ;
-          }
-          var result;
-          try {
-            result = ctx.decoratedObserver.next(value);
-          } catch (e) {
-            ctx.done = true;
-            throw e;
-          }
-          if (result === undefined) {
-            return ;
-          }
-          if (result.done) {
-            ctx.done = true;
-          }
-          return result;
-        });
-      }
-    }, {});
-  }());
-  AsyncGeneratorFunctionPrototype.prototype[Symbol.observer] = function(observer) {
-    var observe = this[observeName];
-    var ctx = new AsyncGeneratorContext(observer);
-    $traceurRuntime.schedule((function() {
-      return observe(ctx);
-    })).then((function(value) {
-      if (!ctx.done) {
-        ctx.decoratedObserver.return(value);
-      }
-    })).catch((function(error) {
-      if (!ctx.done) {
-        ctx.decoratedObserver.throw(error);
-      }
-    }));
-    return ctx.decoratedObserver;
-  };
-  $defineProperty(AsyncGeneratorFunctionPrototype.prototype, Symbol.observer, {enumerable: false});
-  function initAsyncGeneratorFunction(functionObject) {
-    functionObject.prototype = $create(AsyncGeneratorFunctionPrototype.prototype);
-    functionObject.__proto__ = AsyncGeneratorFunctionPrototype;
-    return functionObject;
-  }
-  function createAsyncGeneratorInstance(observe, functionObject) {
-    for (var args = [],
-        $__2 = 2; $__2 < arguments.length; $__2++)
-      args[$__2 - 2] = arguments[$__2];
-    var object = $create(functionObject.prototype);
-    object[thisName] = this;
-    object[argsName] = args;
-    object[observeName] = observe;
-    return object;
-  }
-  function observeForEach(observe, next) {
-    return new Promise((function(resolve, reject) {
-      var generator = observe({
-        next: function(value) {
-          return next.call(generator, value);
-        },
-        throw: function(error) {
-          reject(error);
-        },
-        return: function(value) {
-          resolve(value);
-        }
-      });
-    }));
-  }
-  function schedule(asyncF) {
-    return Promise.resolve().then(asyncF);
-  }
-  var generator = Symbol();
-  var onDone = Symbol();
-  var DecoratedGenerator = (function() {
-    function DecoratedGenerator(_generator, _onDone) {
-      this[generator] = _generator;
-      this[onDone] = _onDone;
-    }
-    return ($traceurRuntime.createClass)(DecoratedGenerator, {
-      next: function(value) {
-        var result = this[generator].next(value);
-        if (result !== undefined && result.done) {
-          this[onDone].call(this);
-        }
-        return result;
-      },
-      throw: function(error) {
-        this[onDone].call(this);
-        return this[generator].throw(error);
-      },
-      return: function(value) {
-        this[onDone].call(this);
-        return this[generator].return(value);
-      }
-    }, {});
-  }());
-  function createDecoratedGenerator(generator, onDone) {
-    return new DecoratedGenerator(generator, onDone);
-  }
-  $traceurRuntime.initAsyncGeneratorFunction = initAsyncGeneratorFunction;
-  $traceurRuntime.createAsyncGeneratorInstance = createAsyncGeneratorInstance;
-  $traceurRuntime.observeForEach = observeForEach;
-  $traceurRuntime.schedule = schedule;
-  $traceurRuntime.createDecoratedGenerator = createDecoratedGenerator;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/classes.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/classes.js";
-  var $Object = Object;
-  var $TypeError = TypeError;
-  var $create = $Object.create;
-  var $defineProperties = $traceurRuntime.defineProperties;
-  var $defineProperty = $traceurRuntime.defineProperty;
-  var $getOwnPropertyDescriptor = $traceurRuntime.getOwnPropertyDescriptor;
-  var $getOwnPropertyNames = $traceurRuntime.getOwnPropertyNames;
-  var $getPrototypeOf = Object.getPrototypeOf;
-  var $__0 = Object,
-      getOwnPropertyNames = $__0.getOwnPropertyNames,
-      getOwnPropertySymbols = $__0.getOwnPropertySymbols;
-  function superDescriptor(homeObject, name) {
-    var proto = $getPrototypeOf(homeObject);
-    do {
-      var result = $getOwnPropertyDescriptor(proto, name);
-      if (result)
-        return result;
-      proto = $getPrototypeOf(proto);
-    } while (proto);
-    return undefined;
-  }
-  function superConstructor(ctor) {
-    return ctor.__proto__;
-  }
-  function superGet(self, homeObject, name) {
-    var descriptor = superDescriptor(homeObject, name);
-    if (descriptor) {
-      if (!descriptor.get)
-        return descriptor.value;
-      return descriptor.get.call(self);
-    }
-    return undefined;
-  }
-  function superSet(self, homeObject, name, value) {
-    var descriptor = superDescriptor(homeObject, name);
-    if (descriptor && descriptor.set) {
-      descriptor.set.call(self, value);
-      return value;
-    }
-    throw $TypeError(("super has no setter '" + name + "'."));
-  }
-  function forEachPropertyKey(object, f) {
-    getOwnPropertyNames(object).forEach(f);
-    getOwnPropertySymbols(object).forEach(f);
-  }
-  function getDescriptors(object) {
-    var descriptors = {};
-    forEachPropertyKey(object, (function(key) {
-      descriptors[key] = $getOwnPropertyDescriptor(object, key);
-      descriptors[key].enumerable = false;
-    }));
-    return descriptors;
-  }
-  var nonEnum = {enumerable: false};
-  function makePropertiesNonEnumerable(object) {
-    forEachPropertyKey(object, (function(key) {
-      $defineProperty(object, key, nonEnum);
-    }));
-  }
-  function createClass(ctor, object, staticObject, superClass) {
-    $defineProperty(object, 'constructor', {
-      value: ctor,
-      configurable: true,
-      enumerable: false,
-      writable: true
-    });
-    if (arguments.length > 3) {
-      if (typeof superClass === 'function')
-        ctor.__proto__ = superClass;
-      ctor.prototype = $create(getProtoParent(superClass), getDescriptors(object));
-    } else {
-      makePropertiesNonEnumerable(object);
-      ctor.prototype = object;
-    }
-    $defineProperty(ctor, 'prototype', {
-      configurable: false,
-      writable: false
-    });
-    return $defineProperties(ctor, getDescriptors(staticObject));
-  }
-  function getProtoParent(superClass) {
-    if (typeof superClass === 'function') {
-      var prototype = superClass.prototype;
-      if ($Object(prototype) === prototype || prototype === null)
-        return superClass.prototype;
-      throw new $TypeError('super prototype must be an Object or null');
-    }
-    if (superClass === null)
-      return null;
-    throw new $TypeError(("Super expression must either be null or a function, not " + typeof superClass + "."));
-  }
-  $traceurRuntime.createClass = createClass;
-  $traceurRuntime.superConstructor = superConstructor;
-  $traceurRuntime.superGet = superGet;
-  $traceurRuntime.superSet = superSet;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/destructuring.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/destructuring.js";
-  function iteratorToArray(iter) {
-    var rv = [];
-    var i = 0;
-    var tmp;
-    while (!(tmp = iter.next()).done) {
-      rv[i++] = tmp.value;
-    }
-    return rv;
-  }
-  $traceurRuntime.iteratorToArray = iteratorToArray;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/generators.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/generators.js";
-  if (typeof $traceurRuntime !== 'object') {
-    throw new Error('traceur runtime not found.');
-  }
-  var createPrivateName = $traceurRuntime.createPrivateName;
-  var $defineProperties = $traceurRuntime.defineProperties;
-  var $defineProperty = $traceurRuntime.defineProperty;
-  var $create = Object.create;
-  var $TypeError = TypeError;
-  function nonEnum(value) {
-    return {
-      configurable: true,
-      enumerable: false,
-      value: value,
-      writable: true
-    };
-  }
-  var ST_NEWBORN = 0;
-  var ST_EXECUTING = 1;
-  var ST_SUSPENDED = 2;
-  var ST_CLOSED = 3;
-  var END_STATE = -2;
-  var RETHROW_STATE = -3;
-  function getInternalError(state) {
-    return new Error('Traceur compiler bug: invalid state in state machine: ' + state);
-  }
-  var RETURN_SENTINEL = {};
-  function GeneratorContext() {
-    this.state = 0;
-    this.GState = ST_NEWBORN;
-    this.storedException = undefined;
-    this.finallyFallThrough = undefined;
-    this.sent_ = undefined;
-    this.returnValue = undefined;
-    this.oldReturnValue = undefined;
-    this.tryStack_ = [];
-  }
-  GeneratorContext.prototype = {
-    pushTry: function(catchState, finallyState) {
-      if (finallyState !== null) {
-        var finallyFallThrough = null;
-        for (var i = this.tryStack_.length - 1; i >= 0; i--) {
-          if (this.tryStack_[i].catch !== undefined) {
-            finallyFallThrough = this.tryStack_[i].catch;
-            break;
-          }
-        }
-        if (finallyFallThrough === null)
-          finallyFallThrough = RETHROW_STATE;
-        this.tryStack_.push({
-          finally: finallyState,
-          finallyFallThrough: finallyFallThrough
-        });
-      }
-      if (catchState !== null) {
-        this.tryStack_.push({catch: catchState});
-      }
-    },
-    popTry: function() {
-      this.tryStack_.pop();
-    },
-    maybeUncatchable: function() {
-      if (this.storedException === RETURN_SENTINEL) {
-        throw RETURN_SENTINEL;
-      }
-    },
-    get sent() {
-      this.maybeThrow();
-      return this.sent_;
-    },
-    set sent(v) {
-      this.sent_ = v;
-    },
-    get sentIgnoreThrow() {
-      return this.sent_;
-    },
-    maybeThrow: function() {
-      if (this.action === 'throw') {
-        this.action = 'next';
-        throw this.sent_;
-      }
-    },
-    end: function() {
-      switch (this.state) {
-        case END_STATE:
-          return this;
-        case RETHROW_STATE:
-          throw this.storedException;
-        default:
-          throw getInternalError(this.state);
-      }
-    },
-    handleException: function(ex) {
-      this.GState = ST_CLOSED;
-      this.state = END_STATE;
-      throw ex;
-    },
-    wrapYieldStar: function(iterator) {
-      var ctx = this;
-      return {
-        next: function(v) {
-          return iterator.next(v);
-        },
-        throw: function(e) {
-          var result;
-          if (e === RETURN_SENTINEL) {
-            if (iterator.return) {
-              result = iterator.return(ctx.returnValue);
-              if (!result.done) {
-                ctx.returnValue = ctx.oldReturnValue;
-                return result;
-              }
-              ctx.returnValue = result.value;
-            }
-            throw e;
-          }
-          if (iterator.throw) {
-            return iterator.throw(e);
-          }
-          iterator.return && iterator.return();
-          throw $TypeError('Inner iterator does not have a throw method');
-        }
-      };
-    }
-  };
-  function nextOrThrow(ctx, moveNext, action, x) {
-    switch (ctx.GState) {
-      case ST_EXECUTING:
-        throw new Error(("\"" + action + "\" on executing generator"));
-      case ST_CLOSED:
-        if (action == 'next') {
-          return {
-            value: undefined,
-            done: true
-          };
-        }
-        if (x === RETURN_SENTINEL) {
-          return {
-            value: ctx.returnValue,
-            done: true
-          };
-        }
-        throw x;
-      case ST_NEWBORN:
-        if (action === 'throw') {
-          ctx.GState = ST_CLOSED;
-          if (x === RETURN_SENTINEL) {
-            return {
-              value: ctx.returnValue,
-              done: true
-            };
-          }
-          throw x;
-        }
-        if (x !== undefined)
-          throw $TypeError('Sent value to newborn generator');
-      case ST_SUSPENDED:
-        ctx.GState = ST_EXECUTING;
-        ctx.action = action;
-        ctx.sent = x;
-        var value;
-        try {
-          value = moveNext(ctx);
-        } catch (ex) {
-          if (ex === RETURN_SENTINEL) {
-            value = ctx;
-          } else {
-            throw ex;
-          }
-        }
-        var done = value === ctx;
-        if (done)
-          value = ctx.returnValue;
-        ctx.GState = done ? ST_CLOSED : ST_SUSPENDED;
-        return {
-          value: value,
-          done: done
-        };
-    }
-  }
-  var ctxName = createPrivateName();
-  var moveNextName = createPrivateName();
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  $defineProperty(GeneratorFunctionPrototype, 'constructor', nonEnum(GeneratorFunction));
-  GeneratorFunctionPrototype.prototype = {
-    constructor: GeneratorFunctionPrototype,
-    next: function(v) {
-      return nextOrThrow(this[ctxName], this[moveNextName], 'next', v);
-    },
-    throw: function(v) {
-      return nextOrThrow(this[ctxName], this[moveNextName], 'throw', v);
-    },
-    return: function(v) {
-      this[ctxName].oldReturnValue = this[ctxName].returnValue;
-      this[ctxName].returnValue = v;
-      return nextOrThrow(this[ctxName], this[moveNextName], 'throw', RETURN_SENTINEL);
-    }
-  };
-  $defineProperties(GeneratorFunctionPrototype.prototype, {
-    constructor: {enumerable: false},
-    next: {enumerable: false},
-    throw: {enumerable: false},
-    return: {enumerable: false}
-  });
-  Object.defineProperty(GeneratorFunctionPrototype.prototype, Symbol.iterator, nonEnum(function() {
-    return this;
-  }));
-  function createGeneratorInstance(innerFunction, functionObject, self) {
-    var moveNext = getMoveNext(innerFunction, self);
-    var ctx = new GeneratorContext();
-    var object = $create(functionObject.prototype);
-    object[ctxName] = ctx;
-    object[moveNextName] = moveNext;
-    return object;
-  }
-  function initGeneratorFunction(functionObject) {
-    functionObject.prototype = $create(GeneratorFunctionPrototype.prototype);
-    functionObject.__proto__ = GeneratorFunctionPrototype;
-    return functionObject;
-  }
-  function AsyncFunctionContext() {
-    GeneratorContext.call(this);
-    this.err = undefined;
-    var ctx = this;
-    ctx.result = new Promise(function(resolve, reject) {
-      ctx.resolve = resolve;
-      ctx.reject = reject;
-    });
-  }
-  AsyncFunctionContext.prototype = $create(GeneratorContext.prototype);
-  AsyncFunctionContext.prototype.end = function() {
-    switch (this.state) {
-      case END_STATE:
-        this.resolve(this.returnValue);
-        break;
-      case RETHROW_STATE:
-        this.reject(this.storedException);
-        break;
-      default:
-        this.reject(getInternalError(this.state));
-    }
-  };
-  AsyncFunctionContext.prototype.handleException = function() {
-    this.state = RETHROW_STATE;
-  };
-  function asyncWrap(innerFunction, self) {
-    var moveNext = getMoveNext(innerFunction, self);
-    var ctx = new AsyncFunctionContext();
-    ctx.createCallback = function(newState) {
-      return function(value) {
-        ctx.state = newState;
-        ctx.value = value;
-        moveNext(ctx);
-      };
-    };
-    ctx.errback = function(err) {
-      handleCatch(ctx, err);
-      moveNext(ctx);
-    };
-    moveNext(ctx);
-    return ctx.result;
-  }
-  function getMoveNext(innerFunction, self) {
-    return function(ctx) {
-      while (true) {
-        try {
-          return innerFunction.call(self, ctx);
-        } catch (ex) {
-          handleCatch(ctx, ex);
-        }
-      }
-    };
-  }
-  function handleCatch(ctx, ex) {
-    ctx.storedException = ex;
-    var last = ctx.tryStack_[ctx.tryStack_.length - 1];
-    if (!last) {
-      ctx.handleException(ex);
-      return ;
-    }
-    ctx.state = last.catch !== undefined ? last.catch : last.finally;
-    if (last.finallyFallThrough !== undefined)
-      ctx.finallyFallThrough = last.finallyFallThrough;
-  }
-  $traceurRuntime.asyncWrap = asyncWrap;
-  $traceurRuntime.initGeneratorFunction = initGeneratorFunction;
-  $traceurRuntime.createGeneratorInstance = createGeneratorInstance;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/relativeRequire.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/relativeRequire.js";
-  var path;
-  function relativeRequire(callerPath, requiredPath) {
-    path = path || typeof require !== 'undefined' && require('path');
-    function isDirectory(path) {
-      return path.slice(-1) === '/';
-    }
-    function isAbsolute(path) {
-      return path[0] === '/';
-    }
-    function isRelative(path) {
-      return path[0] === '.';
-    }
-    if (isDirectory(requiredPath) || isAbsolute(requiredPath))
-      return ;
-    return isRelative(requiredPath) ? require(path.resolve(path.dirname(callerPath), requiredPath)) : require(requiredPath);
-  }
-  $traceurRuntime.require = relativeRequire;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/spread.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/spread.js";
-  function spread() {
-    var rv = [],
-        j = 0,
-        iterResult;
-    for (var i = 0; i < arguments.length; i++) {
-      var valueToSpread = $traceurRuntime.checkObjectCoercible(arguments[i]);
-      if (typeof valueToSpread[$traceurRuntime.toProperty(Symbol.iterator)] !== 'function') {
-        throw new TypeError('Cannot spread non-iterable object.');
-      }
-      var iter = valueToSpread[$traceurRuntime.toProperty(Symbol.iterator)]();
-      while (!(iterResult = iter.next()).done) {
-        rv[j++] = iterResult.value;
-      }
-    }
-    return rv;
-  }
-  $traceurRuntime.spread = spread;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/template.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/template.js";
-  var $__0 = Object,
-      defineProperty = $__0.defineProperty,
-      freeze = $__0.freeze;
-  var slice = Array.prototype.slice;
-  var map = Object.create(null);
-  function getTemplateObject(raw) {
-    var cooked = arguments[1];
-    var key = raw.join('${}');
-    var templateObject = map[key];
-    if (templateObject)
-      return templateObject;
-    if (!cooked) {
-      cooked = slice.call(raw);
-    }
-    return map[key] = freeze(defineProperty(cooked, 'raw', {value: freeze(raw)}));
-  }
-  $traceurRuntime.getTemplateObject = getTemplateObject;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/type-assertions.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/type-assertions.js";
-  var types = {
-    any: {name: 'any'},
-    boolean: {name: 'boolean'},
-    number: {name: 'number'},
-    string: {name: 'string'},
-    symbol: {name: 'symbol'},
-    void: {name: 'void'}
-  };
-  var GenericType = (function() {
-    function GenericType(type, argumentTypes) {
-      this.type = type;
-      this.argumentTypes = argumentTypes;
-    }
-    return ($traceurRuntime.createClass)(GenericType, {}, {});
-  }());
-  var typeRegister = Object.create(null);
-  function genericType(type) {
-    for (var argumentTypes = [],
-        $__1 = 1; $__1 < arguments.length; $__1++)
-      argumentTypes[$__1 - 1] = arguments[$__1];
-    var typeMap = typeRegister;
-    var key = $traceurRuntime.getOwnHashObject(type).hash;
-    if (!typeMap[key]) {
-      typeMap[key] = Object.create(null);
-    }
-    typeMap = typeMap[key];
-    for (var i = 0; i < argumentTypes.length - 1; i++) {
-      key = $traceurRuntime.getOwnHashObject(argumentTypes[i]).hash;
-      if (!typeMap[key]) {
-        typeMap[key] = Object.create(null);
-      }
-      typeMap = typeMap[key];
-    }
-    var tail = argumentTypes[argumentTypes.length - 1];
-    key = $traceurRuntime.getOwnHashObject(tail).hash;
-    if (!typeMap[key]) {
-      typeMap[key] = new GenericType(type, argumentTypes);
-    }
-    return typeMap[key];
-  }
-  $traceurRuntime.GenericType = GenericType;
-  $traceurRuntime.genericType = genericType;
-  $traceurRuntime.type = types;
-  return {};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/runtime-modules.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/runtime-modules.js";
-  System.get("traceur-runtime@0.0.88/src/runtime/relativeRequire.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/spread.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/destructuring.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/classes.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/async.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/generators.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/template.js");
-  System.get("traceur-runtime@0.0.88/src/runtime/type-assertions.js");
-  return {};
-});
-System.get("traceur-runtime@0.0.88/src/runtime/runtime-modules.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/utils.js";
-  var $ceil = Math.ceil;
-  var $floor = Math.floor;
-  var $isFinite = isFinite;
-  var $isNaN = isNaN;
-  var $pow = Math.pow;
-  var $min = Math.min;
-  var toObject = $traceurRuntime.toObject;
-  function toUint32(x) {
-    return x >>> 0;
-  }
-  function isObject(x) {
-    return x && (typeof x === 'object' || typeof x === 'function');
-  }
-  function isCallable(x) {
-    return typeof x === 'function';
-  }
-  function isNumber(x) {
-    return typeof x === 'number';
-  }
-  function toInteger(x) {
-    x = +x;
-    if ($isNaN(x))
-      return 0;
-    if (x === 0 || !$isFinite(x))
-      return x;
-    return x > 0 ? $floor(x) : $ceil(x);
-  }
-  var MAX_SAFE_LENGTH = $pow(2, 53) - 1;
-  function toLength(x) {
-    var len = toInteger(x);
-    return len < 0 ? 0 : $min(len, MAX_SAFE_LENGTH);
-  }
-  function checkIterable(x) {
-    return !isObject(x) ? undefined : x[Symbol.iterator];
-  }
-  function isConstructor(x) {
-    return isCallable(x);
-  }
-  function createIteratorResultObject(value, done) {
-    return {
-      value: value,
-      done: done
-    };
-  }
-  function maybeDefine(object, name, descr) {
-    if (!(name in object)) {
-      Object.defineProperty(object, name, descr);
-    }
-  }
-  function maybeDefineMethod(object, name, value) {
-    maybeDefine(object, name, {
-      value: value,
-      configurable: true,
-      enumerable: false,
-      writable: true
-    });
-  }
-  function maybeDefineConst(object, name, value) {
-    maybeDefine(object, name, {
-      value: value,
-      configurable: false,
-      enumerable: false,
-      writable: false
-    });
-  }
-  function maybeAddFunctions(object, functions) {
-    for (var i = 0; i < functions.length; i += 2) {
-      var name = functions[i];
-      var value = functions[i + 1];
-      maybeDefineMethod(object, name, value);
-    }
-  }
-  function maybeAddConsts(object, consts) {
-    for (var i = 0; i < consts.length; i += 2) {
-      var name = consts[i];
-      var value = consts[i + 1];
-      maybeDefineConst(object, name, value);
-    }
-  }
-  function maybeAddIterator(object, func, Symbol) {
-    if (!Symbol || !Symbol.iterator || object[Symbol.iterator])
-      return ;
-    if (object['@@iterator'])
-      func = object['@@iterator'];
-    Object.defineProperty(object, Symbol.iterator, {
-      value: func,
-      configurable: true,
-      enumerable: false,
-      writable: true
-    });
-  }
-  var polyfills = [];
-  function registerPolyfill(func) {
-    polyfills.push(func);
-  }
-  function polyfillAll(global) {
-    polyfills.forEach((function(f) {
-      return f(global);
-    }));
-  }
-  return {
-    get toObject() {
-      return toObject;
-    },
-    get toUint32() {
-      return toUint32;
-    },
-    get isObject() {
-      return isObject;
-    },
-    get isCallable() {
-      return isCallable;
-    },
-    get isNumber() {
-      return isNumber;
-    },
-    get toInteger() {
-      return toInteger;
-    },
-    get toLength() {
-      return toLength;
-    },
-    get checkIterable() {
-      return checkIterable;
-    },
-    get isConstructor() {
-      return isConstructor;
-    },
-    get createIteratorResultObject() {
-      return createIteratorResultObject;
-    },
-    get maybeDefine() {
-      return maybeDefine;
-    },
-    get maybeDefineMethod() {
-      return maybeDefineMethod;
-    },
-    get maybeDefineConst() {
-      return maybeDefineConst;
-    },
-    get maybeAddFunctions() {
-      return maybeAddFunctions;
-    },
-    get maybeAddConsts() {
-      return maybeAddConsts;
-    },
-    get maybeAddIterator() {
-      return maybeAddIterator;
-    },
-    get registerPolyfill() {
-      return registerPolyfill;
-    },
-    get polyfillAll() {
-      return polyfillAll;
-    }
-  };
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Map.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Map.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      isObject = $__0.isObject,
-      maybeAddIterator = $__0.maybeAddIterator,
-      registerPolyfill = $__0.registerPolyfill;
-  var getOwnHashObject = $traceurRuntime.getOwnHashObject;
-  var $hasOwnProperty = Object.prototype.hasOwnProperty;
-  var deletedSentinel = {};
-  function lookupIndex(map, key) {
-    if (isObject(key)) {
-      var hashObject = getOwnHashObject(key);
-      return hashObject && map.objectIndex_[hashObject.hash];
-    }
-    if (typeof key === 'string')
-      return map.stringIndex_[key];
-    return map.primitiveIndex_[key];
-  }
-  function initMap(map) {
-    map.entries_ = [];
-    map.objectIndex_ = Object.create(null);
-    map.stringIndex_ = Object.create(null);
-    map.primitiveIndex_ = Object.create(null);
-    map.deletedCount_ = 0;
-  }
-  var Map = (function() {
-    function Map() {
-      var $__10,
-          $__11;
-      var iterable = arguments[0];
-      if (!isObject(this))
-        throw new TypeError('Map called on incompatible type');
-      if ($hasOwnProperty.call(this, 'entries_')) {
-        throw new TypeError('Map can not be reentrantly initialised');
-      }
-      initMap(this);
-      if (iterable !== null && iterable !== undefined) {
-        var $__5 = true;
-        var $__6 = false;
-        var $__7 = undefined;
-        try {
-          for (var $__3 = void 0,
-              $__2 = (iterable)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-            var $__9 = $__3.value,
-                key = ($__10 = $__9[$traceurRuntime.toProperty(Symbol.iterator)](), ($__11 = $__10.next()).done ? void 0 : $__11.value),
-                value = ($__11 = $__10.next()).done ? void 0 : $__11.value;
-            {
-              this.set(key, value);
-            }
-          }
-        } catch ($__8) {
-          $__6 = true;
-          $__7 = $__8;
-        } finally {
-          try {
-            if (!$__5 && $__2.return != null) {
-              $__2.return();
-            }
-          } finally {
-            if ($__6) {
-              throw $__7;
-            }
-          }
-        }
-      }
-    }
-    return ($traceurRuntime.createClass)(Map, {
-      get size() {
-        return this.entries_.length / 2 - this.deletedCount_;
-      },
-      get: function(key) {
-        var index = lookupIndex(this, key);
-        if (index !== undefined)
-          return this.entries_[index + 1];
-      },
-      set: function(key, value) {
-        var objectMode = isObject(key);
-        var stringMode = typeof key === 'string';
-        var index = lookupIndex(this, key);
-        if (index !== undefined) {
-          this.entries_[index + 1] = value;
-        } else {
-          index = this.entries_.length;
-          this.entries_[index] = key;
-          this.entries_[index + 1] = value;
-          if (objectMode) {
-            var hashObject = getOwnHashObject(key);
-            var hash = hashObject.hash;
-            this.objectIndex_[hash] = index;
-          } else if (stringMode) {
-            this.stringIndex_[key] = index;
-          } else {
-            this.primitiveIndex_[key] = index;
-          }
-        }
-        return this;
-      },
-      has: function(key) {
-        return lookupIndex(this, key) !== undefined;
-      },
-      delete: function(key) {
-        var objectMode = isObject(key);
-        var stringMode = typeof key === 'string';
-        var index;
-        var hash;
-        if (objectMode) {
-          var hashObject = getOwnHashObject(key);
-          if (hashObject) {
-            index = this.objectIndex_[hash = hashObject.hash];
-            delete this.objectIndex_[hash];
-          }
-        } else if (stringMode) {
-          index = this.stringIndex_[key];
-          delete this.stringIndex_[key];
-        } else {
-          index = this.primitiveIndex_[key];
-          delete this.primitiveIndex_[key];
-        }
-        if (index !== undefined) {
-          this.entries_[index] = deletedSentinel;
-          this.entries_[index + 1] = undefined;
-          this.deletedCount_++;
-          return true;
-        }
-        return false;
-      },
-      clear: function() {
-        initMap(this);
-      },
-      forEach: function(callbackFn) {
-        var thisArg = arguments[1];
-        for (var i = 0; i < this.entries_.length; i += 2) {
-          var key = this.entries_[i];
-          var value = this.entries_[i + 1];
-          if (key === deletedSentinel)
-            continue;
-          callbackFn.call(thisArg, value, key, this);
-        }
-      },
-      entries: $traceurRuntime.initGeneratorFunction(function $__12() {
-        var i,
-            key,
-            value;
-        return $traceurRuntime.createGeneratorInstance(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                i = 0;
-                $ctx.state = 12;
-                break;
-              case 12:
-                $ctx.state = (i < this.entries_.length) ? 8 : -2;
-                break;
-              case 4:
-                i += 2;
-                $ctx.state = 12;
-                break;
-              case 8:
-                key = this.entries_[i];
-                value = this.entries_[i + 1];
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = (key === deletedSentinel) ? 4 : 6;
-                break;
-              case 6:
-                $ctx.state = 2;
-                return [key, value];
-              case 2:
-                $ctx.maybeThrow();
-                $ctx.state = 4;
-                break;
-              default:
-                return $ctx.end();
-            }
-        }, $__12, this);
-      }),
-      keys: $traceurRuntime.initGeneratorFunction(function $__13() {
-        var i,
-            key,
-            value;
-        return $traceurRuntime.createGeneratorInstance(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                i = 0;
-                $ctx.state = 12;
-                break;
-              case 12:
-                $ctx.state = (i < this.entries_.length) ? 8 : -2;
-                break;
-              case 4:
-                i += 2;
-                $ctx.state = 12;
-                break;
-              case 8:
-                key = this.entries_[i];
-                value = this.entries_[i + 1];
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = (key === deletedSentinel) ? 4 : 6;
-                break;
-              case 6:
-                $ctx.state = 2;
-                return key;
-              case 2:
-                $ctx.maybeThrow();
-                $ctx.state = 4;
-                break;
-              default:
-                return $ctx.end();
-            }
-        }, $__13, this);
-      }),
-      values: $traceurRuntime.initGeneratorFunction(function $__14() {
-        var i,
-            key,
-            value;
-        return $traceurRuntime.createGeneratorInstance(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                i = 0;
-                $ctx.state = 12;
-                break;
-              case 12:
-                $ctx.state = (i < this.entries_.length) ? 8 : -2;
-                break;
-              case 4:
-                i += 2;
-                $ctx.state = 12;
-                break;
-              case 8:
-                key = this.entries_[i];
-                value = this.entries_[i + 1];
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = (key === deletedSentinel) ? 4 : 6;
-                break;
-              case 6:
-                $ctx.state = 2;
-                return value;
-              case 2:
-                $ctx.maybeThrow();
-                $ctx.state = 4;
-                break;
-              default:
-                return $ctx.end();
-            }
-        }, $__14, this);
-      })
-    }, {});
-  }());
-  Object.defineProperty(Map.prototype, Symbol.iterator, {
-    configurable: true,
-    writable: true,
-    value: Map.prototype.entries
-  });
-  function polyfillMap(global) {
-    var $__9 = global,
-        Object = $__9.Object,
-        Symbol = $__9.Symbol;
-    if (!global.Map)
-      global.Map = Map;
-    var mapPrototype = global.Map.prototype;
-    if (mapPrototype.entries === undefined)
-      global.Map = Map;
-    if (mapPrototype.entries) {
-      maybeAddIterator(mapPrototype, mapPrototype.entries, Symbol);
-      maybeAddIterator(Object.getPrototypeOf(new global.Map().entries()), function() {
-        return this;
-      }, Symbol);
-    }
-  }
-  registerPolyfill(polyfillMap);
-  return {
-    get Map() {
-      return Map;
-    },
-    get polyfillMap() {
-      return polyfillMap;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Map.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Set.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Set.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      isObject = $__0.isObject,
-      maybeAddIterator = $__0.maybeAddIterator,
-      registerPolyfill = $__0.registerPolyfill;
-  var Map = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Map.js").Map;
-  var getOwnHashObject = $traceurRuntime.getOwnHashObject;
-  var $hasOwnProperty = Object.prototype.hasOwnProperty;
-  function initSet(set) {
-    set.map_ = new Map();
-  }
-  var Set = (function() {
-    function Set() {
-      var iterable = arguments[0];
-      if (!isObject(this))
-        throw new TypeError('Set called on incompatible type');
-      if ($hasOwnProperty.call(this, 'map_')) {
-        throw new TypeError('Set can not be reentrantly initialised');
-      }
-      initSet(this);
-      if (iterable !== null && iterable !== undefined) {
-        var $__7 = true;
-        var $__8 = false;
-        var $__9 = undefined;
-        try {
-          for (var $__5 = void 0,
-              $__4 = (iterable)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__7 = ($__5 = $__4.next()).done); $__7 = true) {
-            var item = $__5.value;
-            {
-              this.add(item);
-            }
-          }
-        } catch ($__10) {
-          $__8 = true;
-          $__9 = $__10;
-        } finally {
-          try {
-            if (!$__7 && $__4.return != null) {
-              $__4.return();
-            }
-          } finally {
-            if ($__8) {
-              throw $__9;
-            }
-          }
-        }
-      }
-    }
-    return ($traceurRuntime.createClass)(Set, {
-      get size() {
-        return this.map_.size;
-      },
-      has: function(key) {
-        return this.map_.has(key);
-      },
-      add: function(key) {
-        this.map_.set(key, key);
-        return this;
-      },
-      delete: function(key) {
-        return this.map_.delete(key);
-      },
-      clear: function() {
-        return this.map_.clear();
-      },
-      forEach: function(callbackFn) {
-        var thisArg = arguments[1];
-        var $__2 = this;
-        return this.map_.forEach((function(value, key) {
-          callbackFn.call(thisArg, key, key, $__2);
-        }));
-      },
-      values: $traceurRuntime.initGeneratorFunction(function $__12() {
-        var $__13,
-            $__14;
-        return $traceurRuntime.createGeneratorInstance(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                $__13 = $ctx.wrapYieldStar(this.map_.keys()[Symbol.iterator]());
-                $ctx.sent = void 0;
-                $ctx.action = 'next';
-                $ctx.state = 12;
-                break;
-              case 12:
-                $__14 = $__13[$ctx.action]($ctx.sentIgnoreThrow);
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = ($__14.done) ? 3 : 2;
-                break;
-              case 3:
-                $ctx.sent = $__14.value;
-                $ctx.state = -2;
-                break;
-              case 2:
-                $ctx.state = 12;
-                return $__14.value;
-              default:
-                return $ctx.end();
-            }
-        }, $__12, this);
-      }),
-      entries: $traceurRuntime.initGeneratorFunction(function $__15() {
-        var $__16,
-            $__17;
-        return $traceurRuntime.createGeneratorInstance(function($ctx) {
-          while (true)
-            switch ($ctx.state) {
-              case 0:
-                $__16 = $ctx.wrapYieldStar(this.map_.entries()[Symbol.iterator]());
-                $ctx.sent = void 0;
-                $ctx.action = 'next';
-                $ctx.state = 12;
-                break;
-              case 12:
-                $__17 = $__16[$ctx.action]($ctx.sentIgnoreThrow);
-                $ctx.state = 9;
-                break;
-              case 9:
-                $ctx.state = ($__17.done) ? 3 : 2;
-                break;
-              case 3:
-                $ctx.sent = $__17.value;
-                $ctx.state = -2;
-                break;
-              case 2:
-                $ctx.state = 12;
-                return $__17.value;
-              default:
-                return $ctx.end();
-            }
-        }, $__15, this);
-      })
-    }, {});
-  }());
-  Object.defineProperty(Set.prototype, Symbol.iterator, {
-    configurable: true,
-    writable: true,
-    value: Set.prototype.values
-  });
-  Object.defineProperty(Set.prototype, 'keys', {
-    configurable: true,
-    writable: true,
-    value: Set.prototype.values
-  });
-  function polyfillSet(global) {
-    var $__11 = global,
-        Object = $__11.Object,
-        Symbol = $__11.Symbol;
-    if (!global.Set)
-      global.Set = Set;
-    var setPrototype = global.Set.prototype;
-    if (setPrototype.values) {
-      maybeAddIterator(setPrototype, setPrototype.values, Symbol);
-      maybeAddIterator(Object.getPrototypeOf(new global.Set().values()), function() {
-        return this;
-      }, Symbol);
-    }
-  }
-  registerPolyfill(polyfillSet);
-  return {
-    get Set() {
-      return Set;
-    },
-    get polyfillSet() {
-      return polyfillSet;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Set.js" + '');
-System.registerModule("traceur-runtime@0.0.88/node_modules/rsvp/lib/rsvp/asap.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/node_modules/rsvp/lib/rsvp/asap.js";
-  var len = 0;
-  function asap(callback, arg) {
-    queue[len] = callback;
-    queue[len + 1] = arg;
-    len += 2;
-    if (len === 2) {
-      scheduleFlush();
-    }
-  }
-  var $__default = asap;
-  var browserGlobal = (typeof window !== 'undefined') ? window : {};
-  var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-  var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
-  function useNextTick() {
-    return function() {
-      process.nextTick(flush);
-    };
-  }
-  function useMutationObserver() {
-    var iterations = 0;
-    var observer = new BrowserMutationObserver(flush);
-    var node = document.createTextNode('');
-    observer.observe(node, {characterData: true});
-    return function() {
-      node.data = (iterations = ++iterations % 2);
-    };
-  }
-  function useMessageChannel() {
-    var channel = new MessageChannel();
-    channel.port1.onmessage = flush;
-    return function() {
-      channel.port2.postMessage(0);
-    };
-  }
-  function useSetTimeout() {
-    return function() {
-      setTimeout(flush, 1);
-    };
-  }
-  var queue = new Array(1000);
-  function flush() {
-    for (var i = 0; i < len; i += 2) {
-      var callback = queue[i];
-      var arg = queue[i + 1];
-      callback(arg);
-      queue[i] = undefined;
-      queue[i + 1] = undefined;
-    }
-    len = 0;
-  }
-  var scheduleFlush;
-  if (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]') {
-    scheduleFlush = useNextTick();
-  } else if (BrowserMutationObserver) {
-    scheduleFlush = useMutationObserver();
-  } else if (isWorker) {
-    scheduleFlush = useMessageChannel();
-  } else {
-    scheduleFlush = useSetTimeout();
-  }
-  return {get default() {
-      return $__default;
-    }};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Promise.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Promise.js";
-  var async = System.get("traceur-runtime@0.0.88/node_modules/rsvp/lib/rsvp/asap.js").default;
-  var registerPolyfill = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js").registerPolyfill;
-  var promiseRaw = {};
-  function isPromise(x) {
-    return x && typeof x === 'object' && x.status_ !== undefined;
-  }
-  function idResolveHandler(x) {
-    return x;
-  }
-  function idRejectHandler(x) {
-    throw x;
-  }
-  function chain(promise) {
-    var onResolve = arguments[1] !== (void 0) ? arguments[1] : idResolveHandler;
-    var onReject = arguments[2] !== (void 0) ? arguments[2] : idRejectHandler;
-    var deferred = getDeferred(promise.constructor);
-    switch (promise.status_) {
-      case undefined:
-        throw TypeError;
-      case 0:
-        promise.onResolve_.push(onResolve, deferred);
-        promise.onReject_.push(onReject, deferred);
-        break;
-      case +1:
-        promiseEnqueue(promise.value_, [onResolve, deferred]);
-        break;
-      case -1:
-        promiseEnqueue(promise.value_, [onReject, deferred]);
-        break;
-    }
-    return deferred.promise;
-  }
-  function getDeferred(C) {
-    if (this === $Promise) {
-      var promise = promiseInit(new $Promise(promiseRaw));
-      return {
-        promise: promise,
-        resolve: (function(x) {
-          promiseResolve(promise, x);
-        }),
-        reject: (function(r) {
-          promiseReject(promise, r);
-        })
-      };
-    } else {
-      var result = {};
-      result.promise = new C((function(resolve, reject) {
-        result.resolve = resolve;
-        result.reject = reject;
-      }));
-      return result;
-    }
-  }
-  function promiseSet(promise, status, value, onResolve, onReject) {
-    promise.status_ = status;
-    promise.value_ = value;
-    promise.onResolve_ = onResolve;
-    promise.onReject_ = onReject;
-    return promise;
-  }
-  function promiseInit(promise) {
-    return promiseSet(promise, 0, undefined, [], []);
-  }
-  var Promise = (function() {
-    function Promise(resolver) {
-      if (resolver === promiseRaw)
-        return ;
-      if (typeof resolver !== 'function')
-        throw new TypeError;
-      var promise = promiseInit(this);
-      try {
-        resolver((function(x) {
-          promiseResolve(promise, x);
-        }), (function(r) {
-          promiseReject(promise, r);
-        }));
-      } catch (e) {
-        promiseReject(promise, e);
-      }
-    }
-    return ($traceurRuntime.createClass)(Promise, {
-      catch: function(onReject) {
-        return this.then(undefined, onReject);
-      },
-      then: function(onResolve, onReject) {
-        if (typeof onResolve !== 'function')
-          onResolve = idResolveHandler;
-        if (typeof onReject !== 'function')
-          onReject = idRejectHandler;
-        var that = this;
-        var constructor = this.constructor;
-        return chain(this, function(x) {
-          x = promiseCoerce(constructor, x);
-          return x === that ? onReject(new TypeError) : isPromise(x) ? x.then(onResolve, onReject) : onResolve(x);
-        }, onReject);
-      }
-    }, {
-      resolve: function(x) {
-        if (this === $Promise) {
-          if (isPromise(x)) {
-            return x;
-          }
-          return promiseSet(new $Promise(promiseRaw), +1, x);
-        } else {
-          return new this(function(resolve, reject) {
-            resolve(x);
-          });
-        }
-      },
-      reject: function(r) {
-        if (this === $Promise) {
-          return promiseSet(new $Promise(promiseRaw), -1, r);
-        } else {
-          return new this((function(resolve, reject) {
-            reject(r);
-          }));
-        }
-      },
-      all: function(values) {
-        var deferred = getDeferred(this);
-        var resolutions = [];
-        try {
-          var makeCountdownFunction = function(i) {
-            return (function(x) {
-              resolutions[i] = x;
-              if (--count === 0)
-                deferred.resolve(resolutions);
-            });
-          };
-          var count = 0;
-          var i = 0;
-          var $__6 = true;
-          var $__7 = false;
-          var $__8 = undefined;
-          try {
-            for (var $__4 = void 0,
-                $__3 = (values)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__6 = ($__4 = $__3.next()).done); $__6 = true) {
-              var value = $__4.value;
-              {
-                var countdownFunction = makeCountdownFunction(i);
-                this.resolve(value).then(countdownFunction, (function(r) {
-                  deferred.reject(r);
-                }));
-                ++i;
-                ++count;
-              }
-            }
-          } catch ($__9) {
-            $__7 = true;
-            $__8 = $__9;
-          } finally {
-            try {
-              if (!$__6 && $__3.return != null) {
-                $__3.return();
-              }
-            } finally {
-              if ($__7) {
-                throw $__8;
-              }
-            }
-          }
-          if (count === 0) {
-            deferred.resolve(resolutions);
-          }
-        } catch (e) {
-          deferred.reject(e);
-        }
-        return deferred.promise;
-      },
-      race: function(values) {
-        var deferred = getDeferred(this);
-        try {
-          for (var i = 0; i < values.length; i++) {
-            this.resolve(values[i]).then((function(x) {
-              deferred.resolve(x);
-            }), (function(r) {
-              deferred.reject(r);
-            }));
-          }
-        } catch (e) {
-          deferred.reject(e);
-        }
-        return deferred.promise;
-      }
-    });
-  }());
-  var $Promise = Promise;
-  var $PromiseReject = $Promise.reject;
-  function promiseResolve(promise, x) {
-    promiseDone(promise, +1, x, promise.onResolve_);
-  }
-  function promiseReject(promise, r) {
-    promiseDone(promise, -1, r, promise.onReject_);
-  }
-  function promiseDone(promise, status, value, reactions) {
-    if (promise.status_ !== 0)
-      return ;
-    promiseEnqueue(value, reactions);
-    promiseSet(promise, status, value);
-  }
-  function promiseEnqueue(value, tasks) {
-    async((function() {
-      for (var i = 0; i < tasks.length; i += 2) {
-        promiseHandle(value, tasks[i], tasks[i + 1]);
-      }
-    }));
-  }
-  function promiseHandle(value, handler, deferred) {
-    try {
-      var result = handler(value);
-      if (result === deferred.promise)
-        throw new TypeError;
-      else if (isPromise(result))
-        chain(result, deferred.resolve, deferred.reject);
-      else
-        deferred.resolve(result);
-    } catch (e) {
-      try {
-        deferred.reject(e);
-      } catch (e) {}
-    }
-  }
-  var thenableSymbol = '@@thenable';
-  function isObject(x) {
-    return x && (typeof x === 'object' || typeof x === 'function');
-  }
-  function promiseCoerce(constructor, x) {
-    if (!isPromise(x) && isObject(x)) {
-      var then;
-      try {
-        then = x.then;
-      } catch (r) {
-        var promise = $PromiseReject.call(constructor, r);
-        x[thenableSymbol] = promise;
-        return promise;
-      }
-      if (typeof then === 'function') {
-        var p = x[thenableSymbol];
-        if (p) {
-          return p;
-        } else {
-          var deferred = getDeferred(constructor);
-          x[thenableSymbol] = deferred.promise;
-          try {
-            then.call(x, deferred.resolve, deferred.reject);
-          } catch (r) {
-            deferred.reject(r);
-          }
-          return deferred.promise;
-        }
-      }
-    }
-    return x;
-  }
-  function polyfillPromise(global) {
-    if (!global.Promise)
-      global.Promise = Promise;
-  }
-  registerPolyfill(polyfillPromise);
-  return {
-    get Promise() {
-      return Promise;
-    },
-    get polyfillPromise() {
-      return polyfillPromise;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Promise.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/StringIterator.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/StringIterator.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      createIteratorResultObject = $__0.createIteratorResultObject,
-      isObject = $__0.isObject;
-  var toProperty = $traceurRuntime.toProperty;
-  var hasOwnProperty = Object.prototype.hasOwnProperty;
-  var iteratedString = Symbol('iteratedString');
-  var stringIteratorNextIndex = Symbol('stringIteratorNextIndex');
-  var StringIterator = (function() {
-    var $__2;
-    function StringIterator() {}
-    return ($traceurRuntime.createClass)(StringIterator, ($__2 = {}, Object.defineProperty($__2, "next", {
-      value: function() {
-        var o = this;
-        if (!isObject(o) || !hasOwnProperty.call(o, iteratedString)) {
-          throw new TypeError('this must be a StringIterator object');
-        }
-        var s = o[toProperty(iteratedString)];
-        if (s === undefined) {
-          return createIteratorResultObject(undefined, true);
-        }
-        var position = o[toProperty(stringIteratorNextIndex)];
-        var len = s.length;
-        if (position >= len) {
-          o[toProperty(iteratedString)] = undefined;
-          return createIteratorResultObject(undefined, true);
-        }
-        var first = s.charCodeAt(position);
-        var resultString;
-        if (first < 0xD800 || first > 0xDBFF || position + 1 === len) {
-          resultString = String.fromCharCode(first);
-        } else {
-          var second = s.charCodeAt(position + 1);
-          if (second < 0xDC00 || second > 0xDFFF) {
-            resultString = String.fromCharCode(first);
-          } else {
-            resultString = String.fromCharCode(first) + String.fromCharCode(second);
-          }
-        }
-        o[toProperty(stringIteratorNextIndex)] = position + resultString.length;
-        return createIteratorResultObject(resultString, false);
-      },
-      configurable: true,
-      enumerable: true,
-      writable: true
-    }), Object.defineProperty($__2, Symbol.iterator, {
-      value: function() {
-        return this;
-      },
-      configurable: true,
-      enumerable: true,
-      writable: true
-    }), $__2), {});
-  }());
-  function createStringIterator(string) {
-    var s = String(string);
-    var iterator = Object.create(StringIterator.prototype);
-    iterator[toProperty(iteratedString)] = s;
-    iterator[toProperty(stringIteratorNextIndex)] = 0;
-    return iterator;
-  }
-  return {get createStringIterator() {
-      return createStringIterator;
-    }};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/String.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/String.js";
-  var createStringIterator = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/StringIterator.js").createStringIterator;
-  var $__1 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      maybeAddFunctions = $__1.maybeAddFunctions,
-      maybeAddIterator = $__1.maybeAddIterator,
-      registerPolyfill = $__1.registerPolyfill;
-  var $toString = Object.prototype.toString;
-  var $indexOf = String.prototype.indexOf;
-  var $lastIndexOf = String.prototype.lastIndexOf;
-  function startsWith(search) {
-    var string = String(this);
-    if (this == null || $toString.call(search) == '[object RegExp]') {
-      throw TypeError();
-    }
-    var stringLength = string.length;
-    var searchString = String(search);
-    var searchLength = searchString.length;
-    var position = arguments.length > 1 ? arguments[1] : undefined;
-    var pos = position ? Number(position) : 0;
-    if (isNaN(pos)) {
-      pos = 0;
-    }
-    var start = Math.min(Math.max(pos, 0), stringLength);
-    return $indexOf.call(string, searchString, pos) == start;
-  }
-  function endsWith(search) {
-    var string = String(this);
-    if (this == null || $toString.call(search) == '[object RegExp]') {
-      throw TypeError();
-    }
-    var stringLength = string.length;
-    var searchString = String(search);
-    var searchLength = searchString.length;
-    var pos = stringLength;
-    if (arguments.length > 1) {
-      var position = arguments[1];
-      if (position !== undefined) {
-        pos = position ? Number(position) : 0;
-        if (isNaN(pos)) {
-          pos = 0;
-        }
-      }
-    }
-    var end = Math.min(Math.max(pos, 0), stringLength);
-    var start = end - searchLength;
-    if (start < 0) {
-      return false;
-    }
-    return $lastIndexOf.call(string, searchString, start) == start;
-  }
-  function includes(search) {
-    if (this == null) {
-      throw TypeError();
-    }
-    var string = String(this);
-    if (search && $toString.call(search) == '[object RegExp]') {
-      throw TypeError();
-    }
-    var stringLength = string.length;
-    var searchString = String(search);
-    var searchLength = searchString.length;
-    var position = arguments.length > 1 ? arguments[1] : undefined;
-    var pos = position ? Number(position) : 0;
-    if (pos != pos) {
-      pos = 0;
-    }
-    var start = Math.min(Math.max(pos, 0), stringLength);
-    if (searchLength + start > stringLength) {
-      return false;
-    }
-    return $indexOf.call(string, searchString, pos) != -1;
-  }
-  function repeat(count) {
-    if (this == null) {
-      throw TypeError();
-    }
-    var string = String(this);
-    var n = count ? Number(count) : 0;
-    if (isNaN(n)) {
-      n = 0;
-    }
-    if (n < 0 || n == Infinity) {
-      throw RangeError();
-    }
-    if (n == 0) {
-      return '';
-    }
-    var result = '';
-    while (n--) {
-      result += string;
-    }
-    return result;
-  }
-  function codePointAt(position) {
-    if (this == null) {
-      throw TypeError();
-    }
-    var string = String(this);
-    var size = string.length;
-    var index = position ? Number(position) : 0;
-    if (isNaN(index)) {
-      index = 0;
-    }
-    if (index < 0 || index >= size) {
-      return undefined;
-    }
-    var first = string.charCodeAt(index);
-    var second;
-    if (first >= 0xD800 && first <= 0xDBFF && size > index + 1) {
-      second = string.charCodeAt(index + 1);
-      if (second >= 0xDC00 && second <= 0xDFFF) {
-        return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
-      }
-    }
-    return first;
-  }
-  function raw(callsite) {
-    var raw = callsite.raw;
-    var len = raw.length >>> 0;
-    if (len === 0)
-      return '';
-    var s = '';
-    var i = 0;
-    while (true) {
-      s += raw[i];
-      if (i + 1 === len)
-        return s;
-      s += arguments[++i];
-    }
-  }
-  function fromCodePoint(_) {
-    var codeUnits = [];
-    var floor = Math.floor;
-    var highSurrogate;
-    var lowSurrogate;
-    var index = -1;
-    var length = arguments.length;
-    if (!length) {
-      return '';
-    }
-    while (++index < length) {
-      var codePoint = Number(arguments[index]);
-      if (!isFinite(codePoint) || codePoint < 0 || codePoint > 0x10FFFF || floor(codePoint) != codePoint) {
-        throw RangeError('Invalid code point: ' + codePoint);
-      }
-      if (codePoint <= 0xFFFF) {
-        codeUnits.push(codePoint);
-      } else {
-        codePoint -= 0x10000;
-        highSurrogate = (codePoint >> 10) + 0xD800;
-        lowSurrogate = (codePoint % 0x400) + 0xDC00;
-        codeUnits.push(highSurrogate, lowSurrogate);
-      }
-    }
-    return String.fromCharCode.apply(null, codeUnits);
-  }
-  function stringPrototypeIterator() {
-    var o = $traceurRuntime.checkObjectCoercible(this);
-    var s = String(o);
-    return createStringIterator(s);
-  }
-  function polyfillString(global) {
-    var String = global.String;
-    maybeAddFunctions(String.prototype, ['codePointAt', codePointAt, 'endsWith', endsWith, 'includes', includes, 'repeat', repeat, 'startsWith', startsWith]);
-    maybeAddFunctions(String, ['fromCodePoint', fromCodePoint, 'raw', raw]);
-    maybeAddIterator(String.prototype, stringPrototypeIterator, Symbol);
-  }
-  registerPolyfill(polyfillString);
-  return {
-    get startsWith() {
-      return startsWith;
-    },
-    get endsWith() {
-      return endsWith;
-    },
-    get includes() {
-      return includes;
-    },
-    get repeat() {
-      return repeat;
-    },
-    get codePointAt() {
-      return codePointAt;
-    },
-    get raw() {
-      return raw;
-    },
-    get fromCodePoint() {
-      return fromCodePoint;
-    },
-    get stringPrototypeIterator() {
-      return stringPrototypeIterator;
-    },
-    get polyfillString() {
-      return polyfillString;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/String.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/ArrayIterator.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/ArrayIterator.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      toObject = $__0.toObject,
-      toUint32 = $__0.toUint32,
-      createIteratorResultObject = $__0.createIteratorResultObject;
-  var ARRAY_ITERATOR_KIND_KEYS = 1;
-  var ARRAY_ITERATOR_KIND_VALUES = 2;
-  var ARRAY_ITERATOR_KIND_ENTRIES = 3;
-  var ArrayIterator = (function() {
-    var $__2;
-    function ArrayIterator() {}
-    return ($traceurRuntime.createClass)(ArrayIterator, ($__2 = {}, Object.defineProperty($__2, "next", {
-      value: function() {
-        var iterator = toObject(this);
-        var array = iterator.iteratorObject_;
-        if (!array) {
-          throw new TypeError('Object is not an ArrayIterator');
-        }
-        var index = iterator.arrayIteratorNextIndex_;
-        var itemKind = iterator.arrayIterationKind_;
-        var length = toUint32(array.length);
-        if (index >= length) {
-          iterator.arrayIteratorNextIndex_ = Infinity;
-          return createIteratorResultObject(undefined, true);
-        }
-        iterator.arrayIteratorNextIndex_ = index + 1;
-        if (itemKind == ARRAY_ITERATOR_KIND_VALUES)
-          return createIteratorResultObject(array[index], false);
-        if (itemKind == ARRAY_ITERATOR_KIND_ENTRIES)
-          return createIteratorResultObject([index, array[index]], false);
-        return createIteratorResultObject(index, false);
-      },
-      configurable: true,
-      enumerable: true,
-      writable: true
-    }), Object.defineProperty($__2, Symbol.iterator, {
-      value: function() {
-        return this;
-      },
-      configurable: true,
-      enumerable: true,
-      writable: true
-    }), $__2), {});
-  }());
-  function createArrayIterator(array, kind) {
-    var object = toObject(array);
-    var iterator = new ArrayIterator;
-    iterator.iteratorObject_ = object;
-    iterator.arrayIteratorNextIndex_ = 0;
-    iterator.arrayIterationKind_ = kind;
-    return iterator;
-  }
-  function entries() {
-    return createArrayIterator(this, ARRAY_ITERATOR_KIND_ENTRIES);
-  }
-  function keys() {
-    return createArrayIterator(this, ARRAY_ITERATOR_KIND_KEYS);
-  }
-  function values() {
-    return createArrayIterator(this, ARRAY_ITERATOR_KIND_VALUES);
-  }
-  return {
-    get entries() {
-      return entries;
-    },
-    get keys() {
-      return keys;
-    },
-    get values() {
-      return values;
-    }
-  };
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Array.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Array.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/ArrayIterator.js"),
-      entries = $__0.entries,
-      keys = $__0.keys,
-      jsValues = $__0.values;
-  var $__1 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      checkIterable = $__1.checkIterable,
-      isCallable = $__1.isCallable,
-      isConstructor = $__1.isConstructor,
-      maybeAddFunctions = $__1.maybeAddFunctions,
-      maybeAddIterator = $__1.maybeAddIterator,
-      registerPolyfill = $__1.registerPolyfill,
-      toInteger = $__1.toInteger,
-      toLength = $__1.toLength,
-      toObject = $__1.toObject;
-  function from(arrLike) {
-    var mapFn = arguments[1];
-    var thisArg = arguments[2];
-    var C = this;
-    var items = toObject(arrLike);
-    var mapping = mapFn !== undefined;
-    var k = 0;
-    var arr,
-        len;
-    if (mapping && !isCallable(mapFn)) {
-      throw TypeError();
-    }
-    if (checkIterable(items)) {
-      arr = isConstructor(C) ? new C() : [];
-      var $__5 = true;
-      var $__6 = false;
-      var $__7 = undefined;
-      try {
-        for (var $__3 = void 0,
-            $__2 = (items)[$traceurRuntime.toProperty(Symbol.iterator)](); !($__5 = ($__3 = $__2.next()).done); $__5 = true) {
-          var item = $__3.value;
-          {
-            if (mapping) {
-              arr[k] = mapFn.call(thisArg, item, k);
-            } else {
-              arr[k] = item;
-            }
-            k++;
-          }
-        }
-      } catch ($__8) {
-        $__6 = true;
-        $__7 = $__8;
-      } finally {
-        try {
-          if (!$__5 && $__2.return != null) {
-            $__2.return();
-          }
-        } finally {
-          if ($__6) {
-            throw $__7;
-          }
-        }
-      }
-      arr.length = k;
-      return arr;
-    }
-    len = toLength(items.length);
-    arr = isConstructor(C) ? new C(len) : new Array(len);
-    for (; k < len; k++) {
-      if (mapping) {
-        arr[k] = typeof thisArg === 'undefined' ? mapFn(items[k], k) : mapFn.call(thisArg, items[k], k);
-      } else {
-        arr[k] = items[k];
-      }
-    }
-    arr.length = len;
-    return arr;
-  }
-  function of() {
-    for (var items = [],
-        $__9 = 0; $__9 < arguments.length; $__9++)
-      items[$__9] = arguments[$__9];
-    var C = this;
-    var len = items.length;
-    var arr = isConstructor(C) ? new C(len) : new Array(len);
-    for (var k = 0; k < len; k++) {
-      arr[k] = items[k];
-    }
-    arr.length = len;
-    return arr;
-  }
-  function fill(value) {
-    var start = arguments[1] !== (void 0) ? arguments[1] : 0;
-    var end = arguments[2];
-    var object = toObject(this);
-    var len = toLength(object.length);
-    var fillStart = toInteger(start);
-    var fillEnd = end !== undefined ? toInteger(end) : len;
-    fillStart = fillStart < 0 ? Math.max(len + fillStart, 0) : Math.min(fillStart, len);
-    fillEnd = fillEnd < 0 ? Math.max(len + fillEnd, 0) : Math.min(fillEnd, len);
-    while (fillStart < fillEnd) {
-      object[fillStart] = value;
-      fillStart++;
-    }
-    return object;
-  }
-  function find(predicate) {
-    var thisArg = arguments[1];
-    return findHelper(this, predicate, thisArg);
-  }
-  function findIndex(predicate) {
-    var thisArg = arguments[1];
-    return findHelper(this, predicate, thisArg, true);
-  }
-  function findHelper(self, predicate) {
-    var thisArg = arguments[2];
-    var returnIndex = arguments[3] !== (void 0) ? arguments[3] : false;
-    var object = toObject(self);
-    var len = toLength(object.length);
-    if (!isCallable(predicate)) {
-      throw TypeError();
-    }
-    for (var i = 0; i < len; i++) {
-      var value = object[i];
-      if (predicate.call(thisArg, value, i, object)) {
-        return returnIndex ? i : value;
-      }
-    }
-    return returnIndex ? -1 : undefined;
-  }
-  function polyfillArray(global) {
-    var $__10 = global,
-        Array = $__10.Array,
-        Object = $__10.Object,
-        Symbol = $__10.Symbol;
-    var values = jsValues;
-    if (Symbol && Symbol.iterator && Array.prototype[Symbol.iterator]) {
-      values = Array.prototype[Symbol.iterator];
-    }
-    maybeAddFunctions(Array.prototype, ['entries', entries, 'keys', keys, 'values', values, 'fill', fill, 'find', find, 'findIndex', findIndex]);
-    maybeAddFunctions(Array, ['from', from, 'of', of]);
-    maybeAddIterator(Array.prototype, values, Symbol);
-    maybeAddIterator(Object.getPrototypeOf([].values()), function() {
-      return this;
-    }, Symbol);
-  }
-  registerPolyfill(polyfillArray);
-  return {
-    get from() {
-      return from;
-    },
-    get of() {
-      return of;
-    },
-    get fill() {
-      return fill;
-    },
-    get find() {
-      return find;
-    },
-    get findIndex() {
-      return findIndex;
-    },
-    get polyfillArray() {
-      return polyfillArray;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Array.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Object.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Object.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      maybeAddFunctions = $__0.maybeAddFunctions,
-      registerPolyfill = $__0.registerPolyfill;
-  var $__1 = $traceurRuntime,
-      defineProperty = $__1.defineProperty,
-      getOwnPropertyDescriptor = $__1.getOwnPropertyDescriptor,
-      getOwnPropertyNames = $__1.getOwnPropertyNames,
-      isPrivateName = $__1.isPrivateName,
-      keys = $__1.keys;
-  function is(left, right) {
-    if (left === right)
-      return left !== 0 || 1 / left === 1 / right;
-    return left !== left && right !== right;
-  }
-  function assign(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      var props = source == null ? [] : keys(source);
-      var p = void 0,
-          length = props.length;
-      for (p = 0; p < length; p++) {
-        var name = props[p];
-        if (isPrivateName(name))
-          continue;
-        target[name] = source[name];
-      }
-    }
-    return target;
-  }
-  function mixin(target, source) {
-    var props = getOwnPropertyNames(source);
-    var p,
-        descriptor,
-        length = props.length;
-    for (p = 0; p < length; p++) {
-      var name = props[p];
-      if (isPrivateName(name))
-        continue;
-      descriptor = getOwnPropertyDescriptor(source, props[p]);
-      defineProperty(target, props[p], descriptor);
-    }
-    return target;
-  }
-  function polyfillObject(global) {
-    var Object = global.Object;
-    maybeAddFunctions(Object, ['assign', assign, 'is', is, 'mixin', mixin]);
-  }
-  registerPolyfill(polyfillObject);
-  return {
-    get is() {
-      return is;
-    },
-    get assign() {
-      return assign;
-    },
-    get mixin() {
-      return mixin;
-    },
-    get polyfillObject() {
-      return polyfillObject;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Object.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Number.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Number.js";
-  var $__0 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      isNumber = $__0.isNumber,
-      maybeAddConsts = $__0.maybeAddConsts,
-      maybeAddFunctions = $__0.maybeAddFunctions,
-      registerPolyfill = $__0.registerPolyfill,
-      toInteger = $__0.toInteger;
-  var $abs = Math.abs;
-  var $isFinite = isFinite;
-  var $isNaN = isNaN;
-  var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
-  var MIN_SAFE_INTEGER = -Math.pow(2, 53) + 1;
-  var EPSILON = Math.pow(2, -52);
-  function NumberIsFinite(number) {
-    return isNumber(number) && $isFinite(number);
-  }
-  function isInteger(number) {
-    return NumberIsFinite(number) && toInteger(number) === number;
-  }
-  function NumberIsNaN(number) {
-    return isNumber(number) && $isNaN(number);
-  }
-  function isSafeInteger(number) {
-    if (NumberIsFinite(number)) {
-      var integral = toInteger(number);
-      if (integral === number)
-        return $abs(integral) <= MAX_SAFE_INTEGER;
-    }
-    return false;
-  }
-  function polyfillNumber(global) {
-    var Number = global.Number;
-    maybeAddConsts(Number, ['MAX_SAFE_INTEGER', MAX_SAFE_INTEGER, 'MIN_SAFE_INTEGER', MIN_SAFE_INTEGER, 'EPSILON', EPSILON]);
-    maybeAddFunctions(Number, ['isFinite', NumberIsFinite, 'isInteger', isInteger, 'isNaN', NumberIsNaN, 'isSafeInteger', isSafeInteger]);
-  }
-  registerPolyfill(polyfillNumber);
-  return {
-    get MAX_SAFE_INTEGER() {
-      return MAX_SAFE_INTEGER;
-    },
-    get MIN_SAFE_INTEGER() {
-      return MIN_SAFE_INTEGER;
-    },
-    get EPSILON() {
-      return EPSILON;
-    },
-    get isFinite() {
-      return NumberIsFinite;
-    },
-    get isInteger() {
-      return isInteger;
-    },
-    get isNaN() {
-      return NumberIsNaN;
-    },
-    get isSafeInteger() {
-      return isSafeInteger;
-    },
-    get polyfillNumber() {
-      return polyfillNumber;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Number.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/fround.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/fround.js";
-  var $isFinite = isFinite;
-  var $isNaN = isNaN;
-  var $__0 = Math,
-      LN2 = $__0.LN2,
-      abs = $__0.abs,
-      floor = $__0.floor,
-      log = $__0.log,
-      min = $__0.min,
-      pow = $__0.pow;
-  function packIEEE754(v, ebits, fbits) {
-    var bias = (1 << (ebits - 1)) - 1,
-        s,
-        e,
-        f,
-        ln,
-        i,
-        bits,
-        str,
-        bytes;
-    function roundToEven(n) {
-      var w = floor(n),
-          f = n - w;
-      if (f < 0.5)
-        return w;
-      if (f > 0.5)
-        return w + 1;
-      return w % 2 ? w + 1 : w;
-    }
-    if (v !== v) {
-      e = (1 << ebits) - 1;
-      f = pow(2, fbits - 1);
-      s = 0;
-    } else if (v === Infinity || v === -Infinity) {
-      e = (1 << ebits) - 1;
-      f = 0;
-      s = (v < 0) ? 1 : 0;
-    } else if (v === 0) {
-      e = 0;
-      f = 0;
-      s = (1 / v === -Infinity) ? 1 : 0;
-    } else {
-      s = v < 0;
-      v = abs(v);
-      if (v >= pow(2, 1 - bias)) {
-        e = min(floor(log(v) / LN2), 1023);
-        f = roundToEven(v / pow(2, e) * pow(2, fbits));
-        if (f / pow(2, fbits) >= 2) {
-          e = e + 1;
-          f = 1;
-        }
-        if (e > bias) {
-          e = (1 << ebits) - 1;
-          f = 0;
-        } else {
-          e = e + bias;
-          f = f - pow(2, fbits);
-        }
-      } else {
-        e = 0;
-        f = roundToEven(v / pow(2, 1 - bias - fbits));
-      }
-    }
-    bits = [];
-    for (i = fbits; i; i -= 1) {
-      bits.push(f % 2 ? 1 : 0);
-      f = floor(f / 2);
-    }
-    for (i = ebits; i; i -= 1) {
-      bits.push(e % 2 ? 1 : 0);
-      e = floor(e / 2);
-    }
-    bits.push(s ? 1 : 0);
-    bits.reverse();
-    str = bits.join('');
-    bytes = [];
-    while (str.length) {
-      bytes.push(parseInt(str.substring(0, 8), 2));
-      str = str.substring(8);
-    }
-    return bytes;
-  }
-  function unpackIEEE754(bytes, ebits, fbits) {
-    var bits = [],
-        i,
-        j,
-        b,
-        str,
-        bias,
-        s,
-        e,
-        f;
-    for (i = bytes.length; i; i -= 1) {
-      b = bytes[i - 1];
-      for (j = 8; j; j -= 1) {
-        bits.push(b % 2 ? 1 : 0);
-        b = b >> 1;
-      }
-    }
-    bits.reverse();
-    str = bits.join('');
-    bias = (1 << (ebits - 1)) - 1;
-    s = parseInt(str.substring(0, 1), 2) ? -1 : 1;
-    e = parseInt(str.substring(1, 1 + ebits), 2);
-    f = parseInt(str.substring(1 + ebits), 2);
-    if (e === (1 << ebits) - 1) {
-      return f !== 0 ? NaN : s * Infinity;
-    } else if (e > 0) {
-      return s * pow(2, e - bias) * (1 + f / pow(2, fbits));
-    } else if (f !== 0) {
-      return s * pow(2, -(bias - 1)) * (f / pow(2, fbits));
-    } else {
-      return s < 0 ? -0 : 0;
-    }
-  }
-  function unpackF32(b) {
-    return unpackIEEE754(b, 8, 23);
-  }
-  function packF32(v) {
-    return packIEEE754(v, 8, 23);
-  }
-  function fround(x) {
-    if (x === 0 || !$isFinite(x) || $isNaN(x)) {
-      return x;
-    }
-    return unpackF32(packF32(Number(x)));
-  }
-  return {get fround() {
-      return fround;
-    }};
-});
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/Math.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/Math.js";
-  var jsFround = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/fround.js").fround;
-  var $__1 = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js"),
-      maybeAddFunctions = $__1.maybeAddFunctions,
-      registerPolyfill = $__1.registerPolyfill,
-      toUint32 = $__1.toUint32;
-  var $isFinite = isFinite;
-  var $isNaN = isNaN;
-  var $__2 = Math,
-      abs = $__2.abs,
-      ceil = $__2.ceil,
-      exp = $__2.exp,
-      floor = $__2.floor,
-      log = $__2.log,
-      pow = $__2.pow,
-      sqrt = $__2.sqrt;
-  function clz32(x) {
-    x = toUint32(+x);
-    if (x == 0)
-      return 32;
-    var result = 0;
-    if ((x & 0xFFFF0000) === 0) {
-      x <<= 16;
-      result += 16;
-    }
-    ;
-    if ((x & 0xFF000000) === 0) {
-      x <<= 8;
-      result += 8;
-    }
-    ;
-    if ((x & 0xF0000000) === 0) {
-      x <<= 4;
-      result += 4;
-    }
-    ;
-    if ((x & 0xC0000000) === 0) {
-      x <<= 2;
-      result += 2;
-    }
-    ;
-    if ((x & 0x80000000) === 0) {
-      x <<= 1;
-      result += 1;
-    }
-    ;
-    return result;
-  }
-  function imul(x, y) {
-    x = toUint32(+x);
-    y = toUint32(+y);
-    var xh = (x >>> 16) & 0xffff;
-    var xl = x & 0xffff;
-    var yh = (y >>> 16) & 0xffff;
-    var yl = y & 0xffff;
-    return xl * yl + (((xh * yl + xl * yh) << 16) >>> 0) | 0;
-  }
-  function sign(x) {
-    x = +x;
-    if (x > 0)
-      return 1;
-    if (x < 0)
-      return -1;
-    return x;
-  }
-  function log10(x) {
-    return log(x) * 0.434294481903251828;
-  }
-  function log2(x) {
-    return log(x) * 1.442695040888963407;
-  }
-  function log1p(x) {
-    x = +x;
-    if (x < -1 || $isNaN(x)) {
-      return NaN;
-    }
-    if (x === 0 || x === Infinity) {
-      return x;
-    }
-    if (x === -1) {
-      return -Infinity;
-    }
-    var result = 0;
-    var n = 50;
-    if (x < 0 || x > 1) {
-      return log(1 + x);
-    }
-    for (var i = 1; i < n; i++) {
-      if ((i % 2) === 0) {
-        result -= pow(x, i) / i;
-      } else {
-        result += pow(x, i) / i;
-      }
-    }
-    return result;
-  }
-  function expm1(x) {
-    x = +x;
-    if (x === -Infinity) {
-      return -1;
-    }
-    if (!$isFinite(x) || x === 0) {
-      return x;
-    }
-    return exp(x) - 1;
-  }
-  function cosh(x) {
-    x = +x;
-    if (x === 0) {
-      return 1;
-    }
-    if ($isNaN(x)) {
-      return NaN;
-    }
-    if (!$isFinite(x)) {
-      return Infinity;
-    }
-    if (x < 0) {
-      x = -x;
-    }
-    if (x > 21) {
-      return exp(x) / 2;
-    }
-    return (exp(x) + exp(-x)) / 2;
-  }
-  function sinh(x) {
-    x = +x;
-    if (!$isFinite(x) || x === 0) {
-      return x;
-    }
-    return (exp(x) - exp(-x)) / 2;
-  }
-  function tanh(x) {
-    x = +x;
-    if (x === 0)
-      return x;
-    if (!$isFinite(x))
-      return sign(x);
-    var exp1 = exp(x);
-    var exp2 = exp(-x);
-    return (exp1 - exp2) / (exp1 + exp2);
-  }
-  function acosh(x) {
-    x = +x;
-    if (x < 1)
-      return NaN;
-    if (!$isFinite(x))
-      return x;
-    return log(x + sqrt(x + 1) * sqrt(x - 1));
-  }
-  function asinh(x) {
-    x = +x;
-    if (x === 0 || !$isFinite(x))
-      return x;
-    if (x > 0)
-      return log(x + sqrt(x * x + 1));
-    return -log(-x + sqrt(x * x + 1));
-  }
-  function atanh(x) {
-    x = +x;
-    if (x === -1) {
-      return -Infinity;
-    }
-    if (x === 1) {
-      return Infinity;
-    }
-    if (x === 0) {
-      return x;
-    }
-    if ($isNaN(x) || x < -1 || x > 1) {
-      return NaN;
-    }
-    return 0.5 * log((1 + x) / (1 - x));
-  }
-  function hypot(x, y) {
-    var length = arguments.length;
-    var args = new Array(length);
-    var max = 0;
-    for (var i = 0; i < length; i++) {
-      var n = arguments[i];
-      n = +n;
-      if (n === Infinity || n === -Infinity)
-        return Infinity;
-      n = abs(n);
-      if (n > max)
-        max = n;
-      args[i] = n;
-    }
-    if (max === 0)
-      max = 1;
-    var sum = 0;
-    var compensation = 0;
-    for (var i = 0; i < length; i++) {
-      var n = args[i] / max;
-      var summand = n * n - compensation;
-      var preliminary = sum + summand;
-      compensation = (preliminary - sum) - summand;
-      sum = preliminary;
-    }
-    return sqrt(sum) * max;
-  }
-  function trunc(x) {
-    x = +x;
-    if (x > 0)
-      return floor(x);
-    if (x < 0)
-      return ceil(x);
-    return x;
-  }
-  var fround,
-      f32;
-  if (typeof Float32Array === 'function') {
-    f32 = new Float32Array(1);
-    fround = function(x) {
-      f32[0] = Number(x);
-      return f32[0];
-    };
-  } else {
-    fround = jsFround;
-  }
-  function cbrt(x) {
-    x = +x;
-    if (x === 0)
-      return x;
-    var negate = x < 0;
-    if (negate)
-      x = -x;
-    var result = pow(x, 1 / 3);
-    return negate ? -result : result;
-  }
-  function polyfillMath(global) {
-    var Math = global.Math;
-    maybeAddFunctions(Math, ['acosh', acosh, 'asinh', asinh, 'atanh', atanh, 'cbrt', cbrt, 'clz32', clz32, 'cosh', cosh, 'expm1', expm1, 'fround', fround, 'hypot', hypot, 'imul', imul, 'log10', log10, 'log1p', log1p, 'log2', log2, 'sign', sign, 'sinh', sinh, 'tanh', tanh, 'trunc', trunc]);
-  }
-  registerPolyfill(polyfillMath);
-  return {
-    get clz32() {
-      return clz32;
-    },
-    get imul() {
-      return imul;
-    },
-    get sign() {
-      return sign;
-    },
-    get log10() {
-      return log10;
-    },
-    get log2() {
-      return log2;
-    },
-    get log1p() {
-      return log1p;
-    },
-    get expm1() {
-      return expm1;
-    },
-    get cosh() {
-      return cosh;
-    },
-    get sinh() {
-      return sinh;
-    },
-    get tanh() {
-      return tanh;
-    },
-    get acosh() {
-      return acosh;
-    },
-    get asinh() {
-      return asinh;
-    },
-    get atanh() {
-      return atanh;
-    },
-    get hypot() {
-      return hypot;
-    },
-    get trunc() {
-      return trunc;
-    },
-    get fround() {
-      return fround;
-    },
-    get cbrt() {
-      return cbrt;
-    },
-    get polyfillMath() {
-      return polyfillMath;
-    }
-  };
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/Math.js" + '');
-System.registerModule("traceur-runtime@0.0.88/src/runtime/polyfills/polyfills.js", [], function() {
-  "use strict";
-  var __moduleName = "traceur-runtime@0.0.88/src/runtime/polyfills/polyfills.js";
-  var polyfillAll = System.get("traceur-runtime@0.0.88/src/runtime/polyfills/utils.js").polyfillAll;
-  polyfillAll(Reflect.global);
-  var setupGlobals = $traceurRuntime.setupGlobals;
-  $traceurRuntime.setupGlobals = function(global) {
-    setupGlobals(global);
-    polyfillAll(global);
-  };
-  return {};
-});
-System.get("traceur-runtime@0.0.88/src/runtime/polyfills/polyfills.js" + '');
-
 (function(global) {
 
   var defined = {};
@@ -3825,6 +360,440 @@ System.get("traceur-runtime@0.0.88/src/runtime/polyfills/polyfills.js" + '');
 
 (['martian'], function(System) {
 
+System.register("npm:babel-runtime@5.1.13/helpers/class-call-check", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  exports["default"] = function(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.fw", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function($) {
+    $.FW = false;
+    $.path = $.core;
+    return $;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.def", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      global = $.g,
+      core = $.core,
+      isFunction = $.isFunction;
+  function ctx(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  }
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  function $def(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        isProto = type & $def.P,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {}).prototype,
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      if (own && key in exports)
+        continue;
+      out = own ? target[key] : source[key];
+      if (isGlobal && !isFunction(target[key]))
+        exp = source[key];
+      else if (type & $def.B && own)
+        exp = ctx(out, global);
+      else if (type & $def.W && target[key] == out)
+        !function(C) {
+          exp = function(param) {
+            return this instanceof C ? new C(param) : C(param);
+          };
+          exp.prototype = C.prototype;
+        }(out);
+      else
+        exp = isProto && isFunction(out) ? ctx(Function.call, out) : out;
+      exports[key] = exp;
+      if (isProto)
+        (exports.prototype || (exports.prototype = {}))[key] = out;
+    }
+  }
+  module.exports = $def;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.get-names", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      toString = {}.toString,
+      getNames = $.getNames;
+  var windowNames = typeof window == 'object' && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
+  function getWindowNames(it) {
+    try {
+      return getNames(it);
+    } catch (e) {
+      return windowNames.slice();
+    }
+  }
+  module.exports.get = function getOwnPropertyNames(it) {
+    if (windowNames && toString.call(it) == '[object Window]')
+      return getWindowNames(it);
+    return getNames($.toObject(it));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.shared", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      SHARED = '__core-js_shared__',
+      store = $.g[SHARED] || ($.g[SHARED] = {});
+  module.exports = function(key) {
+    return store[key] || (store[key] = {});
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.uid", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var sid = 0;
+  function uid(key) {
+    return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++sid + Math.random()).toString(36));
+  }
+  uid.safe = require("npm:core-js@0.9.18/library/modules/$").g.Symbol || uid;
+  module.exports = uid;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.redef", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:core-js@0.9.18/library/modules/$").hide;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.string-at", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  module.exports = function(TO_STRING) {
+    return function(that, pos) {
+      var s = String($.assertDefined(that)),
+          i = $.toInteger(pos),
+          l = s.length,
+          a,
+          b;
+      if (i < 0 || i >= l)
+        return TO_STRING ? '' : undefined;
+      a = s.charCodeAt(i);
+      return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff ? TO_STRING ? s.charAt(i) : a : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.assert", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  function assert(condition, msg1, msg2) {
+    if (!condition)
+      throw TypeError(msg2 ? msg1 + msg2 : msg1);
+  }
+  assert.def = $.assertDefined;
+  assert.fn = function(it) {
+    if (!$.isFunction(it))
+      throw TypeError(it + ' is not a function!');
+    return it;
+  };
+  assert.obj = function(it) {
+    if (!$.isObject(it))
+      throw TypeError(it + ' is not an object!');
+    return it;
+  };
+  assert.inst = function(it, Constructor, name) {
+    if (!(it instanceof Constructor))
+      throw TypeError(name + ": use the 'new' operator!");
+    return it;
+  };
+  module.exports = assert;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.iter-define", ["npm:core-js@0.9.18/library/modules/$.def", "npm:core-js@0.9.18/library/modules/$.redef", "npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.cof", "npm:core-js@0.9.18/library/modules/$.iter", "npm:core-js@0.9.18/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.18/library/modules/$.def"),
+      $redef = require("npm:core-js@0.9.18/library/modules/$.redef"),
+      $ = require("npm:core-js@0.9.18/library/modules/$"),
+      cof = require("npm:core-js@0.9.18/library/modules/$.cof"),
+      $iter = require("npm:core-js@0.9.18/library/modules/$.iter"),
+      SYMBOL_ITERATOR = require("npm:core-js@0.9.18/library/modules/$.wks")('iterator'),
+      FF_ITERATOR = '@@iterator',
+      KEYS = 'keys',
+      VALUES = 'values',
+      Iterators = $iter.Iterators;
+  module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE) {
+    $iter.create(Constructor, NAME, next);
+    function createMethod(kind) {
+      function $$(that) {
+        return new Constructor(that, kind);
+      }
+      switch (kind) {
+        case KEYS:
+          return function keys() {
+            return $$(this);
+          };
+        case VALUES:
+          return function values() {
+            return $$(this);
+          };
+      }
+      return function entries() {
+        return $$(this);
+      };
+    }
+    var TAG = NAME + ' Iterator',
+        proto = Base.prototype,
+        _native = proto[SYMBOL_ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT],
+        _default = _native || createMethod(DEFAULT),
+        methods,
+        key;
+    if (_native) {
+      var IteratorPrototype = $.getProto(_default.call(new Base));
+      cof.set(IteratorPrototype, TAG, true);
+      if ($.FW && $.has(proto, FF_ITERATOR))
+        $iter.set(IteratorPrototype, $.that);
+    }
+    if ($.FW || FORCE)
+      $iter.set(proto, _default);
+    Iterators[NAME] = _default;
+    Iterators[TAG] = $.that;
+    if (DEFAULT) {
+      methods = {
+        keys: IS_SET ? _default : createMethod(KEYS),
+        values: DEFAULT == VALUES ? _default : createMethod(VALUES),
+        entries: DEFAULT != VALUES ? _default : createMethod('entries')
+      };
+      if (FORCE)
+        for (key in methods) {
+          if (!(key in proto))
+            $redef(proto, key, methods[key]);
+        }
+      else
+        $def($def.P + $def.F * $iter.BUGGY, NAME, methods);
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.unscope", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function() {};
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.ctx", ["npm:core-js@0.9.18/library/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var assertFunction = require("npm:core-js@0.9.18/library/modules/$.assert").fn;
+  module.exports = function(fn, that, length) {
+    assertFunction(fn);
+    if (~length && that === undefined)
+      return fn;
+    switch (length) {
+      case 1:
+        return function(a) {
+          return fn.call(that, a);
+        };
+      case 2:
+        return function(a, b) {
+          return fn.call(that, a, b);
+        };
+      case 3:
+        return function(a, b, c) {
+          return fn.call(that, a, b, c);
+        };
+    }
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.iter-call", ["npm:core-js@0.9.18/library/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var assertObject = require("npm:core-js@0.9.18/library/modules/$.assert").obj;
+  function close(iterator) {
+    var ret = iterator['return'];
+    if (ret !== undefined)
+      assertObject(ret.call(iterator));
+  }
+  function call(iterator, fn, value, entries) {
+    try {
+      return entries ? fn(assertObject(value)[0], value[1]) : fn(value);
+    } catch (e) {
+      close(iterator);
+      throw e;
+    }
+  }
+  call.close = close;
+  module.exports = call;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.set-proto", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.assert", "npm:core-js@0.9.18/library/modules/$.ctx"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      assert = require("npm:core-js@0.9.18/library/modules/$.assert");
+  function check(O, proto) {
+    assert.obj(O);
+    assert(proto === null || $.isObject(proto), proto, ": can't set as prototype!");
+  }
+  module.exports = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? function(buggy, set) {
+      try {
+        set = require("npm:core-js@0.9.18/library/modules/$.ctx")(Function.call, $.getDesc(Object.prototype, '__proto__').set, 2);
+        set({}, []);
+      } catch (e) {
+        buggy = true;
+      }
+      return function setPrototypeOf(O, proto) {
+        check(O, proto);
+        if (buggy)
+          O.__proto__ = proto;
+        else
+          set(O, proto);
+        return O;
+      };
+    }() : undefined),
+    check: check
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.same", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = Object.is || function is(x, y) {
+    return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.species", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      SPECIES = require("npm:core-js@0.9.18/library/modules/$.wks")('species');
+  module.exports = function(C) {
+    if ($.DESC && !(SPECIES in C))
+      $.setDesc(C, SPECIES, {
+        configurable: true,
+        get: $.that
+      });
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.invoke", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(fn, args, that) {
+    var un = that === undefined;
+    switch (args.length) {
+      case 0:
+        return un ? fn() : fn.call(that);
+      case 1:
+        return un ? fn(args[0]) : fn.call(that, args[0]);
+      case 2:
+        return un ? fn(args[0], args[1]) : fn.call(that, args[0], args[1]);
+      case 3:
+        return un ? fn(args[0], args[1], args[2]) : fn.call(that, args[0], args[1], args[2]);
+      case 4:
+        return un ? fn(args[0], args[1], args[2], args[3]) : fn.call(that, args[0], args[1], args[2], args[3]);
+      case 5:
+        return un ? fn(args[0], args[1], args[2], args[3], args[4]) : fn.call(that, args[0], args[1], args[2], args[3], args[4]);
+    }
+    return fn.apply(that, args);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.dom-create", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      document = $.g.document,
+      isObject = $.isObject,
+      is = isObject(document) && isObject(document.createElement);
+  module.exports = function(it) {
+    return is ? document.createElement(it) : {};
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:process@0.11.2/browser", [], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -3912,6 +881,344 @@ System.register("npm:process@0.11.2/browser", [], true, function(require, export
   process.umask = function() {
     return 0;
   };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.mix", ["npm:core-js@0.9.18/library/modules/$.redef"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $redef = require("npm:core-js@0.9.18/library/modules/$.redef");
+  module.exports = function(target, src) {
+    for (var key in src)
+      $redef(target, key, src[key]);
+    return target;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.iter-detect", ["npm:core-js@0.9.18/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var SYMBOL_ITERATOR = require("npm:core-js@0.9.18/library/modules/$.wks")('iterator'),
+      SAFE_CLOSING = false;
+  try {
+    var riter = [7][SYMBOL_ITERATOR]();
+    riter['return'] = function() {
+      SAFE_CLOSING = true;
+    };
+    Array.from(riter, function() {
+      throw 2;
+    });
+  } catch (e) {}
+  module.exports = function(exec) {
+    if (!SAFE_CLOSING)
+      return false;
+    var safe = false;
+    try {
+      var arr = [7],
+          iter = arr[SYMBOL_ITERATOR]();
+      iter.next = function() {
+        safe = true;
+      };
+      arr[SYMBOL_ITERATOR] = function() {
+        return iter;
+      };
+      exec(arr);
+    } catch (e) {}
+    return safe;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:punycode@1.3.2/punycode", ["github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  (function(process) {
+    ;
+    (function(root) {
+      var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+      var freeModule = typeof module == 'object' && module && !module.nodeType && module;
+      var freeGlobal = typeof global == 'object' && global;
+      if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal || freeGlobal.self === freeGlobal) {
+        root = freeGlobal;
+      }
+      var punycode,
+          maxInt = 2147483647,
+          base = 36,
+          tMin = 1,
+          tMax = 26,
+          skew = 38,
+          damp = 700,
+          initialBias = 72,
+          initialN = 128,
+          delimiter = '-',
+          regexPunycode = /^xn--/,
+          regexNonASCII = /[^\x20-\x7E]/,
+          regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g,
+          errors = {
+            'overflow': 'Overflow: input needs wider integers to process',
+            'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+            'invalid-input': 'Invalid input'
+          },
+          baseMinusTMin = base - tMin,
+          floor = Math.floor,
+          stringFromCharCode = String.fromCharCode,
+          key;
+      function error(type) {
+        throw RangeError(errors[type]);
+      }
+      function map(array, fn) {
+        var length = array.length;
+        var result = [];
+        while (length--) {
+          result[length] = fn(array[length]);
+        }
+        return result;
+      }
+      function mapDomain(string, fn) {
+        var parts = string.split('@');
+        var result = '';
+        if (parts.length > 1) {
+          result = parts[0] + '@';
+          string = parts[1];
+        }
+        string = string.replace(regexSeparators, '\x2E');
+        var labels = string.split('.');
+        var encoded = map(labels, fn).join('.');
+        return result + encoded;
+      }
+      function ucs2decode(string) {
+        var output = [],
+            counter = 0,
+            length = string.length,
+            value,
+            extra;
+        while (counter < length) {
+          value = string.charCodeAt(counter++);
+          if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+            extra = string.charCodeAt(counter++);
+            if ((extra & 0xFC00) == 0xDC00) {
+              output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+            } else {
+              output.push(value);
+              counter--;
+            }
+          } else {
+            output.push(value);
+          }
+        }
+        return output;
+      }
+      function ucs2encode(array) {
+        return map(array, function(value) {
+          var output = '';
+          if (value > 0xFFFF) {
+            value -= 0x10000;
+            output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+            value = 0xDC00 | value & 0x3FF;
+          }
+          output += stringFromCharCode(value);
+          return output;
+        }).join('');
+      }
+      function basicToDigit(codePoint) {
+        if (codePoint - 48 < 10) {
+          return codePoint - 22;
+        }
+        if (codePoint - 65 < 26) {
+          return codePoint - 65;
+        }
+        if (codePoint - 97 < 26) {
+          return codePoint - 97;
+        }
+        return base;
+      }
+      function digitToBasic(digit, flag) {
+        return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+      }
+      function adapt(delta, numPoints, firstTime) {
+        var k = 0;
+        delta = firstTime ? floor(delta / damp) : delta >> 1;
+        delta += floor(delta / numPoints);
+        for (; delta > baseMinusTMin * tMax >> 1; k += base) {
+          delta = floor(delta / baseMinusTMin);
+        }
+        return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+      }
+      function decode(input) {
+        var output = [],
+            inputLength = input.length,
+            out,
+            i = 0,
+            n = initialN,
+            bias = initialBias,
+            basic,
+            j,
+            index,
+            oldi,
+            w,
+            k,
+            digit,
+            t,
+            baseMinusT;
+        basic = input.lastIndexOf(delimiter);
+        if (basic < 0) {
+          basic = 0;
+        }
+        for (j = 0; j < basic; ++j) {
+          if (input.charCodeAt(j) >= 0x80) {
+            error('not-basic');
+          }
+          output.push(input.charCodeAt(j));
+        }
+        for (index = basic > 0 ? basic + 1 : 0; index < inputLength; ) {
+          for (oldi = i, w = 1, k = base; ; k += base) {
+            if (index >= inputLength) {
+              error('invalid-input');
+            }
+            digit = basicToDigit(input.charCodeAt(index++));
+            if (digit >= base || digit > floor((maxInt - i) / w)) {
+              error('overflow');
+            }
+            i += digit * w;
+            t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+            if (digit < t) {
+              break;
+            }
+            baseMinusT = base - t;
+            if (w > floor(maxInt / baseMinusT)) {
+              error('overflow');
+            }
+            w *= baseMinusT;
+          }
+          out = output.length + 1;
+          bias = adapt(i - oldi, out, oldi == 0);
+          if (floor(i / out) > maxInt - n) {
+            error('overflow');
+          }
+          n += floor(i / out);
+          i %= out;
+          output.splice(i++, 0, n);
+        }
+        return ucs2encode(output);
+      }
+      function encode(input) {
+        var n,
+            delta,
+            handledCPCount,
+            basicLength,
+            bias,
+            j,
+            m,
+            q,
+            k,
+            t,
+            currentValue,
+            output = [],
+            inputLength,
+            handledCPCountPlusOne,
+            baseMinusT,
+            qMinusT;
+        input = ucs2decode(input);
+        inputLength = input.length;
+        n = initialN;
+        delta = 0;
+        bias = initialBias;
+        for (j = 0; j < inputLength; ++j) {
+          currentValue = input[j];
+          if (currentValue < 0x80) {
+            output.push(stringFromCharCode(currentValue));
+          }
+        }
+        handledCPCount = basicLength = output.length;
+        if (basicLength) {
+          output.push(delimiter);
+        }
+        while (handledCPCount < inputLength) {
+          for (m = maxInt, j = 0; j < inputLength; ++j) {
+            currentValue = input[j];
+            if (currentValue >= n && currentValue < m) {
+              m = currentValue;
+            }
+          }
+          handledCPCountPlusOne = handledCPCount + 1;
+          if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+            error('overflow');
+          }
+          delta += (m - n) * handledCPCountPlusOne;
+          n = m;
+          for (j = 0; j < inputLength; ++j) {
+            currentValue = input[j];
+            if (currentValue < n && ++delta > maxInt) {
+              error('overflow');
+            }
+            if (currentValue == n) {
+              for (q = delta, k = base; ; k += base) {
+                t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+                if (q < t) {
+                  break;
+                }
+                qMinusT = q - t;
+                baseMinusT = base - t;
+                output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0)));
+                q = floor(qMinusT / baseMinusT);
+              }
+              output.push(stringFromCharCode(digitToBasic(q, 0)));
+              bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+              delta = 0;
+              ++handledCPCount;
+            }
+          }
+          ++delta;
+          ++n;
+        }
+        return output.join('');
+      }
+      function toUnicode(input) {
+        return mapDomain(input, function(string) {
+          return regexPunycode.test(string) ? decode(string.slice(4).toLowerCase()) : string;
+        });
+      }
+      function toASCII(input) {
+        return mapDomain(input, function(string) {
+          return regexNonASCII.test(string) ? 'xn--' + encode(string) : string;
+        });
+      }
+      punycode = {
+        'version': '1.3.2',
+        'ucs2': {
+          'decode': ucs2decode,
+          'encode': ucs2encode
+        },
+        'decode': decode,
+        'encode': encode,
+        'toASCII': toASCII,
+        'toUnicode': toUnicode
+      };
+      if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
+        define('punycode', function() {
+          return punycode;
+        });
+      } else if (freeExports && freeModule) {
+        if (module.exports == freeExports) {
+          freeModule.exports = punycode;
+        } else {
+          for (key in punycode) {
+            punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+          }
+        }
+      } else {
+        root.punycode = punycode;
+      }
+    }(this));
+  })(require("github:jspm/nodelibs-process@0.1.2"));
   global.define = __define;
   return module.exports;
 });
@@ -4009,6 +1316,56 @@ System.register("npm:querystring@0.2.0/encode", [], true, function(require, expo
     if (!name)
       return '';
     return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/fn/object/create", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  module.exports = function create(P, D) {
+    return $.create(P, D);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/fn/object/get-own-property-names", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  require("npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives");
+  module.exports = function getOwnPropertyNames(it) {
+    return $.getNames(it);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/fn/object/get-own-property-descriptor", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  require("npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives");
+  module.exports = function getOwnPropertyDescriptor(it, key) {
+    return $.getDesc(it, key);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/fn/object/define-property", ["npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$");
+  module.exports = function defineProperty(it, key, desc) {
+    return $.setDesc(it, key, desc);
   };
   global.define = __define;
   return module.exports;
@@ -6336,11 +3693,246 @@ System.register("github:moment/moment@2.10.6/moment", [], false, function(__requ
   return System.get("@@global-helpers").retrieveGlobal(__module.id, false);
 });
 
+System.register("npm:core-js@0.9.18/library/modules/$", ["npm:core-js@0.9.18/library/modules/$.fw"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var global = typeof self != 'undefined' ? self : Function('return this')(),
+      core = {},
+      defineProperty = Object.defineProperty,
+      hasOwnProperty = {}.hasOwnProperty,
+      ceil = Math.ceil,
+      floor = Math.floor,
+      max = Math.max,
+      min = Math.min;
+  var DESC = !!function() {
+    try {
+      return defineProperty({}, 'a', {get: function() {
+          return 2;
+        }}).a == 2;
+    } catch (e) {}
+  }();
+  var hide = createDefiner(1);
+  function toInteger(it) {
+    return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+  }
+  function desc(bitmap, value) {
+    return {
+      enumerable: !(bitmap & 1),
+      configurable: !(bitmap & 2),
+      writable: !(bitmap & 4),
+      value: value
+    };
+  }
+  function simpleSet(object, key, value) {
+    object[key] = value;
+    return object;
+  }
+  function createDefiner(bitmap) {
+    return DESC ? function(object, key, value) {
+      return $.setDesc(object, key, desc(bitmap, value));
+    } : simpleSet;
+  }
+  function isObject(it) {
+    return it !== null && (typeof it == 'object' || typeof it == 'function');
+  }
+  function isFunction(it) {
+    return typeof it == 'function';
+  }
+  function assertDefined(it) {
+    if (it == undefined)
+      throw TypeError("Can't call method on  " + it);
+    return it;
+  }
+  var $ = module.exports = require("npm:core-js@0.9.18/library/modules/$.fw")({
+    g: global,
+    core: core,
+    html: global.document && document.documentElement,
+    isObject: isObject,
+    isFunction: isFunction,
+    that: function() {
+      return this;
+    },
+    toInteger: toInteger,
+    toLength: function(it) {
+      return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0;
+    },
+    toIndex: function(index, length) {
+      index = toInteger(index);
+      return index < 0 ? max(index + length, 0) : min(index, length);
+    },
+    has: function(it, key) {
+      return hasOwnProperty.call(it, key);
+    },
+    create: Object.create,
+    getProto: Object.getPrototypeOf,
+    DESC: DESC,
+    desc: desc,
+    getDesc: Object.getOwnPropertyDescriptor,
+    setDesc: defineProperty,
+    setDescs: Object.defineProperties,
+    getKeys: Object.keys,
+    getNames: Object.getOwnPropertyNames,
+    getSymbols: Object.getOwnPropertySymbols,
+    assertDefined: assertDefined,
+    ES5Object: Object,
+    toObject: function(it) {
+      return $.ES5Object(assertDefined(it));
+    },
+    hide: hide,
+    def: createDefiner(0),
+    set: global.Symbol ? simpleSet : hide,
+    each: [].forEach
+  });
+  if (typeof __e != 'undefined')
+    __e = core;
+  if (typeof __g != 'undefined')
+    __g = global;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.wks", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.shared", "npm:core-js@0.9.18/library/modules/$.uid"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var global = require("npm:core-js@0.9.18/library/modules/$").g,
+      store = require("npm:core-js@0.9.18/library/modules/$.shared")('wks');
+  module.exports = function(name) {
+    return store[name] || (store[name] = global.Symbol && global.Symbol[name] || require("npm:core-js@0.9.18/library/modules/$.uid").safe('Symbol.' + name));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.iter", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.cof", "npm:core-js@0.9.18/library/modules/$.assert", "npm:core-js@0.9.18/library/modules/$.wks", "npm:core-js@0.9.18/library/modules/$.shared"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      cof = require("npm:core-js@0.9.18/library/modules/$.cof"),
+      classof = cof.classof,
+      assert = require("npm:core-js@0.9.18/library/modules/$.assert"),
+      assertObject = assert.obj,
+      SYMBOL_ITERATOR = require("npm:core-js@0.9.18/library/modules/$.wks")('iterator'),
+      FF_ITERATOR = '@@iterator',
+      Iterators = require("npm:core-js@0.9.18/library/modules/$.shared")('iterators'),
+      IteratorPrototype = {};
+  setIterator(IteratorPrototype, $.that);
+  function setIterator(O, value) {
+    $.hide(O, SYMBOL_ITERATOR, value);
+    if (FF_ITERATOR in [])
+      $.hide(O, FF_ITERATOR, value);
+  }
+  module.exports = {
+    BUGGY: 'keys' in [] && !('next' in [].keys()),
+    Iterators: Iterators,
+    step: function(done, value) {
+      return {
+        value: value,
+        done: !!done
+      };
+    },
+    is: function(it) {
+      var O = Object(it),
+          Symbol = $.g.Symbol;
+      return (Symbol && Symbol.iterator || FF_ITERATOR) in O || SYMBOL_ITERATOR in O || $.has(Iterators, classof(O));
+    },
+    get: function(it) {
+      var Symbol = $.g.Symbol,
+          getIter;
+      if (it != undefined) {
+        getIter = it[Symbol && Symbol.iterator || FF_ITERATOR] || it[SYMBOL_ITERATOR] || Iterators[classof(it)];
+      }
+      assert($.isFunction(getIter), it, ' is not iterable!');
+      return assertObject(getIter.call(it));
+    },
+    set: setIterator,
+    create: function(Constructor, NAME, next, proto) {
+      Constructor.prototype = $.create(proto || IteratorPrototype, {next: $.desc(1, next)});
+      cof.set(Constructor, NAME + ' Iterator');
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/es6.array.iterator", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.unscope", "npm:core-js@0.9.18/library/modules/$.uid", "npm:core-js@0.9.18/library/modules/$.iter", "npm:core-js@0.9.18/library/modules/$.iter-define"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      setUnscope = require("npm:core-js@0.9.18/library/modules/$.unscope"),
+      ITER = require("npm:core-js@0.9.18/library/modules/$.uid").safe('iter'),
+      $iter = require("npm:core-js@0.9.18/library/modules/$.iter"),
+      step = $iter.step,
+      Iterators = $iter.Iterators;
+  require("npm:core-js@0.9.18/library/modules/$.iter-define")(Array, 'Array', function(iterated, kind) {
+    $.set(this, ITER, {
+      o: $.toObject(iterated),
+      i: 0,
+      k: kind
+    });
+  }, function() {
+    var iter = this[ITER],
+        O = iter.o,
+        kind = iter.k,
+        index = iter.i++;
+    if (!O || index >= O.length) {
+      iter.o = undefined;
+      return step(1);
+    }
+    if (kind == 'keys')
+      return step(0, index);
+    if (kind == 'values')
+      return step(0, O[index]);
+    return step(0, [index, O[index]]);
+  }, 'values');
+  Iterators.Arguments = Iterators.Array;
+  setUnscope('keys');
+  setUnscope('values');
+  setUnscope('entries');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.for-of", ["npm:core-js@0.9.18/library/modules/$.ctx", "npm:core-js@0.9.18/library/modules/$.iter", "npm:core-js@0.9.18/library/modules/$.iter-call"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var ctx = require("npm:core-js@0.9.18/library/modules/$.ctx"),
+      get = require("npm:core-js@0.9.18/library/modules/$.iter").get,
+      call = require("npm:core-js@0.9.18/library/modules/$.iter-call");
+  module.exports = function(iterable, entries, fn, that) {
+    var iterator = get(iterable),
+        f = ctx(fn, that, entries ? 2 : 1),
+        step;
+    while (!(step = iterator.next()).done) {
+      if (call(iterator, f, step.value, entries) === false) {
+        return call.close(iterator);
+      }
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:process@0.11.2", ["npm:process@0.11.2/browser"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:process@0.11.2/browser");
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:punycode@1.3.2", ["npm:punycode@1.3.2/punycode"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:punycode@1.3.2/punycode");
   global.define = __define;
   return module.exports;
 });
@@ -6356,11 +3948,178 @@ System.register("npm:querystring@0.2.0/index", ["npm:querystring@0.2.0/decode", 
   return module.exports;
 });
 
+System.register("npm:babel-runtime@5.1.13/core-js/object/create", ["npm:core-js@0.9.18/library/fn/object/create"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/create"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.1.13/core-js/object/get-own-property-names", ["npm:core-js@0.9.18/library/fn/object/get-own-property-names"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/get-own-property-names"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.1.13/core-js/object/get-own-property-descriptor", ["npm:core-js@0.9.18/library/fn/object/get-own-property-descriptor"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/get-own-property-descriptor"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.1.13/core-js/object/define-property", ["npm:core-js@0.9.18/library/fn/object/define-property"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/define-property"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("github:moment/moment@2.10.6", ["github:moment/moment@2.10.6/moment"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
   module.exports = require("github:moment/moment@2.10.6/moment");
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.def", "npm:core-js@0.9.18/library/modules/$.get-names"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      $def = require("npm:core-js@0.9.18/library/modules/$.def"),
+      isObject = $.isObject,
+      toObject = $.toObject;
+  $.each.call(('freeze,seal,preventExtensions,isFrozen,isSealed,isExtensible,' + 'getOwnPropertyDescriptor,getPrototypeOf,keys,getOwnPropertyNames').split(','), function(KEY, ID) {
+    var fn = ($.core.Object || {})[KEY] || Object[KEY],
+        forced = 0,
+        method = {};
+    method[KEY] = ID == 0 ? function freeze(it) {
+      return isObject(it) ? fn(it) : it;
+    } : ID == 1 ? function seal(it) {
+      return isObject(it) ? fn(it) : it;
+    } : ID == 2 ? function preventExtensions(it) {
+      return isObject(it) ? fn(it) : it;
+    } : ID == 3 ? function isFrozen(it) {
+      return isObject(it) ? fn(it) : true;
+    } : ID == 4 ? function isSealed(it) {
+      return isObject(it) ? fn(it) : true;
+    } : ID == 5 ? function isExtensible(it) {
+      return isObject(it) ? fn(it) : false;
+    } : ID == 6 ? function getOwnPropertyDescriptor(it, key) {
+      return fn(toObject(it), key);
+    } : ID == 7 ? function getPrototypeOf(it) {
+      return fn(Object($.assertDefined(it)));
+    } : ID == 8 ? function keys(it) {
+      return fn(toObject(it));
+    } : require("npm:core-js@0.9.18/library/modules/$.get-names").get;
+    try {
+      fn('z');
+    } catch (e) {
+      forced = 1;
+    }
+    $def($def.S + $def.F * forced, 'Object', method);
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.cof", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      TAG = require("npm:core-js@0.9.18/library/modules/$.wks")('toStringTag'),
+      toString = {}.toString;
+  function cof(it) {
+    return toString.call(it).slice(8, -1);
+  }
+  cof.classof = function(it) {
+    var O,
+        T;
+    return it == undefined ? it === undefined ? 'Undefined' : 'Null' : typeof(T = (O = Object(it))[TAG]) == 'string' ? T : cof(O);
+  };
+  cof.set = function(it, tag, stat) {
+    if (it && !$.has(it = stat ? it : it.prototype, TAG))
+      $.hide(it, TAG, tag);
+  };
+  module.exports = cof;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/es6.string.iterator", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.string-at", "npm:core-js@0.9.18/library/modules/$.uid", "npm:core-js@0.9.18/library/modules/$.iter", "npm:core-js@0.9.18/library/modules/$.iter-define"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var set = require("npm:core-js@0.9.18/library/modules/$").set,
+      $at = require("npm:core-js@0.9.18/library/modules/$.string-at")(true),
+      ITER = require("npm:core-js@0.9.18/library/modules/$.uid").safe('iter'),
+      $iter = require("npm:core-js@0.9.18/library/modules/$.iter"),
+      step = $iter.step;
+  require("npm:core-js@0.9.18/library/modules/$.iter-define")(String, 'String', function(iterated) {
+    set(this, ITER, {
+      o: String(iterated),
+      i: 0
+    });
+  }, function() {
+    var iter = this[ITER],
+        O = iter.o,
+        index = iter.i,
+        point;
+    if (index >= O.length)
+      return step(1);
+    point = $at(O, index);
+    iter.i += point.length;
+    return step(0, point);
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/web.dom.iterable", ["npm:core-js@0.9.18/library/modules/es6.array.iterator", "npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.iter", "npm:core-js@0.9.18/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.18/library/modules/es6.array.iterator");
+  var $ = require("npm:core-js@0.9.18/library/modules/$"),
+      Iterators = require("npm:core-js@0.9.18/library/modules/$.iter").Iterators,
+      ITERATOR = require("npm:core-js@0.9.18/library/modules/$.wks")('iterator'),
+      ArrayValues = Iterators.Array,
+      NL = $.g.NodeList,
+      HTC = $.g.HTMLCollection,
+      NLProto = NL && NL.prototype,
+      HTCProto = HTC && HTC.prototype;
+  if ($.FW) {
+    if (NL && !(ITERATOR in NLProto))
+      $.hide(NLProto, ITERATOR, ArrayValues);
+    if (HTC && !(ITERATOR in HTCProto))
+      $.hide(HTCProto, ITERATOR, ArrayValues);
+  }
+  Iterators.NodeList = Iterators.HTMLCollection = ArrayValues;
   global.define = __define;
   return module.exports;
 });
@@ -6383,308 +4142,86 @@ System.register("npm:querystring@0.2.0", ["npm:querystring@0.2.0/index"], true, 
   return module.exports;
 });
 
+System.register("npm:babel-runtime@5.1.13/helpers/inherits", ["npm:babel-runtime@5.1.13/core-js/object/create"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var _Object$create = require("npm:babel-runtime@5.1.13/core-js/object/create")["default"];
+  exports["default"] = function(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+    subClass.prototype = _Object$create(superClass && superClass.prototype, {constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }});
+    if (superClass)
+      subClass.__proto__ = superClass;
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.1.13/helpers/defaults", ["npm:babel-runtime@5.1.13/core-js/object/get-own-property-names", "npm:babel-runtime@5.1.13/core-js/object/get-own-property-descriptor", "npm:babel-runtime@5.1.13/core-js/object/define-property"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var _Object$getOwnPropertyNames = require("npm:babel-runtime@5.1.13/core-js/object/get-own-property-names")["default"];
+  var _Object$getOwnPropertyDescriptor = require("npm:babel-runtime@5.1.13/core-js/object/get-own-property-descriptor")["default"];
+  var _Object$defineProperty = require("npm:babel-runtime@5.1.13/core-js/object/define-property")["default"];
+  exports["default"] = function(obj, defaults) {
+    var keys = _Object$getOwnPropertyNames(defaults);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      var value = _Object$getOwnPropertyDescriptor(defaults, key);
+      if (value && value.configurable && obj[key] === undefined) {
+        _Object$defineProperty(obj, key, value);
+      }
+    }
+    return obj;
+  };
+  exports.__esModule = true;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/fn/object/keys", ["npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives", "npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives");
+  module.exports = require("npm:core-js@0.9.18/library/modules/$").core.Object.keys;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/es6.object.to-string", ["npm:core-js@0.9.18/library/modules/$.cof", "npm:core-js@0.9.18/library/modules/$.wks", "npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.redef"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var cof = require("npm:core-js@0.9.18/library/modules/$.cof"),
+      tmp = {};
+  tmp[require("npm:core-js@0.9.18/library/modules/$.wks")('toStringTag')] = 'z';
+  if (require("npm:core-js@0.9.18/library/modules/$").FW && cof(tmp) != 'z') {
+    require("npm:core-js@0.9.18/library/modules/$.redef")(Object.prototype, 'toString', function toString() {
+      return '[object ' + cof.classof(this) + ']';
+    }, true);
+  }
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("github:jspm/nodelibs-process@0.1.2", ["github:jspm/nodelibs-process@0.1.2/index"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
   module.exports = require("github:jspm/nodelibs-process@0.1.2/index");
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:punycode@1.3.2/punycode", ["github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  "format cjs";
-  (function(process) {
-    ;
-    (function(root) {
-      var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
-      var freeModule = typeof module == 'object' && module && !module.nodeType && module;
-      var freeGlobal = typeof global == 'object' && global;
-      if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal || freeGlobal.self === freeGlobal) {
-        root = freeGlobal;
-      }
-      var punycode,
-          maxInt = 2147483647,
-          base = 36,
-          tMin = 1,
-          tMax = 26,
-          skew = 38,
-          damp = 700,
-          initialBias = 72,
-          initialN = 128,
-          delimiter = '-',
-          regexPunycode = /^xn--/,
-          regexNonASCII = /[^\x20-\x7E]/,
-          regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g,
-          errors = {
-            'overflow': 'Overflow: input needs wider integers to process',
-            'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-            'invalid-input': 'Invalid input'
-          },
-          baseMinusTMin = base - tMin,
-          floor = Math.floor,
-          stringFromCharCode = String.fromCharCode,
-          key;
-      function error(type) {
-        throw RangeError(errors[type]);
-      }
-      function map(array, fn) {
-        var length = array.length;
-        var result = [];
-        while (length--) {
-          result[length] = fn(array[length]);
-        }
-        return result;
-      }
-      function mapDomain(string, fn) {
-        var parts = string.split('@');
-        var result = '';
-        if (parts.length > 1) {
-          result = parts[0] + '@';
-          string = parts[1];
-        }
-        string = string.replace(regexSeparators, '\x2E');
-        var labels = string.split('.');
-        var encoded = map(labels, fn).join('.');
-        return result + encoded;
-      }
-      function ucs2decode(string) {
-        var output = [],
-            counter = 0,
-            length = string.length,
-            value,
-            extra;
-        while (counter < length) {
-          value = string.charCodeAt(counter++);
-          if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-            extra = string.charCodeAt(counter++);
-            if ((extra & 0xFC00) == 0xDC00) {
-              output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-            } else {
-              output.push(value);
-              counter--;
-            }
-          } else {
-            output.push(value);
-          }
-        }
-        return output;
-      }
-      function ucs2encode(array) {
-        return map(array, function(value) {
-          var output = '';
-          if (value > 0xFFFF) {
-            value -= 0x10000;
-            output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-            value = 0xDC00 | value & 0x3FF;
-          }
-          output += stringFromCharCode(value);
-          return output;
-        }).join('');
-      }
-      function basicToDigit(codePoint) {
-        if (codePoint - 48 < 10) {
-          return codePoint - 22;
-        }
-        if (codePoint - 65 < 26) {
-          return codePoint - 65;
-        }
-        if (codePoint - 97 < 26) {
-          return codePoint - 97;
-        }
-        return base;
-      }
-      function digitToBasic(digit, flag) {
-        return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-      }
-      function adapt(delta, numPoints, firstTime) {
-        var k = 0;
-        delta = firstTime ? floor(delta / damp) : delta >> 1;
-        delta += floor(delta / numPoints);
-        for (; delta > baseMinusTMin * tMax >> 1; k += base) {
-          delta = floor(delta / baseMinusTMin);
-        }
-        return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-      }
-      function decode(input) {
-        var output = [],
-            inputLength = input.length,
-            out,
-            i = 0,
-            n = initialN,
-            bias = initialBias,
-            basic,
-            j,
-            index,
-            oldi,
-            w,
-            k,
-            digit,
-            t,
-            baseMinusT;
-        basic = input.lastIndexOf(delimiter);
-        if (basic < 0) {
-          basic = 0;
-        }
-        for (j = 0; j < basic; ++j) {
-          if (input.charCodeAt(j) >= 0x80) {
-            error('not-basic');
-          }
-          output.push(input.charCodeAt(j));
-        }
-        for (index = basic > 0 ? basic + 1 : 0; index < inputLength; ) {
-          for (oldi = i, w = 1, k = base; ; k += base) {
-            if (index >= inputLength) {
-              error('invalid-input');
-            }
-            digit = basicToDigit(input.charCodeAt(index++));
-            if (digit >= base || digit > floor((maxInt - i) / w)) {
-              error('overflow');
-            }
-            i += digit * w;
-            t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-            if (digit < t) {
-              break;
-            }
-            baseMinusT = base - t;
-            if (w > floor(maxInt / baseMinusT)) {
-              error('overflow');
-            }
-            w *= baseMinusT;
-          }
-          out = output.length + 1;
-          bias = adapt(i - oldi, out, oldi == 0);
-          if (floor(i / out) > maxInt - n) {
-            error('overflow');
-          }
-          n += floor(i / out);
-          i %= out;
-          output.splice(i++, 0, n);
-        }
-        return ucs2encode(output);
-      }
-      function encode(input) {
-        var n,
-            delta,
-            handledCPCount,
-            basicLength,
-            bias,
-            j,
-            m,
-            q,
-            k,
-            t,
-            currentValue,
-            output = [],
-            inputLength,
-            handledCPCountPlusOne,
-            baseMinusT,
-            qMinusT;
-        input = ucs2decode(input);
-        inputLength = input.length;
-        n = initialN;
-        delta = 0;
-        bias = initialBias;
-        for (j = 0; j < inputLength; ++j) {
-          currentValue = input[j];
-          if (currentValue < 0x80) {
-            output.push(stringFromCharCode(currentValue));
-          }
-        }
-        handledCPCount = basicLength = output.length;
-        if (basicLength) {
-          output.push(delimiter);
-        }
-        while (handledCPCount < inputLength) {
-          for (m = maxInt, j = 0; j < inputLength; ++j) {
-            currentValue = input[j];
-            if (currentValue >= n && currentValue < m) {
-              m = currentValue;
-            }
-          }
-          handledCPCountPlusOne = handledCPCount + 1;
-          if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-            error('overflow');
-          }
-          delta += (m - n) * handledCPCountPlusOne;
-          n = m;
-          for (j = 0; j < inputLength; ++j) {
-            currentValue = input[j];
-            if (currentValue < n && ++delta > maxInt) {
-              error('overflow');
-            }
-            if (currentValue == n) {
-              for (q = delta, k = base; ; k += base) {
-                t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-                if (q < t) {
-                  break;
-                }
-                qMinusT = q - t;
-                baseMinusT = base - t;
-                output.push(stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0)));
-                q = floor(qMinusT / baseMinusT);
-              }
-              output.push(stringFromCharCode(digitToBasic(q, 0)));
-              bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-              delta = 0;
-              ++handledCPCount;
-            }
-          }
-          ++delta;
-          ++n;
-        }
-        return output.join('');
-      }
-      function toUnicode(input) {
-        return mapDomain(input, function(string) {
-          return regexPunycode.test(string) ? decode(string.slice(4).toLowerCase()) : string;
-        });
-      }
-      function toASCII(input) {
-        return mapDomain(input, function(string) {
-          return regexNonASCII.test(string) ? 'xn--' + encode(string) : string;
-        });
-      }
-      punycode = {
-        'version': '1.3.2',
-        'ucs2': {
-          'decode': ucs2decode,
-          'encode': ucs2encode
-        },
-        'decode': decode,
-        'encode': encode,
-        'toASCII': toASCII,
-        'toUnicode': toUnicode
-      };
-      if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-        define('punycode', function() {
-          return punycode;
-        });
-      } else if (freeExports && freeModule) {
-        if (module.exports == freeExports) {
-          freeModule.exports = punycode;
-        } else {
-          for (key in punycode) {
-            punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-          }
-        }
-      } else {
-        root.punycode = punycode;
-      }
-    }(this));
-  })(require("github:jspm/nodelibs-process@0.1.2"));
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:punycode@1.3.2", ["npm:punycode@1.3.2/punycode"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = require("npm:punycode@1.3.2/punycode");
   global.define = __define;
   return module.exports;
 });
@@ -7182,11 +4719,382 @@ System.register("npm:url@0.10.3/url", ["npm:punycode@1.3.2", "npm:querystring@0.
   return module.exports;
 });
 
+System.register("npm:babel-runtime@5.1.13/core-js/object/keys", ["npm:core-js@0.9.18/library/fn/object/keys"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/object/keys"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/$.task", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.ctx", "npm:core-js@0.9.18/library/modules/$.cof", "npm:core-js@0.9.18/library/modules/$.invoke", "npm:core-js@0.9.18/library/modules/$.dom-create", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var $ = require("npm:core-js@0.9.18/library/modules/$"),
+        ctx = require("npm:core-js@0.9.18/library/modules/$.ctx"),
+        cof = require("npm:core-js@0.9.18/library/modules/$.cof"),
+        invoke = require("npm:core-js@0.9.18/library/modules/$.invoke"),
+        cel = require("npm:core-js@0.9.18/library/modules/$.dom-create"),
+        global = $.g,
+        isFunction = $.isFunction,
+        html = $.html,
+        process = global.process,
+        setTask = global.setImmediate,
+        clearTask = global.clearImmediate,
+        MessageChannel = global.MessageChannel,
+        counter = 0,
+        queue = {},
+        ONREADYSTATECHANGE = 'onreadystatechange',
+        defer,
+        channel,
+        port;
+    function run() {
+      var id = +this;
+      if ($.has(queue, id)) {
+        var fn = queue[id];
+        delete queue[id];
+        fn();
+      }
+    }
+    function listner(event) {
+      run.call(event.data);
+    }
+    if (!isFunction(setTask) || !isFunction(clearTask)) {
+      setTask = function(fn) {
+        var args = [],
+            i = 1;
+        while (arguments.length > i)
+          args.push(arguments[i++]);
+        queue[++counter] = function() {
+          invoke(isFunction(fn) ? fn : Function(fn), args);
+        };
+        defer(counter);
+        return counter;
+      };
+      clearTask = function(id) {
+        delete queue[id];
+      };
+      if (cof(process) == 'process') {
+        defer = function(id) {
+          process.nextTick(ctx(run, id, 1));
+        };
+      } else if (global.addEventListener && isFunction(global.postMessage) && !global.importScripts) {
+        defer = function(id) {
+          global.postMessage(id, '*');
+        };
+        global.addEventListener('message', listner, false);
+      } else if (isFunction(MessageChannel)) {
+        channel = new MessageChannel;
+        port = channel.port2;
+        channel.port1.onmessage = listner;
+        defer = ctx(port.postMessage, port, 1);
+      } else if (ONREADYSTATECHANGE in cel('script')) {
+        defer = function(id) {
+          html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function() {
+            html.removeChild(this);
+            run.call(id);
+          };
+        };
+      } else {
+        defer = function(id) {
+          setTimeout(ctx(run, id, 1), 0);
+        };
+      }
+    }
+    module.exports = {
+      set: setTask,
+      clear: clearTask
+    };
+  })(require("github:jspm/nodelibs-process@0.1.2"));
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:url@0.10.3", ["npm:url@0.10.3/url"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
   module.exports = require("npm:url@0.10.3/url");
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.18/library/modules/es6.promise", ["npm:core-js@0.9.18/library/modules/$", "npm:core-js@0.9.18/library/modules/$.ctx", "npm:core-js@0.9.18/library/modules/$.cof", "npm:core-js@0.9.18/library/modules/$.def", "npm:core-js@0.9.18/library/modules/$.assert", "npm:core-js@0.9.18/library/modules/$.for-of", "npm:core-js@0.9.18/library/modules/$.set-proto", "npm:core-js@0.9.18/library/modules/$.same", "npm:core-js@0.9.18/library/modules/$.species", "npm:core-js@0.9.18/library/modules/$.wks", "npm:core-js@0.9.18/library/modules/$.uid", "npm:core-js@0.9.18/library/modules/$.task", "npm:core-js@0.9.18/library/modules/$.mix", "npm:core-js@0.9.18/library/modules/$.iter-detect", "github:jspm/nodelibs-process@0.1.2"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var $ = require("npm:core-js@0.9.18/library/modules/$"),
+        ctx = require("npm:core-js@0.9.18/library/modules/$.ctx"),
+        cof = require("npm:core-js@0.9.18/library/modules/$.cof"),
+        $def = require("npm:core-js@0.9.18/library/modules/$.def"),
+        assert = require("npm:core-js@0.9.18/library/modules/$.assert"),
+        forOf = require("npm:core-js@0.9.18/library/modules/$.for-of"),
+        setProto = require("npm:core-js@0.9.18/library/modules/$.set-proto").set,
+        same = require("npm:core-js@0.9.18/library/modules/$.same"),
+        species = require("npm:core-js@0.9.18/library/modules/$.species"),
+        SPECIES = require("npm:core-js@0.9.18/library/modules/$.wks")('species'),
+        RECORD = require("npm:core-js@0.9.18/library/modules/$.uid").safe('record'),
+        PROMISE = 'Promise',
+        global = $.g,
+        process = global.process,
+        isNode = cof(process) == 'process',
+        asap = process && process.nextTick || require("npm:core-js@0.9.18/library/modules/$.task").set,
+        P = global[PROMISE],
+        isFunction = $.isFunction,
+        isObject = $.isObject,
+        assertFunction = assert.fn,
+        assertObject = assert.obj,
+        Wrapper;
+    function testResolve(sub) {
+      var test = new P(function() {});
+      if (sub)
+        test.constructor = Object;
+      return P.resolve(test) === test;
+    }
+    var useNative = function() {
+      var works = false;
+      function P2(x) {
+        var self = new P(x);
+        setProto(self, P2.prototype);
+        return self;
+      }
+      try {
+        works = isFunction(P) && isFunction(P.resolve) && testResolve();
+        setProto(P2, P);
+        P2.prototype = $.create(P.prototype, {constructor: {value: P2}});
+        if (!(P2.resolve(5).then(function() {}) instanceof P2)) {
+          works = false;
+        }
+        if (works && $.DESC) {
+          var thenableThenGotten = false;
+          P.resolve($.setDesc({}, 'then', {get: function() {
+              thenableThenGotten = true;
+            }}));
+          works = thenableThenGotten;
+        }
+      } catch (e) {
+        works = false;
+      }
+      return works;
+    }();
+    function isPromise(it) {
+      return isObject(it) && (useNative ? cof.classof(it) == 'Promise' : RECORD in it);
+    }
+    function sameConstructor(a, b) {
+      if (!$.FW && a === P && b === Wrapper)
+        return true;
+      return same(a, b);
+    }
+    function getConstructor(C) {
+      var S = assertObject(C)[SPECIES];
+      return S != undefined ? S : C;
+    }
+    function isThenable(it) {
+      var then;
+      if (isObject(it))
+        then = it.then;
+      return isFunction(then) ? then : false;
+    }
+    function notify(record) {
+      var chain = record.c;
+      if (chain.length)
+        asap.call(global, function() {
+          var value = record.v,
+              ok = record.s == 1,
+              i = 0;
+          function run(react) {
+            var cb = ok ? react.ok : react.fail,
+                ret,
+                then;
+            try {
+              if (cb) {
+                if (!ok)
+                  record.h = true;
+                ret = cb === true ? value : cb(value);
+                if (ret === react.P) {
+                  react.rej(TypeError('Promise-chain cycle'));
+                } else if (then = isThenable(ret)) {
+                  then.call(ret, react.res, react.rej);
+                } else
+                  react.res(ret);
+              } else
+                react.rej(value);
+            } catch (err) {
+              react.rej(err);
+            }
+          }
+          while (chain.length > i)
+            run(chain[i++]);
+          chain.length = 0;
+        });
+    }
+    function isUnhandled(promise) {
+      var record = promise[RECORD],
+          chain = record.a || record.c,
+          i = 0,
+          react;
+      if (record.h)
+        return false;
+      while (chain.length > i) {
+        react = chain[i++];
+        if (react.fail || !isUnhandled(react.P))
+          return false;
+      }
+      return true;
+    }
+    function $reject(value) {
+      var record = this,
+          promise;
+      if (record.d)
+        return ;
+      record.d = true;
+      record = record.r || record;
+      record.v = value;
+      record.s = 2;
+      record.a = record.c.slice();
+      setTimeout(function() {
+        asap.call(global, function() {
+          if (isUnhandled(promise = record.p)) {
+            if (isNode) {
+              process.emit('unhandledRejection', value, promise);
+            } else if (global.console && console.error) {
+              console.error('Unhandled promise rejection', value);
+            }
+          }
+          record.a = undefined;
+        });
+      }, 1);
+      notify(record);
+    }
+    function $resolve(value) {
+      var record = this,
+          then;
+      if (record.d)
+        return ;
+      record.d = true;
+      record = record.r || record;
+      try {
+        if (then = isThenable(value)) {
+          asap.call(global, function() {
+            var wrapper = {
+              r: record,
+              d: false
+            };
+            try {
+              then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
+            } catch (e) {
+              $reject.call(wrapper, e);
+            }
+          });
+        } else {
+          record.v = value;
+          record.s = 1;
+          notify(record);
+        }
+      } catch (e) {
+        $reject.call({
+          r: record,
+          d: false
+        }, e);
+      }
+    }
+    if (!useNative) {
+      P = function Promise(executor) {
+        assertFunction(executor);
+        var record = {
+          p: assert.inst(this, P, PROMISE),
+          c: [],
+          a: undefined,
+          s: 0,
+          d: false,
+          v: undefined,
+          h: false
+        };
+        $.hide(this, RECORD, record);
+        try {
+          executor(ctx($resolve, record, 1), ctx($reject, record, 1));
+        } catch (err) {
+          $reject.call(record, err);
+        }
+      };
+      require("npm:core-js@0.9.18/library/modules/$.mix")(P.prototype, {
+        then: function then(onFulfilled, onRejected) {
+          var S = assertObject(assertObject(this).constructor)[SPECIES];
+          var react = {
+            ok: isFunction(onFulfilled) ? onFulfilled : true,
+            fail: isFunction(onRejected) ? onRejected : false
+          };
+          var promise = react.P = new (S != undefined ? S : P)(function(res, rej) {
+            react.res = assertFunction(res);
+            react.rej = assertFunction(rej);
+          });
+          var record = this[RECORD];
+          record.c.push(react);
+          if (record.a)
+            record.a.push(react);
+          if (record.s)
+            notify(record);
+          return promise;
+        },
+        'catch': function(onRejected) {
+          return this.then(undefined, onRejected);
+        }
+      });
+    }
+    $def($def.G + $def.W + $def.F * !useNative, {Promise: P});
+    cof.set(P, PROMISE);
+    species(P);
+    species(Wrapper = $.core[PROMISE]);
+    $def($def.S + $def.F * !useNative, PROMISE, {reject: function reject(r) {
+        return new (getConstructor(this))(function(res, rej) {
+          rej(r);
+        });
+      }});
+    $def($def.S + $def.F * (!useNative || testResolve(true)), PROMISE, {resolve: function resolve(x) {
+        return isPromise(x) && sameConstructor(x.constructor, this) ? x : new this(function(res) {
+          res(x);
+        });
+      }});
+    $def($def.S + $def.F * !(useNative && require("npm:core-js@0.9.18/library/modules/$.iter-detect")(function(iter) {
+      P.all(iter)['catch'](function() {});
+    })), PROMISE, {
+      all: function all(iterable) {
+        var C = getConstructor(this),
+            values = [];
+        return new C(function(res, rej) {
+          forOf(iterable, false, values.push, values);
+          var remaining = values.length,
+              results = Array(remaining);
+          if (remaining)
+            $.each.call(values, function(promise, index) {
+              C.resolve(promise).then(function(value) {
+                results[index] = value;
+                --remaining || res(results);
+              }, rej);
+            });
+          else
+            res(results);
+        });
+      },
+      race: function race(iterable) {
+        var C = getConstructor(this);
+        return new C(function(res, rej) {
+          forOf(iterable, false, function(promise) {
+            C.resolve(promise).then(res, rej);
+          });
+        });
+      }
+    });
+  })(require("github:jspm/nodelibs-process@0.1.2"));
   global.define = __define;
   return module.exports;
 });
@@ -7200,6 +5108,19 @@ System.register("github:jspm/nodelibs-url@0.1.0/index", ["npm:url@0.10.3"], true
   return module.exports;
 });
 
+System.register("npm:core-js@0.9.18/library/fn/promise", ["npm:core-js@0.9.18/library/modules/es6.object.to-string", "npm:core-js@0.9.18/library/modules/es6.string.iterator", "npm:core-js@0.9.18/library/modules/web.dom.iterable", "npm:core-js@0.9.18/library/modules/es6.promise", "npm:core-js@0.9.18/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.18/library/modules/es6.object.to-string");
+  require("npm:core-js@0.9.18/library/modules/es6.string.iterator");
+  require("npm:core-js@0.9.18/library/modules/web.dom.iterable");
+  require("npm:core-js@0.9.18/library/modules/es6.promise");
+  module.exports = require("npm:core-js@0.9.18/library/modules/$").core.Promise;
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("github:jspm/nodelibs-url@0.1.0", ["github:jspm/nodelibs-url@0.1.0/index"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -7209,1495 +5130,1855 @@ System.register("github:jspm/nodelibs-url@0.1.0", ["github:jspm/nodelibs-url@0.1
   return module.exports;
 });
 
-System.register("lib/utility", [], function($__export) {
-  "use strict";
-  var __moduleName = "lib/utility";
-  var utility;
-  return {
-    setters: [],
-    execute: function() {
-      utility = {
-        getStringParams: function(queryString) {
-          var retVal = {};
-          var params = words(strRight(queryString, '?'), '&');
-          params.forEach(function(pair) {
-            var myPair = pair.split('=');
-            if (myPair[0]) {
-              retVal[decodeURIComponent(myPair[0])] = decodeURIComponent(myPair[1]);
-            }
-          });
-          return retVal;
-        },
-        buildQueryString: function(paramObject) {
-          return _(paramObject).reduce(function(acc, num, key) {
-            var nextQueryStr = acc.querystring + acc.delim + encodeURIComponent(key) + '=';
-            if (num) {
-              nextQueryStr += encodeURIComponent(num);
-            }
-            return {
-              querystring: nextQueryStr,
-              delim: '&'
-            };
-          }, {
-            querystring: '',
-            delim: ''
-          }).querystring;
-        },
-        leftTrim: function(str, char) {
-          if (!char) {
-            char = '\s';
-          }
-          return str.replace(new RegExp('^' + char + '+'), '');
-        }
-      };
-      $__export('default', utility);
-    }
+System.register("npm:babel-runtime@5.1.13/core-js/promise", ["npm:core-js@0.9.18/library/fn/promise"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.18/library/fn/promise"),
+    __esModule: true
   };
+  global.define = __define;
+  return module.exports;
 });
 
-System.register("errors/mtError", [], function($__export) {
-  "use strict";
-  var __moduleName = "errors/mtError";
-  return {
-    setters: [],
-    execute: function() {
-      $__export('default', (function($__super) {
-        function MTError(message) {
-          $traceurRuntime.superConstructor(MTError).call(this);
-          this.message = message;
-          this.stack = (new Error()).stack;
-          this.name = this.constructor.name;
-        }
-        return ($traceurRuntime.createClass)(MTError, {}, {}, $__super);
-      }(Error)));
-    }
-  };
-});
+System.register('lib/stringUtility', [], function (_export) {
+    var stringUtility;
+    return {
+        setters: [],
+        execute: function () {
+            /*
+             * MindTouch API - javascript api for mindtouch
+             * Copyright (c) 2012 MindTouch Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * For community documentation and downloads visit developer.mindtouch.com;
+             * please review the licensing section.
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */
+            'use strict';
 
-System.register("models/pageRating.model", ["models/modelHelper"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageRating.model";
-  var modelHelper,
-      pageRatingModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }],
-    execute: function() {
-      pageRatingModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: parseInt(obj['@count']),
-            date: modelHelper.getDate(obj['@date']),
-            seatedCount: parseInt(obj['@seated.count']),
-            unseatedCount: parseInt(obj['@unseated.count'])
-          };
-          if ('@score' in obj && obj['@score'] !== '') {
-            parsed.score = parseInt(obj['@score']);
-          }
-          if ('@seated.score' in obj && obj['@seated.score'] !== '') {
-            parsed.seatedScore = parseInt(obj['@seated.score']);
-          }
-          if ('@unseated.score' in obj && obj['@unseated.score'] !== '') {
-            parsed.unseatedScore = parseInt(obj['@unseated.score']);
-          }
-          if ('@score.trend' in obj) {
-            parsed.scoreTrend = parseInt(obj['@score.trend']);
-          }
-          if ('@seated.score.trend' in obj) {
-            parsed.seatedScoreTrend = parseInt(obj['@seated.score.trend']);
-          }
-          if ('@unseated.score.trend' in obj) {
-            parsed.unseatedScoreTrend = parseInt(obj['@unseated.score.trend']);
-          }
-          if ('user.ratedby' in obj) {
-            var ratedBy = obj['user.ratedby'];
-            parsed.userRatedBy = {
-              id: parseInt(ratedBy['@id']),
-              score: parseInt(ratedBy['@score']),
-              date: modelHelper.getDate(ratedBy['@date']),
-              href: ratedBy['@href'],
-              seated: modelHelper.getBool(ratedBy['@seated'])
-            };
-          }
-          return parsed;
-        }};
-      $__export('default', pageRatingModel);
-    }
-  };
-});
+            stringUtility = {
+                makeString: function makeString() {
+                    var str = arguments[0] === undefined ? '' : arguments[0];
 
-System.register("models/subpages.model", ["models/modelHelper", "lib/time"], function($__export) {
-  "use strict";
-  var __moduleName = "models/subpages.model";
-  var modelHelper,
-      Time,
-      subpagesModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      Time = $__m.default;
-    }],
-    execute: function() {
-      subpagesModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            totalcount: parseInt(obj['@totalcount']),
-            count: parseInt(obj['@count']),
-            href: obj['@href']
-          };
-          if (parsed.count > 0) {
-            var objSubpages = obj['page.subpage'];
-            if (objSubpages) {
-              var subpages = Array.isArray(objSubpages) ? objSubpages : [objSubpages];
-              parsed.pageSubpage = [];
-              subpages.forEach((function(sp) {
-                parsed.pageSubpage.push({
-                  id: parseInt(sp['@id']),
-                  href: sp['@href'],
-                  deleted: modelHelper.getBool(sp['@deleted']),
-                  subpages: modelHelper.getBool(sp['@subpages']),
-                  dateCreated: new Time(sp['date.created']),
-                  language: sp.language,
-                  namespace: sp.namespace,
-                  path: modelHelper.getString(sp.path),
-                  title: sp.title,
-                  uriUi: sp['uri.ui']
-                });
-              }));
-            }
-          }
-          return parsed;
-        }};
-      $__export('default', subpagesModel);
-    }
-  };
-});
+                    if (typeof str !== 'string') {
+                        return String(str);
+                    }
+                    return str;
+                },
+                leftTrim: function leftTrim(str) {
+                    var char = arguments[1] === undefined ? 's' : arguments[1];
 
-System.register("models/pageContents.model", ["models/modelHelper"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageContents.model";
-  var modelHelper,
-      pageContentsModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }],
-    execute: function() {
-      pageContentsModel = {
-        parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            type: obj['@type'],
-            title: obj['@title']
-          };
-          if (Array.isArray(obj.body)) {
-            parsed.body = obj.body[0];
-            parsed.targets = pageContentsModel._getTargets(obj.body);
-          } else {
-            parsed.body = obj.body;
-          }
-          modelHelper.addIfDefined(obj.tail, 'tail', parsed);
-          return parsed;
-        },
-        _getTargets: function(body) {
-          var $__0;
-          var targets = [];
-          if (body.length > 1) {
-            for (var i = 1; i < body.length; i++) {
-              targets.push(($__0 = {}, Object.defineProperty($__0, body[i]['@target'], {
-                value: body[i]['#text'],
-                configurable: true,
-                enumerable: true,
-                writable: true
-              }), $__0));
-            }
-          }
-          return targets;
-        }
-      };
-      $__export('default', pageContentsModel);
-    }
-  };
-});
-
-System.register("models/pageTree.model", ["models/modelHelper", "models/page.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageTree.model";
-  var modelHelper,
-      pageModel,
-      pageTreeModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }],
-    execute: function() {
-      pageTreeModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = pageModel.parse(obj.page);
-          return parsed;
-        }};
-      $__export('default', pageTreeModel);
-    }
-  };
-});
-
-System.register("models/pageTags.model", ["models/modelHelper"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageTags.model";
-  var modelHelper,
-      pageTagsModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }],
-    execute: function() {
-      pageTagsModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: parseInt(obj['@count']),
-            href: obj['@href']
-          };
-          if ('tag' in obj) {
-            parsed.tags = [];
-            var tags = Array.isArray(obj.tag) ? obj.tag : [obj.tag];
-            tags.forEach((function(tag) {
-              parsed.tags.push({
-                value: tag['@value'],
-                id: parseInt(tag['@id']),
-                href: tag['@href'],
-                title: tag.title,
-                type: tag.type,
-                uri: tag.uri
-              });
-            }));
-          }
-          return parsed;
-        }};
-      $__export('default', pageTagsModel);
-    }
-  };
-});
-
-System.register("models/user.model", ["models/modelHelper", "models/page.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/user.model";
-  var modelHelper,
-      pageModel,
-      userModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }],
-    execute: function() {
-      userModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            id: parseInt(obj['@id']),
-            wikiId: obj['@wikiid'],
-            href: obj['@href'],
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            dateLastLogin: modelHelper.getDate(obj['date.lastlogin']),
-            email: obj.email,
-            fullname: obj.fullname,
-            username: obj.username
-          };
-          if ('page.home' in obj) {
-            parsed.pageHome = pageModel.parse(obj['page.home']);
-          }
-          return parsed;
-        }};
-      $__export('default', userModel);
-    }
-  };
-});
-
-System.register("models/file.model", ["models/modelHelper", "models/user.model", "models/page.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/file.model";
-  var modelHelper,
-      userModel,
-      pageModel,
-      fileModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      userModel = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }],
-    execute: function() {
-      fileModel = {parse: (function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            id: parseInt(obj['@id']),
-            revision: parseInt(obj['@revision']),
-            resId: parseInt(obj['@res-id']),
-            href: obj['@href'],
-            resIsHead: modelHelper.getBool(obj['@res-is-head']),
-            resIsDeleted: modelHelper.getBool(obj['@res-is-deleted']),
-            resRevIsDeleted: modelHelper.getBool(obj['@res-rev-is-head']),
-            resContentsId: parseInt(obj['@res-contents-id']),
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            description: obj.description,
-            filename: obj.filename,
-            contents: {
-              type: obj.contents['@type'],
-              size: parseInt(obj.contents['@size']),
-              href: obj.contents['@href']
-            }
-          };
-          if ('user.createdby' in obj) {
-            parsed.userCreatedBy = userModel.parse(obj['user.createdby']);
-          }
-          if ('page.parent' in obj) {
-            parsed.pageParent = pageModel.parse(obj['page.parent']);
-          }
-          return parsed;
-        })};
-      $__export('default', fileModel);
-    }
-  };
-});
-
-System.register("models/pageMove.model", ["models/modelHelper", "models/page.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageMove.model";
-  var modelHelper,
-      pageModel,
-      pageMoveModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }],
-    execute: function() {
-      pageMoveModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: obj['@count'],
-            pages: []
-          };
-          if ('page' in obj) {
-            var pages = Array.isArray(obj.page) ? obj.page : [obj.page];
-            pages.forEach((function(page) {
-              parsed.pages.push(pageModel.parse(page));
-            }));
-          }
-          return parsed;
-        }};
-      $__export('default', pageMoveModel);
-    }
-  };
-});
-
-System.register("api/draft", ["api/page"], function($__export) {
-  "use strict";
-  var __moduleName = "api/draft";
-  var Page;
-  return {
-    setters: [function($__m) {
-      Page = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function($__super) {
-        function Draft() {
-          var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-          $traceurRuntime.superConstructor(Draft).call(this, id);
-          this._plug = new Plug().at('@api', 'deki', 'drafts', this._id);
-        }
-        return ($traceurRuntime.createClass)(Draft, {}, {}, $__super);
-      }(Page)));
-    }
-  };
-});
-
-System.register("models/fileRevisions.model", ["models/modelHelper", "models/file.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/fileRevisions.model";
-  var modelHelper,
-      fileModel,
-      fileRevisionsModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      fileModel = $__m.default;
-    }],
-    execute: function() {
-      fileRevisionsModel = {parse: (function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: obj['@count'],
-            totalcount: obj['@totalcount'],
-            href: obj['@href']
-          };
-          if ('file' in obj) {
-            parsed.file = [];
-            var file = Array.isArray(obj.file) ? obj.file : [obj.file];
-            file.forEach((function(f) {
-              parsed.file.push(fileModel.parse(f));
-            }));
-          }
-          return parsed;
-        })};
-      $__export('default', fileRevisionsModel);
-    }
-  };
-});
-
-System.register("api/pageHierarchy", ["lib/plug", "models/page.model", "models/subpages.model"], function($__export) {
-  "use strict";
-  var __moduleName = "api/pageHierarchy";
-  var Plug,
-      pageModel,
-      subpagesModel;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }, function($__m) {
-      subpagesModel = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function PageHierarchy() {
-          this.filterByArticleTypes = [];
-          this._plug = new Plug().at('@api', 'deki', 'pages');
-        }
-        return ($traceurRuntime.createClass)(PageHierarchy, {
-          getRoot: function() {
-            var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-            return this._plug.at(id).get().then(pageModel.parse);
-          },
-          getChildren: function() {
-            var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-            var subpagesPlug = this._plug.at(id, 'subpages');
-            if (this.filterByArticleTypes.length > 0) {
-              subpagesPlug = subpagesPlug.withParam('article', this.filterByArticleTypes.join(','));
-            }
-            return subpagesPlug.get().then(subpagesModel.parse).then((function(spModel) {
-              return spModel.pageSubpage || [];
-            }));
-          },
-          getRootAndChildren: function(id) {
-            var asArray = arguments[1] !== (void 0) ? arguments[1] : true;
-            return Promise.all([this.getRoot(id), this.getChildren(id)]).then((function(values) {
-              var root = values[0];
-              var children = values[1];
-              root.subpages = children.length > 0;
-              if (asArray) {
-                root = [root];
-              }
-              return root;
-            }));
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("models/pageProperty.model", ["models/modelHelper", "models/page.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageProperty.model";
-  var modelHelper,
-      pageModel,
-      pagePropertyModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }],
-    execute: function() {
-      pagePropertyModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            revision: obj['@revision'],
-            name: obj['@name'],
-            href: obj['@href'],
-            dateModified: modelHelper.getDate(obj['date.modified'])
-          };
-          modelHelper.addIfDefined(obj.page, 'page', parsed, pageModel);
-          return parsed;
-        }};
-      $__export('default', pagePropertyModel);
-    }
-  };
-});
-
-System.register("api/site", ["lib/plug"], function($__export) {
-  "use strict";
-  var __moduleName = "api/site";
-  var Plug,
-      sitePlug;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }],
-    execute: function() {
-      sitePlug = new Plug().at('@api', 'deki', 'site');
-      $__export('default', (function() {
-        function Site() {}
-        return ($traceurRuntime.createClass)(Site, {}, {getResourceString: function(options) {
-            if (!('key' in options)) {
-              return Promise.reject('No resource key was supplied');
-            }
-            var locPlug = sitePlug.at('localization', options.key);
-            if ('lang' in options) {
-              locPlug = locPlug.withParam('lang', options.lang);
-            }
-            return locPlug.get();
-          }});
-      }()));
-    }
-  };
-});
-
-System.register("api/user", ["lib/plug", "models/user.model"], function($__export) {
-  "use strict";
-  var __moduleName = "api/user";
-  var Plug,
-      userModel,
-      userPlug;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }, function($__m) {
-      userModel = $__m.default;
-    }],
-    execute: function() {
-      userPlug = new Plug().at('@api', 'deki', 'users');
-      $__export('default', (function() {
-        function User() {}
-        return ($traceurRuntime.createClass)(User, {}, {getCurrentUser: function() {
-            return userPlug.at('current').get().then(userModel.parse);
-          }});
-      }()));
-    }
-  };
-});
-
-System.register("lib/uriHash", ["lib/utility"], function($__export) {
-  "use strict";
-  var __moduleName = "lib/uriHash";
-  var utility;
-  return {
-    setters: [function($__m) {
-      utility = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function UriHash(hashStr) {
-          if (startsWith(hashStr, '#')) {
-            hashStr = hashStr.substr(1);
-          }
-          this._hashStr = hashStr || '';
-          this._params = utility.getStringParams(hashStr);
-        }
-        return ($traceurRuntime.createClass)(UriHash, {
-          getQueryParams: function() {
-            return this._params;
-          },
-          replaceParams: function(paramObject) {
-            return new UriHash(utility.buildQueryString(paramObject));
-          },
-          withParam: function(key, val) {
-            var newParams = this._params;
-            newParams[key] = val;
-            return this.replaceParams(newParams);
-          },
-          withoutParam: function(key) {
-            var newParams = this._params;
-            delete newParams[key];
-            return this.replaceParams(newParams);
-          },
-          getParam: function(key) {
-            return this._params[key];
-          },
-          toHashString: function() {
-            return '#' + this._hashStr;
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("errors/xhrError", ["errors/mtError"], function($__export) {
-  "use strict";
-  var __moduleName = "errors/xhrError";
-  var MTError;
-  return {
-    setters: [function($__m) {
-      MTError = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function($__super) {
-        function XhrError(xhr) {
-          var response = {};
-          if ('responseText' in xhr) {
-            try {
-              response = JSON.parse(xhr.responseText);
-            } catch (e) {
-              response.message = xhr.responseText;
-            }
-          }
-          var message = ('message' in response && response.message !== '') ? response.message : ("Status " + xhr.status + " from request");
-          $traceurRuntime.superConstructor(XhrError).call(this, message);
-          this.errorCode = xhr.status;
-        }
-        return ($traceurRuntime.createClass)(XhrError, {}, {}, $__super);
-      }(MTError)));
-    }
-  };
-});
-
-System.register("models/page.model", ["models/modelHelper", "models/pageRating.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/page.model";
-  var modelHelper,
-      pageRatingModel,
-      pageModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageRatingModel = $__m.default;
-    }],
-    execute: function() {
-      pageModel = {
-        parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            id: parseInt(obj['@id']),
-            deleted: modelHelper.getBool(obj['@deleted']),
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            language: obj.language,
-            namespace: obj.namespace,
-            path: modelHelper.getString(obj.path),
-            title: obj.title,
-            uriUi: obj['uri.ui']
-          };
-          modelHelper.addIfDefined(obj['@href'], 'href', parsed);
-          modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
-          modelHelper.addIfDefined(obj.article, 'article', parsed);
-          if ('page.parent' in obj) {
-            parsed.pageParent = pageModel._getParents(obj['page.parent'] || null);
-          }
-          if ('rating' in obj) {
-            parsed.rating = pageRatingModel.parse(obj.rating);
-          }
-          if ('subpages' in obj && typeof obj.subpages !== 'string' && 'page' in obj.subpages) {
-            parsed.subpages = pageModel._getSubpages(obj.subpages);
-          }
-          return parsed;
-        },
-        _getParents: function(parent) {
-          if (parent === null) {
-            return null;
-          } else {
-            return pageModel.parse(parent);
-          }
-        },
-        _getSubpages: function(subpages) {
-          var pageDef = subpages.page;
-          var parsed = [];
-          pageDef = Array.isArray(pageDef) ? pageDef : [pageDef];
-          pageDef.forEach((function(sp) {
-            parsed.push(pageModel.parse(sp));
-          }));
-          return parsed;
-        }
-      };
-      $__export('default', pageModel);
-    }
-  };
-});
-
-System.register("models/pageFiles.model", ["models/modelHelper", "models/page.model", "models/user.model", "models/file.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageFiles.model";
-  var modelHelper,
-      pageModel,
-      userModel,
-      fileModel,
-      pageFilesModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }, function($__m) {
-      userModel = $__m.default;
-    }, function($__m) {
-      fileModel = $__m.default;
-    }],
-    execute: function() {
-      pageFilesModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: parseInt(obj['@count']),
-            offset: parseInt(obj['@offset']),
-            totalcount: parseInt(obj['@totalcount']),
-            href: obj['@href']
-          };
-          if ('file' in obj) {
-            parsed.file = [];
-            var files = Array.isArray(obj.file) ? obj.file : [obj.file];
-            files.forEach((function(f) {
-              parsed.file.push(fileModel.parse(f));
-            }));
-          }
-          return parsed;
-        }};
-      $__export('default', pageFilesModel);
-    }
-  };
-});
-
-System.register("api/page.pro", ["api/page", "models/pageMove.model"], function($__export) {
-  "use strict";
-  var __moduleName = "api/page.pro";
-  var Page,
-      pageMoveModel;
-  return {
-    setters: [function($__m) {
-      Page = $__m.default;
-    }, function($__m) {
-      pageMoveModel = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function($__super) {
-        function PagePro() {
-          var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-          $traceurRuntime.superConstructor(PagePro).call(this, id);
-        }
-        return ($traceurRuntime.createClass)(PagePro, {
-          setOverview: function() {
-            var options = arguments[0] !== (void 0) ? arguments[0] : {};
-            if (!('body' in options)) {
-              return Promise.reject(new Error('No overview body was supplied'));
-            }
-            var request = ("<overview>" + options.body + "</overview>");
-            return this._plug.at('overview').put(request);
-          },
-          move: function() {
-            var params = arguments[0] !== (void 0) ? arguments[0] : {};
-            return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
-          }
-        }, {}, $__super);
-      }(Page)));
-    }
-  };
-});
-
-System.register("api/file", ["lib/plug", "lib/utility", "models/file.model", "models/fileRevisions.model"], function($__export) {
-  "use strict";
-  var __moduleName = "api/file";
-  var Plug,
-      utility,
-      fileModel,
-      fileRevisionsModel;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }, function($__m) {
-      utility = $__m.default;
-    }, function($__m) {
-      fileModel = $__m.default;
-    }, function($__m) {
-      fileRevisionsModel = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function File(id) {
-          this._plug = new Plug().at('@api', 'deki', 'files', id).withParam('draft', true);
-        }
-        return ($traceurRuntime.createClass)(File, {
-          getInfo: function() {
-            return this._plug.at('info').get().then(fileModel.parse);
-          },
-          getRevisions: function() {
-            return this._plug.at('revisions').get().then(fileRevisionsModel.parse);
-          },
-          setDescription: function(description) {
-            return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
-          },
-          delete: function() {
-            return this._plug.delete();
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("models/pageProperties.model", ["models/modelHelper", "models/pageProperty.model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/pageProperties.model";
-  var modelHelper,
-      pagePropertyModel,
-      pagePropertiesModel;
-  return {
-    setters: [function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pagePropertyModel = $__m.default;
-    }],
-    execute: function() {
-      pagePropertiesModel = {parse: function(data) {
-          var obj = modelHelper.fromJson(data);
-          var parsed = {
-            count: parseInt(obj['@count']),
-            href: obj['@href'],
-            property: []
-          };
-          if ('property' in obj) {
-            if (!Array.isArray(obj.property)) {
-              obj.property = [obj.property];
-            }
-            obj.property.forEach((function(prop) {
-              parsed.property.push(pagePropertyModel.parse(prop));
-            }));
-          }
-          return parsed;
-        }};
-      $__export('default', pagePropertiesModel);
-    }
-  };
-});
-
-System.register("lib/time", ["github:moment/moment@2.10.6"], function($__export) {
-  "use strict";
-  var __moduleName = "lib/time";
-  var moment,
-      time;
-  return {
-    setters: [function($__m) {
-      moment = $__m.default;
-    }],
-    execute: function() {
-      time = moment;
-      moment.fn.defaults = {
-        dateTimeFormat: 'HH:mm, D MMM YYYY',
-        dateFormat: 'D MMM YYYY',
-        timeFormat: 'HH:mm',
-        apiFormat: 'YYYYMMDDHHmmss'
-      };
-      moment.fn.getDate = function() {
-        return moment(this).format(this.defaults.dateFormat);
-      };
-      moment.fn.getAPIDateTime = function() {
-        return moment(this).format(this.defaults.apiFormat);
-      };
-      moment.fn.getTime = function() {
-        return moment(this).format(this.defaults.timeFormat);
-      };
-      moment.fn.getDateTime = function() {
-        return moment(this).format(this.defaults.dateTimeFormat);
-      };
-      moment.fn.range = function(end, stepSize, stepUnit) {
-        if (!moment.isMoment(this) || !moment.isMoment(end)) {
-          throw 'end must be a moment object';
-        }
-        stepUnit = stepUnit || 'd';
-        stepSize = stepSize || 1;
-        var arr = [];
-        var curr = this.clone();
-        while (!curr.isAfter(end)) {
-          arr.push(curr.clone());
-          curr.add(moment.duration(stepSize, stepUnit));
-        }
-        return arr;
-      };
-      $__export('default', time);
-    }
-  };
-});
-
-System.register("api/pageProperty", ["lib/plug", "models/pageProperties.model", "models/pageProperty.model"], function($__export) {
-  "use strict";
-  var __moduleName = "api/pageProperty";
-  var Plug,
-      pagePropertiesModel,
-      pagePropertyModel;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }, function($__m) {
-      pagePropertiesModel = $__m.default;
-    }, function($__m) {
-      pagePropertyModel = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function PageProperty() {
-          var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-          if (typeof id === 'string' && id !== 'home') {
-            id = ("=" + id);
-          }
-          this._id = id;
-          this._plug = new Plug().at('@api', 'deki', 'pages', this._id, 'properties');
-        }
-        return ($traceurRuntime.createClass)(PageProperty, {
-          getProperties: function() {
-            var names = arguments[0] !== (void 0) ? arguments[0] : [];
-            if (!Array.isArray(names)) {
-              return Promise.reject(new Error('The property names must be an array'));
-            }
-            var plug = this._plug;
-            if (names.length > 0) {
-              plug = plug.withParams({names: names.join(',')});
-            }
-            return plug.get().then(pagePropertiesModel.parse);
-          },
-          getProperty: function(key) {
-            if (!key) {
-              return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
-            }
-            return this._plug.at(key, 'info').get().then(pagePropertyModel.parse);
-          },
-          getPropertyContents: function(key) {
-            if (!key) {
-              return Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
-            }
-            return this._plug.at(key).get();
-          },
-          getPropertyForChildren: function(key) {
-            var depth = arguments[1] !== (void 0) ? arguments[1] : 1;
-            if (!key) {
-              return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
-            }
-            return this._plug.withParams({
-              depth: depth,
-              names: key
-            }).get();
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("models/modelHelper", ["lib/time"], function($__export) {
-  "use strict";
-  var __moduleName = "models/modelHelper";
-  var Time,
-      modelHelper;
-  return {
-    setters: [function($__m) {
-      Time = $__m.default;
-    }],
-    execute: function() {
-      modelHelper = {
-        fromJson: function(data) {
-          if (typeof data === 'string') {
-            data = JSON.parse(data);
-          }
-          return data;
-        },
-        getString: function(field) {
-          return (typeof field === 'string') ? field : field['#text'];
-        },
-        getBool: function(field) {
-          return field === 'true';
-        },
-        getDate: function(field) {
-          return new Time(new Date(field));
-        },
-        addIfDefined: function(field, name, obj) {
-          var parser = arguments[3] !== (void 0) ? arguments[3] : null;
-          if (typeof field !== 'undefined') {
-            if (parser !== null) {
-              field = parser.parse.call(parser, field);
-            }
-            obj[name] = field;
-          }
-        }
-      };
-      $__export('default', modelHelper);
-    }
-  };
-});
-
-System.register("lib/uri", ["github:jspm/nodelibs-url@0.1.0", "lib/uriHash"], function($__export) {
-  "use strict";
-  var __moduleName = "lib/uri";
-  var Url,
-      UriHash;
-  return {
-    setters: [function($__m) {
-      Url = $__m.default;
-    }, function($__m) {
-      UriHash = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function Uri() {
-          var url = arguments[0] !== (void 0) ? arguments[0] : '';
-          this.parsedUrl = Url.parse(url, true);
-          this.parsedUrl.search = null;
-        }
-        return ($traceurRuntime.createClass)(Uri, {
-          path: function() {
-            return this.parsedUrl.pathname;
-          },
-          getSegments: function() {
-            var path = this.path();
-            if (startsWith(path, '/')) {
-              path = ltrim(path, '/');
-            }
-            return path.split('/');
-          },
-          query: function() {
-            return Url.parse(this.toString()).search || '';
-          },
-          origin: function() {
-            var u = this.parsedUrl;
-            return (u.protocol + "//" + u.host);
-          },
-          getUriHash: function() {
-            return new UriHash(this.parsedUrl.hash);
-          },
-          getProtocol: function() {
-            return this.parsedUrl.protocol;
-          },
-          addQueryParam: function(key, value) {
-            return this.withParam(key, value);
-          },
-          addQueryParams: function(queryMap) {
-            return this.withParams(queryMap);
-          },
-          removeQueryParam: function(key) {
-            if (key in this.parsedUrl.query) {
-              delete this.parsedUrl.query[key];
-            }
-            return this;
-          },
-          getQueryParamValue: function(param) {
-            var query = this.parsedUrl.query;
-            return param in query ? query[param] : null;
-          },
-          withParam: function(key, value) {
-            this.parsedUrl.query[key] = value;
-            return this;
-          },
-          withParams: function(queryMap) {
-            var self = this;
-            Object.keys(queryMap).forEach(function(key) {
-              self.addQueryParam(key, queryMap[key]);
-            });
-            return self;
-          },
-          addSegments: function() {
-            for (var segments = [],
-                $__1 = 0; $__1 < arguments.length; $__1++)
-              segments[$__1] = arguments[$__1];
-            var path = '';
-            segments.forEach(function(segment) {
-              if (Array.isArray(segment)) {
-                segment.forEach(function(arraySegment) {
-                  path = (path + "/" + arraySegment);
-                });
-              } else {
-                path = (path + "/" + segment);
-              }
-            });
-            var pathName = this.parsedUrl.pathname || '';
-            this.parsedUrl.pathname = ("" + pathName + path);
-            this.parsedUrl = Url.parse(this.parsedUrl);
-          },
-          toString: function() {
-            return Url.format(this.parsedUrl);
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("lib/plug", ["lib/uri", "errors/xhrError"], function($__export) {
-  "use strict";
-  var __moduleName = "lib/plug";
-  var Uri,
-      XhrError;
-  function _handleHttpError(xhr) {
-    return new Promise((function(resolve, reject) {
-      if ((xhr.status < 200 || xhr.status >= 300) && xhr.status !== 304) {
-        reject(new XhrError(xhr));
-      } else {
-        resolve(xhr);
-      }
-    }));
-  }
-  function _getText(xhr) {
-    return Promise.resolve(xhr.responseText || '');
-  }
-  function _doRequest(params) {
-    var $__0 = this;
-    var promise = new Promise((function(resolve, reject) {
-      var xhr = new XMLHttpRequest();
-      var requestParams = {
-        _: Date.now(),
-        origin: 'mt-web'
-      };
-      if ($__0.parseJson) {
-        requestParams['dream.out.format'] = 'json';
-      }
-      var url = $__0.withParams(requestParams).getUrl();
-      xhr.open(params.verb, url);
-      for (var i in $__0.headers) {
-        if ($__0.headers.hasOwnProperty(i)) {
-          xhr.setRequestHeader(i, $__0.headers[i]);
-        }
-      }
-      if ('mime' in params) {
-        xhr.setRequestHeader('Content-Type', params.mime);
-      }
-      var protocol = $__0.url.getProtocol();
-      if (protocol === null) {
-        protocol = window.location.protocol;
-      }
-      if (protocol === 'https:') {
-        xhr.setRequestHeader('Front-End-Https', 'On');
-      }
-      if ($__0._timeout) {
-        console.log(("setting timeout to " + $__0._timeout));
-        xhr.timeout = $__0._timeout;
-      }
-      xhr.onload = (function() {
-        resolve(xhr);
-      });
-      xhr.onerror = (function() {
-        reject(xhr);
-      });
-      xhr.ontimeout = (function() {
-        reject(xhr);
-      });
-      if ('value' in params && params.value !== null) {
-        xhr.send(params.value);
-      } else {
-        xhr.send();
-      }
-    }));
-    return promise;
-  }
-  return {
-    setters: [function($__m) {
-      Uri = $__m.default;
-    }, function($__m) {
-      XhrError = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function Plug() {
-          var url = arguments[0] !== (void 0) ? arguments[0] : '';
-          var params = arguments[1] !== (void 0) ? arguments[1] : {};
-          var _url = new Uri(url);
-          if ('constructionParams' in params) {
-            if ('segments' in params.constructionParams) {
-              _url.addSegments(params.constructionParams.segments);
-            }
-            if ('query' in params.constructionParams) {
-              _url.addQueryParams(params.constructionParams.query);
-            }
-            if ('excludeQuery' in params.constructionParams) {
-              _url.removeQueryParam(params.constructionParams.excludeQuery);
-            }
-            if ('timeout' in params.constructionParams) {
-              this._timeout = params.constructionParams.timeout;
-            }
-          } else {
-            params.constructionParams = {};
-          }
-          this.url = _url;
-          this.headers = params.headers || {};
-          this.parseJson = params.raw !== true;
-        }
-        return ($traceurRuntime.createClass)(Plug, {
-          getUrl: function() {
-            return this.url.toString();
-          },
-          getHeaders: function() {
-            return this.headers || {};
-          },
-          at: function() {
-            for (var segments = [],
-                $__2 = 0; $__2 < arguments.length; $__2++)
-              segments[$__2] = arguments[$__2];
-            var values = [];
-            segments.forEach(function(segment) {
-              values.push(segment.toString());
-            });
-            return new Plug(this.url.toString(), {
-              headers: this.headers,
-              constructionParams: {segments: segments}
-            });
-          },
-          withParam: function(key, value) {
-            var params = {};
-            params[key] = value;
-            return new Plug(this.url.toString(), {
-              headers: this.headers,
-              constructionParams: {query: params}
-            });
-          },
-          withParams: function(values) {
-            if (!values) {
-              values = {};
-            }
-            return new Plug(this.url.toString(), {
-              headers: this.headers,
-              constructionParams: {query: values}
-            });
-          },
-          withoutParam: function(key) {
-            return new Plug(this.url.toString(), {
-              headers: this.headers,
-              constructionParams: {excludeQuery: key}
-            });
-          },
-          _copyHeaders: function() {
-            var newHeaders = {};
-            for (var i in this.headers) {
-              if (this.headers.hasOwnProperty(i)) {
-                newHeaders[i] = this.headers[i];
-              }
-            }
-            return newHeaders;
-          },
-          withHeader: function(key, value) {
-            var newHeaders = this._copyHeaders();
-            newHeaders[key] = value;
-            return new Plug(this.url.toString(), {headers: newHeaders});
-          },
-          withHeaders: function(values) {
-            var newHeaders = this._copyHeaders();
-            for (var key in values) {
-              if (values.hasOwnProperty(key)) {
-                newHeaders[key] = values[key];
-              }
-            }
-            return new Plug(this.url.toString(), {headers: newHeaders});
-          },
-          withoutHeader: function(key) {
-            var newHeaders = this._copyHeaders();
-            delete newHeaders[key];
-            return new Plug(this.url.toString(), {headers: newHeaders});
-          },
-          get: function() {
-            var verb = arguments[0] !== (void 0) ? arguments[0] : 'GET';
-            return this.getRaw(verb).then(_handleHttpError).then(_getText);
-          },
-          getRaw: function() {
-            var verb = arguments[0] !== (void 0) ? arguments[0] : 'GET';
-            return _doRequest.call(this, {verb: verb});
-          },
-          post: function(value, mime) {
-            return this.postRaw(value, mime).then(_handleHttpError).then(_getText);
-          },
-          postRaw: function(value, mime) {
-            return _doRequest.call(this, {
-              verb: 'POST',
-              value: value,
-              mime: mime
-            });
-          },
-          put: function(value, mime) {
-            return this.withHeader('X-HTTP-Method-Override', 'PUT').post(value, mime);
-          },
-          putRaw: function(value, mime) {
-            return this.withHeader('X-HTTP-Method-Override', 'PUT').postRaw(value, mime);
-          },
-          head: function() {
-            return this.get('HEAD');
-          },
-          headRaw: function() {
-            return this.getRaw('HEAD');
-          },
-          options: function() {
-            return this.get('OPTIONS');
-          },
-          optionsRaw: function() {
-            return this.getRaw('OPTIONS');
-          },
-          del: function() {
-            return this.withHeader('X-HTTP-Method-Override', 'DELETE').post(null, null);
-          },
-          delRaw: function() {
-            return this.withHeader('X-HTTP-Method-Override', 'DELETE').postRaw(null, null);
-          },
-          delete: function() {
-            return this.del();
-          }
-        }, {});
-      }()));
-    }
-  };
-});
-
-System.register("api/page", ["lib/plug", "models/modelHelper", "models/page.model", "models/subpages.model", "models/pageContents.model", "models/pageTree.model", "models/pageTags.model", "models/pageRating.model", "models/pageFiles.model", "lib/utility"], function($__export) {
-  "use strict";
-  var __moduleName = "api/page";
-  var Plug,
-      modelHelper,
-      pageModel,
-      subpagesModel,
-      pageContentsModel,
-      pageTreeModel,
-      pageTagsModel,
-      pageRatingModel,
-      pageFilesModel,
-      utility;
-  return {
-    setters: [function($__m) {
-      Plug = $__m.default;
-    }, function($__m) {
-      modelHelper = $__m.default;
-    }, function($__m) {
-      pageModel = $__m.default;
-    }, function($__m) {
-      subpagesModel = $__m.default;
-    }, function($__m) {
-      pageContentsModel = $__m.default;
-    }, function($__m) {
-      pageTreeModel = $__m.default;
-    }, function($__m) {
-      pageTagsModel = $__m.default;
-    }, function($__m) {
-      pageRatingModel = $__m.default;
-    }, function($__m) {
-      pageFilesModel = $__m.default;
-    }, function($__m) {
-      utility = $__m.default;
-    }],
-    execute: function() {
-      $__export('default', (function() {
-        function Page() {
-          var id = arguments[0] !== (void 0) ? arguments[0] : 'home';
-          if (typeof id === 'string' && id !== 'home') {
-            id = ("=" + id);
-          }
-          this._id = id;
-          this._plug = new Plug().at('@api', 'deki', 'pages', this._id);
-        }
-        return ($traceurRuntime.createClass)(Page, {
-          getInfo: function() {
-            var params = arguments[0] !== (void 0) ? arguments[0] : {};
-            var infoParams = {exclude: 'revision'};
-            Object.keys(params).forEach((function(key) {
-              infoParams[key] = params[key];
-            }));
-            return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
-          },
-          getFullInfo: function() {
-            return this._plug.get().then(pageModel.parse);
-          },
-          getContents: function(params) {
-            return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
-          },
-          getSubpages: function(params) {
-            return this._plug.at('subpages').withParams(params).get().then(subpagesModel.parse);
-          },
-          getTree: function(params) {
-            return this._plug.at('tree').withParams(params).get().then(pageTreeModel.parse);
-          },
-          getTreeIds: function() {
-            return this._plug.at('tree').withParam('format', 'ids').get().then((function(idString) {
-              var idArray = idString.split(',').map((function(id) {
-                var numId = parseInt(id);
-                if (isNaN(numId)) {
-                  throw new Error('Unable to parse the tree IDs.');
+                    str = this.makeString(str);
+                    return str.replace(new RegExp('^' + char + '+'), '');
+                },
+                startsWith: function startsWith(str, starts) {
+                    str = this.makeString(str);
+                    return str.lastIndexOf(starts, 0) === 0;
+                },
+                stringLeft: function stringLeft(str, sep) {
+                    str = this.makeString(str);
+                    sep = this.makeString(str);
+                    var pos = !sep ? 0 : str.indexOf(sep);
+                    return pos ? str.slice(0, pos + sep.length) : str;
+                },
+                stringRight: function stringRight(str, sep) {
+                    str = this.makeString(str);
+                    sep = this.makeString(str);
+                    var pos = !sep ? 0 : str.indexOf(sep);
+                    return pos ? str.slice(pos + sep.length, str.length) : str;
+                },
+                words: function words(str, delimiter) {
+                    str = this.makeString(str);
+                    return str.split(delimiter || /\s+/);
                 }
-                return numId;
-              }));
-              return idArray;
-            })).catch((function(e) {
-              return Promise.reject({message: e.message});
-            }));
-          },
-          getTags: function() {
-            return this._plug.at('tags').get().then(pageTagsModel.parse);
-          },
-          getOverview: function() {
-            return this._plug.at('overview').get().then(JSON.parse).then((function(overview) {
-              return Promise.resolve({overview: modelHelper.getString(overview)});
-            })).catch((function() {
-              return Promise.reject('Unable to parse the page overview response');
-            }));
-          },
-          getRating: function() {
-            return this._plug.at('ratings').get().then(pageRatingModel.parse);
-          },
-          rate: function() {
-            var rating = arguments[0] !== (void 0) ? arguments[0] : '';
-            return this._plug.at('ratings').withParams({score: rating}).post(null, utility.textRequestType).then(pageRatingModel.parse);
-          },
-          logPageView: function() {
-            var viewPlug = new Plug().at('@api', 'deki', 'events', 'page-view', this._id).withParam('uri', encodeURIComponent(document.location.href));
-            return viewPlug.post(JSON.stringify({_uri: document.location.href}), utility.jsonRequestType);
-          },
-          getHtmlTemplate: function(path) {
-            var params = arguments[1] !== (void 0) ? arguments[1] : {};
-            params.pageid = this._id;
-            var templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
-            var contentsPlug = new Plug().at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
-            return contentsPlug.get().then(pageContentsModel.parse);
-          },
-          getFiles: function() {
-            var params = arguments[0] !== (void 0) ? arguments[0] : {};
-            return this._plug.at('files').withParams(params).get().then(pageFilesModel.parse);
-          }
-        }, {});
-      }()));
-    }
-  };
-});
+            };
 
-System.register("martian", ["api/page", "api/page.pro", "api/draft", "api/file", "api/pageHierarchy", "api/pageProperty", "api/site", "api/user"], function($__export) {
-  "use strict";
-  var __moduleName = "martian";
-  var PageApi,
-      PageProApi,
-      Draft,
-      FileApi,
-      PageHierarchyApi,
-      PagePropertyApi,
-      SiteApi,
-      UserApi;
+            _export('default', stringUtility);
+        }
+    };
+});
+System.register('models/pageRating.model', ['models/modelHelper'], function (_export) {
+    var modelHelper, pageRatingModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageRatingModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: parseInt(obj['@count']),
+                        date: modelHelper.getDate(obj['@date']),
+                        seatedCount: parseInt(obj['@seated.count']),
+                        unseatedCount: parseInt(obj['@unseated.count'])
+                    };
+                    if ('@score' in obj && obj['@score'] !== '') {
+                        parsed.score = parseInt(obj['@score']);
+                    }
+                    if ('@seated.score' in obj && obj['@seated.score'] !== '') {
+                        parsed.seatedScore = parseInt(obj['@seated.score']);
+                    }
+                    if ('@unseated.score' in obj && obj['@unseated.score'] !== '') {
+                        parsed.unseatedScore = parseInt(obj['@unseated.score']);
+                    }
+                    if ('@score.trend' in obj) {
+                        parsed.scoreTrend = parseInt(obj['@score.trend']);
+                    }
+                    if ('@seated.score.trend' in obj) {
+                        parsed.seatedScoreTrend = parseInt(obj['@seated.score.trend']);
+                    }
+                    if ('@unseated.score.trend' in obj) {
+                        parsed.unseatedScoreTrend = parseInt(obj['@unseated.score.trend']);
+                    }
+                    if ('user.ratedby' in obj) {
+                        var ratedBy = obj['user.ratedby'];
+                        parsed.userRatedBy = {
+                            id: parseInt(ratedBy['@id']),
+                            score: parseInt(ratedBy['@score']),
+                            date: modelHelper.getDate(ratedBy['@date']),
+                            href: ratedBy['@href'],
+                            seated: modelHelper.getBool(ratedBy['@seated'])
+                        };
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', pageRatingModel);
+        }
+    };
+});
+System.register('models/subpages.model', ['models/modelHelper', 'lib/time'], function (_export) {
+    var modelHelper, Time, subpagesModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_libTime) {
+            Time = _libTime['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            subpagesModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        totalcount: parseInt(obj['@totalcount']),
+                        count: parseInt(obj['@count']),
+                        href: obj['@href']
+                    };
+                    if (parsed.count > 0) {
+                        var objSubpages = obj['page.subpage'];
+                        if (objSubpages) {
+                            var subpages = Array.isArray(objSubpages) ? objSubpages : [objSubpages];
+                            parsed.pageSubpage = [];
+                            subpages.forEach(function (sp) {
+                                parsed.pageSubpage.push({
+                                    id: parseInt(sp['@id']),
+                                    href: sp['@href'],
+                                    deleted: modelHelper.getBool(sp['@deleted']),
+                                    subpages: modelHelper.getBool(sp['@subpages']),
+                                    dateCreated: new Time(sp['date.created']),
+                                    language: sp.language,
+                                    namespace: sp.namespace,
+                                    path: modelHelper.getString(sp.path),
+                                    title: sp.title,
+                                    uriUi: sp['uri.ui']
+                                });
+                            });
+                        }
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', subpagesModel);
+        }
+    };
+});
+System.register('models/pageContents.model', ['models/modelHelper'], function (_export) {
+    var modelHelper, pageContentsModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageContentsModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        type: obj['@type'],
+                        title: obj['@title']
+                    };
+                    if (Array.isArray(obj.body)) {
+                        parsed.body = obj.body[0];
+                        parsed.targets = pageContentsModel._getTargets(obj.body);
+                    } else {
+                        parsed.body = obj.body;
+                    }
+                    modelHelper.addIfDefined(obj.tail, 'tail', parsed);
+                    return parsed;
+                },
+                _getTargets: function _getTargets(body) {
+                    var targets = [];
+                    if (body.length > 1) {
+                        for (var i = 1; i < body.length; i++) {
+                            var _targets$push;
+
+                            targets.push((_targets$push = {}, _targets$push[body[i]['@target']] = body[i]['#text'], _targets$push));
+                        }
+                    }
+                    return targets;
+                }
+            };
+
+            _export('default', pageContentsModel);
+        }
+    };
+});
+System.register('models/pageTree.model', ['models/modelHelper', 'models/page.model'], function (_export) {
+    var modelHelper, pageModel, pageTreeModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageTreeModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = pageModel.parse(obj.page);
+                    return parsed;
+                }
+            };
+
+            _export('default', pageTreeModel);
+        }
+    };
+});
+System.register('models/pageTags.model', ['models/modelHelper'], function (_export) {
+    var modelHelper, pageTagsModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageTagsModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: parseInt(obj['@count']),
+                        href: obj['@href']
+                    };
+                    if ('tag' in obj) {
+                        parsed.tags = [];
+                        var tags = Array.isArray(obj.tag) ? obj.tag : [obj.tag];
+                        tags.forEach(function (tag) {
+                            parsed.tags.push({
+                                value: tag['@value'],
+                                id: parseInt(tag['@id']),
+                                href: tag['@href'],
+                                title: tag.title,
+                                type: tag.type,
+                                uri: tag.uri
+                            });
+                        });
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', pageTagsModel);
+        }
+    };
+});
+System.register('models/user.model', ['models/modelHelper', 'models/page.model'], function (_export) {
+    var modelHelper, pageModel, userModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            userModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        id: parseInt(obj['@id']),
+                        wikiId: obj['@wikiid'],
+                        href: obj['@href'],
+                        dateCreated: modelHelper.getDate(obj['date.created']),
+                        dateLastLogin: modelHelper.getDate(obj['date.lastlogin']),
+                        email: obj.email,
+                        fullname: obj.fullname,
+                        username: obj.username
+                    };
+                    if ('page.home' in obj) {
+                        parsed.pageHome = pageModel.parse(obj['page.home']);
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', userModel);
+        }
+    };
+});
+System.register('models/file.model', ['models/modelHelper', 'models/user.model', 'models/page.model'], function (_export) {
+    var modelHelper, userModel, pageModel, fileModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsUserModel) {
+            userModel = _modelsUserModel['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            fileModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        id: parseInt(obj['@id']),
+                        revision: parseInt(obj['@revision']),
+                        resId: parseInt(obj['@res-id']),
+                        href: obj['@href'],
+                        resIsHead: modelHelper.getBool(obj['@res-is-head']),
+                        resIsDeleted: modelHelper.getBool(obj['@res-is-deleted']),
+                        resRevIsDeleted: modelHelper.getBool(obj['@res-rev-is-head']),
+                        resContentsId: parseInt(obj['@res-contents-id']),
+                        dateCreated: modelHelper.getDate(obj['date.created']),
+                        description: obj.description,
+                        filename: obj.filename,
+                        contents: {
+                            type: obj.contents['@type'],
+                            size: parseInt(obj.contents['@size']),
+                            href: obj.contents['@href']
+                        }
+                    };
+                    if ('user.createdby' in obj) {
+                        parsed.userCreatedBy = userModel.parse(obj['user.createdby']);
+                    }
+                    if ('page.parent' in obj) {
+                        parsed.pageParent = pageModel.parse(obj['page.parent']);
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', fileModel);
+        }
+    };
+});
+System.register('models/pageMove.model', ['models/modelHelper', 'models/page.model'], function (_export) {
+    var modelHelper, pageModel, pageMoveModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageMoveModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: obj['@count'],
+                        pages: []
+                    };
+                    if ('page' in obj) {
+                        var pages = Array.isArray(obj.page) ? obj.page : [obj.page];
+                        pages.forEach(function (page) {
+                            parsed.pages.push(pageModel.parse(page));
+                        });
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', pageMoveModel);
+        }
+    };
+});
+System.register('api/draft', ['npm:babel-runtime@5.1.13/helpers/inherits', 'npm:babel-runtime@5.1.13/helpers/class-call-check', 'api/page', 'lib/plug'], function (_export) {
+    var _inherits, _classCallCheck, Page, Plug, Draft;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersInherits) {
+            _inherits = _npmBabelRuntime5113HelpersInherits['default'];
+        }, function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_apiPage) {
+            Page = _apiPage['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            Draft = (function (_Page) {
+                function Draft() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    _classCallCheck(this, Draft);
+
+                    _Page.call(this, id);
+                    this._plug = new Plug().at('@api', 'deki', 'drafts', this._id);
+                }
+
+                _inherits(Draft, _Page);
+
+                return Draft;
+            })(Page);
+
+            _export('default', Draft);
+        }
+    };
+});
+System.register('models/fileRevisions.model', ['models/modelHelper', 'models/file.model'], function (_export) {
+    var modelHelper, fileModel, fileRevisionsModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsFileModel) {
+            fileModel = _modelsFileModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            fileRevisionsModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: obj['@count'],
+                        totalcount: obj['@totalcount'],
+                        href: obj['@href']
+                    };
+                    if ('file' in obj) {
+                        parsed.file = [];
+                        var file = Array.isArray(obj.file) ? obj.file : [obj.file];
+                        file.forEach(function (f) {
+                            parsed.file.push(fileModel.parse(f));
+                        });
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', fileRevisionsModel);
+        }
+    };
+});
+System.register('api/pageHierarchy', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/promise', 'lib/plug', 'models/page.model', 'models/subpages.model'], function (_export) {
+    var _classCallCheck, _Promise, Plug, pageModel, subpagesModel, PageHierarchy;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }, function (_modelsSubpagesModel) {
+            subpagesModel = _modelsSubpagesModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            PageHierarchy = (function () {
+                function PageHierarchy() {
+                    _classCallCheck(this, PageHierarchy);
+
+                    this.filterByArticleTypes = [];
+                    this._plug = new Plug().at('@api', 'deki', 'pages');
+                }
+
+                PageHierarchy.prototype.getRoot = function getRoot() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    return this._plug.at(id).get().then(pageModel.parse);
+                };
+
+                PageHierarchy.prototype.getChildren = function getChildren() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    var subpagesPlug = this._plug.at(id, 'subpages');
+                    if (this.filterByArticleTypes.length > 0) {
+                        subpagesPlug = subpagesPlug.withParam('article', this.filterByArticleTypes.join(','));
+                    }
+                    return subpagesPlug.get().then(subpagesModel.parse).then(function (spModel) {
+                        return spModel.pageSubpage || [];
+                    });
+                };
+
+                PageHierarchy.prototype.getRootAndChildren = function getRootAndChildren(id) {
+                    var asArray = arguments[1] === undefined ? true : arguments[1];
+
+                    return _Promise.all([this.getRoot(id), this.getChildren(id)]).then(function (values) {
+                        var root = values[0];
+                        var children = values[1];
+                        root.subpages = children.length > 0;
+                        if (asArray) {
+                            root = [root];
+                        }
+                        return root;
+                    });
+                };
+
+                return PageHierarchy;
+            })();
+
+            _export('default', PageHierarchy);
+        }
+    };
+});
+System.register('models/pageProperty.model', ['models/modelHelper', 'models/page.model'], function (_export) {
+    var modelHelper, pageModel, pagePropertyModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pagePropertyModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        revision: obj['@revision'],
+                        name: obj['@name'],
+                        href: obj['@href'],
+                        dateModified: modelHelper.getDate(obj['date.modified'])
+                    };
+                    modelHelper.addIfDefined(obj.page, 'page', parsed, pageModel);
+                    return parsed;
+                }
+            };
+
+            _export('default', pagePropertyModel);
+        }
+    };
+});
+System.register('api/site', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/promise', 'lib/plug'], function (_export) {
+    var _classCallCheck, _Promise, Plug, sitePlug, Site;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            sitePlug = new Plug().at('@api', 'deki', 'site');
+
+            Site = (function () {
+                function Site() {
+                    _classCallCheck(this, Site);
+                }
+
+                Site.getResourceString = function getResourceString(options) {
+                    if (!('key' in options)) {
+                        return _Promise.reject('No resource key was supplied');
+                    }
+                    var locPlug = sitePlug.at('localization', options.key);
+                    if ('lang' in options) {
+                        locPlug = locPlug.withParam('lang', options.lang);
+                    }
+                    return locPlug.get();
+                };
+
+                return Site;
+            })();
+
+            _export('default', Site);
+        }
+    };
+});
+System.register('api/user', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'lib/plug', 'models/user.model'], function (_export) {
+    var _classCallCheck, Plug, userModel, userPlug, User;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }, function (_modelsUserModel) {
+            userModel = _modelsUserModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            userPlug = new Plug().at('@api', 'deki', 'users');
+
+            User = (function () {
+                function User() {
+                    _classCallCheck(this, User);
+                }
+
+                User.getCurrentUser = function getCurrentUser() {
+                    return userPlug.at('current').get().then(userModel.parse);
+                };
+
+                return User;
+            })();
+
+            _export('default', User);
+        }
+    };
+});
+System.register('lib/utility', ['npm:babel-runtime@5.1.13/core-js/object/keys', 'lib/stringUtility'], function (_export) {
+    var _Object$keys, stringUtility, utility;
+
+    return {
+        setters: [function (_npmBabelRuntime5113CoreJsObjectKeys) {
+            _Object$keys = _npmBabelRuntime5113CoreJsObjectKeys['default'];
+        }, function (_libStringUtility) {
+            stringUtility = _libStringUtility['default'];
+        }],
+        execute: function () {
+            /*
+             * MindTouch API - javascript api for mindtouch
+             * Copyright (c) 2012 MindTouch Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * For community documentation and downloads visit developer.mindtouch.com;
+             * please review the licensing section.
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */
+            'use strict';
+
+            utility = {
+                getStringParams: function getStringParams(queryString) {
+                    var retVal = {};
+                    var params = stringUtility.words(stringUtility.stringRight(queryString, '?'), '&');
+                    params.forEach(function (pair) {
+                        var myPair = pair.split('=');
+                        if (myPair[0]) {
+                            retVal[decodeURIComponent(myPair[0])] = decodeURIComponent(myPair[1]);
+                        }
+                    });
+                    return retVal;
+                },
+                buildQueryString: function buildQueryString(paramObject) {
+                    var queryString = '';
+                    _Object$keys(paramObject).forEach(function (key, index, arr) {
+                        queryString += encodeURIComponent(key) + '=' + encodeURIComponent(paramObject[key]);
+                        if (index < arr.length - 1) {
+                            queryString += '&';
+                        }
+                    });
+                    return queryString;
+                }
+            };
+
+            _export('default', utility);
+        }
+    };
+});
+System.register('models/page.model', ['models/modelHelper', 'models/pageRating.model'], function (_export) {
+    var modelHelper, pageRatingModel, pageModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageRatingModel) {
+            pageRatingModel = _modelsPageRatingModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        id: parseInt(obj['@id']),
+                        deleted: modelHelper.getBool(obj['@deleted']),
+                        dateCreated: modelHelper.getDate(obj['date.created']),
+                        language: obj.language,
+                        namespace: obj.namespace,
+                        path: modelHelper.getString(obj.path),
+                        title: obj.title,
+                        uriUi: obj['uri.ui']
+                    };
+                    modelHelper.addIfDefined(obj['@href'], 'href', parsed);
+                    modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
+                    modelHelper.addIfDefined(obj.article, 'article', parsed);
+                    if ('page.parent' in obj) {
+                        parsed.pageParent = pageModel._getParents(obj['page.parent'] || null);
+                    }
+                    if ('rating' in obj) {
+                        parsed.rating = pageRatingModel.parse(obj.rating);
+                    }
+
+                    // Only parse subpages if the property exists, and it has a 'page'
+                    //  sub-property.
+                    if ('subpages' in obj && typeof obj.subpages !== 'string' && 'page' in obj.subpages) {
+                        parsed.subpages = pageModel._getSubpages(obj.subpages);
+                    }
+                    return parsed;
+                },
+                _getParents: function _getParents(parent) {
+                    if (parent === null) {
+                        return null;
+                    } else {
+                        return pageModel.parse(parent);
+                    }
+                },
+                _getSubpages: function _getSubpages(subpages) {
+                    var pageDef = subpages.page;
+                    var parsed = [];
+                    pageDef = Array.isArray(pageDef) ? pageDef : [pageDef];
+                    pageDef.forEach(function (sp) {
+                        parsed.push(pageModel.parse(sp));
+                    });
+                    return parsed;
+                }
+            };
+
+            _export('default', pageModel);
+        }
+    };
+});
+System.register('models/pageFiles.model', ['models/modelHelper', 'models/page.model', 'models/user.model', 'models/file.model'], function (_export) {
+    var modelHelper, pageModel, userModel, fileModel, pageFilesModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }, function (_modelsUserModel) {
+            userModel = _modelsUserModel['default'];
+        }, function (_modelsFileModel) {
+            fileModel = _modelsFileModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pageFilesModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: parseInt(obj['@count']),
+                        offset: parseInt(obj['@offset']),
+                        totalcount: parseInt(obj['@totalcount']),
+                        href: obj['@href']
+                    };
+                    if ('file' in obj) {
+                        parsed.file = [];
+                        var files = Array.isArray(obj.file) ? obj.file : [obj.file];
+                        files.forEach(function (f) {
+                            parsed.file.push(fileModel.parse(f));
+                        });
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', pageFilesModel);
+        }
+    };
+});
+System.register('api/page.pro', ['npm:babel-runtime@5.1.13/helpers/inherits', 'npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/promise', 'api/page', 'models/pageMove.model'], function (_export) {
+    var _inherits, _classCallCheck, _Promise, Page, pageMoveModel, PagePro;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersInherits) {
+            _inherits = _npmBabelRuntime5113HelpersInherits['default'];
+        }, function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_apiPage) {
+            Page = _apiPage['default'];
+        }, function (_modelsPageMoveModel) {
+            pageMoveModel = _modelsPageMoveModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            PagePro = (function (_Page) {
+                function PagePro() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    _classCallCheck(this, PagePro);
+
+                    _Page.call(this, id);
+                }
+
+                _inherits(PagePro, _Page);
+
+                PagePro.prototype.setOverview = function setOverview() {
+                    var options = arguments[0] === undefined ? {} : arguments[0];
+
+                    if (!('body' in options)) {
+                        return _Promise.reject(new Error('No overview body was supplied'));
+                    }
+                    var request = '<overview>' + options.body + '</overview>';
+                    return this._plug.at('overview').put(request);
+                };
+
+                PagePro.prototype.move = function move() {
+                    var params = arguments[0] === undefined ? {} : arguments[0];
+
+                    return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
+                };
+
+                return PagePro;
+            })(Page);
+
+            _export('default', PagePro);
+        }
+    };
+});
+System.register('api/file', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'lib/plug', 'lib/utility', 'models/file.model', 'models/fileRevisions.model'], function (_export) {
+    var _classCallCheck, Plug, utility, fileModel, fileRevisionsModel, File;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }, function (_libUtility) {
+            utility = _libUtility['default'];
+        }, function (_modelsFileModel) {
+            fileModel = _modelsFileModel['default'];
+        }, function (_modelsFileRevisionsModel) {
+            fileRevisionsModel = _modelsFileRevisionsModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            File = (function () {
+                function File(id) {
+                    _classCallCheck(this, File);
+
+                    this._plug = new Plug().at('@api', 'deki', 'files', id).withParam('draft', true); // isDraftRequest);
+                }
+
+                File.prototype.getInfo = function getInfo() {
+                    return this._plug.at('info').get().then(fileModel.parse);
+                };
+
+                File.prototype.getRevisions = function getRevisions() {
+                    return this._plug.at('revisions').get().then(fileRevisionsModel.parse);
+                };
+
+                File.prototype.setDescription = function setDescription(description) {
+                    return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
+                };
+
+                File.prototype['delete'] = function _delete() {
+                    return this._plug['delete']();
+                };
+
+                return File;
+            })();
+
+            _export('default', File);
+        }
+    };
+});
+System.register('models/pageProperties.model', ['models/modelHelper', 'models/pageProperty.model'], function (_export) {
+    var modelHelper, pagePropertyModel, pagePropertiesModel;
+    return {
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPagePropertyModel) {
+            pagePropertyModel = _modelsPagePropertyModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            pagePropertiesModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var parsed = {
+                        count: parseInt(obj['@count']),
+                        href: obj['@href'],
+                        property: []
+                    };
+                    if ('property' in obj) {
+                        if (!Array.isArray(obj.property)) {
+                            obj.property = [obj.property];
+                        }
+                        obj.property.forEach(function (prop) {
+                            parsed.property.push(pagePropertyModel.parse(prop));
+                        });
+                    }
+                    return parsed;
+                }
+            };
+
+            _export('default', pagePropertiesModel);
+        }
+    };
+});
+System.register('lib/uriHash', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'lib/utility', 'lib/stringUtility'], function (_export) {
+    var _classCallCheck, utility, stringUtility, UriHash;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_libUtility) {
+            utility = _libUtility['default'];
+        }, function (_libStringUtility) {
+            stringUtility = _libStringUtility['default'];
+        }],
+        execute: function () {
+            /*
+             * MindTouch API - javascript api for mindtouch
+             * Copyright (c) 2014 MindTouch Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * For community documentation and downloads visit developer.mindtouch.com;
+             * please review the licensing section.
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */
+            'use strict';
+
+            UriHash = (function () {
+                function UriHash(hashStr) {
+                    _classCallCheck(this, UriHash);
+
+                    if (stringUtility.startsWith(hashStr, '#')) {
+                        hashStr = hashStr.substr(1);
+                    }
+                    this._hashStr = hashStr || '';
+                    this._params = utility.getStringParams(hashStr);
+                }
+
+                UriHash.prototype.getQueryParams = function getQueryParams() {
+                    return this._params;
+                };
+
+                UriHash.prototype.replaceParams = function replaceParams(paramObject) {
+                    return new UriHash(utility.buildQueryString(paramObject));
+                };
+
+                UriHash.prototype.withParam = function withParam(key, val) {
+                    var newParams = this._params;
+                    newParams[key] = val;
+                    return this.replaceParams(newParams);
+                };
+
+                UriHash.prototype.withoutParam = function withoutParam(key) {
+                    var newParams = this._params;
+                    delete newParams[key];
+                    return this.replaceParams(newParams);
+                };
+
+                UriHash.prototype.getParam = function getParam(key) {
+                    return this._params[key];
+                };
+
+                UriHash.prototype.toHashString = function toHashString() {
+                    return '#' + this._hashStr;
+                };
+
+                return UriHash;
+            })();
+
+            _export('default', UriHash);
+        }
+    };
+});
+System.register('lib/time', ['github:moment/moment@2.10.6'], function (_export) {
+    var moment, time;
+    return {
+        setters: [function (_githubMomentMoment2106) {
+            moment = _githubMomentMoment2106['default'];
+        }],
+        execute: function () {
+            /*
+             * MindTouch API - javascript api for mindtouch
+             * Copyright (c) 2014 MindTouch Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * For community documentation and downloads visit developer.mindtouch.com;
+             * please review the licensing section.
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use moment file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             *
+             * Depends on: underscore.js
+             */
+            'use strict';
+
+            time = moment;
+
+            moment.fn.defaults = {
+                dateTimeFormat: 'HH:mm, D MMM YYYY',
+                dateFormat: 'D MMM YYYY',
+                timeFormat: 'HH:mm',
+                apiFormat: 'YYYYMMDDHHmmss'
+            };
+            moment.fn.getDate = function () {
+                return moment(this).format(this.defaults.dateFormat);
+            };
+            moment.fn.getAPIDateTime = function () {
+                return moment(this).format(this.defaults.apiFormat);
+            };
+            moment.fn.getTime = function () {
+                return moment(this).format(this.defaults.timeFormat);
+            };
+            moment.fn.getDateTime = function () {
+                return moment(this).format(this.defaults.dateTimeFormat);
+            };
+
+            /**
+             * Get a range of moment objects
+             * @param {moment} end - end date (inclusive)
+             * @param {number} stepSize - duration size (default: 1)
+             * @param {number} stepUnit - duration unit that can be parsed by moment.duration (default: 'd')
+             * @returns {Array} - range of moment objects
+             */
+            moment.fn.range = function (end, stepSize, stepUnit) {
+                if (!moment.isMoment(this) || !moment.isMoment(end)) {
+                    throw 'end must be a moment object';
+                }
+                stepUnit = stepUnit || 'd';
+                stepSize = stepSize || 1;
+                var arr = [];
+                var curr = this.clone();
+                while (!curr.isAfter(end)) {
+                    arr.push(curr.clone());
+                    curr.add(moment.duration(stepSize, stepUnit));
+                }
+                return arr;
+            };
+
+            _export('default', time);
+        }
+    };
+});
+System.register('api/pageProperty', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/promise', 'lib/plug', 'models/pageProperties.model', 'models/pageProperty.model'], function (_export) {
+    var _classCallCheck, _Promise, Plug, pagePropertiesModel, pagePropertyModel, PageProperty;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }, function (_modelsPagePropertiesModel) {
+            pagePropertiesModel = _modelsPagePropertiesModel['default'];
+        }, function (_modelsPagePropertyModel) {
+            pagePropertyModel = _modelsPagePropertyModel['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            PageProperty = (function () {
+                function PageProperty() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    _classCallCheck(this, PageProperty);
+
+                    if (typeof id === 'string' && id !== 'home') {
+                        id = '=' + id;
+                    }
+                    this._id = id;
+                    this._plug = new Plug().at('@api', 'deki', 'pages', this._id, 'properties');
+                }
+
+                PageProperty.prototype.getProperties = function getProperties() {
+                    var names = arguments[0] === undefined ? [] : arguments[0];
+
+                    if (!Array.isArray(names)) {
+                        return _Promise.reject(new Error('The property names must be an array'));
+                    }
+                    var plug = this._plug;
+                    if (names.length > 0) {
+                        plug = plug.withParams({ names: names.join(',') });
+                    }
+                    return plug.get().then(pagePropertiesModel.parse);
+                };
+
+                PageProperty.prototype.getProperty = function getProperty(key) {
+                    if (!key) {
+                        return _Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
+                    }
+                    return this._plug.at(key, 'info').get().then(pagePropertyModel.parse);
+                };
+
+                PageProperty.prototype.getPropertyContents = function getPropertyContents(key) {
+                    if (!key) {
+                        return _Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
+                    }
+                    return this._plug.at(key).get();
+                };
+
+                PageProperty.prototype.getPropertyForChildren = function getPropertyForChildren(key) {
+                    var depth = arguments[1] === undefined ? 1 : arguments[1];
+
+                    if (!key) {
+                        return _Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
+                    }
+                    return this._plug.withParams({ depth: depth, names: key }).get();
+                };
+
+                return PageProperty;
+            })();
+
+            _export('default', PageProperty);
+        }
+    };
+});
+System.register("errors/mtError", ["npm:babel-runtime@5.1.13/helpers/inherits", "npm:babel-runtime@5.1.13/helpers/class-call-check", "npm:babel-runtime@5.1.13/helpers/defaults"], function (_export) {
+    var _inherits, _classCallCheck, _defaults, MTError;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersInherits) {
+            _inherits = _npmBabelRuntime5113HelpersInherits["default"];
+        }, function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck["default"];
+        }, function (_npmBabelRuntime5113HelpersDefaults) {
+            _defaults = _npmBabelRuntime5113HelpersDefaults["default"];
+        }],
+        execute: function () {
+            "use strict";
+
+            MTError = (function (_Error) {
+
+                /*
+                  Placeholder class to contain the workaround for Babel not being able
+                  to subclass built-in objects due to ES5 limitations.
+                */
+
+                function MTError(message) {
+                    _classCallCheck(this, MTError);
+
+                    var _this = new _Error();
+
+                    _defaults(_this, MTError.prototype);
+
+                    _this.message = message;
+                    _this.stack = new Error().stack;
+                    _this.name = _this.constructor.name;
+                    return _this;
+                }
+
+                _inherits(MTError, _Error);
+
+                return MTError;
+            })(Error);
+
+            _export("default", MTError);
+        }
+    };
+});
+System.register('models/modelHelper', ['lib/time'], function (_export) {
+    var Time, modelHelper;
+    return {
+        setters: [function (_libTime) {
+            Time = _libTime['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            modelHelper = {
+                fromJson: function fromJson(data) {
+                    if (typeof data === 'string') {
+                        data = JSON.parse(data);
+                    }
+                    return data;
+                },
+                getString: function getString(field) {
+                    return typeof field === 'string' ? field : field['#text'];
+                },
+                getBool: function getBool(field) {
+                    return field === 'true';
+                },
+                getDate: function getDate(field) {
+                    return new Time(new Date(field));
+                },
+                addIfDefined: function addIfDefined(field, name, obj) {
+                    var parser = arguments[3] === undefined ? null : arguments[3];
+
+                    if (typeof field !== 'undefined') {
+                        if (parser !== null) {
+                            field = parser.parse.call(parser, field);
+                        }
+                        obj[name] = field;
+                    }
+                }
+            };
+
+            _export('default', modelHelper);
+        }
+    };
+});
+System.register('errors/xhrError', ['npm:babel-runtime@5.1.13/helpers/inherits', 'npm:babel-runtime@5.1.13/helpers/class-call-check', 'errors/mtError'], function (_export) {
+    var _inherits, _classCallCheck, MTError, XhrError;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersInherits) {
+            _inherits = _npmBabelRuntime5113HelpersInherits['default'];
+        }, function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_errorsMtError) {
+            MTError = _errorsMtError['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            XhrError = (function (_MTError) {
+                function XhrError(xhr) {
+                    _classCallCheck(this, XhrError);
+
+                    var response = {};
+                    if ('responseText' in xhr) {
+                        try {
+                            response = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            response.message = xhr.responseText;
+                        }
+                    }
+                    var message = 'message' in response && response.message !== '' ? response.message : 'Status ' + xhr.status + ' from request';
+                    _MTError.call(this, message);
+                    this.errorCode = xhr.status;
+                }
+
+                _inherits(XhrError, _MTError);
+
+                return XhrError;
+            })(MTError);
+
+            _export('default', XhrError);
+        }
+    };
+});
+System.register('lib/uri', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/object/keys', 'github:jspm/nodelibs-url@0.1.0', 'lib/uriHash', 'lib/stringUtility'], function (_export) {
+    var _classCallCheck, _Object$keys, Url, UriHash, stringUtility, Uri;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsObjectKeys) {
+            _Object$keys = _npmBabelRuntime5113CoreJsObjectKeys['default'];
+        }, function (_githubJspmNodelibsUrl010) {
+            Url = _githubJspmNodelibsUrl010['default'];
+        }, function (_libUriHash) {
+            UriHash = _libUriHash['default'];
+        }, function (_libStringUtility) {
+            stringUtility = _libStringUtility['default'];
+        }],
+        execute: function () {
+            /*
+             * MindTouch API - javascript api for mindtouch
+             * Copyright (c) 2014 MindTouch Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * For community documentation and downloads visit developer.mindtouch.com;
+             * please review the licensing section.
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use moment file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             *
+             * Depends on: underscore.js
+             */
+            'use strict';
+
+            Uri = (function () {
+                function Uri() {
+                    var url = arguments[0] === undefined ? '' : arguments[0];
+
+                    _classCallCheck(this, Uri);
+
+                    this.parsedUrl = Url.parse(url, true);
+                    this.parsedUrl.search = null;
+                }
+
+                Uri.prototype.path = function path() {
+                    return this.parsedUrl.pathname;
+                };
+
+                Uri.prototype.getSegments = function getSegments() {
+                    var path = this.path();
+                    if (stringUtility.startsWith(path, '/')) {
+                        path = stringUtility.leftTrim(path, '/');
+                    }
+                    return path.split('/');
+                };
+
+                Uri.prototype.query = function query() {
+                    return Url.parse(this.toString()).search || '';
+                };
+
+                Uri.prototype.origin = function origin() {
+                    var u = this.parsedUrl;
+                    return '' + u.protocol + '//' + u.host;
+                };
+
+                Uri.prototype.getUriHash = function getUriHash() {
+                    return new UriHash(this.parsedUrl.hash);
+                };
+
+                Uri.prototype.getProtocol = function getProtocol() {
+                    return this.parsedUrl.protocol;
+                };
+
+                Uri.prototype.addQueryParam = function addQueryParam(key, value) {
+                    return this.withParam(key, value);
+                };
+
+                Uri.prototype.addQueryParams = function addQueryParams(queryMap) {
+                    return this.withParams(queryMap);
+                };
+
+                Uri.prototype.removeQueryParam = function removeQueryParam(key) {
+                    if (key in this.parsedUrl.query) {
+                        delete this.parsedUrl.query[key];
+                    }
+                    return this;
+                };
+
+                Uri.prototype.getQueryParamValue = function getQueryParamValue(param) {
+                    var query = this.parsedUrl.query;
+                    return param in query ? query[param] : null;
+                };
+
+                Uri.prototype.withParam = function withParam(key, value) {
+                    this.parsedUrl.query[key] = value;
+                    return this;
+                };
+
+                Uri.prototype.withParams = function withParams(queryMap) {
+                    var self = this;
+                    _Object$keys(queryMap).forEach(function (key) {
+                        self.addQueryParam(key, queryMap[key]);
+                    });
+                    return self;
+                };
+
+                Uri.prototype.addSegments = function addSegments() {
+                    for (var _len = arguments.length, segments = Array(_len), _key = 0; _key < _len; _key++) {
+                        segments[_key] = arguments[_key];
+                    }
+
+                    var path = '';
+                    segments.forEach(function (segment) {
+                        if (Array.isArray(segment)) {
+                            segment.forEach(function (arraySegment) {
+                                path = '' + path + '/' + arraySegment;
+                            });
+                        } else {
+                            path = '' + path + '/' + segment;
+                        }
+                    });
+                    var pathName = this.parsedUrl.pathname || '';
+                    this.parsedUrl.pathname = '' + pathName + '' + path;
+                    this.parsedUrl = Url.parse(this.parsedUrl);
+                };
+
+                Uri.prototype.toString = function toString() {
+                    return Url.format(this.parsedUrl);
+                };
+
+                return Uri;
+            })();
+
+            _export('default', Uri);
+        }
+    };
+});
+System.register('lib/plug', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/promise', 'lib/uri', 'errors/xhrError'], function (_export) {
+    var _classCallCheck, _Promise, Uri, XhrError, Plug;
+
+    function _handleHttpError(xhr) {
+        return new _Promise(function (resolve, reject) {
+
+            // Throw for all non-2xx status codes, except for 304
+            if ((xhr.status < 200 || xhr.status >= 300) && xhr.status !== 304) {
+                reject(new XhrError(xhr));
+            } else {
+                resolve(xhr);
+            }
+        });
+    }
+    function _getText(xhr) {
+        return _Promise.resolve(xhr.responseText || '');
+    }
+    function _doRequest(params) {
+        var _this = this;
+
+        var promise = new _Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            var requestParams = {
+                _: Date.now(),
+                origin: 'mt-web' //TODO: F1 req from settings module after 20150820
+            };
+            if (_this.parseJson) {
+                requestParams['dream.out.format'] = 'json';
+            }
+            var url = _this.withParams(requestParams).getUrl();
+            xhr.open(params.verb, url);
+            for (var i in _this.headers) {
+                if (_this.headers.hasOwnProperty(i)) {
+                    xhr.setRequestHeader(i, _this.headers[i]);
+                }
+            }
+            if ('mime' in params) {
+                xhr.setRequestHeader('Content-Type', params.mime);
+            }
+            var protocol = _this.url.getProtocol();
+            if (protocol === null) {
+                protocol = window.location.protocol;
+            }
+            if (protocol === 'https:') {
+                xhr.setRequestHeader('Front-End-Https', 'On'); // TODO: Necessary??
+            }
+            if (_this._timeout) {
+                console.log('setting timeout to ' + _this._timeout);
+                xhr.timeout = _this._timeout;
+            }
+            xhr.onload = function () {
+                resolve(xhr);
+            };
+            xhr.onerror = function () {
+                reject(xhr);
+            };
+            xhr.ontimeout = function () {
+                reject(xhr);
+            };
+            if ('value' in params && params.value !== null) {
+                xhr.send(params.value);
+            } else {
+                xhr.send();
+            }
+        });
+        return promise;
+    }
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_libUri) {
+            Uri = _libUri['default'];
+        }, function (_errorsXhrError) {
+            XhrError = _errorsXhrError['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            Plug = (function () {
+                function Plug() {
+                    var url = arguments[0] === undefined ? '' : arguments[0];
+                    var params = arguments[1] === undefined ? {} : arguments[1];
+
+                    _classCallCheck(this, Plug);
+
+                    // initailize the url for this instance
+                    var _url = new Uri(url);
+                    if ('constructionParams' in params) {
+                        if ('segments' in params.constructionParams) {
+                            _url.addSegments(params.constructionParams.segments);
+                        }
+                        if ('query' in params.constructionParams) {
+                            _url.addQueryParams(params.constructionParams.query);
+                        }
+                        if ('excludeQuery' in params.constructionParams) {
+                            _url.removeQueryParam(params.constructionParams.excludeQuery);
+                        }
+                        if ('timeout' in params.constructionParams) {
+                            this._timeout = params.constructionParams.timeout;
+                        }
+                    } else {
+                        params.constructionParams = {};
+                    }
+                    this.url = _url;
+                    this.headers = params.headers || {};
+                    this.parseJson = params.raw !== true;
+                }
+
+                Plug.prototype.getUrl = function getUrl() {
+                    return this.url.toString();
+                };
+
+                Plug.prototype.getHeaders = function getHeaders() {
+                    return this.headers || {};
+                };
+
+                Plug.prototype.at = function at() {
+                    for (var _len = arguments.length, segments = Array(_len), _key = 0; _key < _len; _key++) {
+                        segments[_key] = arguments[_key];
+                    }
+
+                    var values = [];
+                    segments.forEach(function (segment) {
+                        values.push(segment.toString());
+                    });
+                    return new Plug(this.url.toString(), {
+                        headers: this.headers,
+                        constructionParams: { segments: segments }
+                    });
+                };
+
+                Plug.prototype.withParam = function withParam(key, value) {
+                    var params = {};
+                    params[key] = value;
+                    return new Plug(this.url.toString(), {
+                        headers: this.headers,
+                        constructionParams: { query: params }
+                    });
+                };
+
+                Plug.prototype.withParams = function withParams(values) {
+                    if (!values) {
+                        values = {};
+                    }
+                    return new Plug(this.url.toString(), {
+                        headers: this.headers,
+                        constructionParams: { query: values }
+                    });
+                };
+
+                Plug.prototype.withoutParam = function withoutParam(key) {
+                    return new Plug(this.url.toString(), {
+                        headers: this.headers,
+                        constructionParams: { excludeQuery: key }
+                    });
+                };
+
+                Plug.prototype._copyHeaders = function _copyHeaders() {
+                    var newHeaders = {};
+                    for (var i in this.headers) {
+                        if (this.headers.hasOwnProperty(i)) {
+                            newHeaders[i] = this.headers[i];
+                        }
+                    }
+                    return newHeaders;
+                };
+
+                Plug.prototype.withHeader = function withHeader(key, value) {
+                    var newHeaders = this._copyHeaders();
+                    newHeaders[key] = value;
+                    return new Plug(this.url.toString(), { headers: newHeaders });
+                };
+
+                Plug.prototype.withHeaders = function withHeaders(values) {
+                    var newHeaders = this._copyHeaders();
+                    for (var key in values) {
+                        if (values.hasOwnProperty(key)) {
+                            newHeaders[key] = values[key];
+                        }
+                    }
+                    return new Plug(this.url.toString(), { headers: newHeaders });
+                };
+
+                Plug.prototype.withoutHeader = function withoutHeader(key) {
+                    var newHeaders = this._copyHeaders();
+                    delete newHeaders[key];
+                    return new Plug(this.url.toString(), { headers: newHeaders });
+                };
+
+                Plug.prototype.get = function get() {
+                    var verb = arguments[0] === undefined ? 'GET' : arguments[0];
+
+                    return this.getRaw(verb).then(_handleHttpError).then(_getText);
+                };
+
+                Plug.prototype.getRaw = function getRaw() {
+                    var verb = arguments[0] === undefined ? 'GET' : arguments[0];
+
+                    return _doRequest.call(this, { verb: verb });
+                };
+
+                Plug.prototype.post = function post(value, mime) {
+                    return this.postRaw(value, mime).then(_handleHttpError).then(_getText);
+                };
+
+                Plug.prototype.postRaw = function postRaw(value, mime) {
+                    return _doRequest.call(this, { verb: 'POST', value: value, mime: mime });
+                };
+
+                Plug.prototype.put = function put(value, mime) {
+                    return this.withHeader('X-HTTP-Method-Override', 'PUT').post(value, mime);
+                };
+
+                Plug.prototype.putRaw = function putRaw(value, mime) {
+                    return this.withHeader('X-HTTP-Method-Override', 'PUT').postRaw(value, mime);
+                };
+
+                Plug.prototype.head = function head() {
+                    return this.get('HEAD');
+                };
+
+                Plug.prototype.headRaw = function headRaw() {
+                    return this.getRaw('HEAD');
+                };
+
+                Plug.prototype.options = function options() {
+                    return this.get('OPTIONS');
+                };
+
+                Plug.prototype.optionsRaw = function optionsRaw() {
+                    return this.getRaw('OPTIONS');
+                };
+
+                Plug.prototype.del = function del() {
+                    return this.withHeader('X-HTTP-Method-Override', 'DELETE').post(null, null);
+                };
+
+                Plug.prototype.delRaw = function delRaw() {
+                    return this.withHeader('X-HTTP-Method-Override', 'DELETE').postRaw(null, null);
+                };
+
+                Plug.prototype['delete'] = function _delete() {
+                    return this.del();
+                };
+
+                return Plug;
+            })();
+
+            _export('default', Plug);
+        }
+    };
+});
+System.register('api/page', ['npm:babel-runtime@5.1.13/helpers/class-call-check', 'npm:babel-runtime@5.1.13/core-js/object/keys', 'npm:babel-runtime@5.1.13/core-js/promise', 'lib/plug', 'models/modelHelper', 'models/page.model', 'models/subpages.model', 'models/pageContents.model', 'models/pageTree.model', 'models/pageTags.model', 'models/pageRating.model', 'models/pageFiles.model', 'lib/utility'], function (_export) {
+    var _classCallCheck, _Object$keys, _Promise, Plug, modelHelper, pageModel, subpagesModel, pageContentsModel, pageTreeModel, pageTagsModel, pageRatingModel, pageFilesModel, utility, Page;
+
+    return {
+        setters: [function (_npmBabelRuntime5113HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5113HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5113CoreJsObjectKeys) {
+            _Object$keys = _npmBabelRuntime5113CoreJsObjectKeys['default'];
+        }, function (_npmBabelRuntime5113CoreJsPromise) {
+            _Promise = _npmBabelRuntime5113CoreJsPromise['default'];
+        }, function (_libPlug) {
+            Plug = _libPlug['default'];
+        }, function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
+        }, function (_modelsPageModel) {
+            pageModel = _modelsPageModel['default'];
+        }, function (_modelsSubpagesModel) {
+            subpagesModel = _modelsSubpagesModel['default'];
+        }, function (_modelsPageContentsModel) {
+            pageContentsModel = _modelsPageContentsModel['default'];
+        }, function (_modelsPageTreeModel) {
+            pageTreeModel = _modelsPageTreeModel['default'];
+        }, function (_modelsPageTagsModel) {
+            pageTagsModel = _modelsPageTagsModel['default'];
+        }, function (_modelsPageRatingModel) {
+            pageRatingModel = _modelsPageRatingModel['default'];
+        }, function (_modelsPageFilesModel) {
+            pageFilesModel = _modelsPageFilesModel['default'];
+        }, function (_libUtility) {
+            utility = _libUtility['default'];
+        }],
+        execute: function () {
+            'use strict';
+
+            Page = (function () {
+                function Page() {
+                    var id = arguments[0] === undefined ? 'home' : arguments[0];
+
+                    _classCallCheck(this, Page);
+
+                    if (typeof id === 'string' && id !== 'home') {
+                        id = '=' + id;
+                    }
+                    this._id = id;
+                    this._plug = new Plug().at('@api', 'deki', 'pages', this._id);
+                }
+
+                Page.prototype.getInfo = function getInfo() {
+                    var params = arguments[0] === undefined ? {} : arguments[0];
+
+                    var infoParams = { exclude: 'revision' };
+                    _Object$keys(params).forEach(function (key) {
+                        infoParams[key] = params[key];
+                    });
+                    return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
+                };
+
+                Page.prototype.getFullInfo = function getFullInfo() {
+                    return this._plug.get().then(pageModel.parse);
+                };
+
+                Page.prototype.getContents = function getContents(params) {
+                    return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
+                };
+
+                Page.prototype.getSubpages = function getSubpages(params) {
+                    return this._plug.at('subpages').withParams(params).get().then(subpagesModel.parse);
+                };
+
+                Page.prototype.getTree = function getTree(params) {
+                    return this._plug.at('tree').withParams(params).get().then(pageTreeModel.parse);
+                };
+
+                Page.prototype.getTreeIds = function getTreeIds() {
+                    return this._plug.at('tree').withParam('format', 'ids').get().then(function (idString) {
+                        var idArray = idString.split(',').map(function (id) {
+                            var numId = parseInt(id);
+                            if (isNaN(numId)) {
+                                throw new Error('Unable to parse the tree IDs.');
+                            }
+                            return numId;
+                        });
+                        return idArray;
+                    })['catch'](function (e) {
+                        return _Promise.reject({ message: e.message });
+                    });
+                };
+
+                Page.prototype.getTags = function getTags() {
+                    return this._plug.at('tags').get().then(pageTagsModel.parse);
+                };
+
+                Page.prototype.getOverview = function getOverview() {
+                    return this._plug.at('overview').get().then(JSON.parse).then(function (overview) {
+                        return _Promise.resolve({ overview: modelHelper.getString(overview) });
+                    })['catch'](function () {
+                        return _Promise.reject('Unable to parse the page overview response');
+                    });
+                };
+
+                Page.prototype.getRating = function getRating() {
+                    return this._plug.at('ratings').get().then(pageRatingModel.parse);
+                };
+
+                Page.prototype.rate = function rate() {
+                    var rating = arguments[0] === undefined ? '' : arguments[0];
+
+                    return this._plug.at('ratings').withParams({ score: rating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
+                };
+
+                Page.prototype.logPageView = function logPageView() {
+                    var viewPlug = new Plug().at('@api', 'deki', 'events', 'page-view', this._id).withParam('uri', encodeURIComponent(document.location.href));
+                    return viewPlug.post(JSON.stringify({ _uri: document.location.href }), utility.jsonRequestType);
+                };
+
+                Page.prototype.getHtmlTemplate = function getHtmlTemplate(path) {
+                    var params = arguments[1] === undefined ? {} : arguments[1];
+
+                    params.pageid = this._id;
+
+                    // Double-URL-encode the path and add '=' to the beginning.  This makes
+                    //  it a proper page ID to be used in a URI segment.
+                    var templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
+                    var contentsPlug = new Plug().at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
+                    return contentsPlug.get().then(pageContentsModel.parse);
+                };
+
+                Page.prototype.getFiles = function getFiles() {
+                    var params = arguments[0] === undefined ? {} : arguments[0];
+
+                    return this._plug.at('files').withParams(params).get().then(pageFilesModel.parse);
+                };
+
+                return Page;
+            })();
+
+            _export('default', Page);
+        }
+    };
+});
+System.register('martian', ['api/page', 'api/page.pro', 'api/draft', 'api/file', 'api/pageHierarchy', 'api/pageProperty', 'api/site', 'api/user'], function (_export) {
+  var PageApi, PageProApi, Draft, FileApi, PageHierarchyApi, PagePropertyApi, SiteApi, UserApi;
   return {
-    setters: [function($__m) {
-      PageApi = $__m.default;
-    }, function($__m) {
-      PageProApi = $__m.default;
-    }, function($__m) {
-      Draft = $__m.default;
-    }, function($__m) {
-      FileApi = $__m.default;
-    }, function($__m) {
-      PageHierarchyApi = $__m.default;
-    }, function($__m) {
-      PagePropertyApi = $__m.default;
-    }, function($__m) {
-      SiteApi = $__m.default;
-    }, function($__m) {
-      UserApi = $__m.default;
+    setters: [function (_apiPage) {
+      PageApi = _apiPage['default'];
+    }, function (_apiPagePro) {
+      PageProApi = _apiPagePro['default'];
+    }, function (_apiDraft) {
+      Draft = _apiDraft['default'];
+    }, function (_apiFile) {
+      FileApi = _apiFile['default'];
+    }, function (_apiPageHierarchy) {
+      PageHierarchyApi = _apiPageHierarchy['default'];
+    }, function (_apiPageProperty) {
+      PagePropertyApi = _apiPageProperty['default'];
+    }, function (_apiSite) {
+      SiteApi = _apiSite['default'];
+    }, function (_apiUser) {
+      UserApi = _apiUser['default'];
     }],
-    execute: function() {
+    execute: function () {
+      'use strict';
     }
   };
 });
-
 (function() {
   var loader = System;
   if (typeof indexOf == 'undefined')

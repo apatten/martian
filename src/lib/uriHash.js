@@ -19,9 +19,10 @@
  * limitations under the License.
  */
 import utility from './utility';
+import stringUtility from './stringUtility';
 export default class UriHash {
     constructor(hashStr) {
-        if(startsWith(hashStr, '#')) {
+        if(stringUtility.startsWith(hashStr, '#')) {
             hashStr = hashStr.substr(1);
         }
         this._hashStr = hashStr || '';
