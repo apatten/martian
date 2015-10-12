@@ -1,10 +1,5 @@
 {
     "globals": {
-        "Deki": true,
-        "_": false,
-
-        "CKEDITOR": false,
-
         /* Jasmine */
         "jasmine": false,
         "describe": false,
@@ -14,11 +9,7 @@
         "expect": false,
         "beforeEach": false,
         "afterEach": false,
-        "Mocks": false,
-
-        /* Rollbar */
-        "Rollbar": true
-
+        "Mocks": false
     },
     "esnext": true,
     "camelcase": true,

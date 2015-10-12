@@ -3,6 +3,7 @@
 var jspm = require('jspm');
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
+var cached = require('gulp-cached');
 var karma = require('karma').server;
 var bundleOptions = {
         minify: false,
@@ -16,7 +17,7 @@ var inspectSrc = [
 ];
 
 /*** js sub tasks ***/
-gulp.task('default', function(cb) {
+gulp.task('build', function(cb) {
     var outFile = 'martian.js';
     jspm.bundleSFX('martian', outFile, bundleOptions).then(function() {
         var stream = gulp.src(outFile)
@@ -56,3 +57,4 @@ gulp.task('inspect:jscs', function() {
 
 /*** main tasks ***/
 gulp.task('inspect', [ 'inspect:lint', 'inspect:jscs' ]);
+gulp.task('default', [ 'inspect', 'build', 'test' ]);
