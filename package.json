@@ -40,6 +40,9 @@
     "directories": {
       "baseURL": "src"
     },
+    "files": {
+      "martian.js"
+    },
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"
