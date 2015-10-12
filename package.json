@@ -2,7 +2,7 @@
   "name": "martian",
   "version": "0.0.1",
   "description": "Core JS for MindTouch",
-  "main": "gulpfile.js",
+  "main": "./martian.js",
   "directories": {
     "test": "test",
     "packages": "src/jspm_packages"
