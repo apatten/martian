@@ -37,6 +37,9 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
+    "directories": {
+      "baseURL": "src"
+    },
     "files": [
       "martian.js"
     ],
