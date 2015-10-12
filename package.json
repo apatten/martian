@@ -1,7 +1,7 @@
 {
   "name": "martian",
   "version": "0.0.1",
-  "description": "",
+  "description": "Core JS for MindTouch",
   "main": "gulpfile.js",
   "directories": {
     "test": "test",
