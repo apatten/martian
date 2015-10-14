@@ -1,7 +1,7 @@
 module.exports = function(config) {
     'use strict';
     config.set({
-        basePath: 'src',
+        basePath: './',
         frameworks: [ 'jspm', 'jasmine' ],
         plugins: [
             'karma-jasmine',
@@ -14,7 +14,14 @@ module.exports = function(config) {
         files: [
             'test/mock-ajax.js'
         ],
+        exclude: [
+            'karama.conf.js',
+            'martian.js',
+            'index.js'
+        ],
         jspm: {
+            config: 'config.js',
+            packages: 'jspm_packages/',
             loadFiles: [
                 'test/plug.test.js',
                 'test/mock/*.js',
@@ -23,15 +30,23 @@ module.exports = function(config) {
             serveFiles: [
                 'lib/*.js',
                 'models/*.js',
-                'api/*.js',
+                '*.js',
                 'errors/*.js'
             ]
         },
         preprocessors: {
             'lib/*.js': [ 'babel', 'sourcemap', 'coverage' ],
             'models/*.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'api/*.js': [ 'babel', 'sourcemap', 'coverage' ],
             'errors/*.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'draft.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'file.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'feedback.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'page.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'page.pro.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'pageHierarchy.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'pageProperty.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'site.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'user.js': [ 'babel', 'sourcemap', 'coverage' ],
             'test/mock/*.mock.js': [ 'babel' ],
             'test/**/*.test.js': [ 'babel' ]
         }, 
@@ -48,12 +63,9 @@ module.exports = function(config) {
         coverageReporter: {
             instrumenters: { isparta: require('isparta') },
             instrumenter: {
-                'api/*.js': 'isparta'
+                '*.js': 'isparta'
             },
             reporters: [
-                // For now, just enable the console-based text reporter.
-                // In the future, we can turn on the HTML reports once we have a way to consume them.
-                //{ type: 'html', dir: 'coverage/' },
                 { type: 'text' }
             ]
         },

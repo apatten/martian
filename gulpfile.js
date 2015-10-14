@@ -10,15 +10,23 @@ var bundleOptions = {
         sourceMaps: false
     };
 var inspectSrc = [
-    'src/lib/*',
-    'src/model/*',
-    'src/api/*',
-    'src/error/*'
+    'lib/*',
+    'model/*',
+    'draft.js',
+    'feedback.js',
+    'file.js',
+    'page.js',
+    'page.pro.js',
+    'pageHierarchy.js',
+    'pageProperty.js',
+    'site.js',
+    'user.js',
+    'error/*'
 ];
 
 /*** js sub tasks ***/
 gulp.task('build', function(cb) {
-    var outFile = 'martian.js';
+    var outFile = 'index.js';
     jspm.bundleSFX('martian', outFile, bundleOptions).then(function() {
         var stream = gulp.src(outFile)
             .pipe(plumber())

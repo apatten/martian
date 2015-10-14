@@ -5,7 +5,7 @@
   "main": "./martian.js",
   "directories": {
     "test": "test",
-    "packages": "src/jspm_packages"
+    "packages": "jspm_packages"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "karma-cli": "0.0.4",
     "karma-coverage": "0.4.1",
     "karma-jasmine": "0.3.5",
-    "karma-jspm": "1.1.5",
+    "karma-jspm": "2.0.1",
     "karma-phantomjs-launcher": "0.2.0",
     "karma-sourcemap-loader": "0.3.5"
   },
@@ -38,7 +38,7 @@
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
     "directories": {
-      "baseURL": "src"
+      "test": "test"
     },
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
