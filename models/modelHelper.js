@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import Time from 'lib/time';
+import Time from '../lib/time';
 let modelHelper = {
     fromJson(data) {
         if(typeof data === 'string') {

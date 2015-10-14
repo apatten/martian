@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import Plug from 'lib/plug';
+import Plug from './lib/plug';
 let sitePlug = new Plug().at('@api', 'deki', 'site');
 export default class Site {
     static getResourceString(options) {

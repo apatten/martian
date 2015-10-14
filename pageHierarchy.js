@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 
-import Plug from 'lib/plug';
-import pageModel from 'models/page.model';
-import subpagesModel from 'models/subpages.model';
+import Plug from './lib/plug';
+import pageModel from './models/page.model';
+import subpagesModel from './models/subpages.model';
 export default class PageHierarchy {
     constructor() {
         this.filterByArticleTypes = [];

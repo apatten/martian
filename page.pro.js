@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 import Page from './page';
-import pageMoveModel from 'models/pageMove.model';
+import pageMoveModel from './models/pageMove.model';
 export default class PagePro extends Page {
     constructor(id = 'home') {
         super(id);

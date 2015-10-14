@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'lib/plug';
-import modelHelper from 'models/modelHelper';
-import pageModel from 'models/page.model';
-import subpagesModel from 'models/subpages.model';
-import pageContentsModel from 'models/pageContents.model';
-import pageTreeModel from 'models/pageTree.model';
-import pageTagsModel from 'models/pageTags.model';
-import pageRatingModel from 'models/pageRating.model';
-import pageFilesModel from 'models/pageFiles.model';
-import utility from 'lib/utility';
+import Plug from './lib/plug';
+import modelHelper from './models/modelHelper';
+import pageModel from './models/page.model';
+import subpagesModel from './models/subpages.model';
+import pageContentsModel from './models/pageContents.model';
+import pageTreeModel from './models/pageTree.model';
+import pageTagsModel from './models/pageTags.model';
+import pageRatingModel from './models/pageRating.model';
+import pageFilesModel from './models/pageFiles.model';
+import utility from './lib/utility';
 export default class Page {
     constructor(id = 'home') {
         if(typeof id === 'string' && id !== 'home') {

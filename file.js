@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'lib/plug';
-import utility from 'lib/utility';
-import fileModel from 'models/file.model';
-import fileRevisionsModel from 'models/fileRevisions.model';
+import Plug from './lib/plug';
+import utility from './lib/utility';
+import fileModel from './models/file.model';
+import fileRevisionsModel from './models/fileRevisions.model';
 export default class File {
     constructor(id) {
         this._plug = new Plug().at('@api', 'deki', 'files', id).withParam('draft', true); // isDraftRequest);

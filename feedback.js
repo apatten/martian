@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'lib/plug';
-import utility from 'lib/utility';
-import stringUtility from 'lib/stringUtility';
-import pageRatingsModel from 'models/pageRatings.model';
+import Plug from './lib/plug';
+import utility from './lib/utility';
+import stringUtility from './lib/stringUtility';
+import pageRatingsModel from './models/pageRatings.model';
 let feedback = {
     submit: function(options) {
         let path = options.path || stringUtility.leftTrim(window.location.pathname, '/');

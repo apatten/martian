@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'lib/plug';
-import pagePropertiesModel from 'models/pageProperties.model';
-import pagePropertyModel from 'models/pageProperty.model';
+import Plug from './lib/plug';
+import pagePropertiesModel from './models/pageProperties.model';
+import pagePropertyModel from './models/pageProperty.model';
 export default class PageProperty {
     constructor(id = 'home') {
         if(typeof id === 'string' && id !== 'home') {
