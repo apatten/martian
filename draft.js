@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 import Page from './page';
-import Plug from './lib/plug';
+import Plug from './plug';
 export default class Draft extends Page {
     constructor(id = 'home') {
         super(id);

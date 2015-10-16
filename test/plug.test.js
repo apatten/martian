@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import Plug from 'lib/plug';
+import Plug from 'plug';
 describe('Plug2', () => {
     describe('constructor', () => {
         it('will not construct a Plug with no URL provided', () => {

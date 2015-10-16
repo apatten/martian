@@ -5661,7 +5661,7 @@ System.register('models/pageMove.model', ['models/modelHelper', 'models/page.mod
         }
     };
 });
-System.register('draft', ['npm:babel-runtime@5.8.25/helpers/inherits', 'npm:babel-runtime@5.8.25/helpers/class-call-check', 'page', 'lib/plug'], function (_export) {
+System.register('draft', ['npm:babel-runtime@5.8.25/helpers/inherits', 'npm:babel-runtime@5.8.25/helpers/class-call-check', 'page', 'plug'], function (_export) {
     var _inherits, _classCallCheck, Page, Plug, Draft;
 
     return {
@@ -5671,8 +5671,8 @@ System.register('draft', ['npm:babel-runtime@5.8.25/helpers/inherits', 'npm:babe
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
         }, function (_page) {
             Page = _page['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }],
         execute: function () {
             /**
@@ -5816,7 +5816,7 @@ System.register('models/fileRevisions.model', ['models/modelHelper', 'models/fil
         }
     };
 });
-System.register('pageHierarchy', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/plug', 'models/page.model', 'models/subpages.model'], function (_export) {
+System.register('pageHierarchy', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'plug', 'models/page.model', 'models/subpages.model'], function (_export) {
     var _classCallCheck, _Promise, Plug, pageModel, subpagesModel, PageHierarchy;
 
     return {
@@ -5824,8 +5824,8 @@ System.register('pageHierarchy', ['npm:babel-runtime@5.8.25/helpers/class-call-c
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
         }, function (_npmBabelRuntime5825CoreJsPromise) {
             _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }, function (_modelsPageModel) {
             pageModel = _modelsPageModel['default'];
         }, function (_modelsSubpagesModel) {
@@ -5946,16 +5946,18 @@ System.register('models/pageProperty.model', ['models/modelHelper', 'models/page
         }
     };
 });
-System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/plug'], function (_export) {
-    var _classCallCheck, _Promise, Plug, sitePlug, Site;
+System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'plug', 'models/page.model'], function (_export) {
+    var _classCallCheck, _Promise, Plug, PageModel, sitePlug, Site;
 
     return {
         setters: [function (_npmBabelRuntime5825HelpersClassCallCheck) {
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
         }, function (_npmBabelRuntime5825CoreJsPromise) {
             _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
+        }, function (_modelsPageModel) {
+            PageModel = _modelsPageModel['default'];
         }],
         execute: function () {
             /**
@@ -5996,6 +5998,24 @@ System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'n
                     return locPlug.get();
                 };
 
+                Site.search = function search(options) {
+                    var offset = parseInt(options.limit, 10) * (parseInt(options.page, 10) - 1);
+                    var searchParams = {
+                        q: options.q,
+                        limit: options.limit,
+                        sortby: '-date,-rank',
+                        constraint: options.constraint,
+                        summarypath: encodeURI(options.path),
+                        offset: offset
+                    };
+                    return sitePlug.at('query').withParams(searchParams).get().then(function (res) {
+                        console.log(res);
+                        return PageModel.parseSearch(res);
+                    }, function () {
+                        return [];
+                    });
+                };
+
                 return Site;
             })();
 
@@ -6003,14 +6023,14 @@ System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'n
         }
     };
 });
-System.register('user', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'lib/plug', 'models/user.model'], function (_export) {
+System.register('user', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'plug', 'models/user.model'], function (_export) {
     var _classCallCheck, Plug, userModel, userPlug, User;
 
     return {
         setters: [function (_npmBabelRuntime5825HelpersClassCallCheck) {
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }, function (_modelsUserModel) {
             userModel = _modelsUserModel['default'];
         }],
@@ -6169,6 +6189,21 @@ System.register('models/page.model', ['models/modelHelper', 'models/pageRating.m
                     }
                     return parsed;
                 },
+                parseSearch: function parseSearch(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var result = [];
+                    obj.result.forEach(function (r) {
+                        result.push({
+                            id: parseInt(r.id),
+                            deleted: true,
+                            dateCreated: modelHelper.getDate(obj['date.modified']),
+                            path: modelHelper.getString(obj.page.path),
+                            title: obj.page.title,
+                            uriUi: obj.page['uri.ui']
+                        });
+                    });
+                    return result;
+                },
                 _getParents: function _getParents(parent) {
                     if (parent === null) {
                         return null;
@@ -6317,7 +6352,7 @@ System.register('page.pro', ['npm:babel-runtime@5.8.25/helpers/inherits', 'npm:b
         }
     };
 });
-System.register('feedback', ['lib/plug', 'lib/utility', 'lib/stringUtility', 'models/pageRatings.model'], function (_export) {
+System.register('feedback', ['plug', 'lib/utility', 'lib/stringUtility', 'models/pageRatings.model'], function (_export) {
     /**
      * MindTouch Core JS API
      * Copyright (C) 2006-2015 MindTouch, Inc.
@@ -6339,8 +6374,8 @@ System.register('feedback', ['lib/plug', 'lib/utility', 'lib/stringUtility', 'mo
 
     var Plug, utility, stringUtility, pageRatingsModel, feedback;
     return {
-        setters: [function (_libPlug) {
-            Plug = _libPlug['default'];
+        setters: [function (_plug) {
+            Plug = _plug['default'];
         }, function (_libUtility) {
             utility = _libUtility['default'];
         }, function (_libStringUtility) {
@@ -6373,14 +6408,14 @@ System.register('feedback', ['lib/plug', 'lib/utility', 'lib/stringUtility', 'mo
         }
     };
 });
-System.register('file', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'lib/plug', 'lib/utility', 'models/file.model', 'models/fileRevisions.model'], function (_export) {
+System.register('file', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'plug', 'lib/utility', 'models/file.model', 'models/fileRevisions.model'], function (_export) {
     var _classCallCheck, Plug, utility, fileModel, fileRevisionsModel, File;
 
     return {
         setters: [function (_npmBabelRuntime5825HelpersClassCallCheck) {
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }, function (_libUtility) {
             utility = _libUtility['default'];
         }, function (_modelsFileModel) {
@@ -6643,7 +6678,7 @@ System.register('lib/time', ['github:moment/moment@2.10.6'], function (_export) 
         }
     };
 });
-System.register('pageproperty', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/plug', 'models/pageProperties.model', 'models/pageProperty.model'], function (_export) {
+System.register('pageproperty', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'plug', 'models/pageProperties.model', 'models/pageProperty.model'], function (_export) {
     var _classCallCheck, _Promise, Plug, pagePropertiesModel, pagePropertyModel, PageProperty;
 
     return {
@@ -6651,8 +6686,8 @@ System.register('pageproperty', ['npm:babel-runtime@5.8.25/helpers/class-call-ch
             _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
         }, function (_npmBabelRuntime5825CoreJsPromise) {
             _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }, function (_modelsPagePropertiesModel) {
             pagePropertiesModel = _modelsPagePropertiesModel['default'];
         }, function (_modelsPagePropertyModel) {
@@ -6991,7 +7026,7 @@ System.register('lib/uri', ['npm:babel-runtime@5.8.25/helpers/class-call-check',
         }
     };
 });
-System.register('lib/plug', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/uri', 'errors/xhrError'], function (_export) {
+System.register('plug', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/uri', 'errors/xhrError'], function (_export) {
     var _classCallCheck, _Promise, Uri, XhrError, Plug;
 
     function _handleHttpError(xhr) {
@@ -7263,7 +7298,7 @@ System.register('lib/plug', ['npm:babel-runtime@5.8.25/helpers/class-call-check'
         }
     };
 });
-System.register('page', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/object/keys', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/plug', 'models/modelHelper', 'models/page.model', 'models/subpages.model', 'models/pageContents.model', 'models/pageTree.model', 'models/pageTags.model', 'models/pageRating.model', 'models/pageFiles.model', 'lib/utility'], function (_export) {
+System.register('page', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/object/keys', 'npm:babel-runtime@5.8.25/core-js/promise', 'plug', 'models/modelHelper', 'models/page.model', 'models/subpages.model', 'models/pageContents.model', 'models/pageTree.model', 'models/pageTags.model', 'models/pageRating.model', 'models/pageFiles.model', 'lib/utility'], function (_export) {
     var _classCallCheck, _Object$keys, _Promise, Plug, modelHelper, pageModel, subpagesModel, pageContentsModel, pageTreeModel, pageTagsModel, pageRatingModel, pageFilesModel, utility, Page;
 
     return {
@@ -7273,8 +7308,8 @@ System.register('page', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'n
             _Object$keys = _npmBabelRuntime5825CoreJsObjectKeys['default'];
         }, function (_npmBabelRuntime5825CoreJsPromise) {
             _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
-        }, function (_libPlug) {
-            Plug = _libPlug['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
         }, function (_modelsModelHelper) {
             modelHelper = _modelsModelHelper['default'];
         }, function (_modelsPageModel) {

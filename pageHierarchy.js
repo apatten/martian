@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import Plug from './lib/plug';
+import Plug from './plug';
 import pageModel from './models/page.model';
 import subpagesModel from './models/subpages.model';
 export default class PageHierarchy {

@@ -47,6 +47,7 @@ module.exports = function(config) {
             'pageProperty.js': [ 'babel', 'sourcemap', 'coverage' ],
             'site.js': [ 'babel', 'sourcemap', 'coverage' ],
             'user.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'plug.js': [ 'babel', 'sourcemap', 'coverage' ],
             'test/mock/*.mock.js': [ 'babel' ],
             'test/**/*.test.js': [ 'babel' ]
         }, 
