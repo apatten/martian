@@ -41,6 +41,9 @@
       "baseURL": "/",
       "test": "test"
     },
+    "exclude": [
+      "node_modules"
+    ],
     "ignore": [
       "node_modules"
     ],
