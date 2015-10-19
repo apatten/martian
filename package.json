@@ -2,11 +2,7 @@
   "name": "martian",
   "version": "0.0.1",
   "description": "Core JS for MindTouch",
-  "main": "index.js",
-  "directories": {
-    "test": "test",
-    "packages": "jspm_packages"
-  },
+  "main": "martian",
   "repository": {
     "type": "git",
     "url": "https://github.com/MindTouch/martian"
@@ -37,13 +33,6 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
-    "directories": {
-      "baseURL": "/",
-      "test": "test"
-    },
-    "exclude": [
-      "node_modules"
-    ],
     "ignore": [
       "node_modules"
     ],
