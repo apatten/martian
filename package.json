@@ -33,6 +33,10 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
+    "main": "index",
+    "map": {
+      "martian": "./index"
+    }
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"
