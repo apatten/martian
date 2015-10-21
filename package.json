@@ -37,6 +37,11 @@
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"
     },
+    "shim": {
+      "martian/site": {
+        "exports": "Site"
+      }
+    },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",
       "babel-runtime": "npm:babel-runtime@^5.1.13",
