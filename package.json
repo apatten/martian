@@ -33,20 +33,9 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
-    "files": [
-      "index.js"
-    ],
-    "map": {
-      "martian": "./index"
-    },
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"
-    },
-    "shim": {
-      "martian/site": {
-        "exports": "Site"
-      }
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",

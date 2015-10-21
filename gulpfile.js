@@ -24,19 +24,6 @@ var inspectSrc = [
     'error/*'
 ];
 
-/*** js sub tasks ***/
-gulp.task('build', function(cb) {
-    var outFile = 'index.js';
-    jspm.bundleSFX('martian', outFile, bundleOptions).then(function() {
-        var stream = gulp.src(outFile)
-            .pipe(plumber())
-            .pipe(gulp.dest('.'));
-        cb();
-    }).catch(function(err) {
-        cb(err);
-    });
-});
-
 /*** js tests ***/
 gulp.task('test', function(done) {
     karma.start({
@@ -65,4 +52,4 @@ gulp.task('inspect:jscs', function() {
 
 /*** main tasks ***/
 gulp.task('inspect', [ 'inspect:lint', 'inspect:jscs' ]);
-gulp.task('default', [ 'inspect', 'build', 'test' ]);
+gulp.task('default', [ 'inspect', 'test' ]);
