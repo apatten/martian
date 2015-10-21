@@ -5103,6 +5103,12 @@ System.register('lib/stringUtility', [], function (_export) {
         setters: [],
         execute: function () {
             stringUtility = {
+                isBlank: function isBlank() {
+                    var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+                    return (/^\s*$/.test(this.makeString(str))
+                    );
+                },
                 makeString: function makeString() {
                     var str = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 
@@ -5946,80 +5952,68 @@ System.register('models/pageProperty.model', ['models/modelHelper', 'models/page
         }
     };
 });
-System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'plug', 'models/page.model'], function (_export) {
-    var _classCallCheck, _Promise, Plug, PageModel, sitePlug, Site;
+System.register('models/search.model', ['models/modelHelper'], function (_export) {
+    /**
+     * MindTouch Core JS API
+     * Copyright (C) 2006-2015 MindTouch, Inc.
+     * www.mindtouch.com  oss@mindtouch.com
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
 
+    'use strict';
+
+    var modelHelper, searchModel;
     return {
-        setters: [function (_npmBabelRuntime5825HelpersClassCallCheck) {
-            _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
-        }, function (_npmBabelRuntime5825CoreJsPromise) {
-            _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
-        }, function (_plug) {
-            Plug = _plug['default'];
-        }, function (_modelsPageModel) {
-            PageModel = _modelsPageModel['default'];
+        setters: [function (_modelsModelHelper) {
+            modelHelper = _modelsModelHelper['default'];
         }],
         execute: function () {
-            /**
-             * MindTouch martian
-             * Copyright (C) 2006-2015 MindTouch, Inc.
-             * www.mindtouch.com  oss@mindtouch.com
-             *
-             * Licensed under the Apache License, Version 2.0 (the "License");
-             * you may not use this file except in compliance with the License.
-             * You may obtain a copy of the License at
-             *
-             *     http://www.apache.org/licenses/LICENSE-2.0
-             *
-             * Unless required by applicable law or agreed to in writing, software
-             * distributed under the License is distributed on an "AS IS" BASIS,
-             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-             * See the License for the specific language governing permissions and
-             * limitations under the License.
-             */
-
-            'use strict';
-
-            sitePlug = new Plug().at('@api', 'deki', 'site');
-
-            Site = (function () {
-                function Site() {
-                    _classCallCheck(this, Site);
-                }
-
-                Site.getResourceString = function getResourceString(options) {
-                    if (!('key' in options)) {
-                        return _Promise.reject('No resource key was supplied');
-                    }
-                    var locPlug = sitePlug.at('localization', options.key);
-                    if ('lang' in options) {
-                        locPlug = locPlug.withParam('lang', options.lang);
-                    }
-                    return locPlug.get();
-                };
-
-                Site.search = function search(options) {
-                    var offset = parseInt(options.limit, 10) * (parseInt(options.page, 10) - 1);
-                    var searchParams = {
-                        q: options.q,
-                        limit: options.limit,
-                        sortby: '-date,-rank',
-                        constraint: options.constraint,
-                        summarypath: encodeURI(options.path),
-                        offset: offset
+            searchModel = {
+                parse: function parse(data) {
+                    var obj = modelHelper.fromJson(data);
+                    var search = {
+                        ranking: obj['@ranking'],
+                        queryId: obj['@queryid'],
+                        queryCount: obj['@querycount'],
+                        recommendationCount: obj['@count.recommendations'],
+                        count: obj['@count'],
+                        result: []
                     };
-                    return sitePlug.at('query').withParams(searchParams).get().then(function (res) {
-                        console.log(res);
-                        return PageModel.parseSearch(res);
-                    }, function () {
-                        return [];
+                    obj.result.forEach(function (result) {
+                        search.result.push({
+                            author: result.author,
+                            content: result.content,
+                            dateModified: modelHelper.getDate(result['date.modified']),
+                            id: result.id,
+                            mime: result.mime,
+                            rank: result.rank,
+                            title: result.title,
+                            uri: result.uri,
+                            uriTrack: result['uri.track'],
+                            page: {
+                                path: result.page.path,
+                                rating: result.page.rating,
+                                title: result.page.title,
+                                uriUi: result.page['uri.ui']
+                            }
+                        });
                     });
-                };
+                    return search;
+                }
+            };
 
-                return Site;
-            })();
-
-            _export('default', Site);
+            _export('default', searchModel);
         }
     };
 });
@@ -6103,6 +6097,15 @@ System.register('lib/utility', ['npm:babel-runtime@5.8.25/core-js/object/keys', 
             'use strict';
 
             utility = {
+                searchEscape: function searchEscape(query) {
+                    var result = query.toString();
+                    var charArr = ['\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':'];
+                    charArr.forEach(function (c) {
+                        var regex = new RegExp('\\' + c, 'g');
+                        result = result.replace(regex, '\\' + c);
+                    });
+                    return result;
+                },
                 getStringParams: function getStringParams(queryString) {
                     var retVal = {};
                     var params = stringUtility.words(stringUtility.stringRight(queryString, '?'), '&');
@@ -6188,21 +6191,6 @@ System.register('models/page.model', ['models/modelHelper', 'models/pageRating.m
                         parsed.subpages = pageModel._getSubpages(obj.subpages);
                     }
                     return parsed;
-                },
-                parseSearch: function parseSearch(data) {
-                    var obj = modelHelper.fromJson(data);
-                    var result = [];
-                    obj.result.forEach(function (r) {
-                        result.push({
-                            id: parseInt(r.id),
-                            deleted: true,
-                            dateCreated: modelHelper.getDate(obj['date.modified']),
-                            path: modelHelper.getString(obj.page.path),
-                            title: obj.page.title,
-                            uriUi: obj.page['uri.ui']
-                        });
-                    });
-                    return result;
                 },
                 _getParents: function _getParents(parent) {
                     if (parent === null) {
@@ -6523,6 +6511,115 @@ System.register('models/pageProperties.model', ['models/modelHelper', 'models/pa
             };
 
             _export('default', pagePropertiesModel);
+        }
+    };
+});
+System.register('site', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'npm:babel-runtime@5.8.25/core-js/promise', 'lib/utility', 'lib/stringUtility', 'plug', 'models/search.model'], function (_export) {
+    var _classCallCheck, _Promise, utility, stringUtility, Plug, SearchModel, sitePlug, Site;
+
+    function _buildSearchConstraints(params) {
+        var constraints = [];
+        params.namespace = 'main';
+        constraints.push('+namespace:' + utility.searchEscape(params.namespace));
+        if ('path' in params) {
+            var path = params.path;
+            if (stringUtility.startsWith(path, '/')) {
+                path = stringUtility.leftTrim(path, '/');
+            }
+            if (!stringUtility.isBlank(path)) {
+                constraints.push('+path.ancestor:' + utility.searchEscape(path));
+            }
+        }
+        if ('tags' in params) {
+            var tags = params.tags;
+            if (typeof tags === 'string' && tags) {
+                tags = tags.split(',');
+            }
+            tags.forEach(function (tag) {
+                constraints.push('+tag:"' + utility.searchEscape(tag) + '"');
+            });
+        }
+        return '+(' + constraints.join(' ') + ')';
+    }
+    return {
+        setters: [function (_npmBabelRuntime5825HelpersClassCallCheck) {
+            _classCallCheck = _npmBabelRuntime5825HelpersClassCallCheck['default'];
+        }, function (_npmBabelRuntime5825CoreJsPromise) {
+            _Promise = _npmBabelRuntime5825CoreJsPromise['default'];
+        }, function (_libUtility) {
+            utility = _libUtility['default'];
+        }, function (_libStringUtility) {
+            stringUtility = _libStringUtility['default'];
+        }, function (_plug) {
+            Plug = _plug['default'];
+        }, function (_modelsSearchModel) {
+            SearchModel = _modelsSearchModel['default'];
+        }],
+        execute: function () {
+            /**
+             * MindTouch martian
+             * Copyright (C) 2006-2015 MindTouch, Inc.
+             * www.mindtouch.com  oss@mindtouch.com
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *     http://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */
+            'use strict';
+
+            sitePlug = new Plug().at('@api', 'deki', 'site');
+
+            Site = (function () {
+                function Site() {
+                    _classCallCheck(this, Site);
+                }
+
+                Site.getResourceString = function getResourceString(options) {
+                    if (!('key' in options)) {
+                        return _Promise.reject('No resource key was supplied');
+                    }
+                    var locPlug = sitePlug.at('localization', options.key);
+                    if ('lang' in options) {
+                        locPlug = locPlug.withParam('lang', options.lang);
+                    }
+                    return locPlug.get();
+                };
+
+                Site.search = function search(options) {
+                    var constraint = {};
+                    var searchParams = {};
+                    searchParams.limit = options.limit || 10;
+                    options.page = options.page || 1;
+                    searchParams.offset = parseInt(searchParams.limit, 10) * (parseInt(options.page, 10) - 1);
+                    searchParams.sortBy = '-date,-rank';
+                    if ('path' in options) {
+                        constraint.path = options.path;
+                        searchParams.summarypath = encodeURI(options.path);
+                    }
+                    if ('tags' in options) {
+                        constraint.tags = options.tags;
+                    }
+                    if ('q' in options) {
+                        searchParams.q = options.q;
+                    }
+                    searchParams.constraint = _buildSearchConstraints(constraint);
+                    return sitePlug.at('query').withParams(searchParams).get().then(function (res) {
+                        return SearchModel.parse(res);
+                    });
+                };
+
+                return Site;
+            })();
+
+            _export('default', Site);
         }
     };
 });
@@ -7458,26 +7555,26 @@ System.register('page', ['npm:babel-runtime@5.8.25/helpers/class-call-check', 'n
 System.register('martian', ['page', 'page.pro', 'draft', 'feedback', 'file', 'pageHierarchy', 'pageproperty', 'site', 'user'], function (_export) {
   'use strict';
 
-  var PageApi, PageProApi, DraftApi, FeedbackApi, FileApi, PageHierarchyApi, PagePropertyApi, SiteApi, UserApi;
+  var Page, PagePro, Draft, Feedback, File, PageHierarchy, PageProperty, Site, User;
   return {
     setters: [function (_page) {
-      PageApi = _page['default'];
+      Page = _page['default'];
     }, function (_pagePro) {
-      PageProApi = _pagePro['default'];
+      PagePro = _pagePro['default'];
     }, function (_draft) {
-      DraftApi = _draft['default'];
+      Draft = _draft['default'];
     }, function (_feedback) {
-      FeedbackApi = _feedback['default'];
+      Feedback = _feedback['default'];
     }, function (_file) {
-      FileApi = _file['default'];
+      File = _file['default'];
     }, function (_pageHierarchy) {
-      PageHierarchyApi = _pageHierarchy['default'];
+      PageHierarchy = _pageHierarchy['default'];
     }, function (_pageproperty) {
-      PagePropertyApi = _pageproperty['default'];
+      PageProperty = _pageproperty['default'];
     }, function (_site) {
-      SiteApi = _site['default'];
+      Site = _site['default'];
     }, function (_user) {
-      UserApi = _user['default'];
+      User = _user['default'];
     }],
     execute: function () {}
   };
