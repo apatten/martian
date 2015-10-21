@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
-    "main": "index",
     "map": {
       "martian": "./index"
     },
