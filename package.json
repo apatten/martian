@@ -43,7 +43,7 @@
       "lib",
       "errors",
       "node_modules",
-      "jspm_packages",
+      "jspm_packages"
     ],
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
