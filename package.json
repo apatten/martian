@@ -2,7 +2,7 @@
   "name": "martian",
   "version": "0.0.1",
   "description": "Core JS for MindTouch",
-  "main": "index.js",
+  "main": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/MindTouch/martian"
@@ -35,7 +35,7 @@
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
     "files": [
-      "out"
+      "out/*"
     ],
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
