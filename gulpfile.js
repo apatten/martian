@@ -44,15 +44,6 @@ gulp.task('test', function(done) {
     }, done);
 });
 
-/** babel transpile **/
-gulp.task('babel', function(done) {
-    return gulp.src(babelSrc)
-        .pipe(plumber())
-        .pipe(babel())
-        // .pipe(uglify())
-        .pipe(gulp.dest('out'));
-});
-
 /*** sub tasks ***/
 gulp.task('inspect:lint', function() {
     var jshint = require('gulp-jshint');
