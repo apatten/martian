@@ -2,7 +2,6 @@
 
 var jspm = require('jspm');
 var gulp = require('gulp');
-var babel = require('gulp-babel');
 var plumber = require('gulp-plumber');
 var cached = require('gulp-cached');
 var karma = require('karma').server;
