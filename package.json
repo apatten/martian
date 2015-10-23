@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "gulp": "3.9.0",
+    "gulp-babel": "5.3.0",
     "gulp-cached": "1.1.0",
     "gulp-jscs": "2.0.0",
     "gulp-jshint": "1.11.2",
@@ -33,6 +34,9 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
+    "directories": {
+      "lib": "out"
+    },
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"

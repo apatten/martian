@@ -2,6 +2,7 @@
 
 var jspm = require('jspm');
 var gulp = require('gulp');
+var babel = require('gulp-babel');
 var plumber = require('gulp-plumber');
 var cached = require('gulp-cached');
 var karma = require('karma').server;
@@ -23,6 +24,17 @@ var inspectSrc = [
     'user.js',
     'error/*'
 ];
+var babelSrc = [
+    'draft.js',
+    'feedback.js',
+    'file.js',
+    'page.js',
+    'page.pro.js',
+    'pageHierarchy.js',
+    'pageProperty.js',
+    'site.js',
+    'user.js',
+];
 
 /*** js tests ***/
 gulp.task('test', function(done) {
@@ -32,6 +44,14 @@ gulp.task('test', function(done) {
     }, done);
 });
 
+/** babel transpile **/
+gulp.task('babel', function(done) {
+    return gulp.src(babelSrc)
+        .pipe(plumber())
+        .pipe(babel())
+        // .pipe(uglify())
+        .pipe(gulp.dest('out'));
+});
 
 /*** sub tasks ***/
 gulp.task('inspect:lint', function() {
