@@ -34,9 +34,9 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "jspm": {
-    "directories": {
-      "lib": "out"
-    },
+    "files": [
+      "out"
+    ],
     "dependencies": {
       "moment": "github:moment/moment@^2.10.2",
       "url": "github:jspm/nodelibs-url@^0.1.0"
