@@ -19,7 +19,6 @@ import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
 import Plug from './plug';
 import SearchModel from './models/search.model';
-let sitePlug = new Plug().at('@api', 'deki', 'site');
 function _buildSearchConstraints(params) {
     let constraints = [];
     params.namespace = 'main';
@@ -44,6 +43,9 @@ function _buildSearchConstraints(params) {
     }
     return '+(' + constraints.join(' ') + ')';
 }
+function _getPlug(host = '') {
+    return new Plug(host).at('@api', 'deki', 'site');
+}
 export default class Site {
     static getResourceString(options) {
         if(!('key' in options)) {
@@ -55,7 +57,7 @@ export default class Site {
         }
         return locPlug.get();
     }
-    static search(options) {
+    static search(host, options) {
         let constraint = {};
         let searchParams = {};
         searchParams.limit = options.limit || 10;
@@ -73,7 +75,7 @@ export default class Site {
             searchParams.q = options.q;
         }
         searchParams.constraint = _buildSearchConstraints(constraint);
-        return sitePlug.at('query').withParams(searchParams).get().then((res) => {
+        return _getPlug(host).at('query').withParams(searchParams).get().then((res) => {
             return SearchModel.parse(res);
         });
     }
