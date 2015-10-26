@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import settings from './settings';
 import Uri from './lib/uri';
 import XhrError from './errors/xhrError';
 function _handleHttpError(xhr) {
@@ -81,7 +81,7 @@ function _doRequest(params) {
     return promise;
 }
 export default class Plug {
-    constructor(url = '', params = {}) {
+    constructor(url = settings.get('host'), params = {}) {
 
         // initailize the url for this instance
         let _url = new Uri(url);
