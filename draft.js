@@ -17,9 +17,10 @@
  */
 import Page from './page';
 import Plug from './plug';
+import settings from './settings';
 export default class Draft extends Page {
     constructor(id = 'home') {
         super(id);
-        this._plug = new Plug().at('@api', 'deki', 'drafts', this._id);
+        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'drafts', this._id);
     }
 }

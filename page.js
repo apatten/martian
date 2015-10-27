@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 import Plug from './plug';
+import settings from './settings';
 import modelHelper from './models/modelHelper';
 import pageModel from './models/page.model';
 import subpagesModel from './models/subpages.model';
@@ -31,7 +32,7 @@ export default class Page {
             id = `=${id}`;
         }
         this._id = id;
-        this._plug = new Plug().at('@api', 'deki', 'pages', this._id);
+        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', this._id);
     }
     getInfo(params = {}) {
         let infoParams = { exclude: 'revision' };

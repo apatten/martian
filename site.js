@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import settings from './settings';
 import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
 import Plug from './plug';
@@ -49,31 +50,30 @@ export default class Site {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
-        var locPlug = sitePlug.at('localization', options.key);
+        var locPlug = sitePlug.withHost(settings.get('host')).at('localization', options.key);
         if('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get();
     }
-    static search(options) {
+    static search({ page = 1, limit = 10, tags = '', q = '', path = '' }) {
         let constraint = {};
-        let searchParams = {};
-        searchParams.limit = options.limit || 10;
-        options.page = options.page || 1;
-        searchParams.offset = (parseInt(searchParams.limit, 10) * (parseInt(options.page,10) - 1));
-        searchParams.sortBy = '-date,-rank';
-        if('path' in options) {
-            constraint.path = options.path;
-            searchParams.summarypath = encodeURI(options.path);
+        if(path !== '') {
+            constraint.path = path;
         }
-        if('tags' in options) {
-            constraint.tags = options.tags;
+        if(tags !== '') {
+            constraint.tags = tags;
         }
-        if('q' in options) {
-            searchParams.q = options.q;
-        }
-        searchParams.constraint = _buildSearchConstraints(constraint);
-        return sitePlug.at('query').withParams(searchParams).get().then((res) => {
+        let searchParams = {
+            limit: limit,
+            page: page,
+            offset: (parseInt(limit, 10) * (parseInt(page, 10) - 1)),
+            sortBy: '-date,-rank',
+            q: q,
+            summarypath: encodeURI(path),
+            constraint: _buildSearchConstraints(constraint)
+        };
+        return sitePlug.withHost(settings.get('host')).at('query').withParams(searchParams).get().then((res) => {
             return SearchModel.parse(res);
         });
     }
