@@ -18,37 +18,42 @@
 
 import Plug from './plug';
 import settings from './settings';
-import pageModel from './models/page.model';
-import subpagesModel from './models/subpages.model';
-export default class PageHierarchy {
-    constructor() {
-        this.filterByArticleTypes = [];
-        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages');
-    }
-    getRoot(id = 'home') {
-        return this._plug.at(id).get().then(pageModel.parse);
-    }
-    getChildren(id = 'home') {
-        let subpagesPlug = this._plug.at(id, 'subpages');
-        if(this.filterByArticleTypes.length > 0) {
-            subpagesPlug = subpagesPlug.withParam('article', this.filterByArticleTypes.join(','));
+import pagePropertiesModel from './models/pageProperties.model';
+import pagePropertyModel from './models/pageProperty.model';
+export default class PageProperty {
+    constructor(id = 'home') {
+        if(typeof id === 'string' && id !== 'home') {
+            id = `=${id}`;
         }
-        return subpagesPlug.get().then(subpagesModel.parse).then(spModel => {
-            return spModel.pageSubpage || [];
-        });
+        this._id = id;
+        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', this._id, 'properties');
     }
-    getRootAndChildren(id, asArray = true) {
-        return Promise.all([
-            this.getRoot(id),
-            this.getChildren(id)
-        ]).then((values) => {
-            let root = values[0];
-            let children = values[1];
-            root.subpages = children.length > 0;
-            if(asArray) {
-                root = [ root ];
-            }
-            return root;
-        });
-    }
-}
+    getProperties(names = []) {
+        if(!Array.isArray(names)) {
+            return Promise.reject(new Error('The property names must be an array'));
+        }
+        let plug = this._plug;
+        if(names.length > 0) {
+            plug = plug.withParams({ names: names.join(',') });
+        }
+        return plug.get().then(pagePropertiesModel.parse);
+     }
+    getProperty(key) {
+        if(!key) {
+            return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
+        }
+        return this._plug.at(key, 'info').get().then(pagePropertyModel.parse);
+     }
+    getPropertyContents(key) {
+        if(!key) {
+            return Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
+         }
+        return this._plug.at(key).get();
+     }
+    getPropertyForChildren(key, depth = 1) {
+        if(!key) {
+            return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
+        }
+        return this._plug.withParams({ depth: depth, names: key }).get();
+     }
+ }

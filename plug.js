@@ -173,7 +173,10 @@ export default class Plug {
         delete newHeaders[key];
         return new Plug(this.url.toString(), { headers: newHeaders });
     }
-
+    withHost(host) {
+        this.url.withHost(host);
+        return this;
+    }
     get(verb = 'GET') {
         return this.getRaw(verb).then(_handleHttpError).then(_getText);
     }
