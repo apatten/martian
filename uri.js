@@ -68,6 +68,7 @@ export default class Uri {
             return this;
         }
         let hostUri = Url.parse(host);
+        this.parsedUrl.host = hostUri.host;
         this.parsedUrl.hostname = hostUri.hostname;
         this.parsedUrl.protocol = hostUri.protocol;
         return this;
