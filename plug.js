@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 import settings from './settings';
-import Uri from './lib/uri';
+import Uri from './uri';
 import XhrError from './errors/xhrError';
 function _handleHttpError(xhr) {
     return new Promise((resolve, reject) => {
