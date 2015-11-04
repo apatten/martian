@@ -47,6 +47,9 @@ export default class Uri {
     getProtocol() {
         return this.parsedUrl.protocol;
     }
+    getHostName() {
+        return this.parsedUrl.hostname;
+    }
     addQueryParam(key, value) {
         return this.withParam(key, value);
     }
@@ -88,15 +91,18 @@ export default class Uri {
         segments.forEach((segment) => {
             if(Array.isArray(segment)) {
                 segment.forEach((arraySegment) => {
+                    arraySegment = stringUtility.leftTrim(arraySegment, '/');
                     path = `${path}/${arraySegment}`;
                 });
             } else {
+                segment = stringUtility.leftTrim(segment, '/');
                 path = `${path}/${segment}`;
             }
         });
         let pathName = this.parsedUrl.pathname || '';
         this.parsedUrl.pathname = `${pathName}${path}`;
         this.parsedUrl = Url.parse(this.parsedUrl);
+        return this;
     }
     toString() {
         return Url.format(this.parsedUrl);
