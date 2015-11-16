@@ -1,53 +1,47 @@
-/**
- * MindTouch Core JS API
- * Copyright (C) 2006-2015 MindTouch, Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import Plug from './plug';
-import pageModel from './models/page.model';
-import subpagesModel from './models/subpages.model';
+import Plug from './deki.plug';
+import utility from './deki.utility';
+import settings from './settings';
 export default class PageHierarchy {
     constructor() {
         this.filterByArticleTypes = [];
-        this._plug = new Plug().at('@api', 'deki', 'pages');
+        this._plug = new Plug(settings.get('baseHref') + '/').at('@api', 'deki', 'pages').withParam('dream.out.format', 'json');
     }
-    getRoot(id = 'home') {
-        return this._plug.at(id).get().then(pageModel.parse);
+    getRoot(id) {
+        var def = new $.Deferred();
+        id = id || 'home';
+        this._plug.at(id).get(function(response) {
+            if(response.isSuccess()) {
+                var info = JSON.parse(response.responseText);
+                def.resolve(utility.makeArray(info));
+            } else {
+                def.reject(response.getStatusText());
+            }
+        });
+        return def.promise();
     }
-    getChildren(id = 'home') {
-        let subpagesPlug = this._plug.at(id, 'subpages');
-        if(this.filterByArticleTypes.length > 0) {
+    getChildren(id) {
+        var def = new $.Deferred();
+        id = id || 'home';
+        var subpagesPlug = this._plug.at(id, 'subpages');
+        if(!_(this.filterByArticleTypes).isEmpty()) {
             subpagesPlug = subpagesPlug.withParam('article', this.filterByArticleTypes.join(','));
         }
-        return subpagesPlug.get().then(subpagesModel.parse).then(spModel => {
-            return spModel.pageSubpage || [];
-        });
-    }
-    getRootAndChildren(id, asArray = true) {
-        return Promise.all([
-            this.getRoot(id),
-            this.getChildren(id)
-        ]).then((values) => {
-            let root = values[0];
-            let children = values[1];
-            root.subpages = children.length > 0;
-            if(asArray) {
-                root = [ root ];
+        subpagesPlug.get(function(response) {
+            if(response.isSuccess()) {
+                var subpageData = JSON.parse(response.responseText);
+                def.resolve(utility.makeArray(subpageData['page.subpage']));
+            } else {
+                def.reject(response.getStatusText());
             }
-            return root;
         });
+        return def.promise();
+    }
+    getRootAndChildren(id) {
+        var def = new $.Deferred();
+        $.when(this.getRoot(id), this.getChildren(id)).done(function(root, children) {
+            root[0]['@subpages'] = children.length > 0 ? 'true' : 'false';
+            def.resolve(root);
+        });
+        return def.promise();
     }
 }

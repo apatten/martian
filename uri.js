@@ -1,10 +1,13 @@
-/**
- * MindTouch Core JS API
- * Copyright (C) 2006-2015 MindTouch, Inc.
+/*
+ * MindTouch API - javascript api for mindtouch
+ * Copyright (c) 2014 MindTouch Inc.
  * www.mindtouch.com  oss@mindtouch.com
  *
+ * For community documentation and downloads visit developer.mindtouch.com;
+ * please review the licensing section.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use moment file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -14,11 +17,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Depends on: underscore.js
  */
-
+import startsWith from 'underscore.string/startsWith';
+import ltrim from 'underscore.string/ltrim';
 import Url from 'url';
-import UriHash from './uriHash';
-import stringUtility from './lib/stringUtility';
+import UriHash from './deki.uriHash';
 export default class Uri {
     constructor(url = '') {
         this.parsedUrl = Url.parse(url, true);
@@ -29,8 +34,8 @@ export default class Uri {
     }
     getSegments() {
         var path = this.path();
-        if(stringUtility.startsWith(path, '/')) {
-            path = stringUtility.leftTrim(path, '/');
+        if(startsWith(path, '/')) {
+            path = ltrim(path, '/');
         }
         return path.split('/');
     }
@@ -41,14 +46,14 @@ export default class Uri {
         var u = this.parsedUrl;
         return `${u.protocol}//${u.host}`;
     }
+    getHostName() {
+        return this.parsedUrl.hostname;
+    }
     getUriHash() {
         return new UriHash(this.parsedUrl.hash);
     }
     getProtocol() {
         return this.parsedUrl.protocol;
-    }
-    getHostName() {
-        return this.parsedUrl.hostname;
     }
     addQueryParam(key, value) {
         return this.withParam(key, value);
@@ -66,36 +71,26 @@ export default class Uri {
         var query = this.parsedUrl.query;
         return param in query ? query[param] : null;
     }
-    withHost(host) {
-        if(!host || host === '') {
-            return this;
-        }
-        let hostUri = Url.parse(host);
-        this.parsedUrl.host = hostUri.host;
-        this.parsedUrl.hostname = hostUri.hostname;
-        this.parsedUrl.protocol = hostUri.protocol;
-        return this;
-    }
     withParam(key, value) {
         this.parsedUrl.query[key] = value;
         return this;
     }
     withParams(queryMap) {
-        Object.keys(queryMap).forEach((key) => {
-            this.addQueryParam(key, queryMap[key]);
+        Object.keys(queryMap).forEach((queryKey) => {
+            this.addQueryParam(queryKey, queryMap[queryKey]);
         });
         return this;
     }
     addSegments(...segments) {
         let path = '';
-        segments.forEach((segment) => {
+        segments.forEach(function(segment) {
             if(Array.isArray(segment)) {
-                segment.forEach((arraySegment) => {
-                    arraySegment = stringUtility.leftTrim(arraySegment, '/');
+                segment.forEach(function(arraySegment) {
+                    arraySegment = ltrim(arraySegment, '/');
                     path = `${path}/${arraySegment}`;
                 });
             } else {
-                segment = stringUtility.leftTrim(segment, '/');
+                segment = ltrim(segment, '/');
                 path = `${path}/${segment}`;
             }
         });
