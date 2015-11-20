@@ -1,6 +1,7 @@
 /**
- * MindTouch Core JS API
- * Copyright (C) 2006-2015 MindTouch, Inc.
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
  * www.mindtouch.com  oss@mindtouch.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import modelHelper from './modelHelper';
 import userModel from './user.model';
 import pageModel from './page.model';

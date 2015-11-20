@@ -16,20 +16,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Page from './page';
-import pageMoveModel from './models/pageMove.model';
-export default class PagePro extends Page {
-    constructor(id = 'home') {
-        super(id);
+import Plug from 'plug';
+import groupModel from 'models/group.model';
+import groupListModel from 'models/groupList.model';
+export default class Group {
+    static getGroupList() {
+        var plug = new Plug().at('@api', 'deki', 'groups');
+        return plug.get().then(groupListModel.parse);
     }
-    setOverview(options = {}) {
-        if(!('body' in options)) {
-            return Promise.reject(new Error('No overview body was supplied'));
+    constructor(id) {
+        if(!id) {
+            throw 'A group ID must be supplied';
         }
-        let request = `<overview>${options.body}</overview>`;
-        return this._plug.at('overview').put(request);
+        if(typeof id === 'string') {
+            id = `=${id}`;
+        }
+        this._groupPlug = new Plug().at('@api', 'deki', 'groups', id);
     }
-    move(params = {}) {
-        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
+    getInfo() {
+        return this._groupPlug.get().then(groupModel.parse);
     }
 }

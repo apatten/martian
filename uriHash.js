@@ -1,10 +1,8 @@
-/*
- * MindTouch API - javascript api for mindtouch
- * Copyright (c) 2014 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
+/**
+ * Martian - Core JavaScript API for MindTouch
  *
- * For community documentation and downloads visit developer.mindtouch.com;
- * please review the licensing section.
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import startsWith from 'underscore.string/startsWith';
-import utility from './deki.utility';
+import utility from './lib/utility';
+import stringUtility from './lib/stringUtility';
 export default class UriHash {
     constructor(hashStr) {
-        if(startsWith(hashStr, '#')) {
+        if(stringUtility.startsWith(hashStr, '#')) {
             hashStr = hashStr.substr(1);
         }
         this._hashStr = hashStr || '';

@@ -1,7 +1,7 @@
 {
   "name": "martian",
-  "version": "0.0.1",
-  "description": "Core JS for MindTouch",
+  "version": "0.1.0",
+  "description": "Core JavaScript API for MindTouch",
   "main": false,
   "repository": {
     "type": "git",

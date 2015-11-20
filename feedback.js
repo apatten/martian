@@ -1,51 +1,43 @@
-import Plug from './deki.plug';
-import utility from './deki.utility';
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import Plug from './plug';
 import settings from './settings';
-var feedback = {
-    _plug: new Plug(settings.get('baseHref') + '/').at('@api', 'deki', 'workflow', 'submit-feedback').withParam('dream.out.format', 'json'),
+import utility from './lib/utility';
+import stringUtility from './lib/stringUtility';
+import pageRatingsModel from './models/pageRatings.model';
+let feedback = {
     submit: function(options) {
-        var def = new $.Deferred();
-        var path = options.path || _(window.location.pathname).ltrim('/');
-        var userEmail = options.userEmail;
-        var pageTitle = options.pageTitle;
-        var siteUrl = options.siteUrl;
-        var request = JSON.stringify({
+        let path = options.path || stringUtility.leftTrim(window.location.pathname, '/');
+        let request = JSON.stringify({
             _path: encodeURIComponent(path),
-            userEmail: userEmail,
-            pageTitle: pageTitle,
-            siteUrl: siteUrl,
+            userEmail: options.userEmail,
+            pageTitle: options.pageTitle,
+            siteUrl: options.siteUrl,
             content: options.content,
             contactAllowed: options.contactAllowed
         });
-        this._plug.post(request, utility.jsonRequestType, function(response) {
-            if(response.isSuccess()) {
-                var responseData = JSON.parse(response.responseText);
-                def.resolve(responseData);
-            } else {
-                def.reject(response.getStatusText());
-            }
-        });
-        return def.promise();
+        let plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'workflow', 'submit-feedback');
+        return plug.post(request, utility.jsonRequestType);
     },
     getRatingsForPages: function(pageIds) {
-        var def = new $.Deferred();
-        var ratingsPlug = new Plug(settings.get('baseHref') + '/')
-            .at('@api', 'deki', 'pages', 'ratings')
-            .withParam('dream.out.format', 'json')
-            .withParams({ pageids: pageIds.join(',') });
-        ratingsPlug.get(function(response) {
-            if(response.isSuccess()) {
-                var data = response.getJson();
-                if('@count' in data && parseInt(data['@count'], 10) > 0) {
-                    def.resolve(utility.makeArray(data.page));
-                } else {
-                    def.resolve([]);
-                }
-            } else {
-                def.reject();
-            }
-        });
-        return def.promise();
+        var ratingsPlug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', 'ratings').withParams({ pageids: pageIds.join(',') });
+        return ratingsPlug.get().then(pageRatingsModel.parse);
     }
 };
 export default feedback;

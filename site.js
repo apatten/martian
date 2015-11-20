@@ -1,10 +1,8 @@
-/*
- * MindTouch API - javascript api for mindtouch
- * Copyright (c) 2010 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
+/**
+ * Martian - Core JavaScript API for MindTouch
  *
- * For community documentation and downloads visit developer.mindtouch.com;
- * please review the licensing section.
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,135 +16,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './deki.plug';
-import utility from './deki.utility';
 import settings from './settings';
+import utility from './lib/utility';
+import stringUtility from './lib/stringUtility';
+import Plug from './plug';
+import SearchModel from './models/search.model';
+let sitePlug = new Plug().at('@api', 'deki', 'site');
+function _buildSearchConstraints(params) {
+    let constraints = [];
+    params.namespace = 'main';
+    constraints.push('+namespace:' + utility.searchEscape(params.namespace));
+    if('path' in params) {
+        let path = params.path;
+        if(stringUtility.startsWith(path, '/')) {
+            path = stringUtility.leftTrim(path, '/');
+        }
+        if(!stringUtility.isBlank(path)) {
+            constraints.push('+path.ancestor:' + utility.searchEscape(path));
+        }
+    }
+    if('tags' in params) {
+        var tags = params.tags;
+        if(typeof tags === 'string' && (tags)) {
+            tags = tags.split(',');
+        }
+        tags.forEach((tag) => {
+            constraints.push('+tag:"' + utility.searchEscape(tag) + '"');
+        });
+    }
+    return '+(' + constraints.join(' ') + ')';
+}
 export default class Site {
-    constructor() {
-        this._feedbackTemplate = _(
-            '<?xml version="1.0"?>' +
-            '<feedback>' +
-            '<body><%- data.comment %></body>' +
-            '<% if (data.title) { %><title><%= data.title %></title><% } %>' +
-            '<metadata>' +
-            '<% _(data.metadata).each(function(value, key) { %>' +
-            '<<%= key %>><%= value %></<%= key %>>' +
-            '<% }); %>' +
-            '</metadata>' +
-            '</feedback>'
-        ).template(null, { variable: 'data' });
-    }
-    static _getSitePlug() {
-        if(!this._sitePlug) {
-            this._sitePlug = new Plug(settings.get('baseHref') + '/')
-                .at('@api', 'deki', 'site')
-                .withParams({ 'dream.out.format': 'json' });
-        }
-        return this._sitePlug;
-    }
-    static getRoles() {
-        var requestDef = $.Deferred();
-        Site._getSitePlug().at('roles').get(function(response) {
-            if(response.isSuccess()) {
-                var data = JSON.parse(response.responseText);
-                requestDef.resolve({ data: data });
-            } else {
-                requestDef.reject({
-                    error: {
-                        type: 'error.roles.fetch',
-                        status: response.getStatusText()
-                    }
-                });
-            }
-        });
-        return requestDef.promise();
-    }
-    static getTag(tags, classifications, params) {
-        var tagDef = new $.Deferred();
-        var plug = new Plug(settings.get('baseHref') + '/').at('@api', 'deki', 'pages', 'find');
-        if(_(tags).isEmpty() && _(classifications).isEmpty()) {
-            return tagDef.reject({
-                error: {
-                    type: 'error.tags.empty'
-                }
-            }).promise();
-        }
-        params = params || { };
-        if(!_(tags).isArray()) {
-            tags = [ tags ];
-        }
-        params.tags = tags.join(',');
-        params.missingclassifications = classifications.join(',');
-        plug.withParams(params)
-            .withParam('dream.out.format', 'json')
-            .get(function(response) {
-                var data = JSON.parse(response.responseText);
-                if(response.isSuccess()) {
-                    tagDef.resolve({ data: data });
-                } else {
-                    tagDef.reject({
-                        error: {
-                            exception: data.exception,
-                            classification: data.data.missing['classification-prefix'],
-                            type: 'error.tags.fetch',
-                            status: response.getStatusText()
-                        }
-                    });
-                }
-            });
-        return tagDef.promise();
-    }
     static getResourceString(options) {
-        var def = new $.Deferred();
-        if(!options.key) {
-            $.error('The resource key is missing.');
-        } else {
-            var resPlug = Site._getSitePlug().at('localization', options.key);
-            if(options.lang) {
-                resPlug = resPlug.withParam('lang', options.lang);
-            }
-            resPlug.get(function(response) {
-                if(response.isSuccess()) {
-                    def.resolve(response.responseText);
-                } else {
-                    def.reject(response.getError());
-                }
-            });
+        if(!('key' in options)) {
+            return Promise.reject('No resource key was supplied');
         }
-        return def.promise();
+        var locPlug = sitePlug.withHost(settings.get('host')).at('localization', options.key);
+        if('lang' in options) {
+            locPlug = locPlug.withParam('lang', options.lang);
+        }
+        return locPlug.get();
     }
-    sendFeedback(requestData, callback) {
-        callback = callback || function() {};
-        var feedbackRequest = this._feedbackTemplate(requestData);
-        Site._getSitePlug().at('feedback').post(feedbackRequest, utility.xmlRequestType, function(response) {
-            if(response.isSuccess()) {
-                callback({ success: true });
-            } else {
-                callback({
-                    success: false,
-                    error: {
-                        type: 'error.feedback.send',
-                        status: response.getStatusText()
-                    }
-                });
-            }
-        });
-    }
-    getTags(params, callback) {
-        callback = callback || function() {};
-        Site._getSitePlug().at('tags').withParams(params).get(function(response) {
-            if(response.isSuccess()) {
-                var data = JSON.parse(response.responseText);
-                callback({ success: true, data: data });
-            } else {
-                callback({
-                    success: false,
-                    error: {
-                        type: 'error.tags.fetch',
-                        status: response.getStatusText()
-                    }
-                });
-            }
+    static search({ page = 1, limit = 10, tags = '', q = '', path = '' }) {
+        let constraint = {};
+        if(path !== '') {
+            constraint.path = path;
+        }
+        if(tags !== '') {
+            constraint.tags = tags;
+        }
+        let searchParams = {
+            limit: limit,
+            page: page,
+            offset: (parseInt(limit, 10) * (parseInt(page, 10) - 1)),
+            sortBy: '-date,-rank',
+            q: q,
+            summarypath: encodeURI(path),
+            constraint: _buildSearchConstraints(constraint)
+        };
+        return sitePlug.withHost(settings.get('host')).at('query').withParams(searchParams).get().then((res) => {
+            return SearchModel.parse(res);
         });
     }
 }

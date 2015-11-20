@@ -25,7 +25,7 @@ module.exports = function(config) {
             loadFiles: [
                 'test/plug.test.js',
                 'test/mock/*.js',
-                'test/api/*.test.js'
+                'test/*.test.js'
             ],
             serveFiles: [
                 'lib/*.js',
@@ -40,6 +40,7 @@ module.exports = function(config) {
             'errors/*.js': [ 'babel', 'sourcemap', 'coverage' ],
             'draft.js': [ 'babel', 'sourcemap', 'coverage' ],
             'file.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'group.js': [ 'babel', 'sourcemap', 'coverage' ],
             'feedback.js': [ 'babel', 'sourcemap', 'coverage' ],
             'page.js': [ 'babel', 'sourcemap', 'coverage' ],
             'page.pro.js': [ 'babel', 'sourcemap', 'coverage' ],
