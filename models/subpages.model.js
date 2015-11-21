@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import modelHelper from './modelHelper';
-import Time from '../lib/time';
+import Time from '../time';
 let subpagesModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);

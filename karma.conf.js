@@ -52,6 +52,7 @@ module.exports = function(config) {
             'uri.js': [ 'babel', 'sourcemap', 'coverage' ],
             'uriHash.js': [ 'babel', 'sourcemap', 'coverage' ],
             'settings.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'time.js': [ 'babel', 'sourcemap', 'coverage' ],
             'test/mock/*.mock.js': [ 'babel' ],
             'test/**/*.test.js': [ 'babel' ]
         }, 
