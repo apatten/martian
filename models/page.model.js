@@ -25,6 +25,7 @@ let pageModel = {
             id: parseInt(obj['@id']),
             deleted: modelHelper.getBool(obj['@deleted']),
             dateCreated: modelHelper.getDate(obj['date.created']),
+            dateModified: modelHelper.getDate(obj['date.modified']),
             language: obj.language,
             namespace: obj.namespace,
             path: modelHelper.getString(obj.path),
