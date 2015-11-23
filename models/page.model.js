@@ -18,6 +18,7 @@
  */
 import modelHelper from './modelHelper';
 import pageRatingModel from './pageRating.model';
+import userModel from './user.model';
 let pageModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -40,6 +41,9 @@ let pageModel = {
         }
         if('rating' in obj) {
             parsed.rating = pageRatingModel.parse(obj.rating);
+        }
+        if('user.author' in obj) {
+            parsed.userAuthor = userModel.parse(obj['user.author']);
         }
 
         // Only parse subpages if the property exists, and it has a 'page'
