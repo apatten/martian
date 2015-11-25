@@ -2,25 +2,20 @@ System.config({
   "transpiler": "babel",
   "babelOptions": {
     "optional": [
-      "runtime",
-      "spec.protoToAssign"
-    ],
-    "loose": [
-      "all"
+      "runtime"
     ]
   },
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
-  },
-  "defaultJSExtensions": true
+  }
 });
 
 System.config({
   "map": {
-    "babel": "npm:babel-core@5.8.25",
-    "babel-runtime": "npm:babel-runtime@5.8.25",
+    "babel": "npm:babel-core@5.8.34",
+    "babel-runtime": "npm:babel-runtime@5.8.34",
     "core-js": "npm:core-js@0.9.18",
     "moment": "github:moment/moment@2.10.6",
     "url": "github:jspm/nodelibs-url@0.1.0",
@@ -39,7 +34,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:babel-runtime@5.8.25": {
+    "npm:babel-runtime@5.8.34": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:core-js@0.9.18": {
