@@ -36,7 +36,6 @@ function _getText(xhr) {
 function _doRequest(params) {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
-        xhr.setRequestHeader('X-Deki-Client', 'mindtouch-martian');
         let requestParams = {
             _: Date.now(),
             origin: 'mt-web' // TODO: F1 req from settings module after 20150820
@@ -46,6 +45,7 @@ function _doRequest(params) {
         }
         let url = this.withParams(requestParams).getUrl();
         xhr.open(params.verb, url);
+        xhr.setRequestHeader('X-Deki-Client', 'mindtouch-martian');
         for(var i in this.headers) {
             if(this.headers.hasOwnProperty(i)) {
                 xhr.setRequestHeader(i, this.headers[i]);
