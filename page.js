@@ -30,6 +30,7 @@ import utility from './lib/utility';
 export default class Page {
     constructor(id = 'home') {
         if(typeof id === 'string' && id !== 'home') {
+            id = encodeURIComponent(encodeURIComponent(id));
             id = `=${id}`;
         }
         this._id = id;
