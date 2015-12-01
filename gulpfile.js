@@ -23,7 +23,7 @@ var gulp = require('gulp');
 var plumber = require('gulp-plumber');
 var cached = require('gulp-cached');
 var karma = require('karma').server;
-var inspectSrc = [
+var inspectSources = [
     'lib/*',
     'model/*',
     'draft.js',
@@ -35,6 +35,7 @@ var inspectSrc = [
     'pageHierarchy.js',
     'pageProperty.js',
     'site.js',
+    'time.js',
     'user.js',
     'error/*'
 ];
@@ -51,7 +52,7 @@ gulp.task('test', function(done) {
 gulp.task('inspect:lint', function() {
     var jshint = require('gulp-jshint');
     var stylish = require('jshint-stylish');
-    return gulp.src(inspectSrc)
+    return gulp.src(inspectSources)
         .pipe(cached('inspect:lint'))
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
@@ -59,7 +60,7 @@ gulp.task('inspect:lint', function() {
 
 gulp.task('inspect:jscs', function() {
     var codeStyle = require('gulp-jscs');
-    return gulp.src(inspectSrc)
+    return gulp.src(inspectSources)
         .pipe(cached('inspect:jscs'))
         .pipe(codeStyle());
 });

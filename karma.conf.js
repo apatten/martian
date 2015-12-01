@@ -23,7 +23,6 @@ module.exports = function(config) {
             config: 'config.js',
             packages: 'jspm_packages/',
             loadFiles: [
-                'test/plug.test.js',
                 'test/mock/*.js',
                 'test/*.test.js'
             ],

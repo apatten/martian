@@ -34,17 +34,18 @@ function _getText(xhr) {
     return Promise.resolve(xhr.responseText || '');
 }
 function _doRequest(params) {
-    var promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
         let requestParams = {
             _: Date.now(),
-            origin: 'mt-web' //TODO: F1 req from settings module after 20150820
+            origin: 'mt-web' // TODO: F1 req from settings module after 20150820
         };
         if(this.parseJson) {
             requestParams['dream.out.format'] = 'json';
         }
         let url = this.withParams(requestParams).getUrl();
         xhr.open(params.verb, url);
+        xhr.setRequestHeader('X-Deki-Client', 'mindtouch-martian');
         for(var i in this.headers) {
             if(this.headers.hasOwnProperty(i)) {
                 xhr.setRequestHeader(i, this.headers[i]);
@@ -79,7 +80,6 @@ function _doRequest(params) {
             xhr.send();
         }
     });
-    return promise;
 }
 export default class Plug {
     constructor(url = settings.get('host'), params = {}) {
