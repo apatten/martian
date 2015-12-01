@@ -34,6 +34,10 @@ let pageModel = {
         modelHelper.addIfDefined(obj['@href'], 'href', parsed);
         modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
         modelHelper.addIfDefined(obj.article, 'article', parsed);
+        modelHelper.addIfDefined(obj['language.effective'], 'languageEffective', parsed);
+        if('date.edited' in obj) {
+            parsed.dateEdited = modelHelper.getDate(obj['date.edited']);
+        }
         if('page.parent' in obj) {
             parsed.pageParent = pageModel._getParents(obj['page.parent'] || null);
         }
