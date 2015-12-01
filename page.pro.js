@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import Page from './page';
-import pageModel from 'models/page.model';
 import pageMoveModel from './models/pageMove.model';
 import pageSetContentsModel from 'models/pageSetContents.model';
 export default class PagePro extends Page {
