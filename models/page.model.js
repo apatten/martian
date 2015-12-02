@@ -18,6 +18,7 @@
  */
 import modelHelper from './modelHelper';
 import pageRatingModel from './pageRating.model';
+import userModel from './user.model';
 let pageModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -25,6 +26,7 @@ let pageModel = {
             id: parseInt(obj['@id']),
             deleted: modelHelper.getBool(obj['@deleted']),
             dateCreated: modelHelper.getDate(obj['date.created']),
+            dateModified: modelHelper.getDate(obj['date.modified']),
             language: obj.language,
             namespace: obj.namespace,
             path: modelHelper.getString(obj.path),
@@ -35,10 +37,13 @@ let pageModel = {
         modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
         modelHelper.addIfDefined(obj.article, 'article', parsed);
         if('page.parent' in obj) {
-            parsed.pageParent = pageModel._getParents(obj['page.parent'] || null);
+            parsed.pageParent = pageModel._getParents(obj['page.parent']);
         }
         if('rating' in obj) {
             parsed.rating = pageRatingModel.parse(obj.rating);
+        }
+        if('user.author' in obj) {
+            parsed.userAuthor = userModel.parse(obj['user.author']);
         }
 
         // Only parse subpages if the property exists, and it has a 'page'
@@ -49,11 +54,7 @@ let pageModel = {
         return parsed;
     },
     _getParents(parent) {
-        if(parent === null) {
-            return null;
-        } else {
-            return pageModel.parse(parent);
-        }
+        return pageModel.parse(parent);
     },
     _getSubpages(subpages) {
         let pageDef = subpages.page;

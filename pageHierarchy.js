@@ -20,8 +20,8 @@ import Plug from './plug';
 import pageModel from './models/page.model';
 import subpagesModel from './models/subpages.model';
 export default class PageHierarchy {
-    constructor() {
-        this.filterByArticleTypes = [];
+    constructor(articleTypes = []) {
+        this.filterByArticleTypes = articleTypes;
         this._plug = new Plug().at('@api', 'deki', 'pages');
     }
     getRoot(id = 'home') {

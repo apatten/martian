@@ -34,5 +34,5 @@ let pageRatingsModel = {
         }
         return parsed;
     }
-}
+};
 export default pageRatingsModel;

@@ -47,6 +47,22 @@ describe('Feedback API', () => {
             done();
         });
     });
+    it('can fetch the ratings for a set of pages (single)', (done) => {
+        let ratingsUri = '/@api/deki/pages/ratings?';
+        jasmine.Ajax.stubRequest(new RegExp(ratingsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageRatingsSingle });
+        feedback.getRatingsForPages([ 440, 441 ]).then((r) => {
+            expect(r).toBeDefined();
+            done();
+        });
+    });
+    it('can fetch the ratings for a set of pages (empty)', (done) => {
+        let ratingsUri = '/@api/deki/pages/ratings?';
+        jasmine.Ajax.stubRequest(new RegExp(ratingsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageRatingsEmpty });
+        feedback.getRatingsForPages([ 440, 441 ]).then((r) => {
+            expect(r).toBeDefined();
+            done();
+        });
+    });
     it('can handle an error while fetching page ratings', (done) => {
         let ratingsUri = '/@api/deki/pages/ratings?';
         jasmine.Ajax.stubRequest(new RegExp(ratingsUri), null, 'GET').andReturn({ status: 400 });

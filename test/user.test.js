@@ -18,6 +18,13 @@
  */
 import User from 'user';
 describe('User API', () => {
+    describe('constructor', () => {
+        it('can perform construction operations', () => {
+            expect(() => User()).toThrow();
+            let u = new User();
+            expect(u).toBeDefined();
+        });
+    });
     describe('static operations', () => {
         beforeEach(() => {
             jasmine.Ajax.install();

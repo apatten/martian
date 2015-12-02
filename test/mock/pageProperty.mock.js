@@ -69,6 +69,10 @@ Mocks.pagePropertiesSingle = `{
         "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT"
     }
 }`;
+Mocks.pagePropertiesEmpty = `{
+    "@count":"0",
+    "@href":"https://www.example.com/@api/deki/pages/231/properties"
+}`;
 Mocks.pageProperty = `{
     "@revision":"2",
     "@resid":"300",
@@ -87,6 +91,37 @@ Mocks.pageProperty = `{
         }
     },
     "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT"
+}`;
+Mocks.pagePropertyPage = `{
+    "@revision":"2",
+    "@resid":"300",
+    "@name":"mindtouch.import#info",
+    "@href":"https://hpgfos.mindtouch.us/@api/deki/pages/231/properties/mindtouch.import%2523info/info",
+    "@etag":"300.r2_ts2013-07-01T22:35:35Z",
+    "@resource-is-deleted":"false",
+    "@resource-rev-is-deleted":"false",
+    "change-description":"updated import at revision 8",
+    "contents":{
+        "@type":"application/xml; charset=utf-8",
+        "@size":"123",
+        "@href":"https://hpgfos.mindtouch.us/@api/deki/pages/231/properties/mindtouch.import%2523info",
+        "last-import":{
+            "date.modified":"Wed, 22 May 2013 20:33:25 GMT","etag":"e1ada6d2a260c76a70a571c2c71cc303"
+        }
+    },
+    "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT",
+    "page":{
+        "@id":"123",
+        "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
+        "@deleted":"false",
+        "@revision":"20",
+        "date.created":"Wed, 24 Jun 2015 22:48:28 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":"foo/bar",
+        "title":"Foo Bar",
+        "uri.ui":"https://www.example.com/foo/bar"
+    }
 }`;
 Mocks.childrenProperties = `{
     "@count":"2",

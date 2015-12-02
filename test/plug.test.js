@@ -238,5 +238,27 @@ describe('Plug2', () => {
                 done();
             });
         });
+        it('can do a DELETE request', (done) => {
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 200 });
+            p.delete().then(() => {
+                done();
+            });
+        });
+        it('can do a raw DELETE request', (done) => {
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 200 });
+            p.delRaw().then(() => {
+                done();
+            });
+        });
+    });
+    describe('timeout tests', () => {
+        it('can handle an HTTP timeout', (done) => {
+            let uri = 'https://www.example.com/foo';
+            let p = new Plug(uri, { raw: true, constructionParams: { timeout: 1 } });
+            p.get().catch((e) => {
+                expect(e).toBeDefined();
+                done();
+            });
+        });
     });
 });

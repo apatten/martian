@@ -19,11 +19,11 @@
 import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
 export default class UriHash {
-    constructor(hashStr) {
+    constructor(hashStr = '') {
         if(stringUtility.startsWith(hashStr, '#')) {
             hashStr = hashStr.substr(1);
         }
-        this._hashStr = hashStr || '';
+        this._hashStr = hashStr;
         this._params = utility.getStringParams(hashStr);
     }
     getQueryParams() {

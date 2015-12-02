@@ -35,12 +35,10 @@ let pageContentsModel = {
     },
     _getTargets(body) {
         let targets = [];
-        if(body.length > 1) {
-            for(let i = 1; i < body.length; i++) {
-                targets.push({
-                    [ body[i]['@target'] ]: body[i]['#text']
-                });
-            }
+        for(let i = 1; i < body.length; i++) {
+            targets.push({
+                [ body[i]['@target'] ]: body[i]['#text']
+            });
         }
         return targets;
     }

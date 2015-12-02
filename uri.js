@@ -66,8 +66,8 @@ export default class Uri {
         var query = this.parsedUrl.query;
         return param in query ? query[param] : null;
     }
-    withHost(host) {
-        if(!host || host === '') {
+    withHost(host = '') {
+        if(stringUtility.isBlank(host)) {
             return this;
         }
         let hostUri = Url.parse(host);

@@ -46,11 +46,9 @@ function _doRequest(params) {
         let url = this.withParams(requestParams).getUrl();
         xhr.open(params.verb, url);
         xhr.setRequestHeader('X-Deki-Client', 'mindtouch-martian');
-        for(var i in this.headers) {
-            if(this.headers.hasOwnProperty(i)) {
-                xhr.setRequestHeader(i, this.headers[i]);
-            }
-        }
+        Object.keys(this.headers).forEach((key) => {
+            xhr.setRequestHeader(key, this.headers[key]);
+        });
         if('mime' in params) {
             xhr.setRequestHeader('Content-Type', params.mime);
         }
@@ -59,19 +57,15 @@ function _doRequest(params) {
             protocol = window.location.protocol;
         }
         if(protocol === 'https:') {
-            xhr.setRequestHeader('Front-End-Https', 'On'); // TODO: Necessary??
+            xhr.setRequestHeader('Front-End-Https', 'On');
         }
         if(this._timeout) {
-            console.log(`setting timeout to ${this._timeout}`);
             xhr.timeout = this._timeout;
         }
         xhr.onload = () => {
             resolve(xhr);
         };
         xhr.onerror = () => {
-            reject(xhr);
-        };
-        xhr.ontimeout = () => {
             reject(xhr);
         };
         if('value' in params && params.value !== null) {
@@ -110,7 +104,7 @@ export default class Plug {
         return this.url.toString();
     }
     getHeaders() {
-        return this.headers || {};
+        return this.headers;
     }
 
     at(...segments) {
@@ -148,11 +142,9 @@ export default class Plug {
     }
     _copyHeaders() {
         let newHeaders = {};
-        for(let i in this.headers) {
-            if(this.headers.hasOwnProperty(i)) {
-                newHeaders[i] = this.headers[i];
-            }
-        }
+        Object.keys(this.headers).forEach((key) => {
+            newHeaders[key] = this.headers[key];
+        });
         return newHeaders;
     }
     withHeader(key, value) {
@@ -162,11 +154,9 @@ export default class Plug {
     }
     withHeaders(values) {
         let newHeaders = this._copyHeaders();
-        for(let key in values) {
-            if(values.hasOwnProperty(key)) {
-                newHeaders[key] = values[key];
-            }
-        }
+        Object.keys(values).forEach((key) => {
+            newHeaders[key] = values[key];
+        });
         return new Plug(this.url.toString(), { headers: newHeaders });
     }
     withoutHeader(key) {

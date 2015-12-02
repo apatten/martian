@@ -19,9 +19,24 @@
 import Page from 'page';
 describe('Page', () => {
     describe('constructor tests', () => {
-        it('can construct a new Page object', () => {
+        it('can construct a new Page object using page ID', () => {
             var page = new Page(123);
             expect(page).toBeDefined();
+        });
+        it('can construct a new Page object using page path', () => {
+            var page = new Page('foo/bar');
+            expect(page).toBeDefined();
+            expect(page._id).toBe('=foo/bar');
+        });
+        it('can construct a new Page object using \'home\'', () => {
+            var page = new Page('home');
+            expect(page).toBeDefined();
+            expect(page._id).toBe('home');
+        });
+        it('can construct a new Page object defaulting to \'home\'', () => {
+            var page = new Page();
+            expect(page).toBeDefined();
+            expect(page._id).toBe('home');
         });
     });
     describe('get stuff tests', () => {
@@ -38,6 +53,14 @@ describe('Page', () => {
             let infoUri = '/@api/deki/pages/123/info?';
             jasmine.Ajax.stubRequest(new RegExp(infoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageInfo });
             page.getInfo().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get the simple page info with params', (done) => {
+            let infoUri = '/@api/deki/pages/123/info?';
+            jasmine.Ajax.stubRequest(new RegExp(infoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageInfo });
+            page.getInfo({ exclude: 'revision' }).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
@@ -69,6 +92,14 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can get the page info with no parents', (done) => {
+            let fullInfoUri = '/@api/deki/pages/123?';
+            jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageNoParent });
+            page.getFullInfo().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can handle a page info request that returns bad JSON', (done) => {
             let fullInfoUri = '/@api/deki/pages/123?';
             jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
@@ -86,6 +117,22 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can get the subpages (single)', (done) => {
+            let subpagesUri = '/@api/deki/pages/123/subpages?';
+            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpagesSingle });
+            page.getSubpages().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get the subpages (empty)', (done) => {
+            let subpagesUri = '/@api/deki/pages/123/subpages?';
+            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.emptySubpages });
+            page.getSubpages().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can handle a subpages request that returns bad JSON', (done) => {
             let subpagesUri = '/@api/deki/pages/123/subpages?';
             jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
@@ -98,6 +145,14 @@ describe('Page', () => {
         it('can get the page contents', (done) => {
             let contentsUri = '/@api/deki/pages/123/contents?';
             jasmine.Ajax.stubRequest(new RegExp(contentsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageContent });
+            page.getContents().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get the page contents with a simple body', (done) => {
+            let contentsUri = '/@api/deki/pages/123/contents?';
+            jasmine.Ajax.stubRequest(new RegExp(contentsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageContentSimple });
             page.getContents().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -153,6 +208,20 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can get the tags (single)', (done) => {
+            let tagsUri = '/@api/deki/pages/123/tags?';
+            jasmine.Ajax.stubRequest(new RegExp(tagsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageTagsSingle });
+            page.getTags().then(() => {
+                done();
+            });
+        });
+        it('can get the tags (empty)', (done) => {
+            let tagsUri = '/@api/deki/pages/123/tags?';
+            jasmine.Ajax.stubRequest(new RegExp(tagsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageTagsEmpty });
+            page.getTags().then(() => {
+                done();
+            });
+        });
         it('can handle a tags response with bad JSON', (done) => {
             let tagsUri = '/@api/deki/pages/123/tags?';
             jasmine.Ajax.stubRequest(new RegExp(tagsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
@@ -166,6 +235,14 @@ describe('Page', () => {
             let overviewUri = '/@api/deki/pages/123/overview?';
             jasmine.Ajax.stubRequest(new RegExp(overviewUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageOverview });
             page.getOverview().then(() => {
+                done();
+            });
+        });
+        it('can fail gracefully when fetching an invalid overview', (done) => {
+            let overviewUri = '/@api/deki/pages/123/overview?';
+            jasmine.Ajax.stubRequest(new RegExp(overviewUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
+            page.getOverview().catch((e) => {
+                expect(e).toBe('Unable to parse the page overview response');
                 done();
             });
         });
@@ -183,13 +260,42 @@ describe('Page', () => {
                 done();
             });
         });
-        it('can rate a page', (done) => {
+        it('can rate a page up', (done) => {
             let rateUri = '/@api/deki/pages/123/ratings?';
             jasmine.Ajax.stubRequest(new RegExp(rateUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageRating });
-            page.rate({ score: 1 }).then((r) => {
+            page.rate(1).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
+        });
+        it('can rate a page down', (done) => {
+            let rateUri = '/@api/deki/pages/123/ratings?';
+            jasmine.Ajax.stubRequest(new RegExp(rateUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageRating });
+            page.rate(0).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can reset a page rating explicitly', (done) => {
+            let rateUri = '/@api/deki/pages/123/ratings?';
+            jasmine.Ajax.stubRequest(new RegExp(rateUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageRating });
+            page.rate('').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can reset a page rating implicitly', (done) => {
+            let rateUri = '/@api/deki/pages/123/ratings?';
+            jasmine.Ajax.stubRequest(new RegExp(rateUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageRating });
+            page.rate().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fail for invalid page rating values', () => {
+            expect(() => page.rate('foo')).toThrow();
+            expect(() => page.rate(10)).toThrow();
+            expect(() => page.rate({ score: 1 })).toThrow();
         });
         it('can fetch a template rendered in the context of the Page', (done) => {
             let contentsUri = '/@api/deki/pages/=Template%253AMindTouch%252FIDF3%252FControls%252FWelcomeMessage/contents?';
@@ -199,9 +305,41 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can fetch a template rendered in the context of the Page with supplied options', (done) => {
+            let contentsUri = '/@api/deki/pages/=Template%253AMindTouch%252FIDF3%252FControls%252FWelcomeMessage/contents?';
+            jasmine.Ajax.stubRequest(new RegExp(contentsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageContent });
+            page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage', { includes: 'overview' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch the page\'s files with default options', (done) => {
+            let filesUri = '/@api/deki/pages/123/files?';
+            jasmine.Ajax.stubRequest(new RegExp(filesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageFiles });
+            page.getFiles().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can fetch the page\'s files', (done) => {
             let filesUri = '/@api/deki/pages/123/files?';
             jasmine.Ajax.stubRequest(new RegExp(filesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageFiles });
+            page.getFiles({ limit: 200 }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch the page\'s files when there is only one', (done) => {
+            let filesUri = '/@api/deki/pages/123/files?';
+            jasmine.Ajax.stubRequest(new RegExp(filesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageFilesSingle });
+            page.getFiles({ limit: 200 }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch the page\'s files with an empty response', (done) => {
+            let filesUri = '/@api/deki/pages/123/files?';
+            jasmine.Ajax.stubRequest(new RegExp(filesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageFilesEmpty });
             page.getFiles({ limit: 200 }).then((r) => {
                 expect(r).toBeDefined();
                 done();
