@@ -44,13 +44,11 @@ moment.fn.getDateTime = function() {
  * @param {number} stepUnit - duration unit that can be parsed by moment.duration (default: 'd')
  * @returns {Array} - range of moment objects
  */
-moment.fn.range = function(end, stepSize, stepUnit) {
+moment.fn.range = function(end, stepSize = 1, stepUnit = 'd') {
     if(!moment.isMoment(this) || !moment.isMoment(end)) {
         throw 'end must be a moment object';
     }
-    stepUnit = stepUnit || 'd';
-    stepSize = stepSize || 1;
-    var arr = [ ];
+    var arr = [];
     var curr = this.clone();
     while(!curr.isAfter(end)) {
         arr.push(curr.clone());

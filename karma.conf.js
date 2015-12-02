@@ -54,7 +54,7 @@ module.exports = function(config) {
             'time.js': [ 'babel', 'sourcemap', 'coverage' ],
             'test/mock/*.mock.js': [ 'babel' ],
             'test/**/*.test.js': [ 'babel' ]
-        }, 
+        },
         babelPreprocessor: {
             options: {
                 modules: 'system',
@@ -71,6 +71,10 @@ module.exports = function(config) {
                 '*.js': 'isparta'
             },
             reporters: [
+                /*{
+                    type: 'html',
+                    dir: 'coverage/'
+                },*/
                 { type: 'text' }
             ]
         },

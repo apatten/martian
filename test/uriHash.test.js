@@ -18,8 +18,8 @@
  */
 import UriHash from 'uriHash';
 describe('URI Hash tests', () => {
-    var hashString = '#a=1&b=2';
-    var hash = null;
+    let hashString = '#a=1&b=2';
+    let hash = null;
     beforeEach(() => {
         hash = new UriHash(hashString);
     });
@@ -27,6 +27,10 @@ describe('URI Hash tests', () => {
         hash = null;
     });
     describe('read tests', () => {
+        it('can create a UriHash with no string', () => {
+            let empty = new UriHash();
+            expect(empty.getQueryParams()).toEqual({});
+        });
         it('can read the hash as query parameters', () => {
             expect(hash.getQueryParams()).toEqual({ a: '1', b: '2' });
         });

@@ -72,6 +72,30 @@ describe('Page Pro', () => {
                 done();
             });
         });
+        it('can move a page with a single result', (done) => {
+            let moveUri = '/@api/deki/pages/123/move?';
+            jasmine.Ajax.stubRequest(new RegExp(moveUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageMoveSingle });
+            page.move({ to: 'foo/bar' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can move a page with an empty result', (done) => {
+            let moveUri = '/@api/deki/pages/123/move?';
+            jasmine.Ajax.stubRequest(new RegExp(moveUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageMoveEmpty });
+            page.move({ to: 'foo/bar' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can move a page with no options provided', (done) => {
+            let moveUri = '/@api/deki/pages/123/move?';
+            jasmine.Ajax.stubRequest(new RegExp(moveUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageMove });
+            page.move().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can handle a page move failure', (done) => {
             let moveUri = '/@api/deki/pages/123/move?';
             jasmine.Ajax.stubRequest(new RegExp(moveUri), null, 'POST').andReturn({ status: 400 });

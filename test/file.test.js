@@ -42,9 +42,33 @@ describe('File API', () => {
                 done();
             });
         });
+        it('can fetch a limited file info', (done) => {
+            let infoUri = '/@api/deki/files/123/info?';
+            jasmine.Ajax.stubRequest(new RegExp(infoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.fileReduced });
+            file.getInfo().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can fetch file revisions', (done) => {
             let revisionsUri = '/@api/deki/files/123/revisions?';
             jasmine.Ajax.stubRequest(new RegExp(revisionsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.fileRevisions });
+            file.getRevisions().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch empty file revisions', (done) => {
+            let revisionsUri = '/@api/deki/files/123/revisions?';
+            jasmine.Ajax.stubRequest(new RegExp(revisionsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.fileRevisionsEmpty });
+            file.getRevisions().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a single file revision', (done) => {
+            let revisionsUri = '/@api/deki/files/123/revisions?';
+            jasmine.Ajax.stubRequest(new RegExp(revisionsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.fileRevisionsSingle });
             file.getRevisions().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -55,6 +79,13 @@ describe('File API', () => {
             jasmine.Ajax.stubRequest(new RegExp(descUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.file });
             file.setDescription('This is the description').then((r) => {
                 expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can delete a file', (done) => {
+            let deleteUri = '/@api/deki/files/123?';
+            jasmine.Ajax.stubRequest(new RegExp(deleteUri), null, 'POST').andReturn({ status: 200 });
+            file.delete().then(() => {
                 done();
             });
         });

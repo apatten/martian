@@ -37,7 +37,7 @@ let pageModel = {
         modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
         modelHelper.addIfDefined(obj.article, 'article', parsed);
         if('page.parent' in obj) {
-            parsed.pageParent = pageModel._getParents(obj['page.parent'] || null);
+            parsed.pageParent = pageModel._getParents(obj['page.parent']);
         }
         if('rating' in obj) {
             parsed.rating = pageRatingModel.parse(obj.rating);
@@ -54,11 +54,7 @@ let pageModel = {
         return parsed;
     },
     _getParents(parent) {
-        if(parent === null) {
-            return null;
-        } else {
-            return pageModel.parse(parent);
-        }
+        return pageModel.parse(parent);
     },
     _getSubpages(subpages) {
         let pageDef = subpages.page;

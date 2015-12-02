@@ -31,9 +31,7 @@ function _buildSearchConstraints(params) {
         if(stringUtility.startsWith(path, '/')) {
             path = stringUtility.leftTrim(path, '/');
         }
-        if(!stringUtility.isBlank(path)) {
-            constraints.push('+path.ancestor:' + utility.searchEscape(path));
-        }
+        constraints.push('+path.ancestor:' + utility.searchEscape(path));
     }
     if('tags' in params) {
         var tags = params.tags;
@@ -47,7 +45,7 @@ function _buildSearchConstraints(params) {
     return '+(' + constraints.join(' ') + ')';
 }
 export default class Site {
-    static getResourceString(options) {
+    static getResourceString(options= {}) {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
@@ -57,7 +55,7 @@ export default class Site {
         }
         return locPlug.get();
     }
-    static search({ page = 1, limit = 10, tags = '', q = '', path = '' }) {
+    static search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '' } = {}) {
         let constraint = {};
         if(path !== '') {
             constraint.path = path;

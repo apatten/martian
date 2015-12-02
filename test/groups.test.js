@@ -33,6 +33,20 @@ describe('Group API', () => {
                 done();
             });
         });
+        it('can get an empty listing of the groups', (done) => {
+            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupListingEmpty });
+            Group.getGroupList().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get the listing of a single group', (done) => {
+            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupListingSingle });
+            Group.getGroupList().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can handle an HTTP error when fetching the groups', (done) => {
             jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 400, responseText: '' });
             Group.getGroupList().catch((e) => {
@@ -49,8 +63,12 @@ describe('Group API', () => {
         });
     });
     describe('constructor', () => {
-        it('can construct a new Group object', () => {
+        it('can construct a new Group object from the group ID', () => {
             let group = new Group(2);
+            expect(group).toBeDefined();
+        });
+        it('can construct a new Group object from the group name', () => {
+            let group = new Group('foo');
             expect(group).toBeDefined();
         });
         it('can fail gracefully when no group ID is provided', () => {

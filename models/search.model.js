@@ -27,26 +27,29 @@ let searchModel = {
             recommendationCount: obj['@count.recommendations'],
             count: obj['@count'],
             result: []
-        }
-        obj.result.forEach((result) => {
-            search.result.push({
-                author: result.author,
-                content: result.content,
-                dateModified: modelHelper.getDate(result['date.modified']),
-                id: result.id,
-                mime: result.mime,
-                rank: result.rank,
-                title: result.title,
-                uri: result.uri,
-                uriTrack: result['uri.track'],
-                page: {
-                    path: result.page.path,
-                    rating: result.page.rating,
-                    title: result.page.title,
-                    uriUi: result.page['uri.ui']
-                }
+        };
+        if('result' in obj) {
+            let results = Array.isArray(obj.result) ? obj.result : [ obj.result ];
+            results.forEach((result) => {
+                search.result.push({
+                    author: result.author,
+                    content: result.content,
+                    dateModified: modelHelper.getDate(result['date.modified']),
+                    id: result.id,
+                    mime: result.mime,
+                    rank: result.rank,
+                    title: result.title,
+                    uri: result.uri,
+                    uriTrack: result['uri.track'],
+                    page: {
+                        path: result.page.path,
+                        rating: result.page.rating,
+                        title: result.page.title,
+                        uriUi: result.page['uri.ui']
+                    }
+                });
             });
-        });
+        }
         return search;
     }
 };

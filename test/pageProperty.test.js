@@ -19,8 +19,20 @@
 import PageProperty from 'pageProperty';
 describe('Page Property', () => {
     describe('constructor tests', () => {
-        it('can construct a PageProperty object', () => {
+        it('can construct a PageProperty object for the home page implicitly', () => {
             let p = new PageProperty();
+            expect(p).toBeDefined();
+        });
+        it('can construct a PageProperty object for the home page explicitly', () => {
+            let p = new PageProperty('home');
+            expect(p).toBeDefined();
+        });
+        it('can construct a PageProperty object by page ID', () => {
+            let p = new PageProperty(123);
+            expect(p).toBeDefined();
+        });
+        it('can construct a PageProperty object by page path', () => {
+            let p = new PageProperty('foo/bar');
             expect(p).toBeDefined();
         });
     });
@@ -50,6 +62,14 @@ describe('Page Property', () => {
                 done();
             });
         });
+        it('can fetch the properties from a page (empty)', (done) => {
+            let propertiesUri = '/@api/deki/pages/123/properties?';
+            jasmine.Ajax.stubRequest(new RegExp(propertiesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pagePropertiesEmpty });
+            prop.getProperties().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can filter properties by supplying a list of names', (done) => {
             let propertiesUri = '/@api/deki/pages/123/properties?';
             jasmine.Ajax.stubRequest(new RegExp(propertiesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageProperties });
@@ -67,6 +87,14 @@ describe('Page Property', () => {
         it('can fetch a single property', (done) => {
             let propertyUri = '/@api/deki/pages/123/properties/mindtouch.import%23info/info?';
             jasmine.Ajax.stubRequest(new RegExp(propertyUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageProperty });
+            prop.getProperty('mindtouch.import#info').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a single property with a page info entry', (done) => {
+            let propertyUri = '/@api/deki/pages/123/properties/mindtouch.import%23info/info?';
+            jasmine.Ajax.stubRequest(new RegExp(propertyUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pagePropertyPage });
             prop.getProperty('mindtouch.import#info').then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -96,6 +124,14 @@ describe('Page Property', () => {
             let propertyUri = '/@api/deki/pages/123/properties?';
             jasmine.Ajax.stubRequest(new RegExp(propertyUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.childrenProperties });
             prop.getPropertyForChildren('property1').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch properties from children of the root page, and with a supplied depth', (done) => {
+            let propertyUri = '/@api/deki/pages/123/properties?';
+            jasmine.Ajax.stubRequest(new RegExp(propertyUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.childrenProperties });
+            prop.getPropertyForChildren('property1', 2).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });

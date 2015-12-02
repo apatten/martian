@@ -36,7 +36,7 @@ Mocks.search = `{
                 "rating": "",
                 "title": "Containers",
                 "uri.ui": "https://responsive.mindtouch.dev/Documentation/Branding_with_LESS/Advanced_LESS/Containers"
-            }, 
+            },
             "rank":"1",
             "title":"Containers",
             "type":"page",
@@ -49,7 +49,7 @@ Mocks.search = `{
             "date.modified":"Mon, 17 Aug 2015 18:20:57 GMT",
             "id":"295",
             "mime":"application/vnd.deki1410+xml",
-            "page":{ 
+            "page":{
                 "path":"Documentation/Branding_with_LESS/Advanced_LESS/Custom_Home",
                 "rating":"",
                 "title":"Custom Home",
@@ -70,4 +70,38 @@ Mocks.search = `{
             "@title":"Documentation"
         }
     }
+}`;
+Mocks.searchSingle = `{
+    "@ranking":"adaptive",
+    "@queryid":"2521",
+    "@querycount":"1",
+    "@count.recommendations":"0",
+    "@count":"1",
+    "parsedQuery":"+(content:(eiuriueiueiueieuieuieueiueiueee) title:(eiuriueiueiueieuieuieueiueiueee)^10 path.title:(eiuriueiueiueieuieuieueiueiueee)^4 description:(eiuriueiueiueieuieuieueiueiueee)^3 tag:(eiuriueiueiueieuieuieueiueiueee)^2 filename:(eiuriueiueiueieuieuieueiueiueee)^10 filetitle:(eiuriueiueiueieuieuieueiueiueee) keywords:(eiuriueiueiueieuieuieueiueiueee)^10 ) +type:(wiki document image binary)",
+    "result":{
+        "author":"admin",
+        "date.modified":"Wed, 02 Dec 2015 22:35:30 GMT",
+        "id":"419",
+        "mime":"application/vnd.deki1410+xml",
+        "page":{
+            "path":"132",
+            "rating":"",
+            "title":"132",
+            "uri.ui":"https://marsdev.mindtouch.dev/132"
+        },
+        "rank":"1",
+        "tag":"article:topic-category",
+        "title":"132",
+        "type":"page",
+        "uri":"https://marsdev.mindtouch.dev/132",
+        "uri.track":"https://marsdev.mindtouch.dev/@api/deki/site/query/2521?pageid=419&rank=1&type=page&position=1"
+    }
+}`;
+Mocks.searchEmpty = `{
+    "@ranking":"adaptive",
+    "@queryid":"2518",
+    "@querycount":"0",
+    "@count.recommendations":"0",
+    "@count":"0",
+    "parsedQuery":"+(content:(3347sadoflhjsd) title:(3347sadoflhjsd)^10 path.title:(3347sadoflhjsd)^4 description:(3347sadoflhjsd)^3 tag:(3347sadoflhjsd)^2 filename:(3347sadoflhjsd)^10 filetitle:(3347sadoflhjsd) keywords:(3347sadoflhjsd)^10 ) +type:(wiki document image binary)"
 }`;
