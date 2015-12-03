@@ -23,6 +23,10 @@ describe('User API', () => {
             expect(() => User()).toThrow();
             let u = new User();
             expect(u).toBeDefined();
+            let u2 = new User(123);
+            expect(u2).toBeDefined();
+            let u3 = new User('foobar');
+            expect(u3).toBeDefined();
         });
     });
     describe('static operations', () => {
@@ -36,6 +40,57 @@ describe('User API', () => {
             let currentUri = '/@api/deki/users/current?';
             jasmine.Ajax.stubRequest(new RegExp(currentUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.user });
             User.getCurrentUser().then((u) => {
+                expect(u).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch the list of all users', (done) => {
+            let usersUri = '/@api/deki/users?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.users });
+            User.getUsers().then((u) => {
+                expect(u).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a list of filtered users', (done) => {
+            let usersUri = '/@api/deki/users/search?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearch });
+            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+                expect(u).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a list of filtered users (single)', (done) => {
+            let usersUri = '/@api/deki/users/search?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearchSingle });
+            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+                expect(u).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a list of filtered users (empty)', (done) => {
+            let usersUri = '/@api/deki/users/search?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearchEmpty });
+            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+                expect(u).toBeDefined();
+                done();
+            });
+        });
+    });
+    describe('instance operations', () => {
+        let user = null;
+        beforeEach(() => {
+            user = new User(2);
+            jasmine.Ajax.install();
+        });
+        afterEach(() => {
+            user = null;
+            jasmine.Ajax.uninstall();
+        });
+        it('can fetch a specific user', (done) => {
+            let userUri = '/@api/deki/users/2?';
+            jasmine.Ajax.stubRequest(new RegExp(userUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.user });
+            user.getInfo().then((u) => {
                 expect(u).toBeDefined();
                 done();
             });

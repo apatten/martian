@@ -19,9 +19,26 @@
 import Plug from './plug';
 import settings from './settings';
 import userModel from './models/user.model';
+import usersModel from './models/users.model';
 let userPlug = new Plug().at('@api', 'deki', 'users');
 export default class User {
     static getCurrentUser() {
         return userPlug.withHost(settings.get('host')).at('current').get().then(userModel.parse);
+    }
+    static getUsers() {
+        return userPlug.withHost(settings.get('host')).get().then(usersModel.parse);
+    }
+    static searchUsers(constraints) {
+        return userPlug.withHost(settings.get('host')).at('search').withParams(constraints).get().then(usersModel.parse);
+    }
+    constructor(id = 'current') {
+        if(typeof id === 'string' && id !== 'current') {
+            id = `=${encodeURIComponent(encodeURIComponent(id))}`;
+        }
+        this._id = id;
+        this._plug = userPlug.withHost(settings.get('host')).at(this._id);
+    }
+    getInfo() {
+        return this._plug.get().then(userModel.parse);
     }
 }

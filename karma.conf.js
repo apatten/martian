@@ -71,10 +71,10 @@ module.exports = function(config) {
                 '*.js': 'isparta'
             },
             reporters: [
-                /*{
+                {
                     type: 'html',
                     dir: 'coverage/'
-                },*/
+                },
                 { type: 'text' }
             ]
         },
