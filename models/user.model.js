@@ -29,7 +29,10 @@ let userModel = {
             dateLastLogin: modelHelper.getDate(obj['date.lastlogin']),
             email: obj.email,
             fullname: obj.fullname,
-            username: obj.username
+            username: obj.username,
+            nick: obj.nick,
+            status: obj.status,
+            licenseSeat: modelHelper.getBool(obj['license.seat'])
         };
         if('page.home' in obj) {
             parsed.pageHome = pageModel.parse(obj['page.home']);
