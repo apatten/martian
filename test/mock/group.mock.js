@@ -74,3 +74,68 @@ Mocks.group = `{
     "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
     "users":{"@count":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
 }`;
+Mocks.groupUsers = `{
+    "@count":"2",
+    "@querycount":"2",
+    "@totalcount":"2",
+    "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3/users",
+    "user":[
+        {
+            "@id":"6",
+            "@wikiid":"site_1",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+            "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+            "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+            "email":"lsdkjf@example.com",
+            "fullname":"",
+            "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+            "license.seat":"true",
+            "nick":"someuser",
+            "password":{"@exists":"true"},
+            "status":"active",
+            "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+            "username":"someuser"
+        },
+        {
+            "@id":"4",
+            "@wikiid":"site_1",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/users/4",
+            "date.created":"Tue, 07 Apr 2015 23:02:45 GMT",
+            "date.lastlogin":"Wed, 10 Jun 2015 15:20:34 GMT",
+            "email":"editor@example.com",
+            "fullname":"Mr. Editor",
+            "hash.email":"3ec564d1f50ebaa304b1393eb7241f76",
+            "license.seat":"true",
+            "nick":"editor",
+            "password":{"@exists":"true"},
+            "status":"active",
+            "uri.avatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "username":"editor"
+        }
+    ]
+}`;
+Mocks.groupUsersSingle = `{
+    "@count":"1",
+    "@querycount":"1",
+    "@totalcount":"1",
+    "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3/users",
+    "user":{
+        "@id":"6",
+        "@wikiid":"site_1",
+        "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+        "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+        "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+        "email":"lsdkjf@example.com",
+        "fullname":"",
+        "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+        "license.seat":"true",
+        "nick":"someuser",
+        "password":{"@exists":"true"},
+        "status":"active",
+        "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+        "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+        "username":"someuser"
+    }
+}`;

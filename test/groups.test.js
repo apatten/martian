@@ -94,5 +94,21 @@ describe('Group API', () => {
                 done();
             });
         });
+        it('can fetch a group\'s users', (done) => {
+            let usersUri = '/@api/deki/groups/2/users?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupUsers });
+            group.getUsers().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fetch a group\'s users (single)', (done) => {
+            let usersUri = '/@api/deki/groups/2/users?';
+            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupUsersSingle });
+            group.getUsers().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
     });
 });

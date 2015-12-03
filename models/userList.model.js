@@ -1,6 +1,6 @@
 import modelHelper from './modelHelper';
 import userModel from './user.model';
-let usersModel = {
+let userListModel = {
     parse: (data) => {
         let obj = modelHelper.fromJson(data);
         let parsed = {
@@ -19,4 +19,4 @@ let usersModel = {
         return parsed;
     }
 };
-export default usersModel;
+export default userListModel;

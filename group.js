@@ -19,6 +19,7 @@
 import Plug from 'plug';
 import groupModel from 'models/group.model';
 import groupListModel from 'models/groupList.model';
+import userListModel from 'models/userList.model';
 export default class Group {
     static getGroupList() {
         var plug = new Plug().at('@api', 'deki', 'groups');
@@ -29,11 +30,14 @@ export default class Group {
             throw 'A group ID must be supplied';
         }
         if(typeof id === 'string') {
-            id = `=${id}`;
+            id = `=${encodeURIComponent(encodeURIComponent(id))}`;
         }
         this._groupPlug = new Plug().at('@api', 'deki', 'groups', id);
     }
     getInfo() {
         return this._groupPlug.get().then(groupModel.parse);
+    }
+    getUsers(options) {
+        return this._groupPlug.at('users').withParams(options).get().then(userListModel.parse);
     }
 }

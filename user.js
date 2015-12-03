@@ -19,17 +19,17 @@
 import Plug from './plug';
 import settings from './settings';
 import userModel from './models/user.model';
-import usersModel from './models/users.model';
+import userListModel from './models/userList.model';
 let userPlug = new Plug().at('@api', 'deki', 'users');
 export default class User {
     static getCurrentUser() {
         return userPlug.withHost(settings.get('host')).at('current').get().then(userModel.parse);
     }
     static getUsers() {
-        return userPlug.withHost(settings.get('host')).get().then(usersModel.parse);
+        return userPlug.withHost(settings.get('host')).get().then(userListModel.parse);
     }
     static searchUsers(constraints) {
-        return userPlug.withHost(settings.get('host')).at('search').withParams(constraints).get().then(usersModel.parse);
+        return userPlug.withHost(settings.get('host')).at('search').withParams(constraints).get().then(userListModel.parse);
     }
     constructor(id = 'current') {
         if(typeof id === 'string' && id !== 'current') {
