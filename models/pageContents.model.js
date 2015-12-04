@@ -22,7 +22,8 @@ let pageContentsModel = {
         let obj = modelHelper.fromJson(data);
         let parsed = {
             type: obj['@type'],
-            title: obj['@title']
+            title: obj['@title'],
+            unsafe: modelHelper.getBool(obj['@unsafe'])
         };
         if(Array.isArray(obj.body)) {
             parsed.body = obj.body[0];
