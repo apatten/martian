@@ -27,7 +27,7 @@ export default class Group {
     }
     constructor(id) {
         if(!id) {
-            throw 'A group ID must be supplied';
+            throw new Error('A group ID must be supplied');
         }
         if(typeof id === 'string') {
             id = `=${encodeURIComponent(encodeURIComponent(id))}`;

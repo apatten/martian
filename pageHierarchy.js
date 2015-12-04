@@ -32,7 +32,7 @@ export default class PageHierarchy {
         if(this.filterByArticleTypes.length > 0) {
             subpagesPlug = subpagesPlug.withParam('article', this.filterByArticleTypes.join(','));
         }
-        return subpagesPlug.get().then(subpagesModel.parse).then(spModel => {
+        return subpagesPlug.get().then(subpagesModel.parse).then((spModel) => {
             return spModel.pageSubpage || [];
         });
     }

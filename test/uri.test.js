@@ -103,10 +103,10 @@ describe('URI', () => {
             });
         });
         describe('no host tests', () => {
-            let uri = new Uri('foo/bar');
+            let noHost = new Uri('foo/bar');
             it('can get stuff when no host is specified', () => {
-                expect(uri.getSegments()).toEqual([ 'foo', 'bar' ]);
-                expect(uri.query()).toBe('');
+                expect(noHost.getSegments()).toEqual([ 'foo', 'bar' ]);
+                expect(noHost.query()).toBe('');
             });
         });
     });

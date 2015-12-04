@@ -46,7 +46,7 @@ moment.fn.getDateTime = function() {
  */
 moment.fn.range = function(end, stepSize = 1, stepUnit = 'd') {
     if(!moment.isMoment(this) || !moment.isMoment(end)) {
-        throw 'end must be a moment object';
+        throw new Error('end must be a moment object');
     }
     var arr = [];
     var curr = this.clone();

@@ -73,8 +73,7 @@ describe('Group API', () => {
         });
         it('can fail gracefully when no group ID is provided', () => {
             expect(() => {
-                let g = new Group();
-                g = null;
+                new Group();  // eslint-disable-line no-new
             }).toThrow();
         });
     });

@@ -21,7 +21,7 @@ let pageTagsModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count']),
+            count: parseInt(obj['@count'], 10),
             href: obj['@href']
         };
         if('tag' in obj) {
@@ -30,7 +30,7 @@ let pageTagsModel = {
             tags.forEach((tag) => {
                 parsed.tags.push({
                     value: tag['@value'],
-                    id: parseInt(tag['@id']),
+                    id: parseInt(tag['@id'], 10),
                     href: tag['@href'],
                     title: tag.title,
                     type: tag.type,

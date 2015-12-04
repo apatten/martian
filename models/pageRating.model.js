@@ -21,34 +21,34 @@ let pageRatingModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count']),
+            count: parseInt(obj['@count'], 10),
             date: modelHelper.getDate(obj['@date']),
-            seatedCount: parseInt(obj['@seated.count']),
-            unseatedCount: parseInt(obj['@unseated.count'])
+            seatedCount: parseInt(obj['@seated.count'], 10),
+            unseatedCount: parseInt(obj['@unseated.count'], 10)
         };
         if('@score' in obj && obj['@score'] !== '') {
-            parsed.score = parseInt(obj['@score']);
+            parsed.score = parseInt(obj['@score'], 10);
         }
         if('@seated.score' in obj && obj['@seated.score'] !== '') {
-            parsed.seatedScore = parseInt(obj['@seated.score']);
+            parsed.seatedScore = parseInt(obj['@seated.score'], 10);
         }
         if('@unseated.score' in obj && obj['@unseated.score'] !== '') {
-            parsed.unseatedScore = parseInt(obj['@unseated.score']);
+            parsed.unseatedScore = parseInt(obj['@unseated.score'], 10);
         }
         if('@score.trend' in obj) {
-            parsed.scoreTrend = parseInt(obj['@score.trend']);
+            parsed.scoreTrend = parseInt(obj['@score.trend'], 10);
         }
         if('@seated.score.trend' in obj) {
-            parsed.seatedScoreTrend = parseInt(obj['@seated.score.trend']);
+            parsed.seatedScoreTrend = parseInt(obj['@seated.score.trend'], 10);
         }
         if('@unseated.score.trend' in obj) {
-            parsed.unseatedScoreTrend = parseInt(obj['@unseated.score.trend']);
+            parsed.unseatedScoreTrend = parseInt(obj['@unseated.score.trend'], 10);
         }
         if('user.ratedby' in obj) {
             let ratedBy = obj['user.ratedby'];
             parsed.userRatedBy = {
-                id: parseInt(ratedBy['@id']),
-                score: parseInt(ratedBy['@score']),
+                id: parseInt(ratedBy['@id'], 10),
+                score: parseInt(ratedBy['@score'], 10),
                 date: modelHelper.getDate(ratedBy['@date']),
                 href: ratedBy['@href'],
                 seated: modelHelper.getBool(ratedBy['@seated'])
