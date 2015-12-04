@@ -26,7 +26,7 @@ describe('Page', () => {
         it('can construct a new Page object using page path', () => {
             var page = new Page('foo/bar');
             expect(page).toBeDefined();
-            expect(page._id).toBe('=foo/bar');
+            expect(page._id).toBe('=foo%252Fbar');
         });
         it('can construct a new Page object using \'home\'', () => {
             var page = new Page('home');
