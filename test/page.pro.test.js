@@ -28,8 +28,9 @@ describe('Page Pro', () => {
             expect(p).toBeDefined();
         });
         it('can construct a Page object with a path as ID', () => {
-            let p = new PageApiPro('foo/bar');
+            let p = new PageApiPro('Page Title , / ? : @ & = + $ #');
             expect(p).toBeDefined();
+            expect(p._id).toEqual('=Page%2520Title%2520%252C%2520%252F%2520%253F%2520%253A%2520%2540%2520%2526%2520%253D%2520%252B%2520%2524%2520%2523');
         });
     });
     describe('functions', () => {
