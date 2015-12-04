@@ -55,9 +55,9 @@ export default class Page {
         return this._plug.at('tree').withParams(params).get().then(pageTreeModel.parse);
     }
     getTreeIds() {
-        return this._plug.at('tree').withParam('format', 'ids').get().then(idString => {
-            return idString.split(',').map(id => {
-                let numId = parseInt(id);
+        return this._plug.at('tree').withParam('format', 'ids').get().then((idString) => {
+            return idString.split(',').map((id) => {
+                let numId = parseInt(id, 10);
                 if(isNaN(numId)) {
                     throw new Error('Unable to parse the tree IDs.');
                 }

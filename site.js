@@ -45,7 +45,7 @@ function _buildSearchConstraints(params) {
     return '+(' + constraints.join(' ') + ')';
 }
 export default class Site {
-    static getResourceString(options= {}) {
+    static getResourceString(options = {}) {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }

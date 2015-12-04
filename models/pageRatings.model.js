@@ -22,7 +22,7 @@ let pageRatingsModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count']),
+            count: parseInt(obj['@count'], 10),
             href: obj['@href']
         };
         if('page' in obj) {

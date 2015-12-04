@@ -194,7 +194,7 @@ describe('Plug2', () => {
         });
         it('can do a raw HEAD request', (done) => {
             jasmine.Ajax.stubRequest(uriMatcher, null, 'HEAD').andReturn({ status: 200, responseText: 'Ajax Response' });
-            p.headRaw().then(xhr => {
+            p.headRaw().then((xhr) => {
                 expect(xhr.status).toBe(200);
                 done();
             });
@@ -219,7 +219,7 @@ describe('Plug2', () => {
         });
         it('can do a raw OPTIONS request', (done) => {
             jasmine.Ajax.stubRequest(uriMatcher, null, 'OPTIONS').andReturn({ status: 200, responseText: 'Ajax Response' });
-            p.optionsRaw().then(xhr => {
+            p.optionsRaw().then((xhr) => {
                 expect(xhr.status).toBe(200);
                 done();
             });

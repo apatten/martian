@@ -22,7 +22,7 @@ let userModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            id: parseInt(obj['@id']),
+            id: parseInt(obj['@id'], 10),
             wikiId: obj['@wikiid'],
             href: obj['@href'],
             dateCreated: modelHelper.getDate(obj['date.created']),

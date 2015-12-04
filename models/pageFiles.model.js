@@ -17,16 +17,14 @@
  * limitations under the License.
  */
 import modelHelper from './modelHelper';
-import pageModel from './page.model';
-import userModel from './user.model';
 import fileModel from './file.model';
 let pageFilesModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count']),
-            offset: parseInt(obj['@offset']),
-            totalcount: parseInt(obj['@totalcount']),
+            count: parseInt(obj['@count'], 10),
+            offset: parseInt(obj['@offset'], 10),
+            totalcount: parseInt(obj['@totalcount'], 10),
             href: obj['@href']
         };
         if('file' in obj) {

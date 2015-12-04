@@ -18,26 +18,12 @@
  */
 'use strict';
 
-var jspm = require('jspm');
 var gulp = require('gulp');
-var plumber = require('gulp-plumber');
 var cached = require('gulp-cached');
 var karma = require('karma').server;
 var inspectSources = [
-    'lib/*',
-    'model/*',
-    'draft.js',
-    'feedback.js',
-    'file.js',
-    'group.js',
-    'page.js',
-    'page.pro.js',
-    'pageHierarchy.js',
-    'pageProperty.js',
-    'site.js',
-    'time.js',
-    'user.js',
-    'error/*'
+    './*.js',
+    '*(errors|lib|models|test)/**/*.js'
 ];
 
 /*** js tests ***/
@@ -50,21 +36,13 @@ gulp.task('test', function(done) {
 
 /*** sub tasks ***/
 gulp.task('inspect:lint', function() {
-    var jshint = require('gulp-jshint');
-    var stylish = require('jshint-stylish');
+    var lint = require('gulp-eslint');
     return gulp.src(inspectSources)
         .pipe(cached('inspect:lint'))
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter(stylish));
-});
-
-gulp.task('inspect:jscs', function() {
-    var codeStyle = require('gulp-jscs');
-    return gulp.src(inspectSources)
-        .pipe(cached('inspect:jscs'))
-        .pipe(codeStyle());
+        .pipe(lint({ rulePaths: [ 'gulp/eslint-rules/' ], configFile: '.eslintrc' }))
+        .pipe(lint.format('stylish'));
 });
 
 /*** main tasks ***/
-gulp.task('inspect', [ 'inspect:lint', 'inspect:jscs' ]);
+gulp.task('inspect', [ 'inspect:lint' ]);
 gulp.task('default', [ 'inspect', 'test' ]);

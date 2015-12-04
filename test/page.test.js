@@ -188,7 +188,7 @@ describe('Page', () => {
             let treeUri = '/@api/deki/pages/123/tree?';
             jasmine.Ajax.stubRequest(new RegExp(treeUri), null, 'GET').andReturn({ status: 200, responseText: '123,456,789' });
             page.getTreeIds().then((r) => {
-                expect(r).toEqual([ 123, 456, 789]);
+                expect(r).toEqual([ 123, 456, 789 ]);
                 done();
             });
         });
@@ -225,7 +225,7 @@ describe('Page', () => {
         it('can handle a tags response with bad JSON', (done) => {
             let tagsUri = '/@api/deki/pages/123/tags?';
             jasmine.Ajax.stubRequest(new RegExp(tagsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
-            page.getTags().catch(r => {
+            page.getTags().catch((r) => {
                 expect(r).toBeDefined();
                 expect(r.message).toBe('Unable to parse JSON string');
                 done();

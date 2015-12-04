@@ -4,18 +4,18 @@ Mocks.classifications = [
         label: 'Article type',
         prefix: 'article',
         tags: [
-            { label:'Portfolio', tag: 'topic-portfolio' },
-            { label:'Category', tag: 'topic-category' },
-            { label:'Guide', tag: 'topic-guide' },
-            { label:'Topic', tag: 'topic' },
-            { label:'How-To', tag: 'howto' },
-            { label:'Reference', tag: 'reference' }
+            { label: 'Portfolio', tag: 'topic-portfolio' },
+            { label: 'Category', tag: 'topic-category' },
+            { label: 'Guide', tag: 'topic-guide' },
+            { label: 'Topic', tag: 'topic' },
+            { label: 'How-To', tag: 'howto' },
+            { label: 'Reference', tag: 'reference' }
         ]
     },
     {
         label: 'Stage',
         prefix: 'stage',
-        tags:[
+        tags: [
             { label: 'Stub', tag: 'stub' },
             { label: 'Draft', tag: 'draft' },
             { label: 'Review', tag: 'review' },
@@ -28,7 +28,7 @@ Mocks.classifications = [
         label: 'Custom Tag',
         prefix: 'test',
         recursive: true,
-        tags:[
+        tags: [
             { label: 'Apples', tag: 'a' },
             { label: 'Bananas', tag: 'b' },
             { label: 'Oranges', tag: 'c' }

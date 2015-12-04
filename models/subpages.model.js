@@ -22,8 +22,8 @@ let subpagesModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            totalcount: parseInt(obj['@totalcount']),
-            count: parseInt(obj['@count']),
+            totalcount: parseInt(obj['@totalcount'], 10),
+            count: parseInt(obj['@count'], 10),
             href: obj['@href']
         };
         if('page.subpage' in obj) {
@@ -31,7 +31,7 @@ let subpagesModel = {
             parsed.pageSubpage = [];
             subpages.forEach((sp) => {
                 parsed.pageSubpage.push({
-                    id: parseInt(sp['@id']),
+                    id: parseInt(sp['@id'], 10),
                     href: sp['@href'],
                     deleted: modelHelper.getBool(sp['@deleted']),
                     subpages: modelHelper.getBool(sp['@subpages']),
