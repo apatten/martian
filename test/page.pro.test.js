@@ -105,5 +105,27 @@ describe('Page Pro', () => {
                 done();
             });
         });
+        it('can set the page contents', (done) => {
+            let setUri = '/@api/deki/pages/123/contents?';
+            jasmine.Ajax.stubRequest(new RegExp(setUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageSetContents });
+            page.setContents('Sample contents').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can set the page contents with options', (done) => {
+            let setUri = '/@api/deki/pages/123/contents?';
+            jasmine.Ajax.stubRequest(new RegExp(setUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageSetContents });
+            page.setContents('Sample contents', { edittime: 'now' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fail when setting invalid page contents', (done) => {
+            page.setContents({}).catch((e) => {
+                expect(e.message).toBe('Contents should be string.');
+                done();
+            });
+        });
     });
 });

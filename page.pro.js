@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 import Page from './page';
-import pageModel from './models/page.model';
 import pageMoveModel from './models/pageMove.model';
+import pageEditModel from './models/pageEdit.model';
 export default class PagePro extends Page {
     constructor(id = 'home') {
         super(id);
@@ -43,11 +43,6 @@ export default class PagePro extends Page {
         Object.keys(params).forEach((key) => {
             contentsParams[key] = params[key];
         });
-        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then((data) => {
-            if(typeof data === 'string') {
-                data = JSON.parse(data);
-            }
-            return pageModel.parse(data.page);
-        });
+        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModel.parse);
     }
 }
