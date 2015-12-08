@@ -16,8 +16,7 @@ module.exports = function(config) {
         ],
         exclude: [
             'karama.conf.js',
-            'martian.js',
-            'index.js'
+            'gulpfile.js'
         ],
         jspm: {
             config: 'config.js',
@@ -27,37 +26,20 @@ module.exports = function(config) {
                 'test/*.test.js'
             ],
             serveFiles: [
+                '*.js',
                 'lib/*.js',
                 'models/*.js',
-                '*.js',
                 'errors/*.js'
             ]
         },
         preprocessors: {
-            'lib/*.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'models/*.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'errors/*.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'draft.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'file.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'group.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'feedback.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'page.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'page.pro.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'pageHierarchy.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'pageProperty.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'site.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'user.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'plug.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'uri.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'uriHash.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'settings.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'time.js': [ 'babel', 'sourcemap', 'coverage' ],
-            'test/mock/*.mock.js': [ 'babel' ],
-            'test/**/*.test.js': [ 'babel' ]
+            '*.js': [ 'babel', 'sourcemap', 'coverage' ],
+            '*(errors|lib|models)/*.js': [ 'babel', 'sourcemap', 'coverage' ],
+            'test/**/*.js': [ 'babel' ]
         },
         babelPreprocessor: {
             options: {
-                modules: 'system',
+                presets: [ 'es2015' ],
                 sourceMap: 'inline'
             },
             sourceFileName: function(file) {
