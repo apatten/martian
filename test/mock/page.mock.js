@@ -594,3 +594,22 @@ Mocks.pageFilesEmpty = `{
     "@totalcount":"7",
     "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/362/files"
 }`;
+Mocks.pageSetContents = `{
+  "@status": "success",
+  "page": {
+    "@id": "564",
+    "@draft.state": "inactive",
+    "@href": "http://marsdev.mindtouch.dev/@api/deki/pages/564?redirects=0",
+    "@deleted": "false",
+    "@revision": "2",
+    "date.created": "Mon, 07 Dec 2015 21:34:55 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "#text": "Category_1/Guide_1/Page_Title_2"
+    },
+    "title": "Page Title 2",
+    "uri.ui": "http://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title_2"
+  }
+}`;
