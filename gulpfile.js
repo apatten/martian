@@ -20,7 +20,7 @@
 
 var gulp = require('gulp');
 var cached = require('gulp-cached');
-var karma = require('karma').server;
+var KarmaServer = require('karma').Server;
 var inspectSources = [
     './*.js',
     '*(errors|lib|models|test)/**/*.js'
@@ -28,10 +28,10 @@ var inspectSources = [
 
 /*** js tests ***/
 gulp.task('test', function(done) {
-    karma.start({
+    new KarmaServer({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done);
+    }, done).start();
 });
 
 /*** sub tasks ***/
