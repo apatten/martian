@@ -46,3 +46,6 @@ gulp.task('inspect:lint', function() {
 /*** main tasks ***/
 gulp.task('inspect', [ 'inspect:lint' ]);
 gulp.task('default', [ 'inspect', 'test' ]);
+gulp.task('watch', function() {
+    gulp.watch(inspectSources, [ 'default' ]);
+});
