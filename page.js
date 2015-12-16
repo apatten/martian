@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import Plug from './plug';
-import XhrError from './errors/xhrError';
 import settings from './settings';
 import modelHelper from './models/modelHelper';
 import pageModel from './models/page.model';
@@ -45,18 +44,7 @@ export default class Page {
         return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
     }
     getFullInfo() {
-        if(typeof this._id === 'number') {
-            return this._plug.get().then(pageModel.parse);
-        }
-
-        return this._plug.getRaw().then((xhr) => {
-
-            // Throw for all non-2xx status codes, except for 304 and 404 (returned for virtual pages)
-            if((xhr.status < 200 || xhr.status >= 300) && xhr.status !== 304 && xhr.status !== 404) {
-                return Promise.reject(new XhrError(xhr));
-            }
-            return Promise.resolve(xhr.responseText || '');
-        }).then(pageModel.parse);
+        return this._plug.get().then(pageModel.parse);
     }
     getContents(params) {
         return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);

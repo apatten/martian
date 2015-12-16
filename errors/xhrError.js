@@ -19,16 +19,18 @@
 import MTError from './mtError';
 export default class XhrError extends MTError {
     constructor(xhr, customMessage = '') {
-        let response = {};
+        let response;
+        let message;
         if('responseText' in xhr) {
             try {
                 response = JSON.parse(xhr.responseText);
             } catch(e) {
-                response.message = xhr.responseText || customMessage;
+                message = xhr.responseText || customMessage;
             }
         }
-        let message = ('message' in response && response.message !== '') ? response.message : `Status ${xhr.status} from request`;
+        message = message || (response && response.message) || `Status ${xhr.status} from request`;
         super(message);
         this.errorCode = xhr.status;
+        this.response = response || null;
     }
 }
