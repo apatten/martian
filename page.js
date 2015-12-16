@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import Plug from './plug';
+import XhrError from './errors/xhrError';
 import settings from './settings';
 import modelHelper from './models/modelHelper';
 import pageModel from './models/page.model';
@@ -45,6 +46,16 @@ export default class Page {
     }
     getFullInfo() {
         return this._plug.get().then(pageModel.parse);
+    }
+    getVirtualInfo() {
+        return this._plug.getRaw().then((xhr) => {
+            if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                return Promise.reject(new Error('This method is not available for non virtual pages.'));
+            } else if(xhr.status !== 404) {
+                return Promise.reject(new XhrError(xhr));
+            }
+            return Promise.resolve(xhr.responseText || '');
+        }).then(pageModel.parse);
     }
     getContents(params) {
         return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
