@@ -25,7 +25,6 @@ let pageModel = {
         let parsed = {
             id: parseInt(obj['@id'], 10),
             deleted: modelHelper.getBool(obj['@deleted']),
-            virtual: modelHelper.getBool(obj['@virtual']),
             dateCreated: modelHelper.getDate(obj['date.created']),
             language: obj.language,
             namespace: obj.namespace,
@@ -39,6 +38,12 @@ let pageModel = {
         modelHelper.addIfDefined(obj.article, 'article', parsed);
         modelHelper.addIfDefined(obj['language.effective'], 'languageEffective', parsed);
         modelHelper.addIfDefined(obj.timeuuid, 'timeuuid', parsed);
+        if('@unpublish' in obj) {
+            parsed.unpublish = modelHelper.getBool(obj['@unpublish']);
+        }
+        if('@virtual' in obj) {
+            parsed.virtual = modelHelper.getBool(obj['@virtual']);
+        }
         if('date.modified' in obj) {
             parsed.dateModified = modelHelper.getDate(obj['date.modified']);
         }
