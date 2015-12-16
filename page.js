@@ -45,13 +45,14 @@ export default class Page {
         return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
     }
     getFullInfo() {
-        return this._plug.get().then(pageModel.parse);
-    }
-    getVirtualInfo() {
+        if(typeof this._id === 'number') {
+            return this._plug.get().then(pageModel.parse);
+        }
+
         return this._plug.getRaw().then((xhr) => {
-            if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-                return Promise.reject(new Error('This method is not available for non virtual pages.'));
-            } else if(xhr.status !== 404) {
+
+            // Throw for all non-2xx status codes, except for 304 and 404 (returned for virtual pages)
+            if((xhr.status < 200 || xhr.status >= 300) && xhr.status !== 304 && xhr.status !== 404) {
                 return Promise.reject(new XhrError(xhr));
             }
             return Promise.resolve(xhr.responseText || '');

@@ -25,6 +25,7 @@ let pageModel = {
         let parsed = {
             id: parseInt(obj['@id'], 10),
             deleted: modelHelper.getBool(obj['@deleted']),
+            virtual: modelHelper.getBool(obj['@virtual']),
             dateCreated: modelHelper.getDate(obj['date.created']),
             language: obj.language,
             namespace: obj.namespace,
