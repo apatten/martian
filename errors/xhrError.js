@@ -24,11 +24,12 @@ export default class XhrError extends MTError {
         if('responseText' in xhr) {
             try {
                 response = JSON.parse(xhr.responseText);
+                message = response.message;
             } catch(e) {
                 message = xhr.responseText || customMessage;
             }
         }
-        message = message || (response && response.message) || `Status ${xhr.status} from request`;
+        message = message || `Status ${xhr.status} from request`;
         super(message);
         this.errorCode = xhr.status;
         this.response = response || null;

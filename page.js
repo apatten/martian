@@ -27,6 +27,12 @@ import pageTagsModel from './models/pageTags.model';
 import pageRatingModel from './models/pageRating.model';
 import pageFilesModel from './models/pageFiles.model';
 import utility from './lib/utility';
+function _handleVirtualPage(error) {
+    if(error.errorCode === 404 && error.response && error.response['@virtual']) {
+        return Promise.resolve(pageModel.parse(error.response));
+    }
+    throw error;
+}
 export default class Page {
     constructor(id = 'home') {
         if(typeof id === 'string' && id !== 'home') {
@@ -44,7 +50,7 @@ export default class Page {
         return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
     }
     getFullInfo() {
-        return this._plug.get().then(pageModel.parse);
+        return this._plug.get().then(pageModel.parse).catch(_handleVirtualPage);
     }
     getContents(params) {
         return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
