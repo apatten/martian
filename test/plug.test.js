@@ -129,6 +129,7 @@ describe('Plug2', () => {
                 expect(r).toBeDefined();
                 expect(r.message).toBe('internal error');
                 expect(r.errorCode).toBe(500);
+                expect(r.response).not.toBeNull();
                 done();
             });
         });
