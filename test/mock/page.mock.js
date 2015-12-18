@@ -13,6 +13,7 @@ Mocks.pageInfo = `{
 }`;
 Mocks.page = `{
     "@id":"123",
+    "@draft.state":"inactive",
     "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
     "@deleted":"false",
     "@unpublish":"true",
@@ -50,8 +51,50 @@ Mocks.page = `{
     "user.author":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"},
     "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
 }`;
+Mocks.virtualPage = `{
+    "@id":"0",
+    "@virtual":"true",
+    "@draft.state":"inactive",
+    "@href":"https://editor.mindtouch.dev/@api/deki/pages/0?redirects=0",
+    "@deleted":"false",
+    "date.created":"Thu, 01 Jan 1970 00:00:00 GMT",
+    "language":"en-US",
+    "namespace":"main",
+    "page.parent":{
+        "@id":"1",
+        "@draft.state":"inactive",
+        "@href":"https://editor.mindtouch.dev/@api/deki/pages/1?redirects=0",
+        "@deleted":"false",
+        "date.created":"Mon, 31 Aug 2015 21:22:42 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{
+            "@seo":"true",
+            "@type":"fixed",
+            "#text":""
+        },
+        "title":"Home",
+        "uri.ui":"https://editor.mindtouch.dev/"
+    },
+    "path":{
+        "@seo":"true",
+        "#text":"Page_Title"
+    },
+    "security":{
+        "@href":"https://editor.mindtouch.dev/@api/deki/pages/0/security",
+        "permissions.effective":{
+            "operations":{
+                "@mask":"9223372036854781247",
+                "#text":"ADMIN,LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,UNSAFECONTENT"
+            }
+        }
+    },
+    "title":"Page Title",
+    "uri.ui":"https://editor.mindtouch.dev/Page_Title"
+}`;
 Mocks.pageNoParent = `{
     "@id":"123",
+    "@draft.state":"inactive",
     "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
     "@deleted":"false",
     "@unpublish":"true",
@@ -111,6 +154,7 @@ Mocks.emptySubpages = `{
 Mocks.pageContent = `{
     "@type":"text/html",
     "@title":"Test For Ajax Save",
+    "@unsafe":"true",
     "body":[
         "<p>Sample Content</p>",
         {"@target":"toc","#text":"<em>No headers</em>"}
@@ -119,6 +163,7 @@ Mocks.pageContent = `{
 Mocks.pageContentSimple = `{
     "@type":"text/html",
     "@title":"Community",
+    "@unsafe":"true",
     "body":"<p>Sample Content</p>"
 }`;
 Mocks.pageTree = `{
@@ -595,21 +640,130 @@ Mocks.pageFilesEmpty = `{
     "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/362/files"
 }`;
 Mocks.pageSetContents = `{
-  "@status": "success",
-  "page": {
-    "@id": "564",
-    "@draft.state": "inactive",
-    "@href": "http://marsdev.mindtouch.dev/@api/deki/pages/564?redirects=0",
-    "@deleted": "false",
-    "@revision": "2",
-    "date.created": "Mon, 07 Dec 2015 21:34:55 GMT",
-    "language": "en-US",
-    "namespace": "main",
-    "path": {
-      "@seo": "true",
-      "#text": "Category_1/Guide_1/Page_Title_2"
+    "@status":"success",
+    "page":{
+        "@id":"564",
+        "@draft.state":"inactive",
+        "@href":"http://marsdev.mindtouch.dev/@api/deki/pages/564?redirects=0",
+        "@deleted":"false",
+        "@revision":"2",
+        "date.created":"Mon, 07 Dec 2015 21:34:55 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{
+            "@seo":"true",
+            "#text":"Category_1/Guide_1/Page_Title_2"
+        },
+        "title":"Page Title 2",
+        "uri.ui":"http://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title_2"
+    }
+}`;
+Mocks.pageSetContentsConflict = `{
+    "@status":"conflict",
+    "page":{
+        "@id":"310",
+        "@draft.state":"inactive",
+        "@href":"https://editor.mindtouch.dev/@api/deki/pages/310?redirects=0",
+        "@deleted":"false",
+        "@revision":"4",
+        "date.created":"Mon, 21 Sep 2015 15:01:54 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{
+            "@seo":"true",
+            "#text":"Bugs/MTP/1000-1500/1105"
+        },
+        "title":"1105",
+        "uri.ui":"https://editor.mindtouch.dev/Bugs/MTP/1000-1500/1105"
     },
-    "title": "Page Title 2",
-    "uri.ui": "http://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title_2"
-  }
+    "page.base":{
+        "@id":"310",
+        "@draft.state":"inactive",
+        "@deleted":"false",
+        "@revision":"2",
+        "@href":"https://editor.mindtouch.dev/@api/deki/pages/310/revisions?revision=2&redirects=0",
+        "contents":{
+            "@type":"application/vnd.deki1410+xml",
+            "@href":"https://editor.mindtouch.dev/@api/deki/pages/310/contents?revision=2&redirects=0"
+        },
+        "date.created":"Mon, 21 Sep 2015 15:01:54 GMT",
+        "date.edited":"Sun, 27 Sep 2015 18:08:26 GMT",
+        "description":"1 words added",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{
+            "@seo":"true",
+            "#text":"Bugs/MTP/1000-1500/1105"
+        },
+        "timeuuid":"bf83c900-6542-11e5-8009-d9d90666343f",
+        "title":"1105",
+        "uri.ui":"https://editor.mindtouch.dev/Bugs/MTP/1000-1500/1105",
+        "user.author":{
+            "@id":"1",
+            "@wikiid":"site_1",
+            "@href":"https://editor.mindtouch.dev/@api/deki/users/1",
+            "date.created":"Mon, 31 Aug 2015 21:22:42 GMT",
+            "date.lastlogin":"Wed, 16 Dec 2015 14:32:00 GMT",
+            "email":"karena@mindtouch.com",
+            "fullname":"",
+            "hash.email":"1ca3d810b8057bf39bdafb3fb445877b",
+            "license.seat":{
+                "@owner":"true",
+                "#text":"true"
+            },
+            "nick":"admin",
+            "password":{
+                "@exists":"true"
+            },
+            "status":"active",
+            "uri.avatar":"https://gravatar.com/avatar/1ca3d810b8057bf39bdafb3fb445877b.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/1ca3d810b8057bf39bdafb3fb445877b.png?d=mm",
+            "username":"admin"
+        }
+    },
+    "page.overwritten":{
+        "@id":"310",
+        "@draft.state":"inactive",
+        "@deleted":"false",
+        "@revision":"3",
+        "@href":"https://editor.mindtouch.dev/@api/deki/pages/310/revisions?revision=3&redirects=0",
+        "contents":{
+            "@type":"application/vnd.deki1410+xml",
+            "@href":"https://editor.mindtouch.dev/@api/deki/pages/310/contents?revision=3&redirects=0"
+        },
+        "date.created":"Mon, 21 Sep 2015 15:01:54 GMT",
+        "date.edited":"Fri, 18 Dec 2015 12:08:44 GMT",
+        "description":"1 words removed",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{
+            "@seo":"true",
+            "#text":"Bugs/MTP/1000-1500/1105"
+        },
+        "timeuuid":"15836e00-a580-11e5-80ae-6fcc2cf7dfa5",
+        "title":"1105",
+        "uri.ui":"https://editor.mindtouch.dev/Bugs/MTP/1000-1500/1105",
+        "user.author":{
+            "@id":"1",
+            "@wikiid":"site_1",
+            "@href":"https://editor.mindtouch.dev/@api/deki/users/1",
+            "date.created":"Mon, 31 Aug 2015 21:22:42 GMT",
+            "date.lastlogin":"Wed, 16 Dec 2015 14:32:00 GMT",
+            "email":"karena@mindtouch.com",
+            "fullname":"",
+            "hash.email":"1ca3d810b8057bf39bdafb3fb445877b",
+            "license.seat":{
+                "@owner":"true",
+                "#text":"true"
+            },
+            "nick":"admin",
+            "password":{
+                "@exists":"true"
+            },
+            "status":"active",
+            "uri.avatar":"https://gravatar.com/avatar/1ca3d810b8057bf39bdafb3fb445877b.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/1ca3d810b8057bf39bdafb3fb445877b.png?d=mm",
+            "username":"admin"
+        }
+    }
 }`;

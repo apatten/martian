@@ -92,6 +92,23 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can get a virtual page info', (done) => {
+            let fullInfoUri = '/@api/deki/pages/123?';
+            jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 404, responseText: Mocks.virtualPage });
+            page.getFullInfo().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can handle a non-existent page info', (done) => {
+            let fullInfoUri = '/@api/deki/pages/123?';
+            jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 404, responseText: '{ \"message\": \"Could not find requested page\" }' });
+            page.getFullInfo().catch((r) => {
+                expect(r).toBeDefined();
+                expect(r.message).toBe('Could not find requested page');
+                done();
+            });
+        });
         it('can get the page info with no parents', (done) => {
             let fullInfoUri = '/@api/deki/pages/123?';
             jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.pageNoParent });

@@ -121,6 +121,14 @@ describe('Page Pro', () => {
                 done();
             });
         });
+        it('can handle setting the page contents conflict', (done) => {
+            let setUri = '/@api/deki/pages/123/contents?';
+            jasmine.Ajax.stubRequest(new RegExp(setUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.pageSetContentsConflict });
+            page.setContents('Sample contents', { edittime: 'now', abort: 'never' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
         it('can fail when setting invalid page contents', (done) => {
             page.setContents({}).catch((e) => {
                 expect(e.message).toBe('Contents should be string.');
