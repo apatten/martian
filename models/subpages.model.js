@@ -34,7 +34,7 @@ let subpagesModel = {
                     href: sp['@href'],
                     deleted: modelHelper.getBool(sp['@deleted']),
                     subpages: modelHelper.getBool(sp['@subpages']),
-                    dateCreated: new Date(sp['date.created']),
+                    dateCreated: modelHelper.getDate(sp['date.created']),
                     language: sp.language,
                     namespace: sp.namespace,
                     path: modelHelper.getString(sp.path),
