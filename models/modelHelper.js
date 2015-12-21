@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Time from '../time';
 let modelHelper = {
     fromJson(data) {
         if(typeof data === 'string') {
@@ -31,7 +30,7 @@ let modelHelper = {
         return field === 'true';
     },
     getDate(field) {
-        return new Time(new Date(field));
+        return new Date(field);
     },
     addIfDefined(field, name, obj, parser = null) {
         if(typeof field !== 'undefined') {

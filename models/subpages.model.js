@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import modelHelper from './modelHelper';
-import Time from '../time';
 let subpagesModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -35,7 +34,7 @@ let subpagesModel = {
                     href: sp['@href'],
                     deleted: modelHelper.getBool(sp['@deleted']),
                     subpages: modelHelper.getBool(sp['@subpages']),
-                    dateCreated: new Time(sp['date.created']),
+                    dateCreated: new Date(sp['date.created']),
                     language: sp.language,
                     namespace: sp.namespace,
                     path: modelHelper.getString(sp.path),
