@@ -23,6 +23,9 @@ let modelHelper = {
         }
         return data;
     },
+    getInt(field) {
+        return parseInt(field, 10);
+    },
     getString(field) {
         return (typeof field === 'string') ? field : field['#text'];
     },
