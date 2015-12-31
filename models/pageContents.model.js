@@ -22,9 +22,14 @@ let pageContentsModel = {
         let obj = modelHelper.fromJson(data);
         let parsed = {
             type: obj['@type'],
-            title: obj['@title'],
-            unsafe: modelHelper.getBool(obj['@unsafe'])
+            title: obj['@title']
         };
+        if('@unsafe' in obj) {
+            parsed.unsafe = modelHelper.getBool(obj['@unsafe']);
+        }
+        if('@draft' in obj) {
+            parsed.draft = modelHelper.getBool(obj['@draft']);
+        }
         if(Array.isArray(obj.body)) {
             parsed.body = obj.body[0];
             parsed.targets = pageContentsModel._getTargets(obj.body);
