@@ -313,6 +313,9 @@ describe('Page', () => {
             expect(() => page.rate('foo')).toThrow();
             expect(() => page.rate(10)).toThrow();
             expect(() => page.rate({ score: 1 })).toThrow();
+            expect(() => page.rate(1, 'foo')).toThrow();
+            expect(() => page.rate(1, 10)).toThrow();
+            expect(() => page.rate(1, { score: 1 })).toThrow();
         });
         it('can fetch a template rendered in the context of the Page', (done) => {
             let contentsUri = '/@api/deki/pages/=Template%253AMindTouch%252FIDF3%252FControls%252FWelcomeMessage/contents?';

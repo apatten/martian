@@ -87,12 +87,16 @@ export default class Page {
     getRating() {
         return this._plug.at('ratings').get().then(pageRatingModel.parse);
     }
-    rate(rating = '') {
+    rate(rating = '', oldRating = '') {
         rating = rating.toString();
+        oldRating = oldRating.toString();
         if(rating !== '1' && rating !== '0' && rating !== '') {
             throw new Error('Invalid rating supplied');
         }
-        return this._plug.at('ratings').withParams({ score: rating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
+        if(oldRating !== '1' && oldRating !== '0' && oldRating !== '') {
+            throw new Error('Invalid rating supplied for the old rating');
+        }
+        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
     }
     logPageView() {
         var viewPlug = new Plug().at('@api', 'deki', 'events', 'page-view', this._id).withParam('uri', encodeURIComponent(document.location.href));
