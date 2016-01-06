@@ -22,7 +22,7 @@ let pagePropertiesModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count'], 10),
+            count: modelHelper.getInt(obj['@count']),
             href: obj['@href'],
             property: []
         };

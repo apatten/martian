@@ -23,7 +23,7 @@ let pageModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            id: parseInt(obj['@id'], 10),
+            id: modelHelper.getInt(obj['@id']),
             deleted: modelHelper.getBool(obj['@deleted']),
             dateCreated: modelHelper.getDate(obj['date.created']),
             language: obj.language,

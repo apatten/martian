@@ -22,9 +22,9 @@ let pageFilesModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: parseInt(obj['@count'], 10),
-            offset: parseInt(obj['@offset'], 10),
-            totalcount: parseInt(obj['@totalcount'], 10),
+            count: modelHelper.getInt(obj['@count']),
+            offset: modelHelper.getInt(obj['@offset']),
+            totalcount: modelHelper.getInt(obj['@totalcount']),
             href: obj['@href']
         };
         if('file' in obj) {
