@@ -15,7 +15,7 @@ let contextMapModel = {
         }
         if('pageid' in obj) {
             let id = modelHelper.getString(obj.pageid);
-            parsed.pageId = parseInt(id, 10);
+            parsed.pageId = modelHelper.getInt(id);
         }
         return parsed;
     }

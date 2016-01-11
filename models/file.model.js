@@ -23,20 +23,20 @@ let fileModel = {
     parse: (data) => {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            id: parseInt(obj['@id'], 10),
-            revision: parseInt(obj['@revision'], 10),
-            resId: parseInt(obj['@res-id'], 10),
+            id: modelHelper.getInt(obj['@id']),
+            revision: modelHelper.getInt(obj['@revision']),
+            resId: modelHelper.getInt(obj['@res-id']),
             href: obj['@href'],
             resIsHead: modelHelper.getBool(obj['@res-is-head']),
             resIsDeleted: modelHelper.getBool(obj['@res-is-deleted']),
             resRevIsDeleted: modelHelper.getBool(obj['@res-rev-is-head']),
-            resContentsId: parseInt(obj['@res-contents-id'], 10),
+            resContentsId: modelHelper.getInt(obj['@res-contents-id']),
             dateCreated: modelHelper.getDate(obj['date.created']),
             description: obj.description,
             filename: obj.filename,
             contents: {
                 type: obj.contents['@type'],
-                size: parseInt(obj.contents['@size'], 10),
+                size: modelHelper.getInt(obj.contents['@size']),
                 href: obj.contents['@href']
             }
         };
