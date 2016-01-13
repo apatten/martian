@@ -55,6 +55,6 @@ let draftModel = {
             parsed.userAuthor = userModel.parse(obj['user.author']);
         }
         return parsed;
-    },
+    }
 };
 export default draftModel;
