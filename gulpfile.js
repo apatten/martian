@@ -27,11 +27,11 @@ var inspectSources = [
 ];
 
 /*** js tests ***/
-gulp.task('test', function(done) {
+gulp.task('test', function() {
     new KarmaServer({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done).start();
+    }).start();
 });
 
 /*** sub tasks ***/
