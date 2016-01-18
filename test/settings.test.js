@@ -1,4 +1,4 @@
-import settings from 'settings';
+import settings from 'lib/settings';
 describe('Settings', () => {
     it('can set settings values', () => {
         settings.set('foo', 'bar');

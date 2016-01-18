@@ -16,27 +16,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './plug';
-import settings from './settings';
+import Plug from './lib/plug';
+import utility from './lib/utility';
 import userModel from './models/user.model';
 import userListModel from './models/userList.model';
 let userPlug = new Plug().at('@api', 'deki', 'users');
 export default class User {
     static getCurrentUser() {
-        return userPlug.withHost(settings.get('host')).at('current').get().then(userModel.parse);
+        return userPlug.at('current').get().then(userModel.parse);
     }
     static getUsers() {
-        return userPlug.withHost(settings.get('host')).get().then(userListModel.parse);
+        return userPlug.get().then(userListModel.parse);
     }
     static searchUsers(constraints) {
-        return userPlug.withHost(settings.get('host')).at('search').withParams(constraints).get().then(userListModel.parse);
+        return userPlug.at('search').withParams(constraints).get().then(userListModel.parse);
     }
     constructor(id = 'current') {
-        if(typeof id === 'string' && id !== 'current') {
-            id = `=${encodeURIComponent(encodeURIComponent(id))}`;
-        }
-        this._id = id;
-        this._plug = userPlug.withHost(settings.get('host')).at(this._id);
+        this._id = utility.getResourceId(id, 'current');
+        this._plug = userPlug.at(this._id);
     }
     getInfo() {
         return this._plug.get().then(userModel.parse);

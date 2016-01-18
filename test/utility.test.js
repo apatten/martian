@@ -1,11 +1,14 @@
 import utility from 'lib/utility';
-import settings from 'settings';
-import Plug from 'plug';
 describe('Martian utility', () => {
-    it('can get a Plug object with a specific host', () => {
-        settings.set('host', 'www.example.net');
-        let plug = new Plug();
-        let hostPlug = utility.getPlugWithHost(plug);
-        expect(hostPlug.getUrl()).toBe('www.example.net');
+    it('can escape a string for search queries', () => {
+        let unescaped = '1111\\+-&|!(){}[]^"~*?:2222';
+        expect(utility.searchEscape(unescaped)).toBe('1111\\\\\\+\\-\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\"\\~\\*\\?\\:2222');
+    });
+    it('can get an appropriately-encoded ID for an API resource', () => {
+        expect(utility.getResourceId(123)).toBe(123);
+        expect(utility.getResourceId(123, 'home')).toBe(123);
+        expect(utility.getResourceId('dog')).toBe('=dog');
+        expect(utility.getResourceId('dog', 'dog')).toBe('dog');
+        expect(utility.getResourceId('dog?cat/apple')).toBe('=dog%253Fcat%252Fapple');
     });
 });

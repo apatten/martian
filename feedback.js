@@ -16,8 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './plug';
-import settings from './settings';
+import Plug from './lib/plug';
 import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
 import pageRatingsModel from './models/pageRatings.model';
@@ -32,11 +31,11 @@ let feedback = {
             content: options.content,
             contactAllowed: options.contactAllowed
         });
-        let plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'workflow', 'submit-feedback');
+        let plug = new Plug().at('@api', 'deki', 'workflow', 'submit-feedback');
         return plug.post(request, utility.jsonRequestType);
     },
     getRatingsForPages: function(pageIds) {
-        var ratingsPlug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', 'ratings').withParams({ pageids: pageIds.join(',') });
+        var ratingsPlug = new Plug().at('@api', 'deki', 'pages', 'ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug.get().then(pageRatingsModel.parse);
     }
 };

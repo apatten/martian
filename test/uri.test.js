@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Uri from 'uri';
+import Uri from 'lib/uri';
 describe('URI', () => {
     describe('constructor tests', () => {
         it('can construct a plain URI', () => {
@@ -41,29 +41,7 @@ describe('URI', () => {
                 expect(uri.toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat#abcd=1234&defg=5678');
             });
             it('can fetch the protocol', () => {
-                expect(uri.getProtocol()).toBe('https:');
-            });
-            it('can fetch the path', () => {
-                expect(uri.path()).toBe('/foo/bar');
-            });
-            it('can fetch the query parameters', () => {
-                expect(uri.query()).toBe('?dog=cat&llama=goat');
-            });
-            it('can fetch a query param value', () => {
-                expect(uri.getQueryParamValue('dog')).toBe('cat');
-                expect(uri.getQueryParamValue('notthere')).toBe(null);
-            });
-            it('can fetch the hash parameters', () => {
-                expect(uri.getUriHash()).toBeDefined();
-            });
-            it('can fetch the origin segment', () => {
-                expect(uri.origin()).toBe('https://www.example.com');
-            });
-            it('can fetch the path segments', () => {
-                expect(uri.getSegments()).toEqual([ 'foo', 'bar' ]);
-            });
-            it('can fetch the host name', () => {
-                expect(uri.getHostName()).toBe('www.example.com');
+                expect(uri.protocol).toBe('https:');
             });
         });
         describe('manipulation tests', () => {
@@ -77,36 +55,17 @@ describe('URI', () => {
             });
             it('can add query parameters', () => {
                 var uri2 = uri.addQueryParam('new', 'param');
-                expect(uri2.query()).toBe('?dog=cat&llama=goat&new=param');
-                expect(uri2.getQueryParamValue('new')).toBe('param');
-            });
-            it('can add query parameters', () => {
-                var uri2 = uri.withParam('new', 'param');
-                expect(uri2.query()).toBe('?dog=cat&llama=goat&new=param');
-                expect(uri2.getQueryParamValue('new')).toBe('param');
+                expect(uri2.toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat&new=param#abcd=1234&defg=5678');
             });
             it('can batch-add query params', () => {
-                expect(uri.addQueryParams({ a: '1', b: '2', c: '3' }).query()).toBe('?dog=cat&llama=goat&a=1&b=2&c=3');
+                uri.addQueryParams({ a: '1', b: '2', c: '3' });
+                expect(uri.toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat&a=1&b=2&c=3#abcd=1234&defg=5678');
             });
             it('can remove query parameters', () => {
                 expect(uri.removeQueryParam('llama').toString()).toBe('https://www.example.com/foo/bar?dog=cat#abcd=1234&defg=5678');
             });
             it('can try to remove non-existent query parameters', () => {
                 expect(uri.removeQueryParam('132465798').toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat#abcd=1234&defg=5678');
-            });
-            it('can not change the host name when a hostname is not supplied', () => {
-                expect(uri.withHost().getHostName()).toBe('www.example.com');
-            });
-            it('can change the host name to a new one', () => {
-                let changed = uri.withHost('http://www.example.org');
-                expect(changed.getHostName()).toBe('www.example.org');
-            });
-        });
-        describe('no host tests', () => {
-            let noHost = new Uri('foo/bar');
-            it('can get stuff when no host is specified', () => {
-                expect(noHost.getSegments()).toEqual([ 'foo', 'bar' ]);
-                expect(noHost.query()).toBe('');
             });
         });
     });

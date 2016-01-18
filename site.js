@@ -16,10 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import settings from './settings';
 import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
-import Plug from './plug';
+import Plug from './lib/plug';
 import SearchModel from './models/search.model';
 let sitePlug = new Plug().at('@api', 'deki', 'site');
 function _buildSearchConstraints(params) {
@@ -49,7 +48,7 @@ export default class Site {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
-        var locPlug = sitePlug.withHost(settings.get('host')).at('localization', options.key);
+        let locPlug = sitePlug.at('localization', options.key);
         if('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
@@ -72,7 +71,7 @@ export default class Site {
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint)
         };
-        return sitePlug.withHost(settings.get('host')).at('query').withParams(searchParams).get().then((res) => {
+        return sitePlug.at('query').withParams(searchParams).get().then((res) => {
             return SearchModel.parse(res);
         });
     }
