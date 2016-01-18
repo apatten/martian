@@ -1,4 +1,4 @@
-import Plug from './plug';
+import Plug from './lib/plug';
 import contextIdsModel from 'models/contextIds.model';
 import contextIdModel from 'models/contextId.model';
 import contextMapsModel from 'models/contextMaps.model';

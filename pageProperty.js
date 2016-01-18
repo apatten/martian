@@ -16,17 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './plug';
-import settings from './settings';
+import Plug from './lib/plug';
+import utility from './lib/utility';
 import pagePropertiesModel from './models/pageProperties.model';
 import pagePropertyModel from './models/pageProperty.model';
 export default class PageProperty {
     constructor(id = 'home') {
-        if(typeof id === 'string' && id !== 'home') {
-            id = `=${id}`;
-        }
-        this._id = id;
-        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', this._id, 'properties');
+        this._id = utility.getResourceId(id, 'home');
+        this._plug = new Plug().at('@api', 'deki', 'pages', this._id, 'properties');
     }
     getProperties(names = []) {
         if(!Array.isArray(names)) {
@@ -42,13 +39,13 @@ export default class PageProperty {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
-        return this._plug.at(key, 'info').get().then(pagePropertyModel.parse);
+        return this._plug.at(encodeURIComponent(key), 'info').get().then(pagePropertyModel.parse);
     }
     getPropertyContents(key) {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
         }
-        return this._plug.at(key).get();
+        return this._plug.at(encodeURIComponent(key)).get();
     }
     getPropertyForChildren(key, depth = 1) {
         if(!key) {

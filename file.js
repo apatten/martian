@@ -16,14 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './plug';
-import settings from './settings';
+import Plug from './lib/plug';
 import utility from './lib/utility';
 import fileModel from './models/file.model';
 import fileRevisionsModel from './models/fileRevisions.model';
 export default class File {
     constructor(id) {
-        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'files', id).withParam('draft', true); // isDraftRequest);
+        this._plug = new Plug().at('@api', 'deki', 'files', id).withParam('draft', true);
     }
     getInfo() {
         return this._plug.at('info').get().then(fileModel.parse);

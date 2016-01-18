@@ -16,13 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'plug';
-describe('Plug2', () => {
+import Plug from 'lib/plug';
+describe('Plug', () => {
     describe('constructor', () => {
         it('will not construct a Plug with no URL provided', () => {
             let p = new Plug();
             expect(p).toBeDefined();
-            expect(p.getUrl()).toBe('');
             expect(p.at('@api').getUrl()).toBe('/@api');
         });
         it('can create a Plug', () => {
@@ -49,11 +48,14 @@ describe('Plug2', () => {
         });
     });
     describe('URI manipulation', () => {
-        let p;
+        let p = null;
         beforeEach(() => {
             p = new Plug('https://www.example.com/foo?a=b', {
                 headers: { 'Cache-Control': 'no-cache' }
             });
+        });
+        afterEach(() => {
+            p = null;
         });
         it('can add segments', () => {
             expect(p.at('bar', 'baz').getUrl()).toBe('https://www.example.com/foo/bar/baz?a=b');
@@ -70,6 +72,12 @@ describe('Plug2', () => {
         it('can remove a query param', () => {
             expect(p.withoutParam('a').getUrl()).toBe('https://www.example.com/foo');
             expect(p.getUrl()).toBe('https://www.example.com/foo?a=b');
+        });
+        it('can do multiple manipulations at once', () => {
+            var locPlug = p.at('localization', 'abcd.123');
+            expect(locPlug.getUrl()).toBe('https://www.example.com/foo/localization/abcd.123?a=b');
+            locPlug = locPlug.withParam('lang', 'en-us');
+            expect(locPlug.getUrl()).toBe('https://www.example.com/foo/localization/abcd.123?a=b&lang=en-us');
         });
         it('can add a header', () => {
             expect(p.withHeader('Front-End-Https', 'On').getHeaders()).toEqual({ 'Cache-Control': 'no-cache', 'Front-End-Https': 'On' });
@@ -90,6 +98,15 @@ describe('Plug2', () => {
             expect(p.withoutHeader('Cache-Control').getHeaders()).toEqual({});
             expect(p.withoutHeader('fakeHeader').getHeaders()).toEqual({ 'Cache-Control': 'no-cache' });
             expect(p.getHeaders()).toEqual({ 'Cache-Control': 'no-cache' });
+        });
+    });
+    describe('special manipulation cases', () => {
+        it('can add segments and query parameters', () => {
+            let plug = new Plug();
+            let segmentsPlug = plug.at('foo.hello', 'bar.baz');
+            expect(segmentsPlug.getUrl()).toBe('/foo.hello/bar.baz');
+            let bothPlug = segmentsPlug.withParam('dog', 'cat');
+            expect(bothPlug.getUrl()).toBe('/foo.hello/bar.baz?dog=cat');
         });
     });
     describe('Ajax operations', () => {

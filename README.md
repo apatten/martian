@@ -16,7 +16,7 @@ Use Plug to construct HTTP requests and handle responses as promises...
 ```javascript
 import Plug from 'martian/plug';
 
-let homePagePlug = new Plug().withHost('example.com').at('@api', 'deki', 'pages', 'home', 'contents');
+let homePagePlug = new Plug().at('@api', 'deki', 'pages', 'home', 'contents');
 homePagePlug.get().then(response) {
 
     // do something with the JSON response...

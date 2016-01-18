@@ -16,8 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './plug';
-import settings from './settings';
+import Plug from './lib/plug';
 import modelHelper from './models/modelHelper';
 import pageModel from './models/page.model';
 import subpagesModel from './models/subpages.model';
@@ -35,12 +34,8 @@ function _handleVirtualPage(error) {
 }
 export default class Page {
     constructor(id = 'home') {
-        if(typeof id === 'string' && id !== 'home') {
-            id = encodeURIComponent(encodeURIComponent(id));
-            id = `=${id}`;
-        }
-        this._id = id;
-        this._plug = new Plug().withHost(settings.get('host')).at('@api', 'deki', 'pages', this._id);
+        this._id = utility.getResourceId(id, 'home');
+        this._plug = new Plug().at('@api', 'deki', 'pages', this._id);
     }
     getInfo(params = {}) {
         let infoParams = { exclude: 'revision' };
