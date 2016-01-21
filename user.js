@@ -20,20 +20,25 @@ import Plug from './lib/plug';
 import utility from './lib/utility';
 import userModel from './models/user.model';
 import userListModel from './models/userList.model';
-let userPlug = new Plug().at('@api', 'deki', 'users');
 export default class User {
+    static _getPlug() {
+        if(!this.userPlug) {
+            this.userPlug = new Plug().at('@api', 'deki', 'users');
+        }
+        return this.userPlug;
+    }
     static getCurrentUser() {
-        return userPlug.at('current').get().then(userModel.parse);
+        return User._getPlug().at('current').get().then(userModel.parse);
     }
     static getUsers() {
-        return userPlug.get().then(userListModel.parse);
+        return User._getPlug().get().then(userListModel.parse);
     }
     static searchUsers(constraints) {
-        return userPlug.at('search').withParams(constraints).get().then(userListModel.parse);
+        return User._getPlug().at('search').withParams(constraints).get().then(userListModel.parse);
     }
     constructor(id = 'current') {
         this._id = utility.getResourceId(id, 'current');
-        this._plug = userPlug.at(this._id);
+        this._plug = User._getPlug().at(this._id);
     }
     getInfo() {
         return this._plug.get().then(userModel.parse);

@@ -3,24 +3,29 @@ import contextIdsModel from 'models/contextIds.model';
 import contextIdModel from 'models/contextId.model';
 import contextMapsModel from 'models/contextMaps.model';
 import contextMapModel from 'models/contextMap.model';
-let definitionsPlug = new Plug().at('@api', 'deki', 'contexts');
 class ContextDefinition {
+    static _getPlug() {
+        if(!this.definitionsPlug) {
+            this.definitionsPlug = new Plug().at('@api', 'deki', 'contexts');
+        }
+        return this.definitionsPlug;
+    }
     static getDefinitions() {
-        return definitionsPlug.get().then(contextIdsModel.parse);
+        return ContextDefinition._getPlug().get().then(contextIdsModel.parse);
     }
     static addDefinition(id, description = '') {
         if(!id) {
             return Promise.reject(new Error('an ID must be supplied to add a definintion'));
         }
         let addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
-        return definitionsPlug.post(addRequest, 'application/xml; charset=utf-8').then(contextIdModel.parse);
+        return ContextDefinition._getPlug().post(addRequest, 'application/xml; charset=utf-8').then(contextIdModel.parse);
     }
     constructor(id) {
         if(!id) {
             throw new Error('an ID must be supplied to create a new ContextDefinition');
         }
         this.id = id;
-        this.plug = definitionsPlug.at(id);
+        this.plug = ContextDefinition._getPlug().at(id);
     }
     getInfo() {
         return this.plug.get().then(contextIdModel.parse);
@@ -33,10 +38,15 @@ class ContextDefinition {
         return this.plug.delete();
     }
 }
-let mapsPlug = new Plug().at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
 class ContextMap {
+    static _getPlug() {
+        if(!this.mapsPlug) {
+            this.mapsPlug = new Plug().at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
+        }
+        return this.mapsPlug;
+    }
     static getMaps() {
-        return mapsPlug.get().then(contextMapsModel.parse);
+        return ContextMap._getPlug().get().then(contextMapsModel.parse);
     }
     constructor(language, id) {
         if(!id || !language) {
@@ -44,7 +54,7 @@ class ContextMap {
         }
         this.id = id;
         this.language = language;
-        this.plug = mapsPlug.at(language, id);
+        this.plug = ContextMap._getPlug().at(language, id);
     }
     getInfo() {
         return this.plug.get().then(contextMapModel.parse);
