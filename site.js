@@ -20,7 +20,6 @@ import utility from './lib/utility';
 import stringUtility from './lib/stringUtility';
 import Plug from './lib/plug';
 import SearchModel from './models/search.model';
-let sitePlug = new Plug().at('@api', 'deki', 'site');
 function _buildSearchConstraints(params) {
     let constraints = [];
     params.namespace = 'main';
@@ -44,11 +43,17 @@ function _buildSearchConstraints(params) {
     return '+(' + constraints.join(' ') + ')';
 }
 export default class Site {
+    static _getPlug() {
+        if(!this.sitePlug) {
+            this.sitePlug = new Plug().at('@api', 'deki', 'site');
+        }
+        return this.sitePlug;
+    }
     static getResourceString(options = {}) {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
-        let locPlug = sitePlug.at('localization', options.key);
+        let locPlug = Site._getPlug().at('localization', options.key);
         if('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
@@ -71,7 +76,7 @@ export default class Site {
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint)
         };
-        return sitePlug.at('query').withParams(searchParams).get().then((res) => {
+        return Site._getPlug().at('query').withParams(searchParams).get().then((res) => {
             return SearchModel.parse(res);
         });
     }
