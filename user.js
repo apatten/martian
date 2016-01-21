@@ -20,8 +20,13 @@ import Plug from './lib/plug';
 import utility from './lib/utility';
 import userModel from './models/user.model';
 import userListModel from './models/userList.model';
-let userPlug = new Plug().at('@api', 'deki', 'users');
 export default class User {
+    static _getPlug() {
+        if(!this.userPlug) {
+            this.userPlug = new Plug().at('@api', 'deki', 'users');
+        }
+        return this.userPlug;
+    }
     static getCurrentUser() {
         return userPlug.at('current').get().then(userModel.parse);
     }
