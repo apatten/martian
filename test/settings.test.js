@@ -7,11 +7,9 @@ describe('Settings', () => {
         expect(settings.get('foo')).toBe('bar');
         expect(settings.get('abc')).toBe(123);
         expect(settings.get('object')).toEqual({ dog: 'cat' });
-        expect(settings.getSettings()).toEqual({
-            host: '',
-            foo: 'bar',
-            abc: 123,
-            object: { dog: 'cat' }
-        });
+        let newSettings = settings.getSettings();
+        expect(newSettings.foo).toBe('bar');
+        expect(newSettings.abc).toBe(123);
+        expect(newSettings.object).toEqual({ dog: 'cat' });
     });
 });
