@@ -17,8 +17,13 @@
  * limitations under the License.
  */
 import Plug from 'lib/plug';
+import settings from 'lib/settings';
 describe('Plug', () => {
     describe('constructor', () => {
+        afterEach(() => {
+            settings.set('host', '');
+            settings.set('token', '');
+        });
         it('will not construct a Plug with no URL provided', () => {
             let p = new Plug();
             expect(p).toBeDefined();
@@ -45,6 +50,16 @@ describe('Plug', () => {
             };
             let p = new Plug('https://www.example.com/foo?a=b', { constructionParams: params });
             expect(p.getUrl()).toBe('https://www.example.com/foo/bar/baz?c=d&e=f');
+        });
+        it('can construct a Plug with the host in the settings', () => {
+            settings.set('host', 'http://www.mindtouch.dev');
+            let p = new Plug().at('foo');
+            expect(p.getUrl()).toBe('http://www.mindtouch.dev/foo');
+        });
+        it('can construct a Plug with a token in the settings', () => {
+            settings.set('token', 'abcd1234');
+            let p = new Plug();
+            expect(p.headers['X-Deki-Token']).toBe('abcd1234');
         });
     });
     describe('URI manipulation', () => {
