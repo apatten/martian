@@ -57,7 +57,7 @@ describe('Group API', () => {
         it('can handle invalid JSON when fetching the groups', (done) => {
             jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
             Group.getGroupList().catch((e) => {
-                expect(e.message).toBe('Unable to parse JSON string');
+                expect(e.message).toBeDefined();
                 done();
             });
         });
