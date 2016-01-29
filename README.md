@@ -17,11 +17,11 @@ Use Plug to construct HTTP requests and handle responses as promises...
 import Plug from 'martian/plug';
 
 let homePagePlug = new Plug().at('@api', 'deki', 'pages', 'home', 'contents');
-homePagePlug.get().then(response) {
+homePagePlug.get().then(function(response) {
 
     // do something with the JSON response...
     return response.data;
-}).then(data) {
+}).then(function(data) {
 
     // do something else with it...
 });
