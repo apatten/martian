@@ -84,6 +84,25 @@ Mocks.draft = `{
         "username":"admin"
     }
 }`;
+Mocks.draftBasic = `{
+    "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301",
+    "@state":"unpublished",
+    "@revision":"1",
+    "contents":{
+        "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301/contents"
+    },
+    "files":{
+        "@count":"0",
+        "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301/files?redirects=0"
+    },
+    "properties":{
+        "@count":"0",
+        "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301/properties"
+    },
+    "timeuuid":"45436480-afc9-11e5-80a4-1c1090b42d1e",
+    "title":"Category 3",
+    "uri.ui":"https://editor2.mindtouch.dev/Category_3?mt-draft=true"
+}`;
 Mocks.draftsWithTags = `{
     "pages":{
         "page":[

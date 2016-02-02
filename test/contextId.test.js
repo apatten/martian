@@ -1,53 +1,60 @@
-import {ContextDefinition, ContextMap} from 'contextId';
+import {Plug} from 'lib/plug';
+import {contextIdsModel} from 'models/contextIds.model';
+import {contextIdModel} from 'models/contextId.model';
+import {contextMapsModel} from 'models/contextMaps.model';
+import {contextMapModel} from 'models/contextMap.model';
+import {ContextIdManager, ContextDefinition, ContextMap} from 'contextId';
 describe('Context ID', () => {
-    beforeEach(() => {
-        jasmine.Ajax.install();
-    });
-    afterEach(() => {
-        jasmine.Ajax.uninstall();
-    });
-    describe('static functionality', () => {
-        let idsUri = '/@api/deki/contexts?';
+    describe('Manager', () => {
+        let cm = null;
+        beforeEach(() => {
+            cm = new ContextIdManager();
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+            spyOn(contextIdModel, 'parse').and.returnValue({});
+        });
+        afterEach(() => {
+            cm = null;
+        });
         it('can fetch the list of all definitions', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(idsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextIdDefinitions });
-            ContextDefinition.getDefinitions().then((r) => {
+            spyOn(contextIdsModel, 'parse').and.returnValue({});
+            cm.getDefinitions().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
-        it('can fetch the list of all definitions (single)', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(idsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextIdDefinitionsSingle });
-            ContextDefinition.getDefinitions().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can fetch the list of all definitions (empty)', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(idsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextIdDefinitionsEmpty });
-            ContextDefinition.getDefinitions().then((r) => {
+        it('can fetch all context maps', (done) => {
+            spyOn(contextMapsModel, 'parse').and.returnValue({});
+            cm.getMaps().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can add a context ID definition', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(idsUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.contextIdDefinitionsSingle });
-            ContextDefinition.addDefinition('foo').then((r) => {
+            cm.addDefinition('foo').then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can add a context ID definition with a description', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(idsUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.contextIdDefinitionsSingle });
-            ContextDefinition.addDefinition('foo', 'Foo description').then((r) => {
+            cm.addDefinition('foo', 'Foo description').then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fail if an ID is not supplied when trying to add a definition', (done) => {
-            ContextDefinition.addDefinition().catch((e) => {
+            cm.addDefinition().catch((e) => {
                 expect(e.message).toBe('an ID must be supplied to add a definintion');
                 done();
             });
+        });
+        it('can get a content ID Definition by id', () => {
+            let def = cm.getDefinition('foo');
+            expect(def).toBeDefined();
+        });
+        it('can get a content ID Map by language/id', () => {
+            let map = cm.getMap('en-us', 'foo');
+            expect(map).toBeDefined();
         });
     });
     describe('definition constructor', () => {
@@ -61,53 +68,36 @@ describe('Context ID', () => {
     describe('definition instance functions', () => {
         let def = null;
         beforeEach(() => {
+            spyOn(contextIdModel, 'parse').and.returnValue({});
             def = new ContextDefinition('foo');
         });
         afterEach(() => {
             def = null;
         });
-        let defUri = '/@api/deki/contexts/foo?';
         it('can get the definition info', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(defUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextIdDefinition });
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
             def.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can update the description of a definintion', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(defUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.contextIdDefinition });
+            spyOn(Plug.prototype, 'put').and.returnValue(Promise.resolve({}));
             def.updateDescription('New Description').then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can implicitly clear the description of a definintion', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(defUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.contextIdDefinition });
+            spyOn(Plug.prototype, 'put').and.returnValue(Promise.resolve({}));
             def.updateDescription().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can delete a definition', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(defUri), null, 'POST').andReturn({ status: 200 });
+            spyOn(Plug.prototype, 'delete').and.returnValue(Promise.resolve({}));
             def.delete().then(() => {
-                done();
-            });
-        });
-    });
-    describe('context map static functionality', () => {
-        let mapsUri = '/@api/deki/contextmaps?';
-        it('can fetch all context maps', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextMaps });
-            ContextMap.getMaps().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can fetch all context maps (single language)', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextMapsSingleLanguage });
-            ContextMap.getMaps().then((r) => {
-                expect(r).toBeDefined();
                 done();
             });
         });
@@ -122,30 +112,23 @@ describe('Context ID', () => {
         });
     });
     describe('ContextMap instance functions', () => {
-        let mapUri = '/@api/deki/contextmaps/en-us/foo?';
         let map = null;
         beforeEach(() => {
+            spyOn(contextMapModel, 'parse').and.returnValue({});
             map = new ContextMap('en-us', 'foo');
         });
         afterEach(() => {
             map = null;
         });
         it('can get the info of a map', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextMap });
-            map.getInfo().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can get the verbose info of a map', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.contextMapVerbose });
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
             map.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can update an existing map', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.contextMapVerbose });
+            spyOn(Plug.prototype, 'put').and.returnValue(Promise.resolve({}));
             map.update(123).then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -158,7 +141,7 @@ describe('Context ID', () => {
             });
         });
         it('can clear a mapping', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(mapUri), null, 'POST').andReturn({ status: 200 });
+            spyOn(Plug.prototype, 'delete').and.returnValue(Promise.resolve({}));
             map.remove().then((r) => {
                 expect(r).toBeDefined();
                 done();

@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import pageModel from './models/page.model';
-import subpagesModel from './models/subpages.model';
-export default class PageHierarchy {
-    constructor(articleTypes = []) {
+import {Plug} from './lib/plug';
+import {pageModel} from './models/page.model';
+import {subpagesModel} from './models/subpages.model';
+export class PageHierarchy {
+    constructor(articleTypes = [], settings) {
         this.filterByArticleTypes = articleTypes;
-        this._plug = new Plug().at('@api', 'deki', 'pages');
+        this._plug = new Plug(settings).at('@api', 'deki', 'pages');
     }
     getRoot(id = 'home') {
         return this._plug.at(id).get().then(pageModel.parse);

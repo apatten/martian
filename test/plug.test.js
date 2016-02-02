@@ -16,56 +16,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from 'lib/plug';
-import settings from 'lib/settings';
+import {Plug} from 'lib/plug';
+import {Settings} from 'lib/settings';
 describe('Plug', () => {
     describe('constructor', () => {
-        afterEach(() => {
-            settings.set('host', '');
-            settings.set('token', '');
-        });
-        it('will not construct a Plug with no URL provided', () => {
+        it('will construct a Plug with no URL provided', () => {
             let p = new Plug();
             expect(p).toBeDefined();
             expect(p.at('@api').getUrl()).toBe('/@api');
         });
         it('can create a Plug', () => {
-            let p = new Plug('https://www.example.com');
+            let settings = new Settings({ host: 'https://www.example.com' });
+            let p = new Plug(settings);
             expect(p.getUrl()).toBe('https://www.example.com/');
         });
         it('can create a Plug from a complicated URL', () => {
-            let p = new Plug('https://www.example.com/foo/bar/baz?a=b&c=d&e=f#1=2&3=4');
+            let settings = new Settings({ host: 'https://www.example.com/foo/bar/baz?a=b&c=d&e=f#1=2&3=4' });
+            let p = new Plug(settings);
             expect(p.getUrl()).toBe('https://www.example.com/foo/bar/baz?a=b&c=d&e=f#1=2&3=4');
         });
         it('can construct a Plug with supplied headers', () => {
+            let settings = new Settings({ host: 'https://www.example.com' });
             let headers = { foo: 'bar' };
-            let p = new Plug('https://www.example.com', { headers: headers });
+            let p = new Plug(settings, { headers: headers });
             expect(p.getHeaders()).toEqual(headers);
         });
         it('can construct a Plug with extra construction parameters', () => {
+            let settings = new Settings({ host: 'https://www.example.com/foo?a=b' });
             let params = {
                 segments: [ 'bar', 'baz' ],
                 query: { c: 'd', e: 'f' },
                 excludeQuery: 'a'
             };
-            let p = new Plug('https://www.example.com/foo?a=b', { constructionParams: params });
+            let p = new Plug(settings, { constructionParams: params });
             expect(p.getUrl()).toBe('https://www.example.com/foo/bar/baz?c=d&e=f');
         });
         it('can construct a Plug with the host in the settings', () => {
-            settings.set('host', 'http://www.mindtouch.dev');
-            let p = new Plug().at('foo');
+            let settings = new Settings({ host: 'http://www.mindtouch.dev' });
+            let p = new Plug(settings).at('foo');
             expect(p.getUrl()).toBe('http://www.mindtouch.dev/foo');
         });
         it('can construct a Plug with a token in the settings', () => {
-            settings.set('token', 'abcd1234');
-            let p = new Plug();
+            let settings = new Settings({ token: 'abcd1234' });
+            let p = new Plug(settings);
             expect(p.headers['X-Deki-Token']).toBe('abcd1234');
         });
     });
     describe('URI manipulation', () => {
         let p = null;
         beforeEach(() => {
-            p = new Plug('https://www.example.com/foo?a=b', {
+            let settings = new Settings({ host: 'https://www.example.com/foo?a=b' });
+            p = new Plug(settings, {
                 headers: { 'Cache-Control': 'no-cache' }
             });
         });
@@ -81,6 +82,7 @@ describe('Plug', () => {
             expect(p.getUrl()).toBe('https://www.example.com/foo?a=b');
         });
         it('can add multiple query params', () => {
+            expect(p.withParams().getUrl()).toBe('https://www.example.com/foo?a=b');
             expect(p.withParams({ c: 'd', e: 'f' }).getUrl()).toBe('https://www.example.com/foo?a=b&c=d&e=f');
             expect(p.getUrl()).toBe('https://www.example.com/foo?a=b');
         });
@@ -129,7 +131,8 @@ describe('Plug', () => {
         let uri = 'https://www.example.com/foo';
         let uriMatcher = new RegExp(uri);
         beforeEach(() => {
-            p = new Plug(uri, { raw: true });
+            let settings = new Settings({ host: uri });
+            p = new Plug(settings, { raw: true });
             jasmine.Ajax.install();
         });
         afterEach(() => {
@@ -286,8 +289,8 @@ describe('Plug', () => {
     });
     describe('timeout tests', () => {
         it('can handle an HTTP timeout', (done) => {
-            let uri = 'https://www.example.com/foo';
-            let p = new Plug(uri, { raw: true, constructionParams: { timeout: 1 } });
+            let settings = new Settings({ host: 'https://www.example.com/foo' });
+            let p = new Plug(settings, { raw: true, constructionParams: { timeout: 1 } });
             p.get().catch((e) => {
                 expect(e).toBeDefined();
                 done();

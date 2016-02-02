@@ -1,5 +1,5 @@
-import modelHelper from './modelHelper';
-import contextMapModel from './contextMap.model';
+import {modelHelper} from './modelHelper';
+import {contextMapModel} from './contextMap.model';
 let contextMapsModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -16,4 +16,4 @@ let contextMapsModel = {
         return parsed;
     }
 };
-export default contextMapsModel;
+export {contextMapsModel};

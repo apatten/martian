@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import PagePro from './page.pro';
-import draftModel from './models/draft.model';
-export default class Draft extends PagePro {
-    constructor(id = 'home') {
-        super(id);
-        this._plug = new Plug().at('@api', 'deki', 'drafts', this._id);
+import {Plug} from './lib/plug';
+import {PagePro} from './page.pro';
+import {draftModel} from './models/draft.model';
+export class Draft extends PagePro {
+    constructor(id = 'home', settings) {
+        super(id, settings);
+        this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._id);
     }
     getFullInfo() {
         return this._plug.get().then(draftModel.parse);

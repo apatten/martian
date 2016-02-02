@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import modelHelper from './modelHelper';
-import pageModel from './page.model';
+import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
 let userModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);
@@ -40,4 +40,4 @@ let userModel = {
         return parsed;
     }
 };
-export default userModel;
+export {userModel};

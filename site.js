@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import utility from './lib/utility';
-import stringUtility from './lib/stringUtility';
-import Plug from './lib/plug';
-import SearchModel from './models/search.model';
+import {utility} from './lib/utility';
+import {stringUtility} from './lib/stringUtility';
+import {Plug} from './lib/plug';
+import {searchModel} from './models/search.model';
 function _buildSearchConstraints(params) {
     let constraints = [];
     params.namespace = 'main';
@@ -42,24 +42,28 @@ function _buildSearchConstraints(params) {
     }
     return '+(' + constraints.join(' ') + ')';
 }
-export default class Site {
-    static _getPlug() {
+export class SiteManager {
+
+    /*static _getPlug(settings) {
         if(!this.sitePlug) {
-            this.sitePlug = new Plug().at('@api', 'deki', 'site');
+            this.sitePlug = new Plug(settings).at('@api', 'deki', 'site');
         }
         return this.sitePlug;
+    }*/
+    constructor(settings) {
+        this.plug = new Plug(settings).at('@api', 'deki', 'site');
     }
-    static getResourceString(options = {}) {
+    getResourceString(options = {}) {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
-        let locPlug = Site._getPlug().at('localization', options.key);
+        let locPlug = this.plug.at('localization', options.key);
         if('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get();
     }
-    static search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '' } = {}) {
+    search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '' } = {}) {
         let constraint = {};
         if(path !== '') {
             constraint.path = path;
@@ -76,8 +80,6 @@ export default class Site {
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint)
         };
-        return Site._getPlug().at('query').withParams(searchParams).get().then((res) => {
-            return SearchModel.parse(res);
-        });
+        return this.plug.at('query').withParams(searchParams).get().then(searchModel.parse);
     }
 }

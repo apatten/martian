@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import modelHelper from './modelHelper';
+import {modelHelper} from './modelHelper';
 let searchModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -53,4 +53,4 @@ let searchModel = {
         return search;
     }
 };
-export default searchModel;
+export {searchModel};

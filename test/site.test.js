@@ -16,89 +16,80 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Site from 'site';
+import {Plug} from 'lib/plug';
+import {searchModel} from 'models/search.model';
+import {Settings} from 'lib/settings';
+import {SiteManager} from 'site';
 describe('Site API', () => {
+    let settings = new Settings({
+        host: 'https://www.example.com',
+        token: 'abcd1234'
+    });
     describe('construction', () => {
         it('fails when calling Site as a function', () => {
-            expect(() => Site()).toThrow();
+            expect(() => SiteManager()).toThrow();
         });
         it('can attempt to construct a Site object', () => {
-            let site = new Site();
-            expect(site).toBeDefined();
+            let site1 = new SiteManager();
+            expect(site1).toBeDefined();
+            let site2 = new SiteManager(settings);
+            expect(site2).toBeDefined();
         });
     });
-    describe('static operations', () => {
+    describe('resource string operations', () => {
+        let sm = null;
         beforeEach(() => {
-            jasmine.Ajax.install();
-        });
-        afterEach(() => {
-            jasmine.Ajax.uninstall();
+            sm = new SiteManager(settings);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve('translated string'));
         });
         it('can fetch a translated string', (done) => {
-            let locUri = '/@api/deki/site/localization/Test.Resource.key?';
-            jasmine.Ajax.stubRequest(new RegExp(locUri), null, 'GET').andReturn({ status: 200, responseText: 'Translated string' });
-            Site.getResourceString({ key: 'Test.Resource.key' }).then((r) => {
-                expect(r).toBe('Translated string');
+            sm.getResourceString({ key: 'Test.Resource.key' }).then((r) => {
+                expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch a translated string with language supplied', (done) => {
-            let locUri = '/@api/deki/site/localization/Test.Resource.key?';
-            jasmine.Ajax.stubRequest(new RegExp(locUri), null, 'GET').andReturn({ status: 200, responseText: 'Translated string' });
-            Site.getResourceString({ key: 'Test.Resource.key', lang: 'en-us' }).then((r) => {
-                expect(r).toBe('Translated string');
+            sm.getResourceString({ key: 'Test.Resource.key', lang: 'en-us' }).then((r) => {
+                expect(r).toBeDefined();
                 done();
             });
         });
         it('can fail if no resource key is supplied', () => {
-            Site.getResourceString().catch((e) => {
+            sm.getResourceString().catch((e) => {
                 expect(e).toBeDefined();
             });
         });
+    });
+    describe('search operations', () => {
+        let sm = new SiteManager(settings);
+        beforeEach(() => {
+            sm = new SiteManager(settings);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve());
+        });
         it('can perform a default search', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.search });
-            Site.search().then((e) => {
+            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            sm.search().then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some parameters', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.search });
-            Site.search({ page: 123, tags: [ 'abc', '123' ] }).then((e) => {
+            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            sm.search({ page: 123, tags: [ 'abc', '123' ] }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some other parameters', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.search });
-            Site.search({ path: 'foo/bar', q: 'search thing' }).then((e) => {
+            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            sm.search({ path: 'foo/bar', q: 'search thing' }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with all parameters', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.search });
-            Site.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
-                expect(e).toBeDefined();
-                done();
-            });
-        });
-        it('can perform a search that returns a single result', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.searchSingle });
-            Site.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
-                expect(e).toBeDefined();
-                done();
-            });
-        });
-        it('can perform a search that returns no results', (done) => {
-            let searchUri = '/@api/deki/site/query?';
-            jasmine.Ajax.stubRequest(new RegExp(searchUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.searchEmpty });
-            Site.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
+            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            sm.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });

@@ -1,6 +1,6 @@
-import modelHelper from './modelHelper';
-import pageModel from './page.model';
-import draftModel from './draft.model';
+import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
+import {draftModel} from './draft.model';
 let pageEditModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -22,4 +22,4 @@ let pageEditModel = {
         return parsed;
     }
 };
-export default pageEditModel;
+export {pageEditModel};

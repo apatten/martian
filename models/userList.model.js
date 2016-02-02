@@ -1,5 +1,5 @@
-import modelHelper from './modelHelper';
-import userModel from './user.model';
+import {modelHelper} from './modelHelper';
+import {userModel} from './user.model';
 let userListModel = {
     parse: (data) => {
         let obj = modelHelper.fromJson(data);
@@ -19,4 +19,4 @@ let userListModel = {
         return parsed;
     }
 };
-export default userListModel;
+export {userListModel};

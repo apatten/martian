@@ -1,4 +1,4 @@
-import modelHelper from './modelHelper';
+import {modelHelper} from './modelHelper';
 let contextIdModel = {
     parse(data) {
         let parsed = modelHelper.fromJson(data);
@@ -8,4 +8,4 @@ let contextIdModel = {
         return parsed;
     }
 };
-export default contextIdModel;
+export {contextIdModel};

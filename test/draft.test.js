@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Draft from 'draft';
+import {Plug} from 'lib/plug';
+import {draftModel} from 'models/draft.model';
+import {Draft} from 'draft';
 describe('Draft', () => {
     describe('constructor tests', () => {
         it('can construct a new Draft object using draft ID', () => {
@@ -43,33 +45,14 @@ describe('Draft', () => {
         let draft = null;
         beforeEach(() => {
             draft = new Draft(123);
-            jasmine.Ajax.install();
         });
         afterEach(() => {
             draft = null;
-            jasmine.Ajax.uninstall();
         });
         it('can get the draft info', (done) => {
-            let fullInfoUri = '/@api/deki/drafts/123?';
-            jasmine.Ajax.stubRequest(new RegExp(fullInfoUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.draft });
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(draftModel, 'parse').and.returnValue({});
             draft.getFullInfo().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can get the draft contents', (done) => {
-            let contentsUri = '/@api/deki/drafts/123/contents?';
-            jasmine.Ajax.stubRequest(new RegExp(contentsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.draftContent });
-            draft.getContents().then((r) => {
-                expect(r).toBeDefined();
-                expect(r.draft).toBe(true);
-                done();
-            });
-        });
-        it('can set the draft contents', (done) => {
-            let setUri = '/@api/deki/drafts/123/contents?';
-            jasmine.Ajax.stubRequest(new RegExp(setUri), null, 'POST').andReturn({ status: 200, responseText: Mocks.draftSetContents });
-            draft.setContents('Sample contents').then((r) => {
                 expect(r).toBeDefined();
                 done();
             });

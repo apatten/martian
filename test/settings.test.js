@@ -1,6 +1,19 @@
-import settings from 'lib/settings';
+import {Settings} from 'lib/settings';
 describe('Settings', () => {
+    it('can create settings objects', () => {
+        let settings1 = new Settings();
+        let settings2 = new Settings({
+            foo: 'bar',
+            host: 'http://www.example.com'
+        });
+        settings1.set('foo', 'baz');
+        expect(settings1.get('foo')).toBe('baz');
+        expect(settings1.get('host')).not.toBeDefined();
+        expect(settings2.get('foo')).toBe('bar');
+        expect(settings2.get('host')).toBe('http://www.example.com');
+    });
     it('can set settings values', () => {
+        let settings = new Settings();
         settings.set('foo', 'bar');
         settings.set('abc', 123);
         settings.set('object', { dog: 'cat' });
@@ -11,5 +24,21 @@ describe('Settings', () => {
         expect(newSettings.foo).toBe('bar');
         expect(newSettings.abc).toBe(123);
         expect(newSettings.object).toEqual({ dog: 'cat' });
+    });
+    it('can clone a settings object', () => {
+        let settings = new Settings({ foo: 'bar', abc: 123 });
+        let settings2 = settings.clone({ foo: 'baz' });
+        expect(settings.get('foo')).toBe('bar');
+        expect(settings2.get('foo')).toBe('baz');
+        expect(settings.get('abc')).toBe(123);
+        expect(settings2.get('abc')).toBe(123);
+    });
+    it('can clone a settings object with no overrides', () => {
+        let settings = new Settings({ foo: 'bar', abc: 123 });
+        let settings2 = settings.clone();
+        expect(settings.get('foo')).toBe('bar');
+        expect(settings2.get('foo')).toBe('bar');
+        expect(settings.get('abc')).toBe(123);
+        expect(settings2.get('abc')).toBe(123);
     });
 });

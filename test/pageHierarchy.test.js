@@ -16,8 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import PageHierarchy from 'pageHierarchy';
+import {Plug} from 'lib/plug';
+import {pageModel} from 'models/page.model';
+import {subpagesModel} from 'models/subpages.model';
+import {PageHierarchy} from 'pageHierarchy';
 describe('Page Hierarchy', () => {
+    beforeEach(() => {
+        spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+    });
     describe('constructor tests', () => {
         it('can create a new page hierarchy object', () => {
             let ph = new PageHierarchy();
@@ -30,80 +36,50 @@ describe('Page Hierarchy', () => {
     });
     describe('operations', () => {
         let ph;
-        let rootUri = '/@api/deki/pages/123?';
-        let homeUri = '/@api/deki/pages/home?';
-        let subpagesUri = '/@api/deki/pages/123/subpages?';
-        let homeSubpagesUri = '/@api/deki/pages/home/subpages?';
         beforeEach(() => {
             ph = new PageHierarchy();
-            jasmine.Ajax.install();
         });
         afterEach(() => {
             ph = null;
-            jasmine.Ajax.uninstall();
         });
         it('can fetch the home page info explicitly', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(homeUri), null, 'GET').andReturn({
-                status: 200,
-                responseText: '{"@id": "123","@href": "https://www.example.com/@api/deki/pages/123?redirects=0", "path": "foo/bar", "title": "Bar"}'
-            });
+            spyOn(pageModel, 'parse').and.returnValue({ id: 123 });
             ph.getRoot('home').then((r) => {
                 expect(r.id).toBe(123);
                 done();
             });
         });
         it('can fetch the home page info implicitly', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(homeUri), null, 'GET').andReturn({
-                status: 200,
-                responseText: '{"@id": "123","@href": "https://www.example.com/@api/deki/pages/123?redirects=0", "path": "foo/bar", "title": "Bar"}'
-            });
+            spyOn(pageModel, 'parse').and.returnValue({ id: 123 });
             ph.getRoot().then((r) => {
                 expect(r.id).toBe(123);
                 done();
             });
         });
-        it('can fetch the root of another page by page ID', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(rootUri), null, 'GET').andReturn({
-                status: 200,
-                responseText: '{"@id": "123","@href": "https://www.example.com/@api/deki/pages/123?redirects=0", "path": "foo/bar", "title": "Bar"}'
-            });
-            ph.getRoot(123).then((r) => {
-                expect(r.id).toBe(123);
-                done();
-            });
-        });
-        it('can handle a 400 response when fetching the home page info', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(rootUri), null, 'GET').andReturn({ status: 400, responseText: 'bad request' });
-            ph.getRoot(123).catch((e) => {
-                expect(e.message).toBe('bad request');
-                expect(e.errorCode).toBe(400);
-                done();
-            });
-        });
         it('can fetch the children of the home page implicitly', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(homeSubpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpages });
+            spyOn(subpagesModel, 'parse').and.returnValue({ pageSubpage: [ '1', '2' ] });
             ph.getChildren().then((r) => {
                 expect(r.length).toBe(2);
                 done();
             });
         });
         it('can fetch the children of the home page explicitly', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(homeSubpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpages });
+            spyOn(subpagesModel, 'parse').and.returnValue({ pageSubpage: [ '1', '2' ] });
             ph.getChildren('home').then((r) => {
                 expect(r.length).toBe(2);
                 done();
             });
         });
         it('can fetch the children of a page', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpages });
+            spyOn(subpagesModel, 'parse').and.returnValue({ pageSubpage: [ '1', '2' ] });
             ph.getChildren(123).then((r) => {
                 expect(r.length).toBe(2);
                 done();
             });
         });
         it('can fetch both the root info and subpages', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(rootUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.page });
-            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpages });
+            spyOn(pageModel, 'parse').and.returnValue({ id: 123 });
+            spyOn(subpagesModel, 'parse').and.returnValue({ pageSubpage: [ '1', '2' ] });
             ph.getRootAndChildren(123).then((r) => {
                 expect(Array.isArray(r)).toBe(true);
                 expect(r[0].subpages).toBe(true);
@@ -111,8 +87,8 @@ describe('Page Hierarchy', () => {
             });
         });
         it('can fetch both the root info and subpages (raw mode)', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(rootUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.page });
-            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.subpages });
+            spyOn(pageModel, 'parse').and.returnValue({ id: 123 });
+            spyOn(subpagesModel, 'parse').and.returnValue({ pageSubpage: [ '1', '2' ] });
             ph.getRootAndChildren(123, false).then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -123,15 +99,12 @@ describe('Page Hierarchy', () => {
         let ph = null;
         beforeEach(() => {
             ph = new PageHierarchy([ 'topic-category', 'topic-guide' ]);
-            jasmine.Ajax.install();
         });
         afterEach(() => {
             ph = null;
-            jasmine.Ajax.uninstall();
         });
         it('can fetch the children of a page after being constructed with a filter', (done) => {
-            let subpagesUri = '/@api/deki/pages/123/subpages?';
-            jasmine.Ajax.stubRequest(new RegExp(subpagesUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.emptySubpages });
+            spyOn(subpagesModel, 'parse').and.returnValue([]);
             ph.getChildren(123).then((r) => {
                 expect(r.length).toBe(0);
                 done();
