@@ -25,6 +25,7 @@ describe('File API', () => {
         it('can construct a new File', () => {
             let file = new File(123);
             expect(file).toBeDefined();
+            expect(() => File()).toThrow();
         });
     });
     describe('operations', () => {

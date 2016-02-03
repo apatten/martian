@@ -27,6 +27,9 @@ describe('URI', () => {
             let uri = new Uri();
             expect(uri).toBeDefined();
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => Uri()).toThrow();
+        });
     });
     describe('functionality', () => {
         var uri = null;

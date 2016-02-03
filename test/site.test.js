@@ -64,31 +64,31 @@ describe('Site API', () => {
         let sm = new SiteManager(settings);
         beforeEach(() => {
             sm = new SiteManager(settings);
-            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve());
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
         });
         it('can perform a default search', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search().then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ page: 123, tags: [ 'abc', '123' ] }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some other parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ path: 'foo/bar', q: 'search thing' }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with all parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue(Mocks.search);
+            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
                 expect(e).toBeDefined();
                 done();

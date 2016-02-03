@@ -36,8 +36,8 @@ describe('User API', () => {
         let userManager = null;
         beforeEach(() => {
             userManager = new UserManager(settings);
-            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve());
-            spyOn(userModel, 'parse').and.returnValue(Mocks.user);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(userModel, 'parse').and.returnValue({});
         });
         it('can fetch the current user', (done) => {
             userManager.getCurrentUser().then((u) => {
@@ -46,28 +46,28 @@ describe('User API', () => {
             });
         });
         it('can fetch the list of all users', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue(Mocks.users);
+            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.getUsers().then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue(Mocks.userSearch);
+            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (single)', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue(Mocks.userSearchSingle);
+            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (empty)', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue(Mocks.userSearchEmpty);
+            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
@@ -82,8 +82,8 @@ describe('User API', () => {
     });
     describe('instance operations', () => {
         beforeEach(() => {
-            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve());
-            spyOn(userModel, 'parse').and.returnValue(Mocks.user);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(userModel, 'parse').and.returnValue({});
         });
         it('can construct a User without the manager', () => {
             let user1 = new User();

@@ -38,6 +38,9 @@ describe('Page Property', () => {
             let p = new PageProperty('foo/bar');
             expect(p).toBeDefined();
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => PageProperty()).toThrow();
+        });
     });
     describe('fetching tests', () => {
         let prop = null;

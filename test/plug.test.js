@@ -61,6 +61,20 @@ describe('Plug', () => {
             let p = new Plug(settings);
             expect(p.headers['X-Deki-Token']).toBe('abcd1234');
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => Plug()).toThrow();
+        });
+    });
+    describe('constructor with global settings', () => {
+        it('can use a global settings object', () => {
+            window.MartianSettings = new Settings({
+                host: 'http://www.theonehost.org',
+                token: 'theOneToken'
+            });
+            let gPlug = new Plug().at('@api', 'rad', 'endpoint').withParams({ foo: 'bar' });
+            expect(gPlug.getUrl()).toBe('http://www.theonehost.org/@api/rad/endpoint?foo=bar');
+            delete window.MartianSettings;
+        });
     });
     describe('URI manipulation', () => {
         let p = null;

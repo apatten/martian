@@ -11,6 +11,7 @@ describe('Settings', () => {
         expect(settings1.get('host')).not.toBeDefined();
         expect(settings2.get('foo')).toBe('bar');
         expect(settings2.get('host')).toBe('http://www.example.com');
+        expect(() => Settings()).toThrow();
     });
     it('can set settings values', () => {
         let settings = new Settings();

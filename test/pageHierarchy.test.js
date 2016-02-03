@@ -33,6 +33,9 @@ describe('Page Hierarchy', () => {
             let ph = new PageHierarchy([ 'topic-category', 'topic-guide' ]);
             expect(ph).toBeDefined();
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => PageHierarchy()).toThrow();
+        });
     });
     describe('operations', () => {
         let ph;

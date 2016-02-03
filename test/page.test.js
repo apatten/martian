@@ -46,6 +46,9 @@ describe('Page', () => {
             expect(page).toBeDefined();
             expect(page._id).toBe('home');
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => Page()).toThrow();
+        });
     });
     describe('get stuff tests', () => {
         let page = null;

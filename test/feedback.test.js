@@ -20,25 +20,33 @@ import {Plug} from 'lib/plug';
 import {pageRatingsModel} from 'models/pageRatings.model';
 import {FeedbackManager} from 'feedback';
 describe('Feedback API', () => {
-    let fm = null;
-    beforeEach(() => {
-        fm = new FeedbackManager();
-    });
-    afterEach(() => {
-        fm = null;
-    });
-    it('can submit page feedback', (done) => {
-        spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-        fm.submit({}).then(() => {
-            done();
+    describe('constructor', () => {
+        it('can construct a FeedbackManager', () => {
+            expect(() => new FeedbackManager()).not.toThrow();
+            expect(() => FeedbackManager()).toThrow();
         });
     });
-    it('can fetch the ratings for a set of pages', (done) => {
-        spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-        spyOn(pageRatingsModel, 'parse').and.returnValue({});
-        fm.getRatingsForPages([ 440, 441 ]).then((r) => {
-            expect(r).toBeDefined();
-            done();
+    describe('instance functions', () => {
+        let fm = null;
+        beforeEach(() => {
+            fm = new FeedbackManager();
+        });
+        afterEach(() => {
+            fm = null;
+        });
+        it('can submit page feedback', (done) => {
+            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+            fm.submit({}).then(() => {
+                done();
+            });
+        });
+        it('can fetch the ratings for a set of pages', (done) => {
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(pageRatingsModel, 'parse').and.returnValue({});
+            fm.getRatingsForPages([ 440, 441 ]).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
         });
     });
 });

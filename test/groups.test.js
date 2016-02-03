@@ -53,9 +53,8 @@ describe('Group API', () => {
             expect(group).toBeDefined();
         });
         it('can fail gracefully when no group ID is provided', () => {
-            expect(() => {
-                new Group();  // eslint-disable-line no-new
-            }).toThrow();
+            expect(() => new Group()).toThrow();
+            expect(() => Group()).toThrow();
         });
     });
     describe('group functionality', () => {

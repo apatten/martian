@@ -40,6 +40,9 @@ describe('Draft', () => {
             expect(draft).toBeDefined();
             expect(draft._id).toBe('home');
         });
+        it('can fail when the constructor is not used correctly', () => {
+            expect(() => Draft()).toThrow();
+        });
     });
     describe('get stuff tests', () => {
         let draft = null;
