@@ -44,4 +44,4 @@ let modelHelper = {
         }
     }
 };
-export default modelHelper;
+export {modelHelper};

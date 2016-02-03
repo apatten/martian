@@ -16,27 +16,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import utility from './lib/utility';
-import groupModel from 'models/group.model';
-import groupListModel from 'models/groupList.model';
-import userListModel from 'models/userList.model';
-export default class Group {
-    static getGroupList() {
-        var plug = new Plug().at('@api', 'deki', 'groups');
-        return plug.get().then(groupListModel.parse);
-    }
-    constructor(id) {
+import {Plug} from './lib/plug';
+import {utility} from './lib/utility';
+import {groupModel} from 'models/group.model';
+import {groupListModel} from 'models/groupList.model';
+import {userListModel} from 'models/userList.model';
+export class Group {
+    constructor(id, settings) {
         if(!id) {
             throw new Error('A group ID must be supplied');
         }
         this._id = utility.getResourceId(id);
-        this._groupPlug = new Plug().at('@api', 'deki', 'groups', this._id);
+        this._groupPlug = new Plug(settings).at('@api', 'deki', 'groups', this._id);
     }
     getInfo() {
         return this._groupPlug.get().then(groupModel.parse);
     }
     getUsers(options) {
         return this._groupPlug.at('users').withParams(options).get().then(userListModel.parse);
+    }
+}
+export class GroupManager {
+    constructor(settings) {
+        this.plug = new Plug(settings).at('@api', 'deki', 'groups');
+        this.settings = settings;
+    }
+    getGroupList() {
+        return this.plug.get().then(groupListModel.parse);
+    }
+    getGroup(id) {
+        return new Group(id, this.settings);
     }
 }

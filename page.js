@@ -16,26 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import modelHelper from './models/modelHelper';
-import pageModel from './models/page.model';
-import subpagesModel from './models/subpages.model';
-import pageContentsModel from './models/pageContents.model';
-import pageTreeModel from './models/pageTree.model';
-import pageTagsModel from './models/pageTags.model';
-import pageRatingModel from './models/pageRating.model';
-import pageFilesModel from './models/pageFiles.model';
-import utility from './lib/utility';
+import {Plug} from './lib/plug';
+import {modelHelper} from './models/modelHelper';
+import {pageModel} from './models/page.model';
+import {subpagesModel} from './models/subpages.model';
+import {pageContentsModel} from './models/pageContents.model';
+import {pageTreeModel} from './models/pageTree.model';
+import {pageTagsModel} from './models/pageTags.model';
+import {pageRatingModel} from './models/pageRating.model';
+import {pageFilesModel} from './models/pageFiles.model';
+import {utility} from './lib/utility';
 function _handleVirtualPage(error) {
     if(error.errorCode === 404 && error.response && error.response['@virtual']) {
         return Promise.resolve(pageModel.parse(error.response));
     }
     throw error;
 }
-export default class Page {
-    constructor(id = 'home') {
+export class Page {
+    constructor(id = 'home', settings) {
         this._id = utility.getResourceId(id, 'home');
-        this._plug = new Plug().at('@api', 'deki', 'pages', this._id);
+        this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id);
     }
     getInfo(params = {}) {
         let infoParams = { exclude: 'revision' };

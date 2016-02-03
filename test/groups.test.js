@@ -16,53 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Group from 'group';
+import {Plug} from 'lib/plug';
+import {groupListModel} from 'models/groupList.model';
+import {groupModel} from 'models/group.model';
+import {userListModel} from 'models/userList.model';
+import {GroupManager, Group} from 'group';
 describe('Group API', () => {
+    let gm = null;
     beforeEach(() => {
-        jasmine.Ajax.install();
+        gm = new GroupManager();
     });
     afterEach(() => {
-        jasmine.Ajax.uninstall();
+        gm = null;
     });
-    describe('static functions', () => {
-        let groupsUri = '/@api/deki/groups?';
+    describe('GroupManager', () => {
         it('can get the listing of all of the groups', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupListing });
-            Group.getGroupList().then((r) => {
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(groupListModel, 'parse').and.returnValue({});
+            gm.getGroupList().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
-        it('can get an empty listing of the groups', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupListingEmpty });
-            Group.getGroupList().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can get the listing of a single group', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupListingSingle });
-            Group.getGroupList().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can handle an HTTP error when fetching the groups', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 400, responseText: '' });
-            Group.getGroupList().catch((e) => {
-                expect(e.message).toBe('Status 400 from request');
-                done();
-            });
-        });
-        it('can handle invalid JSON when fetching the groups', (done) => {
-            jasmine.Ajax.stubRequest(new RegExp(groupsUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.invalidJson });
-            Group.getGroupList().catch((e) => {
-                expect(e.message).toBeDefined();
-                done();
-            });
+        it('can get a Group object by ID', () => {
+            let group = gm.getGroup(132);
+            expect(group).toBeDefined();
         });
     });
-    describe('constructor', () => {
+    describe('Group constructor', () => {
         it('can construct a new Group object from the group ID', () => {
             let group = new Group(2);
             expect(group).toBeDefined();
@@ -72,38 +53,28 @@ describe('Group API', () => {
             expect(group).toBeDefined();
         });
         it('can fail gracefully when no group ID is provided', () => {
-            expect(() => {
-                new Group();  // eslint-disable-line no-new
-            }).toThrow();
+            expect(() => new Group()).toThrow();
+            expect(() => Group()).toThrow();
         });
     });
     describe('group functionality', () => {
         let group = null;
         beforeEach(() => {
             group = new Group(2);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
         });
         afterEach(() => {
             group = null;
         });
         it('can fetch a single group', (done) => {
-            let groupUri = '/@api/deki/groups/2?';
-            jasmine.Ajax.stubRequest(new RegExp(groupUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.group });
+            spyOn(groupModel, 'parse').and.returnValue({});
             group.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch a group\'s users', (done) => {
-            let usersUri = '/@api/deki/groups/2/users?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupUsers });
-            group.getUsers().then((r) => {
-                expect(r).toBeDefined();
-                done();
-            });
-        });
-        it('can fetch a group\'s users (single)', (done) => {
-            let usersUri = '/@api/deki/groups/2/users?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.groupUsersSingle });
+            spyOn(userListModel, 'parse').and.returnValue({});
             group.getUsers().then((r) => {
                 expect(r).toBeDefined();
                 done();

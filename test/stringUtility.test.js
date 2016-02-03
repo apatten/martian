@@ -1,4 +1,4 @@
-import stringUtility from 'lib/stringUtility';
+import {stringUtility} from 'lib/stringUtility';
 describe('string utility tests', () => {
     it('can check if a string is blank', () => {
         expect(stringUtility.isBlank()).toBe(true);
@@ -38,5 +38,9 @@ describe('string utility tests', () => {
         expect(stringUtility.words('foo   bar')).toEqual([ 'foo', 'bar' ]);
         expect(stringUtility.words('foo/bar', '/')).toEqual([ 'foo', 'bar' ]);
         expect(stringUtility.words('foo/bar', '9')).toEqual([ 'foo/bar' ]);
+    });
+    it('can check if a string starts with a pattern', () => {
+        expect(stringUtility.startsWith('foobar', 'foo')).toBe(true);
+        expect(stringUtility.startsWith('foobar', 'oo')).toBe(false);
     });
 });

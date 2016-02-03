@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import utility from './lib/utility';
-import pagePropertiesModel from './models/pageProperties.model';
-import pagePropertyModel from './models/pageProperty.model';
-export default class PageProperty {
-    constructor(id = 'home') {
+import {Plug} from './lib/plug';
+import {utility} from './lib/utility';
+import {pagePropertiesModel} from './models/pageProperties.model';
+import {pagePropertyModel} from './models/pageProperty.model';
+export class PageProperty {
+    constructor(id = 'home', settings) {
         this._id = utility.getResourceId(id, 'home');
-        this._plug = new Plug().at('@api', 'deki', 'pages', this._id, 'properties');
+        this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id, 'properties');
     }
     getProperties(names = []) {
         if(!Array.isArray(names)) {

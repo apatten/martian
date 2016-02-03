@@ -16,31 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import utility from './lib/utility';
-import userModel from './models/user.model';
-import userListModel from './models/userList.model';
-export default class User {
-    static _getPlug() {
-        if(!this.userPlug) {
-            this.userPlug = new Plug().at('@api', 'deki', 'users');
-        }
-        return this.userPlug;
-    }
-    static getCurrentUser() {
-        return User._getPlug().at('current').get().then(userModel.parse);
-    }
-    static getUsers() {
-        return User._getPlug().get().then(userListModel.parse);
-    }
-    static searchUsers(constraints) {
-        return User._getPlug().at('search').withParams(constraints).get().then(userListModel.parse);
-    }
-    constructor(id = 'current') {
+import {Plug} from './lib/plug';
+import {utility} from './lib/utility';
+import {userModel} from './models/user.model';
+import {userListModel} from './models/userList.model';
+export class User {
+    constructor(id = 'current', settings) {
         this._id = utility.getResourceId(id, 'current');
-        this._plug = User._getPlug().at(this._id);
+        this._plug = new Plug(settings).at('@api', 'deki', 'users', this._id);
     }
     getInfo() {
         return this._plug.get().then(userModel.parse);
+    }
+}
+export class UserManager {
+    constructor(settings) {
+        this.settings = settings;
+        this.plug = new Plug(settings).at('@api', 'deki', 'users');
+    }
+    getCurrentUser() {
+        return this.plug.at('current').get().then(userModel.parse);
+    }
+    getUsers() {
+        return this.plug.get().then(userListModel.parse);
+    }
+    searchUsers(constraints) {
+        return this.plug.at('search').withParams(constraints).get().then(userListModel.parse);
+    }
+    getUser(id = 'current') {
+        return new User(id, this.settings);
     }
 }

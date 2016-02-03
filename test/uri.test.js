@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Uri from 'lib/uri';
+import {Uri} from 'lib/uri';
 describe('URI', () => {
     describe('constructor tests', () => {
         it('can construct a plain URI', () => {
@@ -26,6 +26,9 @@ describe('URI', () => {
         it('can construct an empty URI', () => {
             let uri = new Uri();
             expect(uri).toBeDefined();
+        });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => Uri()).toThrow();
         });
     });
     describe('functionality', () => {

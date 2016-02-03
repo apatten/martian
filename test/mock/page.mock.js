@@ -146,7 +146,7 @@ Mocks.subpagesSingle = `{
     "@href":"https://www.example.com/@api/deki/pages/123/subpages",
     "page.subpage":{"@id": "456","@href": "https://www.example.com/@api/deki/pages/456?redirects=0", "path": "foo/bar/baz", "title": "Baz"}
 }`;
-Mocks.emptySubpages = `{
+Mocks.subpagesEmpty = `{
     "@totalcount":"0",
     "@count":"0",
     "@href":"https://www.example.com/@api/deki/pages/123/subpages"

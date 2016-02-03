@@ -43,6 +43,9 @@ describe('URI Parser', () => {
                 expect(x).not.toBeDefined();
             }).toThrow();
         });
+        it('can fail if the constructor is not called correctly', () => {
+            expect(() => UriParser()).toThrow();
+        });
     });
     describe('URI operations', () => {
         let uri = null;

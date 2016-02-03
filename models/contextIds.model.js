@@ -1,4 +1,4 @@
-import modelHelper from './modelHelper';
+import {modelHelper} from './modelHelper';
 let contextIdsModel = {
     parse(data) {
         if(data === '') {
@@ -15,4 +15,4 @@ let contextIdsModel = {
         return parsed;
     }
 };
-export default contextIdsModel;
+export {contextIdsModel};

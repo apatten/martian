@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import modelHelper from './modelHelper';
-import pageModel from './page.model';
+import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
 let pageTreeModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         return pageModel.parse(obj.page);
     }
 };
-export default pageTreeModel;
+export {pageTreeModel};

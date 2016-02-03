@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Plug from './lib/plug';
-import utility from './lib/utility';
-import fileModel from './models/file.model';
-import fileRevisionsModel from './models/fileRevisions.model';
-export default class File {
-    constructor(id) {
-        this._plug = new Plug().at('@api', 'deki', 'files', id).withParam('draft', true);
+import {Plug} from './lib/plug';
+import {utility} from './lib/utility';
+import {fileModel} from './models/file.model';
+import {fileRevisionsModel} from './models/fileRevisions.model';
+export class File {
+    constructor(id, settings) {
+        this._plug = new Plug(settings).at('@api', 'deki', 'files', id).withParam('draft', true);
     }
     getInfo() {
         return this._plug.at('info').get().then(fileModel.parse);

@@ -16,80 +16,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import User from 'user';
+import {Plug} from 'lib/plug';
+import {Settings} from 'lib/settings';
+import {userModel} from 'models/user.model';
+import {userListModel} from 'models/userList.model';
+import {UserManager, User} from 'user';
 describe('User API', () => {
+    let settings = new Settings({ host: 'http://www.example.com', token: 'abcd1234' });
     describe('constructor', () => {
         it('can perform construction operations', () => {
-            expect(() => User()).toThrow();
-            let u = new User();
+            expect(() => UserManager()).toThrow();
+            let u = new UserManager();
             expect(u).toBeDefined();
-            let u2 = new User(123);
+            let u2 = new UserManager(settings);
             expect(u2).toBeDefined();
-            let u3 = new User('foobar');
-            expect(u3).toBeDefined();
         });
     });
     describe('static operations', () => {
+        let userManager = null;
         beforeEach(() => {
-            jasmine.Ajax.install();
-        });
-        afterEach(() => {
-            jasmine.Ajax.uninstall();
+            userManager = new UserManager(settings);
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(userModel, 'parse').and.returnValue({});
         });
         it('can fetch the current user', (done) => {
-            let currentUri = '/@api/deki/users/current?';
-            jasmine.Ajax.stubRequest(new RegExp(currentUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.user });
-            User.getCurrentUser().then((u) => {
+            userManager.getCurrentUser().then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch the list of all users', (done) => {
-            let usersUri = '/@api/deki/users?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.users });
-            User.getUsers().then((u) => {
+            spyOn(userListModel, 'parse').and.returnValue({});
+            userManager.getUsers().then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users', (done) => {
-            let usersUri = '/@api/deki/users/search?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearch });
-            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+            spyOn(userListModel, 'parse').and.returnValue({});
+            userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (single)', (done) => {
-            let usersUri = '/@api/deki/users/search?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearchSingle });
-            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+            spyOn(userListModel, 'parse').and.returnValue({});
+            userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (empty)', (done) => {
-            let usersUri = '/@api/deki/users/search?';
-            jasmine.Ajax.stubRequest(new RegExp(usersUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.userSearchEmpty });
-            User.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
+            spyOn(userListModel, 'parse').and.returnValue({});
+            userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
+        it('can fetch a user', () => {
+            let u1 = userManager.getUser();
+            expect(u1).toBeDefined();
+            let u2 = userManager.getUser(1);
+            expect(u2).toBeDefined();
+        });
     });
     describe('instance operations', () => {
-        let user = null;
         beforeEach(() => {
-            user = new User(2);
-            jasmine.Ajax.install();
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+            spyOn(userModel, 'parse').and.returnValue({});
         });
-        afterEach(() => {
-            user = null;
-            jasmine.Ajax.uninstall();
+        it('can construct a User without the manager', () => {
+            let user1 = new User();
+            expect(user1).toBeDefined();
+            let user2 = new User(settings);
+            expect(user2).toBeDefined();
+            let user3 = new User(123, settings);
+            expect(user3).toBeDefined();
         });
-        it('can fetch a specific user', (done) => {
-            let userUri = '/@api/deki/users/2?';
-            jasmine.Ajax.stubRequest(new RegExp(userUri), null, 'GET').andReturn({ status: 200, responseText: Mocks.user });
+        it('can get the info for a user', (done) => {
+            let user = new User(123, settings);
             user.getInfo().then((u) => {
                 expect(u).toBeDefined();
                 done();

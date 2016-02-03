@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import modelHelper from './modelHelper';
-import pageModel from './page.model';
-import userModel from './user.model';
+import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
+import {userModel} from './user.model';
 let draftModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -57,4 +57,4 @@ let draftModel = {
         return parsed;
     }
 };
-export default draftModel;
+export {draftModel};

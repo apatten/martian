@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Page from './page';
-import pageMoveModel from './models/pageMove.model';
-import pageEditModel from './models/pageEdit.model';
-export default class PagePro extends Page {
-    constructor(id = 'home') {
-        super(id);
+import {Page} from './page';
+import {pageMoveModel} from './models/pageMove.model';
+import {pageEditModel} from './models/pageEdit.model';
+export class PagePro extends Page {
+    constructor(id = 'home', settings) {
+        super(id, settings);
     }
     setOverview(options = {}) {
         if(!('body' in options)) {

@@ -1,4 +1,4 @@
-import utility from 'lib/utility';
+import {utility} from 'lib/utility';
 describe('Martian utility', () => {
     it('can escape a string for search queries', () => {
         let unescaped = '1111\\+-&|!(){}[]^"~*?:2222';
