@@ -1,5 +1,14 @@
 import {Settings} from 'lib/settings';
 describe('Settings', () => {
+    it('can get and set a single config item', () => {
+        Settings.defaults = {
+            abc: 123,
+            foo: 'bar'
+        };
+        let defSettings = new Settings();
+        expect(defSettings.get('abc')).toBe(123);
+        expect(defSettings.get('foo')).toBe('bar');
+    });
     it('can create settings objects', () => {
         let settings1 = new Settings();
         let settings2 = new Settings({
@@ -21,7 +30,7 @@ describe('Settings', () => {
         expect(settings.get('foo')).toBe('bar');
         expect(settings.get('abc')).toBe(123);
         expect(settings.get('object')).toEqual({ dog: 'cat' });
-        let newSettings = settings.getSettings();
+        let newSettings = settings.getProperties();
         expect(newSettings.foo).toBe('bar');
         expect(newSettings.abc).toBe(123);
         expect(newSettings.object).toEqual({ dog: 'cat' });

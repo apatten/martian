@@ -42,14 +42,7 @@ function _buildSearchConstraints(params) {
     }
     return '+(' + constraints.join(' ') + ')';
 }
-export class SiteManager {
-
-    /*static _getPlug(settings) {
-        if(!this.sitePlug) {
-            this.sitePlug = new Plug(settings).at('@api', 'deki', 'site');
-        }
-        return this.sitePlug;
-    }*/
+export class Site {
     constructor(settings) {
         this.plug = new Plug(settings).at('@api', 'deki', 'site');
     }

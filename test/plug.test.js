@@ -67,13 +67,13 @@ describe('Plug', () => {
     });
     describe('constructor with global settings', () => {
         it('can use a global settings object', () => {
-            window.MartianSettings = new Settings({
+            Settings.defaults = {
                 host: 'http://www.theonehost.org',
                 token: 'theOneToken'
-            });
+            };
             let gPlug = new Plug().at('@api', 'rad', 'endpoint').withParams({ foo: 'bar' });
             expect(gPlug.getUrl()).toBe('http://www.theonehost.org/@api/rad/endpoint?foo=bar');
-            delete window.MartianSettings;
+            Settings.defaults = {};
         });
     });
     describe('URI manipulation', () => {

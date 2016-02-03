@@ -19,7 +19,7 @@
 import {Plug} from 'lib/plug';
 import {searchModel} from 'models/search.model';
 import {Settings} from 'lib/settings';
-import {SiteManager} from 'site';
+import {Site} from 'site';
 describe('Site API', () => {
     let settings = new Settings({
         host: 'https://www.example.com',
@@ -27,19 +27,19 @@ describe('Site API', () => {
     });
     describe('construction', () => {
         it('fails when calling Site as a function', () => {
-            expect(() => SiteManager()).toThrow();
+            expect(() => Site()).toThrow();
         });
         it('can attempt to construct a Site object', () => {
-            let site1 = new SiteManager();
+            let site1 = new Site();
             expect(site1).toBeDefined();
-            let site2 = new SiteManager(settings);
+            let site2 = new Site(settings);
             expect(site2).toBeDefined();
         });
     });
     describe('resource string operations', () => {
         let sm = null;
         beforeEach(() => {
-            sm = new SiteManager(settings);
+            sm = new Site(settings);
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve('translated string'));
         });
         it('can fetch a translated string', (done) => {
@@ -61,10 +61,13 @@ describe('Site API', () => {
         });
     });
     describe('search operations', () => {
-        let sm = new SiteManager(settings);
+        let sm = null;
         beforeEach(() => {
-            sm = new SiteManager(settings);
+            sm = new Site(settings);
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+        });
+        afterEach(() => {
+            sm = null;
         });
         it('can perform a default search', (done) => {
             spyOn(searchModel, 'parse').and.returnValue({});
