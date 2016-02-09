@@ -57,8 +57,9 @@ describe('URI', () => {
                 expect(uri.toString()).toBe('https://www.example.com/foo/bar/new/segment/with/array/arguments?dog=cat&llama=goat#abcd=1234&defg=5678');
             });
             it('can add query parameters', () => {
-                var uri2 = uri.addQueryParam('new', 'param');
-                expect(uri2.toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat&new=param#abcd=1234&defg=5678');
+                uri.addQueryParam('new', 'param');
+                uri.addQueryParam('new2', 'Bling $$');
+                expect(uri.toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat&new=param&new2=Bling%20%24%24#abcd=1234&defg=5678');
             });
             it('can batch-add query params', () => {
                 uri.addQueryParams({ a: '1', b: '2', c: '3' });

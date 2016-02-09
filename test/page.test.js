@@ -59,7 +59,6 @@ describe('Page', () => {
         });
         afterEach(() => {
             page = null;
-            jasmine.Ajax.uninstall();
         });
         it('can get the simple page info', (done) => {
             page.getInfo().then((r) => {
@@ -144,7 +143,7 @@ describe('Page', () => {
     describe('virtual page fetching', () => {
         it('can get a virtual page info', (done) => {
             let page = new Page(123);
-            spyOn(Plug.prototype, 'get').and.returnValue(Promise.reject({ errorCode: 404, response: { '@virtual': true }}));
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.reject({ errorCode: 404, response: { '@virtual': true } }));
             spyOn(pageModel, 'parse').and.returnValue({});
             page.getFullInfo().then((r) => {
                 expect(r).toBeDefined();

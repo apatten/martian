@@ -93,6 +93,8 @@ describe('Plug', () => {
         });
         it('can add a single query param', () => {
             expect(p.withParam('c', 'd').getUrl()).toBe('https://www.example.com/foo?a=b&c=d');
+            expect(p.withParam('param', 'Hello, this is a query parameter!: A cool one worth $$').getUrl())
+                .toBe('https://www.example.com/foo?a=b&param=Hello%2C%20this%20is%20a%20query%20parameter!%3A%20A%20cool%20one%20worth%20%24%24');
             expect(p.getUrl()).toBe('https://www.example.com/foo?a=b');
         });
         it('can add multiple query params', () => {
@@ -302,9 +304,28 @@ describe('Plug', () => {
         });
     });
     describe('timeout tests', () => {
-        it('can handle an HTTP timeout', (done) => {
-            let settings = new Settings({ host: 'https://www.example.com/foo' });
-            let p = new Plug(settings, { raw: true, constructionParams: { timeout: 1 } });
+        let p = null;
+        let uri = 'https://www.example.com/foo';
+        let settings = new Settings({ host: uri });
+        let uriMatcher = new RegExp(uri);
+        beforeEach(() => {
+            jasmine.Ajax.install();
+        });
+        afterEach(() => {
+            jasmine.Ajax.uninstall();
+            p = null;
+        });
+        it('can handle an XHR timeout', (done) => {
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andTimeout();
+            p = new Plug(settings, { constructionParams: { timeout: 1 } });
+            p.get().catch((e) => {
+                expect(e).toBeDefined();
+                done();
+            });
+        });
+        it('can handle an XHR error', (done) => {
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andError();
+            p = new Plug(settings);
             p.get().catch((e) => {
                 expect(e).toBeDefined();
                 done();
