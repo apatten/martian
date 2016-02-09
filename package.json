@@ -1,6 +1,6 @@
 {
   "name": "mindtouch-martian",
-  "version": "0.3.0-beta.1",
+  "version": "0.3.0-beta.2",
   "description": "Core JavaScript API for MindTouch",
   "main": false,
   "repository": {
