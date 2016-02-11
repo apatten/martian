@@ -56,7 +56,7 @@ export class Site {
         }
         return locPlug.get();
     }
-    search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '' } = {}) {
+    search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '', recommended = true } = {}) {
         let constraint = {};
         if(path !== '') {
             constraint.path = path;
@@ -71,7 +71,8 @@ export class Site {
             sortBy: '-date,-rank',
             q: q,
             summarypath: encodeURI(path),
-            constraint: _buildSearchConstraints(constraint)
+            constraint: _buildSearchConstraints(constraint),
+            recommended: recommended
         };
         return this.plug.at('query').withParams(searchParams).get().then(searchModel.parse);
     }
