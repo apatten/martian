@@ -50,6 +50,22 @@ let searchModel = {
                 });
             });
         }
+        if('summary' in obj) {
+            search.summary = {
+                path: obj.summary['@path'],
+                results: []
+            };
+            if('results' in obj.summary) {
+                let results = Array.isArray(obj.summary.results) ? obj.summary.results : [ obj.summary.results ];
+                results.forEach((result) => {
+                    search.summary.results.push({
+                        path: result['@path'],
+                        count: modelHelper.getInt(result['@count']),
+                        title: result['@title']
+                    });
+                });
+            }
+        }
         return search;
     }
 };
