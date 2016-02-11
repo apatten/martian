@@ -144,6 +144,7 @@ describe('Models', () => {
             expect(searchModel.parse(Mocks.search)).toBeDefined();
             expect(searchModel.parse(Mocks.searchSingle)).toBeDefined();
             expect(searchModel.parse(Mocks.searchEmpty)).toBeDefined();
+            expect(searchModel.parse(Mocks.searchSingleNoResultSummary)).toBeDefined();
         });
     });
     describe('Subpages model', () => {

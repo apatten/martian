@@ -64,11 +64,18 @@ Mocks.search = `{
     ],
     "summary":{
         "@path":"",
-        "results":{
-            "@path":"documentation",
-            "@count":"2",
-            "@title":"Documentation"
-        }
+        "results":[
+            {
+                "@path":"documentation",
+                "@count":"2",
+                "@title":"Documentation"
+            },
+            {
+                "@path":"documentation2",
+                "@count":"1",
+                "@title":"Documentation 2"
+            }
+        ]
     }
 }`;
 Mocks.searchSingle = `{
@@ -95,6 +102,43 @@ Mocks.searchSingle = `{
         "type":"page",
         "uri":"https://marsdev.mindtouch.dev/132",
         "uri.track":"https://marsdev.mindtouch.dev/@api/deki/site/query/2521?pageid=419&rank=1&type=page&position=1"
+    },
+    "summary":{
+        "@path":"",
+        "results":{
+            "@path":"documentation",
+            "@count":"2",
+            "@title":"Documentation"
+        }
+    }
+}`;
+Mocks.searchSingleNoResultSummary = `{
+    "@ranking":"adaptive",
+    "@queryid":"2521",
+    "@querycount":"1",
+    "@count.recommendations":"0",
+    "@count":"1",
+    "parsedQuery":"+(content:(eiuriueiueiueieuieuieueiueiueee) title:(eiuriueiueiueieuieuieueiueiueee)^10 path.title:(eiuriueiueiueieuieuieueiueiueee)^4 description:(eiuriueiueiueieuieuieueiueiueee)^3 tag:(eiuriueiueiueieuieuieueiueiueee)^2 filename:(eiuriueiueiueieuieuieueiueiueee)^10 filetitle:(eiuriueiueiueieuieuieueiueiueee) keywords:(eiuriueiueiueieuieuieueiueiueee)^10 ) +type:(wiki document image binary)",
+    "result":{
+        "author":"admin",
+        "date.modified":"Wed, 02 Dec 2015 22:35:30 GMT",
+        "id":"419",
+        "mime":"application/vnd.deki1410+xml",
+        "page":{
+            "path":"132",
+            "rating":"",
+            "title":"132",
+            "uri.ui":"https://marsdev.mindtouch.dev/132"
+        },
+        "rank":"1",
+        "tag":"article:topic-category",
+        "title":"132",
+        "type":"page",
+        "uri":"https://marsdev.mindtouch.dev/132",
+        "uri.track":"https://marsdev.mindtouch.dev/@api/deki/site/query/2521?pageid=419&rank=1&type=page&position=1"
+    },
+    "summary":{
+        "@path":"foo/bar"
     }
 }`;
 Mocks.searchEmpty = `{
