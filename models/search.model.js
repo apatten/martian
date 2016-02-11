@@ -23,9 +23,9 @@ let searchModel = {
         let search = {
             ranking: obj['@ranking'],
             queryId: obj['@queryid'],
-            queryCount: obj['@querycount'],
-            recommendationCount: obj['@count.recommendations'],
-            count: obj['@count'],
+            queryCount: modelHelper.getInt(obj['@querycount']),
+            recommendationCount: modelHelper.getInt(obj['@count.recommendations']),
+            count: modelHelper.getInt(obj['@count']),
             result: []
         };
         if('result' in obj) {
