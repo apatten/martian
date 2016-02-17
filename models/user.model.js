@@ -31,9 +31,15 @@ let userModel = {
             fullname: obj.fullname,
             username: obj.username,
             nick: obj.nick,
-            status: obj.status,
-            licenseSeat: modelHelper.getBool(obj['license.seat'])
+            status: obj.status
         };
+        if(typeof obj['license.seat'] === 'string') {
+            parsed.seated = modelHelper.getBool(obj['license.seat']);
+            parsed.siteOwner = false;
+        } else {
+            parsed.seated = modelHelper.getBool(modelHelper.getString(obj['license.seat']));
+            parsed.siteOwner = modelHelper.getBool(obj['license.seat']['@owner']);
+        }
         if('date.lastlogin' in obj) {
             parsed.dateLastLogin = modelHelper.getDate(obj['date.lastlogin']);
         }
