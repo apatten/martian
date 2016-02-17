@@ -18,6 +18,7 @@
  */
 import {modelHelper} from './modelHelper';
 import {pageModel} from './page.model';
+import {permissionsModel} from './permissions.model';
 let userModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);
@@ -26,7 +27,6 @@ let userModel = {
             wikiId: obj['@wikiid'],
             href: obj['@href'],
             dateCreated: modelHelper.getDate(obj['date.created']),
-            dateLastLogin: modelHelper.getDate(obj['date.lastlogin']),
             email: obj.email,
             fullname: obj.fullname,
             username: obj.username,
@@ -34,8 +34,14 @@ let userModel = {
             status: obj.status,
             licenseSeat: modelHelper.getBool(obj['license.seat'])
         };
+        if('date.lastlogin' in obj) {
+            parsed.dateLastLogin = modelHelper.getDate(obj['date.lastlogin']);
+        }
         if('page.home' in obj) {
             parsed.pageHome = pageModel.parse(obj['page.home']);
+        }
+        if('permissions.user' in obj) {
+            parsed.userPermissions = permissionsModel.parse(obj['permissions.user']);
         }
         return parsed;
     }
