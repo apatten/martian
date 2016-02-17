@@ -35,6 +35,7 @@ let userModel = {
         };
         if(typeof obj['license.seat'] === 'string') {
             parsed.seated = modelHelper.getBool(obj['license.seat']);
+            parsed.siteOwner = false;
         } else {
             parsed.seated = modelHelper.getBool(modelHelper.getString(obj['license.seat']));
             parsed.siteOwner = modelHelper.getBool(obj['license.seat']['@owner']);
