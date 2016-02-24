@@ -2,7 +2,7 @@ import {modelHelper} from './modelHelper';
 let contextIdsModel = {
     parse(data) {
         if(data === '') {
-            data = `{"context": []}`;
+            data = `{"context": []}`; // eslint-disable-line quotes
         }
         let obj = modelHelper.fromJson(data);
         let parsed = {

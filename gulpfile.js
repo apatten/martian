@@ -39,7 +39,7 @@ gulp.task('inspect:lint', function() {
     var lint = require('gulp-eslint');
     return gulp.src(inspectSources)
         .pipe(cached('inspect:lint'))
-        .pipe(lint({ rulePaths: [ 'gulp/eslint-rules/' ], configFile: '.eslintrc' }))
+        .pipe(lint({ configFile: '.eslintrc' }))
         .pipe(lint.format('stylish'));
 });
 

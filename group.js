@@ -18,9 +18,9 @@
  */
 import {Plug} from './lib/plug';
 import {utility} from './lib/utility';
-import {groupModel} from 'models/group.model';
-import {groupListModel} from 'models/groupList.model';
-import {userListModel} from 'models/userList.model';
+import {groupModel} from './models/group.model';
+import {groupListModel} from './models/groupList.model';
+import {userListModel} from './models/userList.model';
 export class Group {
     constructor(id, settings) {
         if(!id) {
