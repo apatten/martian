@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 window.Mocks = window.Mocks || {};
 Mocks.contextIdDefinitions = `{
     "context":[
@@ -145,3 +146,5 @@ Mocks.contextMapVerbose = `{
     },
     "pageid":{"@page-status":"included","#text":"336"}
 }`;
+
+/* eslint-enable quotes */

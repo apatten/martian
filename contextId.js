@@ -1,8 +1,8 @@
 import {Plug} from './lib/plug';
-import {contextIdsModel} from 'models/contextIds.model';
-import {contextIdModel} from 'models/contextId.model';
-import {contextMapsModel} from 'models/contextMaps.model';
-import {contextMapModel} from 'models/contextMap.model';
+import {contextIdsModel} from './models/contextIds.model';
+import {contextIdModel} from './models/contextId.model';
+import {contextMapsModel} from './models/contextMaps.model';
+import {contextMapModel} from './models/contextMap.model';
 export class ContextDefinition {
     constructor(id, settings) {
         if(!id) {

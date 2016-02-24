@@ -180,6 +180,8 @@ describe('Page', () => {
     describe('overview fetching', () => {
         it('can get the overview', (done) => {
             let page = new Page(123);
+
+            // eslint-disable-next-line quotes
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve(`{ "#text": "this is the overview" }`));
             page.getOverview().then((r) => {
                 expect(r).toBeDefined();
@@ -188,7 +190,7 @@ describe('Page', () => {
         });
         it('can get the overview (invalid response)', (done) => {
             let page = new Page(123);
-            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve(`this is invalid JSON`));
+            spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve('this is invalid JSON'));
             page.getOverview().catch((r) => {
                 expect(r).toBeDefined();
                 done();
