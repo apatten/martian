@@ -17,15 +17,23 @@
  * limitations under the License.
  */
 import {Plug} from './lib/plug';
-import {learningPathModel} from './models/learningPathModel';
-export default class LearningPath {
+import {learningPathModel} from './models/learningPath.model';
+export class LearningPathManager {
+    constructor(settings) {
+        this._plug = new Plug(settings).at('api', 'deki', 'learningpaths');
+    }
+    getLearningPaths() {
+        return this._plug.get().then(learningPathModel.parse);
+    }
+}
+export class LearningPath {
 
     // Constructor
     constructor(name, settings) {
-        this._plug = new Plug(settings.get('baseHref') + '/').at('@api', 'deki', 'learningpaths');
+        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths');
         this._name = name;
     }
-    get() {
+    getInfo() {
         return this._plug.at(`=${this._name}`).get().then(learningPathModel.parse);
     }
 }

@@ -16,26 +16,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {LearningPath} from './learningPath';
-import {pageModel} from './models/pageModel';
-let saveTemplate = `<learningpath>
-    <title>{{title}}</title>
-    <summary>{{summary}}</summary>
-    <category>{{category}}</category>
-    {{#pages}}
-        <pages>{{id}}</pages>
-    {{/pages}}
-</learningpath>`;
-export class LearningPathPro extends LearningPath {
-    static create(data) {
+import {LearningPathManager, LearningPath} from './learningPath';
+import {learningPathModel} from './models/learningPath.model';
+import {pageModel} from './models/page.model';
+let maxSummaryCount = 500;
+function getSaveXML(data) {
+    let template = `<learningpath>
+        <title>${data.title}</title>
+        <summary>${data.summary}</summary>
+        <category>${data.category}</category>`;
+    if(data.pages && Array.isArray(data.pages)) {
+        data.pages.forEach((page) => {
+            template = `${template}
+                <pages>${page.id}</pages>`;
+        });
+    }
+    template = `${template}</learningpath>`;
+    return template;
+}
+export class LearningPathProManager extends LearningPathManager {
+    constructor(settings) {
+        super(settings);
+    }
+    create(data) {
         if(data.summary.length > maxSummaryCount) {
             data.summary = data.summary.substring(0, maxSummaryCount);
         }
         return this._plug.withParams(data).post().then(learningPathModel.parse);
     }
-
-    // constructor
+}
+export class LearningPathPro extends LearningPath {
     constructor(name, settings) {
         super(name, settings);
     }
@@ -45,7 +55,9 @@ export class LearningPathPro extends LearningPath {
         if(content.summary && content.summary.length > maxSummaryCount) {
             content.summary = content.summary.substring(0, maxSummaryCount);
         }
-        let XMLData = mustache.render(saveTemplate, content);
+
+        // Do this without mustache
+        let XMLData = getSaveXML(content);
         return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModel.parse);
     }
     remove() {
@@ -54,12 +66,12 @@ export class LearningPathPro extends LearningPath {
 
     // Page operations
     addPage(pageId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParams({ edittime: editTime }).then(pageModel.parse);
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModel.parse);
     }
     removePage(pageId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParams({ edittime: editTime }).del();
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).del();
     }
     reorderPage(pageId, afterId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModel.parse());
+        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModel.parse);
     }
 }
