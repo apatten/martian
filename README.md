@@ -1,5 +1,5 @@
 ## Martian
-JavaScript API for interacting with MindTouch's Web Service API
+ES6 JavaScript API for interacting with a MindTouch site's web services
 
 ### Support
 This Library is provided for and supported by the open source community. Supported MindTouch site owners may file bug reports via [GitHub](https://github.com/MindTouch/martian/issues), but support plans do not cover the usage of this library.
