@@ -2,6 +2,13 @@ language: node_js
 node_js:
   - "0.12"
 
+notifications:
+  email:
+    recipients:
+      - $NOTIFICATION_EMAIL_RECIPIENT
+    on_success: change
+    on_failure: always
+
 before_install:
   - npm -g install npm@latest-2
   - npm install -g gulp
