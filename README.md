@@ -1,5 +1,5 @@
 ## Martian
-ES6 JavaScript API for interacting with a MindTouch site's web services
+Core JavaScript API for MindTouch
 
 ![Build Status](https://travis-ci.org/MindTouch/martian.svg?branch=master)
 
