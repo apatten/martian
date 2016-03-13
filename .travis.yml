@@ -16,7 +16,9 @@ before_install:
   - npm install
   - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
   - jspm install
-  - pip install codecov
+
+before_script:
+  - pip install --user codecov
 
 script: gulp
 
