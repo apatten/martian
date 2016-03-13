@@ -10,7 +10,9 @@ This Library is provided for and supported by the open source community. Support
 ### Install
 
 ```sh
-$ npm install mindtouch-martian
+// jspm.io
+$ npm install -g jspm
+$ jspm install mindtouch-martian
 ```
 
 ### Usage
