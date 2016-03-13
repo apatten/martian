@@ -57,7 +57,8 @@ module.exports = function(config) {
                     type: 'html',
                     dir: 'coverage/'
                 },
-                { type: 'text' }
+                { type: 'text' },
+                { type: 'lcov' }
             ]
         },
         port: 9876,
