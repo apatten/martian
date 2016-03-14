@@ -303,6 +303,27 @@ describe('Plug', () => {
             });
         });
     });
+    describe('same origin tests', () => {
+        let uri = 'https://www.example.com/foo';
+        let settings = new Settings({ host: uri, origin: 'https://www.example.com' });
+        let uriMatcher = new RegExp(uri);
+        beforeEach(() => {
+            jasmine.Ajax.install();
+        });
+        afterEach(() => {
+            jasmine.Ajax.uninstall();
+        });
+        it('can do a request with the origin the same as the request URI', (done) => {
+            let plug = new Plug(settings);
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 200, responseText: 'Ajax Response' });
+            plug.get().then(() => {
+                let headers = jasmine.Ajax.requests.mostRecent().requestHeaders;
+                expect('X-Deki-Requested-With' in headers).toBe(true);
+                expect(headers['X-Deki-Requested-With']).toBe('XMLHttpRequest');
+                done();
+            });
+        });
+    });
     describe('timeout tests', () => {
         let p = null;
         let uri = 'https://www.example.com/foo';
