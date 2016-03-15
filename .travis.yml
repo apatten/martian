@@ -27,8 +27,3 @@ script: node node_modules/.bin/gulp
 
 after_success:
   - cat coverage/*/lcov.info | codecov
-
-cache:
-  directories:
-  - node_modules
-  - jspm_packages

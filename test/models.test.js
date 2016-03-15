@@ -22,6 +22,7 @@ import {searchModel} from 'models/search.model';
 import {subpagesModel} from 'models/subpages.model';
 import {userModel} from 'models/user.model';
 import {userListModel} from 'models/userList.model';
+import {userActivityListModel} from 'models/userActivityList.model';
 describe('Models', () => {
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
@@ -164,6 +165,13 @@ describe('Models', () => {
             expect(userListModel.parse(Mocks.userSearch)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchSingle)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchEmpty)).toBeDefined();
+        });
+    });
+    describe('User activity model', () => {
+        it('can parse a list of user activity events', () => {
+            expect(userActivityListModel.parse(Mocks.userActivity)).toBeDefined();
+            expect(userActivityListModel.parse(Mocks.userActivitySingle)).toBeDefined();
+            expect(userActivityListModel.parse(Mocks.userActivityEmpty)).toBeDefined();
         });
     });
 });
