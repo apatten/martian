@@ -18,22 +18,25 @@
  */
 import {Plug} from './lib/plug';
 import {learningPathModel} from './models/learningPath.model';
-export class LearningPathManager {
-    constructor(settings) {
-        this._plug = new Plug(settings).at('api', 'deki', 'learningpaths');
-    }
-    getLearningPaths() {
-        return this._plug.get().then(learningPathModel.parse);
-    }
-}
 export class LearningPath {
 
     // Constructor
     constructor(name, settings) {
-        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths');
-        this._name = name;
+        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths', `${name}`);
     }
     getInfo() {
-        return this._plug.at(`=${this._name}`).get().then(learningPathModel.parse);
+        return this._plug.get().then(learningPathModel.parse);
+    }
+}
+export class LearningPathManager {
+    constructor(settings) {
+        this.settings = settings;
+        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths');
+    }
+    getLearningPaths() {
+        return this._plug.get().then(learningPathModel.parse);
+    }
+    getLearningPath(name) {
+        return new LearningPath(name, this.settings);
     }
 }

@@ -37,6 +37,7 @@
  import {Plug} from 'lib/plug';
  import {LearningPathProManager, LearningPathPro} from 'learningPath.pro';
  import {learningPathModel} from 'models/learningPath.model';
+ import {pageModel} from 'models/page.model';
  describe('Learning Pro Path API', () => {
      let lpm = null;
      beforeEach(() => {
@@ -112,6 +113,7 @@
          });
          it('can add a page to a learning path', () => {
              spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+             spyOn(pageModel, 'parse').and.returnValue({});
              learningPath.addPage(123, 20160225000833).then((r) => {
                  expect(r).toBeDefined();
              });

@@ -28,7 +28,7 @@ describe('Learning Path API', () => {
         lpm = null;
     });
     describe('constructor', () => {
-        it('can construct a new File', () => {
+        it('can construct a new learning path', () => {
             let learningPath = new LearningPath('foobar');
             expect(learningPath).toBeDefined();
             expect(() => learningPath()).toThrow();
@@ -44,6 +44,10 @@ describe('Learning Path API', () => {
                 done();
             });
         });
+        it('can get learning path by name', () => {
+            var lp = lpm.getLearningPath('name');
+            expect(lp instanceof LearningPath).toBe(true);
+        });
     });
     describe('operations', () => {
         let learningPath = null;
@@ -54,7 +58,7 @@ describe('Learning Path API', () => {
         afterEach(() => {
             learningPath = null;
         });
-        it('can get a learning path', () => {
+        it('can get a learning path', (done) => {
             spyOn(learningPathModel, 'parse').and.returnValue({});
             learningPath.getInfo().then((r) => {
                 expect(r).toBeDefined();
