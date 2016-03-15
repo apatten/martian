@@ -76,11 +76,13 @@ describe('Models', () => {
     describe('Learning Path model', () => {
         it('can parse learning path', () => {
             expect(learningPathModel.parse(Mocks.learningPath)).toBeDefined();
+            expect(learningPathModel.parse(Mocks.learningPathSinglePage)).toBeDefined();
             expect(learningPathModel.parse(Mocks.learningPathNoPages)).toBeDefined();
         });
         it('can parse multiple learning paths', () => {
             expect(learningPathsModel.parse(Mocks.learningPaths)).toBeDefined();
-        })
+            expect(learningPathsModel.parse(Mocks.learningPathsSingular)).toBeDefined();
+        });
     });
     describe('Page model', () => {
         it('can parse page info', () => {

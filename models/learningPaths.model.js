@@ -21,7 +21,6 @@ import {learningPathModel} from './learningPath.model';
 let learningPathsModel = {
     parse(data) {
         let parsed = [];
-        console.log(data);
         let obj = modelHelper.fromJson(data);
         let learningPaths = Array.isArray(obj.learningpath) ? obj.learningpath : [ obj.learningpath ];
         learningPaths.forEach((path) => {
