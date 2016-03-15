@@ -1,0 +1,35 @@
+language: node_js
+node_js:
+  - "0.12"
+
+notifications:
+  email:
+    recipients:
+      - $NOTIFICATION_EMAIL_RECIPIENT
+    on_success: change
+    on_failure: always
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - node_modules
+    - jspm_packages
+
+before_install:
+  - npm -g install npm@latest-2
+  - pip install --user codecov
+
+install:
+  - npm install
+  - node node_modules/.bin/jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
+  - node node_modules/.bin/jspm install
+
+script: node node_modules/.bin/gulp
+
+after_success:
+  - cat coverage/*/lcov.info | codecov
+
+cache:
+  directories:
+  - node_modules
+  - jspm_packages
