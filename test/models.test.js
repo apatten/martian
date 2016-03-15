@@ -8,6 +8,7 @@ import {fileRevisionsModel} from 'models/fileRevisions.model';
 import {groupModel} from 'models/group.model';
 import {groupListModel} from 'models/groupList.model';
 import {learningPathModel} from 'models/learningPath.model';
+import {learningPathsModel} from 'models/learningPaths.model';
 import {pageModel} from 'models/page.model';
 import {pageContentsModel} from 'models/pageContents.model';
 import {pageTreeModel} from 'models/pageTree.model';
@@ -77,6 +78,9 @@ describe('Models', () => {
             expect(learningPathModel.parse(Mocks.learningPath)).toBeDefined();
             expect(learningPathModel.parse(Mocks.learningPathNoPages)).toBeDefined();
         });
+        it('can parse multiple learning paths', () => {
+            expect(learningPathsModel.parse(Mocks.learningPaths)).toBeDefined();
+        })
     });
     describe('Page model', () => {
         it('can parse page info', () => {

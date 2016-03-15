@@ -41,3 +41,9 @@ Mocks.learningPathNoPages = `{
     "uri.learningpath": "https://www.example.com/@lp/foobar",
     "pages": []
 }`;
+
+Mocks.learningPaths = `{
+    learningpath: [
+        ${Mocks.learningPath}
+    ]
+}`;

@@ -30,10 +30,12 @@ let learningPathModel = {
             uri: obj['uri.learningpath'],
             category: obj.category
         };
-        let pages = Array.isArray(obj.pages) ? obj.pages : [ obj.pages ];
-        pages.forEach(function(pageData) {
-            parsed.pages.push(pageModel.parse(pageData));
-        });
+        if(obj.pages) {
+            let pages = Array.isArray(obj.pages) ? obj.pages : [ obj.pages ];
+            pages.forEach(function(pageData) {
+                parsed.pages.push(pageModel.parse(pageData));
+            });
+        }
         return parsed;
     }
 };
