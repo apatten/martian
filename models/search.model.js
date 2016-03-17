@@ -29,7 +29,7 @@ let searchModel = {
             result: []
         };
         if('result' in obj) {
-            let results = Array.isArray(obj.result) ? obj.result : [ obj.result ];
+            let results = modelHelper.getArray(obj.result);
             results.forEach((result) => {
                 search.result.push({
                     author: result.author,
@@ -56,7 +56,7 @@ let searchModel = {
                 results: []
             };
             if('results' in obj.summary) {
-                let results = Array.isArray(obj.summary.results) ? obj.summary.results : [ obj.summary.results ];
+                let results = modelHelper.getArray(obj.summary.results);
                 results.forEach((result) => {
                     search.summary.results.push({
                         path: result['@path'],

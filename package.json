@@ -18,7 +18,7 @@
     "isparta": "4.0.0",
     "jasmine": "2.4.1",
     "jasmine-core": "2.4.1",
-    "jspm": "0.16.27",
+    "jspm": "0.16.31",
     "karma": "0.13.19",
     "karma-babel-preprocessor": "6.0.1",
     "karma-cli": "0.1.2",

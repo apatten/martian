@@ -29,7 +29,7 @@ let pageFilesModel = {
         };
         if('file' in obj) {
             parsed.file = [];
-            let files = Array.isArray(obj.file) ? obj.file : [ obj.file ];
+            let files = modelHelper.getArray(obj.file);
             files.forEach((f) => {
                 parsed.file.push(fileModel.parse(f));
             });

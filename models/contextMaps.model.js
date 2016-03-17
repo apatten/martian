@@ -5,10 +5,10 @@ let contextMapsModel = {
         let obj = modelHelper.fromJson(data);
         let parsed = {
             contextMap: [],
-            languages: Array.isArray(obj.languages.language) ? obj.languages : [ obj.languages.language ]
+            languages: modelHelper.getArray(obj.languages.language)
         };
         if('contextmap' in obj) {
-            let maps = Array.isArray(obj.contextmap) ? obj.contextmap : [ obj.contextmap ];
+            let maps = modelHelper.getArray(obj.contextmap);
             maps.forEach((map) => {
                 parsed.contextMap.push(contextMapModel.parse(map));
             });

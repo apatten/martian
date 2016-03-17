@@ -73,7 +73,7 @@ let pageModel = {
     _getSubpages(subpages) {
         let pageDef = subpages.page;
         let parsed = [];
-        pageDef = Array.isArray(pageDef) ? pageDef : [ pageDef ];
+        pageDef = modelHelper.getArray(pageDef);
         pageDef.forEach((sp) => {
             parsed.push(pageModel.parse(sp));
         });

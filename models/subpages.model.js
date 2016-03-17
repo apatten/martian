@@ -26,7 +26,7 @@ let subpagesModel = {
             href: obj['@href']
         };
         if('page.subpage' in obj) {
-            let subpages = Array.isArray(obj['page.subpage']) ? obj['page.subpage'] : [ obj['page.subpage'] ];
+            let subpages = modelHelper.getArray(obj['page.subpage']);
             parsed.pageSubpage = [];
             subpages.forEach((sp) => {
                 parsed.pageSubpage.push({

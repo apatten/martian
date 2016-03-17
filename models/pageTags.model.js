@@ -26,7 +26,7 @@ let pageTagsModel = {
         };
         if('tag' in obj) {
             parsed.tags = [];
-            let tags = Array.isArray(obj.tag) ? obj.tag : [ obj.tag ];
+            let tags = modelHelper.getArray(obj.tag);
             tags.forEach((tag) => {
                 parsed.tags.push({
                     value: tag['@value'],
