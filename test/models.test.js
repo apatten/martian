@@ -24,6 +24,10 @@ import {searchModel} from 'models/search.model';
 import {subpagesModel} from 'models/subpages.model';
 import {userModel} from 'models/user.model';
 import {userListModel} from 'models/userList.model';
+import {userActivityModel} from 'models/userActivity.model';
+import {eventModel} from 'models/event.model';
+import {eventDetailModel} from 'models/eventDetail.model';
+import {eventListModel} from 'models/eventList.model';
 describe('Models', () => {
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
@@ -177,6 +181,29 @@ describe('Models', () => {
             expect(userListModel.parse(Mocks.userSearch)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchSingle)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchEmpty)).toBeDefined();
+        });
+    });
+    describe('User activity model', () => {
+        it('can parse a list of user activity events', () => {
+            expect(userActivityModel.parse(Mocks.userActivity)).toBeDefined();
+            expect(userActivityModel.parse(Mocks.userActivitySingle)).toBeDefined();
+            expect(userActivityModel.parse(Mocks.userActivityEmpty)).toBeDefined();
+        });
+    });
+    describe('Event model', () => {
+        it('can parse an event', () => {
+            expect(eventModel.parse(Mocks.event)).toBeDefined();
+            expect(eventModel.parse(Mocks.eventUserName)).toBeDefined();
+        });
+    });
+    describe('Event detail model', () => {
+        it('can parse an event detail', () => {
+            expect(eventDetailModel.parse(Mocks.eventDetail)).toBeDefined();
+        });
+    });
+    describe('Event list model', () => {
+        it('can parse an event list', () => {
+            expect(eventListModel.parse(Mocks.eventList)).toBeDefined();
         });
     });
 });

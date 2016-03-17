@@ -27,7 +27,7 @@ let pageRatingsModel = {
         };
         if('page' in obj) {
             parsed.page = [];
-            let pageArray = Array.isArray(obj.page) ? obj.page : [ obj.page ];
+            let pageArray = modelHelper.getArray(obj.page);
             pageArray.forEach((page) => {
                 parsed.page.push(pageModel.parse(page));
             });

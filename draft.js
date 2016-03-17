@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 import {Plug} from './lib/plug';
-import {PagePro} from './page.pro';
+import {Page} from './page';
 import {draftModel} from './models/draft.model';
-export class Draft extends PagePro {
+export class Draft extends Page {
     constructor(id = 'home', settings) {
         super(id, settings);
         this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._id);

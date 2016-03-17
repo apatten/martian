@@ -29,7 +29,7 @@ let groupListModel = {
         };
         if('group' in obj) {
             parsed.group = [];
-            let groups = Array.isArray(obj.group) ? obj.group : [ obj.group ];
+            let groups = modelHelper.getArray(obj.group);
             groups.forEach((group) => {
                 parsed.group.push(groupModel.parse(group));
             });

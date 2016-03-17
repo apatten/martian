@@ -25,6 +25,8 @@ import {pageTreeModel} from './models/pageTree.model';
 import {pageTagsModel} from './models/pageTags.model';
 import {pageRatingModel} from './models/pageRating.model';
 import {pageFilesModel} from './models/pageFiles.model';
+import {pageMoveModel} from './models/pageMove.model';
+import {pageEditModel} from './models/pageEdit.model';
 import {utility} from './lib/utility';
 function _handleVirtualPage(error) {
     if(error.errorCode === 404 && error.response && error.response['@virtual']) {
@@ -108,5 +110,27 @@ export class Page {
     }
     getFiles(params = {}) {
         return this._plug.at('files').withParams(params).get().then(pageFilesModel.parse);
+    }
+    setOverview(options = {}) {
+        if(!('body' in options)) {
+            return Promise.reject(new Error('No overview body was supplied'));
+        }
+        let request = `<overview>${options.body}</overview>`;
+        return this._plug.at('overview').put(request);
+    }
+    move(params = {}) {
+        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
+    }
+    setContents(contents, params = {}) {
+        if(typeof contents !== 'string') {
+            return Promise.reject(new Error('Contents should be string.'));
+        }
+        let contentsParams = {
+            edittime: 'now'
+        };
+        Object.keys(params).forEach((key) => {
+            contentsParams[key] = params[key];
+        });
+        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModel.parse);
     }
 }

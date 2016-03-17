@@ -8,7 +8,7 @@ let contextIdsModel = {
         let parsed = {
             context: []
         };
-        let contexts = Array.isArray(obj.context) ? obj.context : [ obj.context ];
+        let contexts = modelHelper.getArray(obj.context);
         contexts.forEach((c) => {
             parsed.context.push(c);
         });

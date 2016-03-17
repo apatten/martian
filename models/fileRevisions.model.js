@@ -28,7 +28,7 @@ let fileRevisionsModel = {
         };
         if('file' in obj) {
             parsed.file = [];
-            let file = Array.isArray(obj.file) ? obj.file : [ obj.file ];
+            let file = modelHelper.getArray(obj.file);
             file.forEach((f) => {
                 parsed.file.push(fileModel.parse(f));
             });

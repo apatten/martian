@@ -26,7 +26,7 @@ let pageMoveModel = {
             pages: []
         };
         if('page' in obj) {
-            let pages = Array.isArray(obj.page) ? obj.page : [ obj.page ];
+            let pages = modelHelper.getArray(obj.page);
             pages.forEach((page) => {
                 parsed.pages.push(pageModel.parse(page));
             });

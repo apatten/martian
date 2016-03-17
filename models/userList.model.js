@@ -11,7 +11,7 @@ let userListModel = {
         modelHelper.addIfDefined(obj['@totalcount'], 'totalcount', parsed);
         modelHelper.addIfDefined(obj['@href'], 'href', parsed);
         if('user' in obj) {
-            let users = Array.isArray(obj.user) ? obj.user : [ obj.user ];
+            let users = modelHelper.getArray(obj.user);
             users.forEach((user) => {
                 parsed.users.push(userModel.parse(user));
             });

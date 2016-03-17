@@ -18,6 +18,21 @@
  */
 import {Plug} from './lib/plug';
 import {learningPathModel} from './models/learningPath.model';
+import {pageModel} from './models/page.model';
+let maxSummaryCount = 500;
+function getSaveXML(data) {
+    let template = `<title>${data.title}</title>
+        <summary>${data.summary}</summary>
+        <category>${data.category}</category>`;
+    if(data.pages && Array.isArray(data.pages)) {
+        data.pages.forEach((page) => {
+            template = `${template}
+                <pages>${page.id}</pages>`;
+        });
+    }
+    template = `<learningpath>${template}</learningpath>`;
+    return template;
+}
 export class LearningPath {
 
     // Constructor
@@ -26,6 +41,31 @@ export class LearningPath {
     }
     getInfo() {
         return this._plug.get().then(learningPathModel.parse);
+    }
+
+    // learning path operations
+    update(content) {
+        if(content.summary && content.summary.length > maxSummaryCount) {
+            content.summary = content.summary.substring(0, maxSummaryCount);
+        }
+
+        // Do this without mustache
+        let XMLData = getSaveXML(content);
+        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModel.parse);
+    }
+    remove() {
+        return this._plug.at(`=${this._name}`).del();
+    }
+
+    // Page operations
+    addPage(pageId, editTime) {
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModel.parse);
+    }
+    removePage(pageId, editTime) {
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).del();
+    }
+    reorderPage(pageId, afterId, editTime) {
+        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModel.parse);
     }
 }
 export class LearningPathManager {
@@ -38,5 +78,11 @@ export class LearningPathManager {
     }
     getLearningPath(name) {
         return new LearningPath(name, this.settings);
+    }
+    create(data) {
+        if(data.summary.length > maxSummaryCount) {
+            data.summary = data.summary.substring(0, maxSummaryCount);
+        }
+        return this._plug.withParams(data).post().then(learningPathModel.parse);
     }
 }
