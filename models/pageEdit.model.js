@@ -18,7 +18,6 @@
  */
 import {modelHelper} from './modelHelper';
 import {pageModel} from './page.model';
-import {draftModel} from './draft.model';
 let pageEditModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -29,7 +28,7 @@ let pageEditModel = {
             parsed.page = pageModel.parse(obj.page);
         }
         if('draft' in obj) {
-            parsed.draft = draftModel.parse(obj.draft);
+            parsed.draft = pageModel.parse(obj.draft);
         }
         if('page.base' in obj) {
             parsed.pageBase = pageModel.parse(obj['page.base']);

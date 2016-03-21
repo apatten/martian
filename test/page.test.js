@@ -283,6 +283,13 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can activate a draft for the page', (done) => {
+            spyOn(pageModel, 'parse').and.returnValue({});
+            page.activateDraft().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
     });
     describe('page view logging', () => {
         it('can log a page view', (done) => {

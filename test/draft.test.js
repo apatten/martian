@@ -17,9 +17,29 @@
  * limitations under the License.
  */
 import {Plug} from 'lib/plug';
-import {draftModel} from 'models/draft.model';
-import {Draft} from 'draft';
+import {pageModel} from 'models/page.model';
+import {DraftManager, Draft} from 'draft';
 describe('Draft', () => {
+    describe('draft manager', () => {
+        it('can construct a new draft manager', () => {
+            let dm = new DraftManager();
+            expect(dm).toBeDefined();
+        });
+        it('can create a new draft from nothing', (done) => {
+            let dm = new DraftManager();
+            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+            spyOn(pageModel, 'parse').and.returnValue({});
+            dm.createDraft('new/draft/path').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get a Draft object by id', () => {
+            let dm = new DraftManager();
+            let draft = dm.getDraft(123);
+            expect(draft).toBeDefined();
+        });
+    });
     describe('constructor tests', () => {
         it('can construct a new Draft object using draft ID', () => {
             var draft = new Draft(123);
@@ -44,7 +64,7 @@ describe('Draft', () => {
             expect(() => Draft()).toThrow();
         });
     });
-    describe('get stuff tests', () => {
+    describe('do stuff tests', () => {
         let draft = null;
         beforeEach(() => {
             draft = new Draft(123);
@@ -54,8 +74,16 @@ describe('Draft', () => {
         });
         it('can get the draft info', (done) => {
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(draftModel, 'parse').and.returnValue({});
+            spyOn(pageModel, 'parse').and.returnValue({});
             draft.getFullInfo().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can deactivate a draft', (done) => {
+            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+            spyOn(pageModel, 'parse').and.returnValue({});
+            draft.deactivate().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
