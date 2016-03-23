@@ -29,4 +29,10 @@ describe('Martian utility', () => {
         expect(utility.getResourceId('dog', 'dog')).toBe('dog');
         expect(utility.getResourceId('dog?cat/apple')).toBe('=dog%253Fcat%252Fapple');
     });
+    it('can get an appropriately-encoded filename for file attachment access', () => {
+        expect(utility.getFilenameId('foo.png')).toBe('foo.png');
+        expect(utility.getFilenameId('foo')).toBe('=foo');
+        expect(utility.getFilenameId('dog#cat.gif')).toBe('dog%2523cat.gif');
+        expect(() => utility.getFilenameId(123)).toThrow();
+    });
 });

@@ -45,6 +45,7 @@ import {userActivityModel} from 'models/userActivity.model';
 import {eventModel} from 'models/event.model';
 import {eventDetailModel} from 'models/eventDetail.model';
 import {eventListModel} from 'models/eventList.model';
+import {relatedPagesModel} from 'models/relatedPages.model';
 describe('Models', () => {
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
@@ -216,6 +217,12 @@ describe('Models', () => {
     describe('Event list model', () => {
         it('can parse an event list', () => {
             expect(eventListModel.parse(Mocks.eventList)).toBeDefined();
+        });
+    });
+    describe('Related pages model', () => {
+        it('can parse a list of related pages', () => {
+            expect(relatedPagesModel.parse(Mocks.relatedPages)).toBeDefined();
+            expect(relatedPagesModel.parse(Mocks.relatedPagesSingle)).toBeDefined();
         });
     });
 });

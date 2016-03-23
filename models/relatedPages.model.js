@@ -16,16 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export class MTError extends Error {
-
-    /**
-     * Placeholder class to contain the workaround for Babel not being able
-     * to subclass built-in objects due to ES5 limitations.
-     */
-    constructor(message) {
-        super();
-        this.message = message;
-        this.stack = (new Error()).stack;
-        this.name = this.constructor.name;
+import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
+export let relatedPagesModel = {
+    parse(data) {
+        let obj = modelHelper.fromJson(data);
+        let parsed = {
+            count: modelHelper.getInt(obj['@count']),
+            href: obj['@href'],
+            pages: []
+        };
+        if('page' in obj) {
+            let pages = modelHelper.getArray(obj.page);
+            pages.forEach((page) => {
+                parsed.pages.push(pageModel.parse(page));
+            });
+        }
+        return parsed;
     }
-}
+};

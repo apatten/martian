@@ -28,6 +28,9 @@ export class Draft extends PageBase {
     deactivate() {
         return this._plug.at('deactivate').post().then(pageModel.parse);
     }
+    publish() {
+        return this._plug.at('publish').post();
+    }
 }
 export class DraftManager {
     constructor(settings) {

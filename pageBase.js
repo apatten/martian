@@ -23,6 +23,7 @@ import {pageContentsModel} from './models/pageContents.model';
 import {pageTagsModel} from './models/pageTags.model';
 import {pageFilesModel} from './models/pageFiles.model';
 import {pageEditModel} from './models/pageEdit.model';
+import {relatedPagesModel} from './models/relatedPages.model';
 function _handleVirtualPage(error) {
     if(error.errorCode === 404 && error.response && error.response['@virtual']) {
         return Promise.resolve(pageModel.parse(error.response));
@@ -73,5 +74,11 @@ export class PageBase {
     }
     getTags() {
         return this._plug.at('tags').get().then(pageTagsModel.parse);
+    }
+    getDiff(revisionParam) {
+        throw new Error('Page.getDiff() is not impmemented');
+    }
+    getRelated() {
+        return this._plug.at('related').get().then(relatedPagesModel.parse);
     }
 }

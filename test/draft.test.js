@@ -88,5 +88,11 @@ describe('Draft', () => {
                 done();
             });
         });
+        it('can publish a draft', (done) => {
+            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
+            draft.publish().then(() => {
+                done();
+            });
+        });
     });
 });

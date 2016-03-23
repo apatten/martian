@@ -26,6 +26,7 @@ import {pageRatingModel} from 'models/pageRating.model';
 import {pageFilesModel} from 'models/pageFiles.model';
 import {pageMoveModel} from 'models/pageMove.model';
 import {pageEditModel} from 'models/pageEdit.model';
+import {relatedPagesModel} from 'models/relatedPages.model';
 import {Page} from 'page';
 describe('Page', () => {
     describe('constructor tests', () => {
@@ -137,6 +138,17 @@ describe('Page', () => {
         it('can fetch the page\'s files with supplied options', (done) => {
             spyOn(pageFilesModel, 'parse').and.returnValue({});
             page.getFiles({ limit: 200 }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can get the diff for a page', (done) => {
+            expect(() => page.getDiff()).toThrowError(Error);
+            done();
+        });
+        it('can get the related pages', (done) => {
+            spyOn(relatedPagesModel, 'parse').and.returnValue(Promise.resolve({}));
+            page.getRelated().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
