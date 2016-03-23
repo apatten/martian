@@ -26,12 +26,10 @@ export let relatedPagesModel = {
             href: obj['@href'],
             pages: []
         };
-        if('page' in obj) {
-            let pages = modelHelper.getArray(obj.page);
-            pages.forEach((page) => {
-                parsed.pages.push(pageModel.parse(page));
-            });
-        }
+        let pages = modelHelper.getArray(obj.page);
+        pages.forEach((page) => {
+            parsed.pages.push(pageModel.parse(page));
+        });
         return parsed;
     }
 };

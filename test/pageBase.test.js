@@ -19,8 +19,6 @@
 import {PageBase} from 'pageBase';
 describe('Page Base', () => {
     it('can not construct a PageBase object directly', () => {
-        expect(() => {
-            let pb = new PageBase();
-        }).toThrowError(TypeError);
+        expect(() => new PageBase()).toThrowError(TypeError);
     });
 });
