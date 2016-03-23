@@ -31,7 +31,7 @@ function _handleVirtualPage(error) {
     throw error;
 }
 export class PageBase {
-    constructor(id, settings) {
+    constructor(id) {
         if(this.constructor.name === 'PageBase') {
             throw new TypeError('PageBase must not be constructed directly.  Use one of Page() or Draft()');
         }
@@ -75,7 +75,7 @@ export class PageBase {
     getTags() {
         return this._plug.at('tags').get().then(pageTagsModel.parse);
     }
-    getDiff(revisionParam) {
+    getDiff() {
         throw new Error('Page.getDiff() is not impmemented');
     }
     getRelated() {

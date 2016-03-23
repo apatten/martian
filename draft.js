@@ -22,7 +22,7 @@ import {PageBase} from './pageBase';
 import {pageModel} from './models/page.model';
 export class Draft extends PageBase {
     constructor(id = 'home', settings) {
-        super(id, settings);
+        super(id);
         this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._id);
     }
     deactivate() {

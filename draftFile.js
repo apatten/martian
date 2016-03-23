@@ -16,10 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {fileModel} from './models/file.model';
+import {Plug} from './lib/plug';
+import {PageFileBase} from './pageFileBase';
 export class DraftFile extends PageFileBase {
-    constructor(pageId, filename) {
+    constructor(pageId, filename, settings) {
         super(pageId, filename);
-        this._plug = new Plug('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
     }
 }

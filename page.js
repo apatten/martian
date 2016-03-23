@@ -27,7 +27,7 @@ import {pageRatingModel} from './models/pageRating.model';
 import {pageMoveModel} from './models/pageMove.model';
 export class Page extends PageBase {
     constructor(id = 'home', settings) {
-        super(id, settings);
+        super(id);
         this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id);
     }
     getInfo(params = {}) {
@@ -69,10 +69,6 @@ export class Page extends PageBase {
             throw new Error('Invalid rating supplied for the old rating');
         }
         return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
-    }
-    logPageView() {
-        var viewPlug = new Plug().at('@api', 'deki', 'events', 'page-view', this._id).withParam('uri', encodeURIComponent(document.location.href));
-        return viewPlug.post(JSON.stringify({ _uri: document.location.href }), utility.jsonRequestType);
     }
     getHtmlTemplate(path, params = {}) {
         params.pageid = this._id;

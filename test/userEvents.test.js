@@ -26,7 +26,7 @@ describe('User Events', () => {
         it('can construct a user events object', () => {
             let ue = new UserEvents();
             expect(ue).toBeDefined();
-            expect(() => UserEventManager()).toThrow();
+            expect(() => UserEvents()).toThrow();
         });
     });
     describe('functionality', () => {

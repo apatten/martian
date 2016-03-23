@@ -303,13 +303,4 @@ describe('Page', () => {
             });
         });
     });
-    describe('page view logging', () => {
-        it('can log a page view', (done) => {
-            let page = new Page(123);
-            spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            page.logPageView().then(() => {
-                done();
-            });
-        });
-    });
 });
