@@ -767,3 +767,52 @@ Mocks.pageSetContentsConflict = `{
         }
     }
 }`;
+Mocks.relatedPages = `{
+    "@count":"14",
+    "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/507/related",
+    "page":[
+        {
+            "@id":"337",
+            "@draft.state":"inactive",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/337?redirects=0",
+            "@deleted":"false",
+            "article":"topic-category",
+            "date.created":"Mon, 23 Mar 2015 19:59:17 GMT",
+            "language":"en-US",
+            "namespace":"main",
+            "path":{"@seo":"true","#text":"Category_2"},
+            "title":"Category 2",
+            "uri.ui":"https://marsdev.mindtouch.dev/Category_2"
+        },
+        {
+            "@id":"346",
+            "@draft.state":"active",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/346?redirects=0",
+            "@deleted":"false",
+            "article":"howto",
+            "date.created":"Tue, 31 Mar 2015 19:06:21 GMT",
+            "language":"en-US",
+            "namespace":"main",
+            "path":{"@seo":"true","#text":"Category_1/Guide_1/Page_Title/BLANK!!"},
+            "title":"BLANK!!",
+            "uri.ui":"https://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title/BLANK!!"
+        }
+    ]
+}`;
+Mocks.relatedPagesSingle = `{
+    "@count":"1",
+    "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/507/related",
+    "page": {
+        "@id":"337",
+        "@draft.state":"inactive",
+        "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/337?redirects=0",
+        "@deleted":"false",
+        "article":"topic-category",
+        "date.created":"Mon, 23 Mar 2015 19:59:17 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{"@seo":"true","#text":"Category_2"},
+        "title":"Category 2",
+        "uri.ui":"https://marsdev.mindtouch.dev/Category_2"
+    }
+}`;

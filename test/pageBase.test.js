@@ -16,21 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {eventModel} from './event.model';
-export let userActivityModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            upto: obj['@upto'],
-            since: obj['@since'],
-            events: []
-        };
-        let events = modelHelper.getArray(obj.event);
-        events.forEach((e) => {
-            parsed.events.push(eventModel.parse(e));
-        });
-        return parsed;
-    }
-};
+import {PageBase} from 'pageBase';
+describe('Page Base', () => {
+    it('can not construct a PageBase object directly', () => {
+        expect(() => {
+            let pb = new PageBase();
+        }).toThrowError(TypeError);
+    });
+});

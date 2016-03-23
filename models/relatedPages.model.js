@@ -18,25 +18,20 @@
  */
 import {modelHelper} from './modelHelper';
 import {pageModel} from './page.model';
-let pageEditModel = {
+export let relatedPagesModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            status: obj['@status']
+            count: modelHelper.getInt(obj['@count']),
+            href: obj['@href'],
+            pages: []
         };
         if('page' in obj) {
-            parsed.page = pageModel.parse(obj.page);
-        }
-        if('draft' in obj) {
-            parsed.draft = pageModel.parse(obj.draft);
-        }
-        if('page.base' in obj) {
-            parsed.pageBase = pageModel.parse(obj['page.base']);
-        }
-        if('page.overwritten' in obj) {
-            parsed.pageOverwritten = pageModel.parse(obj['page.overwritten']);
+            let pages = modelHelper.getArray(obj.page);
+            pages.forEach((page) => {
+                parsed.pages.push(pageModel.parse(page));
+            });
         }
         return parsed;
     }
 };
-export {pageEditModel};

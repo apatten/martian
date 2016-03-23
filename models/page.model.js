@@ -24,22 +24,37 @@ let pageModel = {
         let obj = modelHelper.fromJson(data);
         let parsed = {
             id: modelHelper.getInt(obj['@id']),
-            deleted: modelHelper.getBool(obj['@deleted']),
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            language: obj.language,
-            namespace: obj.namespace,
-            path: modelHelper.getString(obj.path),
             title: obj.title,
             uriUi: obj['uri.ui']
         };
         modelHelper.addIfDefined(obj['@href'], 'href', parsed);
-        modelHelper.addIfDefined(obj['@revision'], 'revision', parsed);
+        modelHelper.addIfDefined(obj['@state'], 'state', parsed);
         modelHelper.addIfDefined(obj['@draft.state'], 'draftState', parsed);
         modelHelper.addIfDefined(obj.article, 'article', parsed);
+        modelHelper.addIfDefined(obj.language, 'language', parsed);
+        modelHelper.addIfDefined(obj.namespace, 'namespace', parsed);
         modelHelper.addIfDefined(obj['language.effective'], 'languageEffective', parsed);
         modelHelper.addIfDefined(obj.timeuuid, 'timeuuid', parsed);
+        if('path' in obj) {
+            parsed.path = modelHelper.getString(obj.path);
+        }
+        if('@revision' in obj) {
+            parsed.revision = modelHelper.getInt(obj['@revision']);
+        }
+        if('date.created' in obj) {
+            parsed.dateCreated = modelHelper.getDate(obj['date.created']);
+        }
+        if('@deleted' in obj) {
+            parsed.deleted = modelHelper.getBool(obj['@deleted']);
+        }
+        if('@publish' in obj) {
+            parsed.publish = modelHelper.getBool(obj['@publish']);
+        }
         if('@unpublish' in obj) {
             parsed.unpublish = modelHelper.getBool(obj['@unpublish']);
+        }
+        if('@deactivate' in obj) {
+            parsed.deactivate = modelHelper.getBool(obj['@deactivate']);
         }
         if('@virtual' in obj) {
             parsed.virtual = modelHelper.getBool(obj['@virtual']);
@@ -59,6 +74,11 @@ let pageModel = {
         if('user.author' in obj) {
             parsed.userAuthor = userModel.parse(obj['user.author']);
         }
+
+        // TODO: Parse obj.files if defined
+        // TODO: Parse obj.content if defined
+        // TODO: Parse obj.properties if defined
+        // TODO: Parse obj['user.createdby'] if defined
 
         // Only parse subpages if the property exists, and it has a 'page'
         //  sub-property.

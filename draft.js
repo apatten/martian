@@ -17,14 +17,30 @@
  * limitations under the License.
  */
 import {Plug} from './lib/plug';
-import {Page} from './page';
-import {draftModel} from './models/draft.model';
-export class Draft extends Page {
+import {utility} from './lib/utility';
+import {PageBase} from './pageBase';
+import {pageModel} from './models/page.model';
+export class Draft extends PageBase {
     constructor(id = 'home', settings) {
         super(id, settings);
         this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._id);
     }
-    getFullInfo() {
-        return this._plug.get().then(draftModel.parse);
+    deactivate() {
+        return this._plug.at('deactivate').post().then(pageModel.parse);
+    }
+    publish() {
+        return this._plug.at('publish').post();
+    }
+}
+export class DraftManager {
+    constructor(settings) {
+        this._settings = settings;
+    }
+    createDraft(newPath) {
+        let plug = new Plug(this._settings).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
+        return plug.post().then(pageModel.parse);
+    }
+    getDraft(id) {
+        return new Draft(id, this._settings);
     }
 }
