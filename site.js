@@ -46,7 +46,7 @@ function _buildSearchConstraints(params) {
             types = types.split(',');
         }
         types.forEach((type) => {
-            constraints.push('+type:"' + utility.searchEscape(type) + '"');
+            constraints.push('+type:' + utility.searchEscape(type));
         });
     }
     return '+(' + constraints.join(' ') + ')';
