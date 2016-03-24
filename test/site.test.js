@@ -78,7 +78,7 @@ describe('Site API', () => {
         });
         it('can perform a search with some parameters', (done) => {
             spyOn(searchModel, 'parse').and.returnValue({});
-            sm.search({ page: 123, tags: [ 'abc', '123' ] }).then((e) => {
+            sm.search({ page: 123, tags: [ 'abc', '123' ], type: [ 'wiki', 'image' ] }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
@@ -92,7 +92,7 @@ describe('Site API', () => {
         });
         it('can perform a search with all parameters', (done) => {
             spyOn(searchModel, 'parse').and.returnValue({});
-            sm.search({ path: '/foo/bar', tags: 'abc', page: 123, limit: 10, q: 'search term' }).then((e) => {
+            sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term' }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
