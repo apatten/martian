@@ -40,6 +40,15 @@ function _buildSearchConstraints(params) {
             constraints.push('+tag:"' + utility.searchEscape(tag) + '"');
         });
     }
+    if('type' in params) {
+        var types = params.type;
+        if(typeof types === 'string' && (types)) {
+            types = types.split(',');
+        }
+        types.forEach((type) => {
+            constraints.push('+type:"' + utility.searchEscape(type) + '"');
+        });
+    }
     return '+(' + constraints.join(' ') + ')';
 }
 export class Site {
@@ -56,13 +65,16 @@ export class Site {
         }
         return locPlug.get();
     }
-    search({ page: page = 1, limit: limit = 10, tags: tags = '', q: q = '', path: path = '', recommendations = true } = {}) {
+    search({ page: page = 1, limit: limit = 10, tags: tags = '', type: type = '', q: q = '', path: path = '', recommendations = true } = {}) {
         let constraint = {};
         if(path !== '') {
             constraint.path = path;
         }
         if(tags !== '') {
             constraint.tags = tags;
+        }
+        if(type !== '') {
+            constraint.type = type;
         }
         let searchParams = {
             limit: limit,
