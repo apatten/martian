@@ -17,24 +17,17 @@
  * limitations under the License.
  */
 import {Plug} from './lib/plug';
-import {modelHelper} from './models/modelHelper';
+import {utility} from './lib/utility';
+import {PageBase} from './pageBase';
 import {pageModel} from './models/page.model';
 import {subpagesModel} from './models/subpages.model';
 import {pageContentsModel} from './models/pageContents.model';
 import {pageTreeModel} from './models/pageTree.model';
-import {pageTagsModel} from './models/pageTags.model';
 import {pageRatingModel} from './models/pageRating.model';
-import {pageFilesModel} from './models/pageFiles.model';
-import {utility} from './lib/utility';
-function _handleVirtualPage(error) {
-    if(error.errorCode === 404 && error.response && error.response['@virtual']) {
-        return Promise.resolve(pageModel.parse(error.response));
-    }
-    throw error;
-}
-export class Page {
+import {pageMoveModel} from './models/pageMove.model';
+export class Page extends PageBase {
     constructor(id = 'home', settings) {
-        this._id = utility.getResourceId(id, 'home');
+        super(id);
         this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id);
     }
     getInfo(params = {}) {
@@ -43,12 +36,6 @@ export class Page {
             infoParams[key] = params[key];
         });
         return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
-    }
-    getFullInfo() {
-        return this._plug.get().then(pageModel.parse).catch(_handleVirtualPage);
-    }
-    getContents(params) {
-        return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
     }
     getSubpages(params) {
         return this._plug.at('subpages').withParams(params).get().then(subpagesModel.parse);
@@ -69,16 +56,6 @@ export class Page {
             return Promise.reject({ message: e.message });
         });
     }
-    getTags() {
-        return this._plug.at('tags').get().then(pageTagsModel.parse);
-    }
-    getOverview() {
-        return this._plug.at('overview').get().then(JSON.parse).then((overview) => {
-            return Promise.resolve({ overview: modelHelper.getString(overview) });
-        }).catch(() => {
-            return Promise.reject('Unable to parse the page overview response');
-        });
-    }
     getRating() {
         return this._plug.at('ratings').get().then(pageRatingModel.parse);
     }
@@ -93,10 +70,6 @@ export class Page {
         }
         return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
     }
-    logPageView() {
-        var viewPlug = new Plug().at('@api', 'deki', 'events', 'page-view', this._id).withParam('uri', encodeURIComponent(document.location.href));
-        return viewPlug.post(JSON.stringify({ _uri: document.location.href }), utility.jsonRequestType);
-    }
     getHtmlTemplate(path, params = {}) {
         params.pageid = this._id;
 
@@ -106,7 +79,10 @@ export class Page {
         let contentsPlug = new Plug().at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
         return contentsPlug.get().then(pageContentsModel.parse);
     }
-    getFiles(params = {}) {
-        return this._plug.at('files').withParams(params).get().then(pageFilesModel.parse);
+    move(params = {}) {
+        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
+    }
+    activateDraft() {
+        return this._plug.at('activate-draft').post().then(pageModel.parse);
     }
 }

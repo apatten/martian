@@ -16,25 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {fileModel} from './file.model';
-let pageFilesModel = {
-    parse: function(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            offset: modelHelper.getInt(obj['@offset']),
-            totalcount: modelHelper.getInt(obj['@totalcount']),
-            href: obj['@href']
-        };
-        if('file' in obj) {
-            parsed.file = [];
-            let files = modelHelper.getArray(obj.file);
-            files.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
-            });
-        }
-        return parsed;
+import {Plug} from './lib/plug';
+import {PageFileBase} from './pageFileBase';
+export class DraftFile extends PageFileBase {
+    constructor(pageId, filename, settings) {
+        super(pageId, filename);
+        this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
     }
-};
-export {pageFilesModel};
+}

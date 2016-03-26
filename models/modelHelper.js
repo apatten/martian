@@ -35,6 +35,12 @@ let modelHelper = {
     getDate(field) {
         return new Date(field);
     },
+    getArray(val) {
+        if(!val) {
+            return [];
+        }
+        return Array.isArray(val) ? val : [ val ];
+    },
     addIfDefined(field, name, obj, parser = null) {
         if(typeof field !== 'undefined') {
             if(parser !== null) {

@@ -16,25 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {pageModel} from './page.model';
 import {modelHelper} from './modelHelper';
-import {fileModel} from './file.model';
-let pageFilesModel = {
-    parse: function(data) {
+let learningPathModel = {
+    parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            offset: modelHelper.getInt(obj['@offset']),
-            totalcount: modelHelper.getInt(obj['@totalcount']),
-            href: obj['@href']
+            title: obj.title,
+            name: obj['@name'],
+            summary: obj.summary,
+            pages: [],
+            edittime: obj.edittime,
+            uri: obj['uri.learningpath'],
+            category: obj.category
         };
-        if('file' in obj) {
-            parsed.file = [];
-            let files = modelHelper.getArray(obj.file);
-            files.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
+        if(obj.pages) {
+            let pages = Array.isArray(obj.pages) ? obj.pages : [ obj.pages ];
+            pages.forEach(function(pageData) {
+                parsed.pages.push(pageModel.parse(pageData));
             });
         }
         return parsed;
     }
 };
-export {pageFilesModel};
+export {learningPathModel};

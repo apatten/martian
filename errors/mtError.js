@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export default class MTError extends Error {
+export class MTError extends Error {
 
     /**
      * Placeholder class to contain the workaround for Babel not being able

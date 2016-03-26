@@ -17,24 +17,19 @@
  * limitations under the License.
  */
 import {modelHelper} from './modelHelper';
-import {fileModel} from './file.model';
-let pageFilesModel = {
-    parse: function(data) {
+import {pageModel} from './page.model';
+export let relatedPagesModel = {
+    parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
             count: modelHelper.getInt(obj['@count']),
-            offset: modelHelper.getInt(obj['@offset']),
-            totalcount: modelHelper.getInt(obj['@totalcount']),
-            href: obj['@href']
+            href: obj['@href'],
+            pages: []
         };
-        if('file' in obj) {
-            parsed.file = [];
-            let files = modelHelper.getArray(obj.file);
-            files.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
-            });
-        }
+        let pages = modelHelper.getArray(obj.page);
+        pages.forEach((page) => {
+            parsed.pages.push(pageModel.parse(page));
+        });
         return parsed;
     }
 };
-export {pageFilesModel};

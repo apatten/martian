@@ -24,6 +24,9 @@ import {pageTreeModel} from 'models/pageTree.model';
 import {pageTagsModel} from 'models/pageTags.model';
 import {pageRatingModel} from 'models/pageRating.model';
 import {pageFilesModel} from 'models/pageFiles.model';
+import {pageMoveModel} from 'models/pageMove.model';
+import {pageEditModel} from 'models/pageEdit.model';
+import {relatedPagesModel} from 'models/relatedPages.model';
 import {Page} from 'page';
 describe('Page', () => {
     describe('constructor tests', () => {
@@ -139,6 +142,17 @@ describe('Page', () => {
                 done();
             });
         });
+        it('can get the diff for a page', (done) => {
+            expect(() => page.getDiff()).toThrowError(Error);
+            done();
+        });
+        it('can get the related pages', (done) => {
+            spyOn(relatedPagesModel, 'parse').and.returnValue(Promise.resolve({}));
+            page.getRelated().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
     });
     describe('virtual page fetching', () => {
         it('can get a virtual page info', (done) => {
@@ -225,11 +239,66 @@ describe('Page', () => {
             expect(() => page.rate(1, { score: 1 })).toThrow();
         });
     });
-    describe('page view logging', () => {
-        it('can log a page view', (done) => {
-            let page = new Page(123);
+    describe('Pro functions', () => {
+        let page = null;
+        beforeEach(() => {
+            page = new Page(123);
+            spyOn(Plug.prototype, 'put').and.returnValue(Promise.resolve({}));
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            page.logPageView().then(() => {
+        });
+        afterEach(() => {
+            page = null;
+        });
+        it('can set the page overview', (done) => {
+            page.setOverview({ body: 'FOO' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fail if no arguments are sent when setting the page overview', (done) => {
+            page.setOverview().catch((r) => {
+                expect(r.message).toBe('No overview body was supplied');
+                done();
+            });
+        });
+        it('can move a page', (done) => {
+            spyOn(pageMoveModel, 'parse').and.returnValue({});
+            page.move({ to: 'foo/bar' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can move a page with no options provided', (done) => {
+            spyOn(pageMoveModel, 'parse').and.returnValue({});
+            page.move().then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can set the page contents', (done) => {
+            spyOn(pageEditModel, 'parse').and.returnValue({});
+            page.setContents('Sample contents').then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can fail when setting invalid page contents', (done) => {
+            page.setContents({}).catch((e) => {
+                expect(e.message).toBe('Contents should be string.');
+                done();
+            });
+        });
+        it('can handle setting the page contents conflict', (done) => {
+            spyOn(pageEditModel, 'parse').and.returnValue({});
+            page.setContents('Sample contents', { edittime: 'now', abort: 'never' }).then((r) => {
+                expect(r).toBeDefined();
+                done();
+            });
+        });
+        it('can activate a draft for the page', (done) => {
+            spyOn(pageModel, 'parse').and.returnValue({});
+            page.activateDraft().then((r) => {
+                expect(r).toBeDefined();
                 done();
             });
         });

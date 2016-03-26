@@ -16,24 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {fileModel} from './file.model';
-let fileRevisionsModel = {
-    parse: (data) => {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: obj['@count'],
-            totalcount: obj['@totalcount'],
-            href: obj['@href']
-        };
-        if('file' in obj) {
-            parsed.file = [];
-            let file = modelHelper.getArray(obj.file);
-            file.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
-            });
-        }
-        return parsed;
-    }
-};
-export {fileRevisionsModel};
+import {PageBase} from 'pageBase';
+describe('Page Base', () => {
+    it('can not construct a PageBase object directly', () => {
+        expect(() => new PageBase()).toThrowError(TypeError);
+    });
+});

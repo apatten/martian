@@ -1,12 +1,31 @@
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import {contextIdModel} from 'models/contextId.model';
 import {contextIdsModel} from 'models/contextIds.model';
 import {contextMapModel} from 'models/contextMap.model';
 import {contextMapsModel} from 'models/contextMaps.model';
-import {draftModel} from 'models/draft.model';
 import {fileModel} from 'models/file.model';
 import {fileRevisionsModel} from 'models/fileRevisions.model';
 import {groupModel} from 'models/group.model';
 import {groupListModel} from 'models/groupList.model';
+import {learningPathModel} from 'models/learningPath.model';
+import {learningPathsModel} from 'models/learningPaths.model';
 import {pageModel} from 'models/page.model';
 import {pageContentsModel} from 'models/pageContents.model';
 import {pageTreeModel} from 'models/pageTree.model';
@@ -22,6 +41,11 @@ import {searchModel} from 'models/search.model';
 import {subpagesModel} from 'models/subpages.model';
 import {userModel} from 'models/user.model';
 import {userListModel} from 'models/userList.model';
+import {userActivityModel} from 'models/userActivity.model';
+import {eventModel} from 'models/event.model';
+import {eventDetailModel} from 'models/eventDetail.model';
+import {eventListModel} from 'models/eventList.model';
+import {relatedPagesModel} from 'models/relatedPages.model';
 describe('Models', () => {
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
@@ -42,12 +66,6 @@ describe('Models', () => {
             expect(contextMapsModel.parse(Mocks.contextMapsSingleLanguage)).toBeDefined();
             expect(contextMapsModel.parse(Mocks.contextMapSingleSingle)).toBeDefined();
             expect(contextMapsModel.parse(Mocks.contextMapsEmpty)).toBeDefined();
-        });
-    });
-    describe('Draft model', () => {
-        it('can parse draft info', () => {
-            expect(draftModel.parse(Mocks.draft)).toBeDefined();
-            expect(draftModel.parse(Mocks.draftBasic)).toBeDefined();
         });
     });
     describe('File model', () => {
@@ -71,11 +89,23 @@ describe('Models', () => {
             expect(groupListModel.parse(Mocks.groupListingEmpty)).toBeDefined();
         });
     });
+    describe('Learning Path model', () => {
+        it('can parse learning path', () => {
+            expect(learningPathModel.parse(Mocks.learningPath)).toBeDefined();
+            expect(learningPathModel.parse(Mocks.learningPathSinglePage)).toBeDefined();
+            expect(learningPathModel.parse(Mocks.learningPathNoPages)).toBeDefined();
+        });
+        it('can parse multiple learning paths', () => {
+            expect(learningPathsModel.parse(Mocks.learningPaths)).toBeDefined();
+            expect(learningPathsModel.parse(Mocks.learningPathsSingular)).toBeDefined();
+        });
+    });
     describe('Page model', () => {
         it('can parse page info', () => {
             expect(pageModel.parse(Mocks.page)).toBeDefined();
             expect(pageModel.parse(Mocks.pageInfo)).toBeDefined();
             expect(pageModel.parse(Mocks.virtualPage)).toBeDefined();
+            expect(pageModel.parse(Mocks.draft)).toBeDefined();
         });
     });
     describe('Page contents model', () => {
@@ -164,6 +194,35 @@ describe('Models', () => {
             expect(userListModel.parse(Mocks.userSearch)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchSingle)).toBeDefined();
             expect(userListModel.parse(Mocks.userSearchEmpty)).toBeDefined();
+        });
+    });
+    describe('User activity model', () => {
+        it('can parse a list of user activity events', () => {
+            expect(userActivityModel.parse(Mocks.userActivity)).toBeDefined();
+            expect(userActivityModel.parse(Mocks.userActivitySingle)).toBeDefined();
+            expect(userActivityModel.parse(Mocks.userActivityEmpty)).toBeDefined();
+        });
+    });
+    describe('Event model', () => {
+        it('can parse an event', () => {
+            expect(eventModel.parse(Mocks.event)).toBeDefined();
+            expect(eventModel.parse(Mocks.eventUserName)).toBeDefined();
+        });
+    });
+    describe('Event detail model', () => {
+        it('can parse an event detail', () => {
+            expect(eventDetailModel.parse(Mocks.eventDetail)).toBeDefined();
+        });
+    });
+    describe('Event list model', () => {
+        it('can parse an event list', () => {
+            expect(eventListModel.parse(Mocks.eventList)).toBeDefined();
+        });
+    });
+    describe('Related pages model', () => {
+        it('can parse a list of related pages', () => {
+            expect(relatedPagesModel.parse(Mocks.relatedPages)).toBeDefined();
+            expect(relatedPagesModel.parse(Mocks.relatedPagesSingle)).toBeDefined();
         });
     });
 });

@@ -1,4 +1,4 @@
-/* eslint-disable quotes */
+
 window.Mocks = window.Mocks || {};
 Mocks.contextIdDefinitions = `{
     "context":[
@@ -9,8 +9,11 @@ Mocks.contextIdDefinitions = `{
 Mocks.contextIdDefinitionsSingle = `{
     "context":{"description":"","id":"foo"}
 }`;
-Mocks.contextIdDefinitionsEmpty = ``;
-Mocks.contextIdDefinition = `{"description":"Description of foo","id":"foo"}`;
+Mocks.contextIdDefinitionsEmpty = '';
+Mocks.contextIdDefinition = `{
+    "description":"Description of foo",
+    "id":"foo"
+}`;
 Mocks.contextMaps = `{
     "contextmap":[
         {
@@ -122,9 +125,24 @@ Mocks.contextMapSingleSingle = `{
     },
     "languages":{"language":"en-us"}
 }`;
-Mocks.contextMapsEmptySingleLanguage = `{"languages":{"language":"en-us"}}`;
-Mocks.contextMapsEmpty = `{"languages":{"language":["en-us","pt-br"]}}`;
-Mocks.contextMap = `{"@default":"false","@exists":"true","description":"Foo Description","id":"foo","language":"en-us","pageid":"273"}`;
+Mocks.contextMapsEmptySingleLanguage = `{
+    "languages":{
+        "language":"en-us"
+    }
+}`;
+Mocks.contextMapsEmpty = `{
+    "languages":{
+        "language":["en-us","pt-br"]
+    }
+}`;
+Mocks.contextMap = `{
+    "@default":"false",
+    "@exists":"true",
+    "description":"Foo Description",
+    "id":"foo",
+    "language":"en-us",
+    "pageid":"273"
+}`;
 Mocks.contextMapVerbose = `{
     "@default":"false",
     "@exists":"true",

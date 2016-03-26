@@ -303,6 +303,48 @@ describe('Plug', () => {
             });
         });
     });
+    describe('same origin tests', () => {
+        let uri = 'https://www.example.com/foo';
+        let uriMatcher = new RegExp(uri);
+        beforeEach(() => {
+            jasmine.Ajax.install();
+        });
+        afterEach(() => {
+            jasmine.Ajax.uninstall();
+        });
+        it('can do a request with the origin the same as the request URI', (done) => {
+            let settings = new Settings({ host: uri, origin: 'https://www.example.com' });
+            let plug = new Plug(settings);
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 200, responseText: 'Ajax Response' });
+            plug.get().then(() => {
+                let headers = jasmine.Ajax.requests.mostRecent().requestHeaders;
+                expect('X-Deki-Requested-With' in headers).toBe(true);
+                expect(headers['X-Deki-Requested-With']).toBe('XMLHttpRequest');
+                done();
+            });
+        });
+        it('can do a request with the origin the same as the request URI (case insensitive)', (done) => {
+            let settings = new Settings({ host: uri, origin: 'https://WWW.EXAMPLE.COM' });
+            let plug = new Plug(settings);
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 200, responseText: 'Ajax Response' });
+            plug.get().then(() => {
+                let headers = jasmine.Ajax.requests.mostRecent().requestHeaders;
+                expect('X-Deki-Requested-With' in headers).toBe(true);
+                expect(headers['X-Deki-Requested-With']).toBe('XMLHttpRequest');
+                done();
+            });
+        });
+        it('can do a request with the origin different from the request URI', (done) => {
+            let settings = new Settings({ host: uri, origin: 'https://www.example.org' });
+            let plug = new Plug(settings);
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 200, responseText: 'Ajax Response' });
+            plug.get().then(() => {
+                let headers = jasmine.Ajax.requests.mostRecent().requestHeaders;
+                expect('X-Deki-Requested-With' in headers).toBe(false);
+                done();
+            });
+        });
+    });
     describe('timeout tests', () => {
         let p = null;
         let uri = 'https://www.example.com/foo';
