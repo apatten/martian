@@ -1,8 +1,9 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "4"
 
 notifications:
+  flowdock: $FLOWDOCK_API_TOKEN
   email:
     recipients:
       - $NOTIFICATION_EMAIL_RECIPIENT
@@ -21,10 +22,10 @@ before_install:
 
 install:
   - npm install
-  - node node_modules/.bin/jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
-  - node node_modules/.bin/jspm install
+  - 'if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then node node_modules/.bin/jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN; fi'
+  - 'if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then node node_modules/.bin/jspm install; fi'
 
-script: node node_modules/.bin/gulp
+script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && node node_modules/.bin/gulp || node node_modules/.bin/gulp inspect'
 
 after_success:
-  - cat coverage/*/lcov.info | codecov
+  - 'if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then cat coverage/*/lcov.info | codecov; fi'
