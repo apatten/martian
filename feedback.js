@@ -20,10 +20,30 @@ import {Plug} from './lib/plug';
 import {utility} from './lib/utility';
 import {stringUtility} from './lib/stringUtility';
 import {pageRatingsModel} from './models/pageRatings.model';
+
+/**
+ * A class to manage the page feedback and ratings for pages.
+ */
 export class FeedbackManager {
+
+    /**
+     * Construct a new FeedbackManager.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
     constructor(settings) {
         this.plug = new Plug(settings).at('@api', 'deki');
     }
+
+    /**
+     * Submit feedback for a page.
+     * @param {Object} options - Parameters to send along with the feedback.
+     * @param {String} options.userEmail - The email of the user sending feedback.
+     * @param {String} options.pageTitle - The display title of the page the feedback is in reference to.
+     * @param {String} options.siteUrl - The URL of the MindTouch site.
+     * @param {String} options.content - The body text ofd the feedback message input by the user.
+     * @param {Boolean} options.contactAllowed - Notifies the API whether or not the user grants permission to contact them.
+     * @returns {Promise} - A Promise that, when resolved, indicates a successful feedback submission.
+     */
     submit(options) {
         let path = options.path || stringUtility.leftTrim(window.location.pathname, '/');
         let request = JSON.stringify({
@@ -37,6 +57,12 @@ export class FeedbackManager {
         let plug = this.plug.at('workflow', 'submit-feedback');
         return plug.post(request, utility.jsonRequestType);
     }
+
+    /**
+     * Get the ratings that have been set for a series of pages.
+     * @param {Array} pageIds - The list of pages for which ratings data is fetched.
+     * @returns {Promise.<pageRatingsModel>} - A Promise that, when resolved, yields a {@link pageRatingsModel} object with the ratings information.
+     */
     getRatingsForPages(pageIds) {
         var ratingsPlug = this.plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug.get().then(pageRatingsModel.parse);

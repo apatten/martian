@@ -76,7 +76,7 @@ export class PageBase {
         return this._plug.at('tags').get().then(pageTagsModel.parse);
     }
     getDiff() {
-        throw new Error('Page.getDiff() is not impmemented');
+        throw new Error('Page.getDiff() is not implemented');
     }
     getRelated() {
         return this._plug.at('related').get().then(relatedPagesModel.parse);

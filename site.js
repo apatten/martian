@@ -51,10 +51,27 @@ function _buildSearchConstraints(params) {
     }
     return '+(' + constraints.join(' ') + ')';
 }
+
+/**
+ * A class for administering aspects of a MindTouch site.
+ */
 export class Site {
+
+    /**
+     * Construct a Site object.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
     constructor(settings) {
         this.plug = new Plug(settings).at('@api', 'deki', 'site');
     }
+
+    /**
+     * Get the localized string corresponding to the supplied resource key.
+     * @param {Object} options - Options to direct the fetching of the localized string.
+     * @param {String} options.key - The key that identifies the string to fetch.
+     * @param {String} [options.lang] - A language code used to fetch the string in a specific language.  If not supplied, the current system language will be used.
+     * @returns {Promise.<String>} - A Promise that, when resolved, yields the fetched string.
+     */
     getResourceString(options = {}) {
         if(!('key' in options)) {
             return Promise.reject('No resource key was supplied');
@@ -65,6 +82,19 @@ export class Site {
         }
         return locPlug.get();
     }
+
+    /**
+     * Perform a search across the site.
+     * This function takes a single parameter with the following options.
+     * @param {Number} [page=1] The paginated page number offset to return.
+     * @param {Number} [limit=10] - Limit search results to the specified number of items per paginated page.
+     * @param {String} [tags=''] - A comma-separated list of tags to constrain search results to items containing one of the tags.
+     * @param {String} [type=''] - Type or types to filter the results in a comma delimited list.  Valid types: `wiki`, `document`, `image`, `binary`
+     * @param {String} [q=''] - Search keywords or advanced search syntax.
+     * @param {String} [path=''] - A page path to constrain the search results to items located under the specified path.
+     * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
+     * @returns {Promise.<searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
+     */
     search({ page: page = 1, limit: limit = 10, tags: tags = '', type: type = '', q: q = '', path: path = '', recommendations = true } = {}) {
         let constraint = {};
         if(path !== '') {

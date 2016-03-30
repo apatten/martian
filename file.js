@@ -20,19 +20,50 @@ import {Plug} from './lib/plug';
 import {utility} from './lib/utility';
 import {fileModel} from './models/file.model';
 import {fileRevisionsModel} from './models/fileRevisions.model';
+
+/**
+ * A class for working with file attachments within the MindTouch site.
+ */
 export class File {
+
+    /**
+     * Construct a new File object.
+     * @param {Number} id - The resource ID of the file.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
     constructor(id, settings) {
         this._plug = new Plug(settings).at('@api', 'deki', 'files', id).withParam('draft', true);
     }
+
+    /**
+     * Get the file attachment information.
+     * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the attachment information.
+     */
     getInfo() {
         return this._plug.at('info').get().then(fileModel.parse);
     }
+
+    /**
+     * Get the revision list of the file attachment.
+     * @returns {Promise.<fileRevisionsModel>} - A Promise that, when resolved, yields a {@link fileRevisionsModel} containing the revision listing.
+     */
     getRevisions() {
         return this._plug.at('revisions').get().then(fileRevisionsModel.parse);
     }
+
+    /**
+     * Set the description for the file.
+     * @param {String} description - The new file description.
+     * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the file information.
+     */
     setDescription(description) {
         return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
     }
+
+    /**
+     * Delete the file from the MindTouch site.
+     * @returns {Promise} - A Promise that, when resolved, indicates a successful file deletion.
+     */
     delete() {
         return this._plug.delete();
     }

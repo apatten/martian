@@ -62,7 +62,7 @@ describe('Context ID', () => {
         });
         it('can fail if an ID is not supplied when trying to add a definition', (done) => {
             cm.addDefinition().catch((e) => {
-                expect(e.message).toBe('an ID must be supplied to add a definintion');
+                expect(e.message).toBe('an ID must be supplied to add a definition');
                 done();
             });
         });

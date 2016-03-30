@@ -4,9 +4,9 @@
     "XMLHttpRequest": false,
     "Mocks": true
   },
-  env: {
-    es6: true,
-    jasmine: true
+  "env": {
+    "es6": true,
+    "jasmine": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
