@@ -37,6 +37,7 @@ export class LearningPath {
 
     // Constructor
     constructor(name, settings) {
+        this._name = name;
         this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths', `${name}`);
     }
     getInfo() {
