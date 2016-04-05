@@ -23,8 +23,7 @@ let subpagesModel = {
         let parsed = {
             totalcount: modelHelper.getInt(obj['@totalcount']),
             count: modelHelper.getInt(obj['@count']),
-            href: obj['@href'],
-            subpages: []
+            href: obj['@href']
         };
         parsed.subpages = modelHelper.getArray(obj['page.subpage']).map((sp) => {
             return {
