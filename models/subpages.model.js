@@ -23,13 +23,13 @@ let subpagesModel = {
         let parsed = {
             totalcount: modelHelper.getInt(obj['@totalcount']),
             count: modelHelper.getInt(obj['@count']),
-            href: obj['@href']
+            href: obj['@href'],
+            subpages: []
         };
         if('page.subpage' in obj) {
             let subpages = modelHelper.getArray(obj['page.subpage']);
-            parsed.pageSubpage = [];
             subpages.forEach((sp) => {
-                parsed.pageSubpage.push({
+                parsed.subpages.push({
                     id: modelHelper.getInt(sp['@id']),
                     href: sp['@href'],
                     deleted: modelHelper.getBool(sp['@deleted']),
