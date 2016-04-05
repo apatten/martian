@@ -25,24 +25,20 @@ let subpagesModel = {
             count: modelHelper.getInt(obj['@count']),
             href: obj['@href']
         };
-        if('page.subpage' in obj) {
-            let subpages = modelHelper.getArray(obj['page.subpage']);
-            parsed.pageSubpage = [];
-            subpages.forEach((sp) => {
-                parsed.pageSubpage.push({
-                    id: modelHelper.getInt(sp['@id']),
-                    href: sp['@href'],
-                    deleted: modelHelper.getBool(sp['@deleted']),
-                    subpages: modelHelper.getBool(sp['@subpages']),
-                    dateCreated: modelHelper.getDate(sp['date.created']),
-                    language: sp.language,
-                    namespace: sp.namespace,
-                    path: modelHelper.getString(sp.path),
-                    title: sp.title,
-                    uriUi: sp['uri.ui']
-                });
-            });
-        }
+        parsed.subpages = modelHelper.getArray(obj['page.subpage']).map((sp) => {
+            return {
+                id: modelHelper.getInt(sp['@id']),
+                href: sp['@href'],
+                deleted: modelHelper.getBool(sp['@deleted']),
+                hasSubpages: modelHelper.getBool(sp['@subpages']),
+                dateCreated: modelHelper.getDate(sp['date.created']),
+                language: sp.language,
+                namespace: sp.namespace,
+                path: modelHelper.getString(sp.path),
+                title: sp.title,
+                uriUi: sp['uri.ui']
+            };
+        });
         return parsed;
     }
 };
