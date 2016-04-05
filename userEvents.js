@@ -41,8 +41,8 @@ export class UserEvents {
      * @param {Number|String} userToken - A token that identifies the user from an event perspective.  It can be the user's numeric ID, username, or another system-defined token.
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
-    getActivity(userToken) {
-        return this.plug.at('support-agent', userToken).get().then(userActivityModel.parse);
+    getActivity(userToken, params) {
+        return this.plug.at('support-agent', userToken).withParams(params).get().then(userActivityModel.parse);
     }
 
     /**

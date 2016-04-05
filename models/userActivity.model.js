@@ -24,13 +24,9 @@ export let userActivityModel = {
         let parsed = {
             count: modelHelper.getInt(obj['@count']),
             upto: obj['@upto'],
-            since: obj['@since'],
-            events: []
+            since: obj['@since']
         };
-        let events = modelHelper.getArray(obj.event);
-        events.forEach((e) => {
-            parsed.events.push(eventModel.parse(e));
-        });
+        parsed.events = modelHelper.getArray(obj.event).map((e) => eventModel.parse(e));
         return parsed;
     }
 };
