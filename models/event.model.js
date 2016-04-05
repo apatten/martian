@@ -33,9 +33,12 @@ export let eventModel = {
         }
         if('page' in obj) {
             parsed.page = {
-                id: obj.page['@id'],
+                id: modelHelper.getInt(obj.page['@id']),
                 path: obj.page.path
             };
+            if('title' in obj.page) {
+                parsed.page.title = obj.page.title;
+            }
             if('@revision' in obj.page) {
                 parsed.page.revision = modelHelper.getInt(obj.page['@revision']);
             }
