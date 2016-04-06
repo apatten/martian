@@ -23,10 +23,10 @@ let pageModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
         let parsed = {
-            id: modelHelper.getInt(obj['@id']),
-            title: obj.title,
-            uriUi: obj['uri.ui']
+            id: modelHelper.getInt(obj['@id'])
         };
+        modelHelper.addIfDefined(obj.title, 'title', parsed);
+        modelHelper.addIfDefined(obj['uri.ui'], 'uriUi', parsed);
         modelHelper.addIfDefined(obj['@href'], 'href', parsed);
         modelHelper.addIfDefined(obj['@state'], 'state', parsed);
         modelHelper.addIfDefined(obj['@draft.state'], 'draftState', parsed);

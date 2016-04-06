@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import {modelHelper} from './modelHelper';
+import {pageModel} from './page.model';
 export let eventModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -31,18 +32,7 @@ export let eventModel = {
         if('@language' in obj) {
             parsed.language = obj['@language'];
         }
-        if('page' in obj) {
-            parsed.page = {
-                id: modelHelper.getInt(obj.page['@id']),
-                path: obj.page.path
-            };
-            if('title' in obj.page) {
-                parsed.page.title = obj.page.title;
-            }
-            if('@revision' in obj.page) {
-                parsed.page.revision = modelHelper.getInt(obj.page['@revision']);
-            }
-        }
+        modelHelper.addIfDefined(obj.page, 'page', parsed, pageModel);
         if('user' in obj) {
             parsed.user = { id: obj.user['@id'] };
             if('name' in obj.user) {
