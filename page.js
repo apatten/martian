@@ -25,6 +25,7 @@ import {pageContentsModel} from './models/pageContents.model';
 import {pageTreeModel} from './models/pageTree.model';
 import {pageRatingModel} from './models/pageRating.model';
 import {pageMoveModel} from './models/pageMove.model';
+import {pageRatingsModel} from './models/pageRatings.model';
 
 /**
  * A class for managing a published page.
@@ -147,5 +148,24 @@ export class Page extends PageBase {
      */
     activateDraft() {
         return this._plug.at('activate-draft').post().then(pageModel.parse);
+    }
+}
+
+/**
+ * A class for managing all of the published pages on a site.
+ */
+export class PageManager {
+    constructor(settings) {
+        this._plug = new Plug(settings).at('@api', 'deki', 'pages');
+    }
+
+    /**
+     * Get the ratings that have been set for a series of pages.
+     * @param {Array} pageIds - The list of pages for which ratings data is fetched.
+     * @returns {Promise.<pageRatingsModel>} - A Promise that, when resolved, yields a {@link pageRatingsModel} object with the ratings information.
+     */
+    getRatings(pageIds) {
+        var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
+        return ratingsPlug.get().then(pageRatingsModel.parse);
     }
 }

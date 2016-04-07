@@ -27,7 +27,8 @@ import {pageFilesModel} from 'models/pageFiles.model';
 import {pageMoveModel} from 'models/pageMove.model';
 import {pageEditModel} from 'models/pageEdit.model';
 import {relatedPagesModel} from 'models/relatedPages.model';
-import {Page} from 'page';
+import {pageRatingsModel} from 'models/pageRatings.model';
+import {Page, PageManager} from 'page';
 describe('Page', () => {
     describe('constructor tests', () => {
         it('can construct a new Page object using page ID', () => {
@@ -300,6 +301,25 @@ describe('Page', () => {
             page.activateDraft().then((r) => {
                 expect(r).toBeDefined();
                 done();
+            });
+        });
+    });
+    describe('Page manager', () => {
+        describe('functional tests', () => {
+            let pm = null;
+            beforeEach(() => {
+                pm = new PageManager();
+            });
+            afterEach(() => {
+                pm = null;
+            });
+            it('can fetch the ratings for a set of pages', (done) => {
+                spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
+                spyOn(pageRatingsModel, 'parse').and.returnValue({});
+                pm.getRatings([ 440, 441 ]).then((r) => {
+                    expect(r).toBeDefined();
+                    done();
+                });
             });
         });
     });
