@@ -1,4 +1,4 @@
-/*eslint-env node*/
+/* eslint-env node */
 module.exports = function(config) {
     'use strict';
     config.set({
@@ -13,7 +13,7 @@ module.exports = function(config) {
             'karma-jspm'
         ],
         files: [
-            'test/mock-ajax.js'
+            'node_modules/jasmine-ajax/lib/mock-ajax.js'
         ],
         exclude: [
             'karama.conf.js',

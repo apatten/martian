@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {learningPathModel} from './learningPath.model';
+import { modelHelper } from './modelHelper';
+import { learningPathModel } from './learningPath.model';
 let learningPathsModel = {
     parse(data) {
         let parsed = [];
@@ -29,4 +29,4 @@ let learningPathsModel = {
         return parsed;
     }
 };
-export {learningPathsModel};
+export { learningPathsModel };

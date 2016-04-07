@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {contextIdsModel} from 'models/contextIds.model';
-import {contextIdModel} from 'models/contextId.model';
-import {contextMapsModel} from 'models/contextMaps.model';
-import {contextMapModel} from 'models/contextMap.model';
-import {ContextIdManager, ContextDefinition, ContextMap} from 'contextId';
+import { Plug } from 'lib/plug';
+import { contextIdsModel } from 'models/contextIds.model';
+import { contextIdModel } from 'models/contextId.model';
+import { contextMapsModel } from 'models/contextMaps.model';
+import { contextMapModel } from 'models/contextMap.model';
+import { ContextIdManager, ContextDefinition, ContextMap } from 'contextId';
 describe('Context ID', () => {
     describe('Manager', () => {
         let cm = null;

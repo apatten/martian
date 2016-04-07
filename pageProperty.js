@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {utility} from './lib/utility';
-import {pagePropertiesModel} from './models/pageProperties.model';
-import {pagePropertyModel} from './models/pageProperty.model';
+import { Plug } from './lib/plug';
+import { utility } from './lib/utility';
+import { pagePropertiesModel } from './models/pageProperties.model';
+import { pagePropertyModel } from './models/pageProperty.model';
 
 /**
  * A class for managing the properties of a page.

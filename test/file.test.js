@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {fileModel} from 'models/file.model';
-import {fileRevisionsModel} from 'models/fileRevisions.model';
-import {File} from 'file';
+import { Plug } from 'lib/plug';
+import { fileModel } from 'models/file.model';
+import { fileRevisionsModel } from 'models/fileRevisions.model';
+import { File } from 'file';
 describe('File API', () => {
     describe('constructor', () => {
         it('can construct a new File', () => {

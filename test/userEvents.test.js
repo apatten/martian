@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {userActivityModel} from 'models/userActivity.model';
-import {eventListModel} from 'models/eventList.model';
-import {eventDetailModel} from 'models/eventDetail.model';
-import {UserEvents} from 'userEvents';
+import { Plug } from 'lib/plug';
+import { userActivityModel } from 'models/userActivity.model';
+import { eventListModel } from 'models/eventList.model';
+import { eventDetailModel } from 'models/eventDetail.model';
+import { UserEvents } from 'userEvents';
 describe('User Events', () => {
     describe('constructor', () => {
         it('can construct a user events object', () => {

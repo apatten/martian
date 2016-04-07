@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {utility} from './lib/utility';
-import {modelHelper} from './models/modelHelper';
-import {pageModel} from './models/page.model';
-import {pageContentsModel} from './models/pageContents.model';
-import {pageTagsModel} from './models/pageTags.model';
-import {pageFilesModel} from './models/pageFiles.model';
-import {pageEditModel} from './models/pageEdit.model';
-import {relatedPagesModel} from './models/relatedPages.model';
+import { utility } from './lib/utility';
+import { modelHelper } from './models/modelHelper';
+import { pageModel } from './models/page.model';
+import { pageContentsModel } from './models/pageContents.model';
+import { pageTagsModel } from './models/pageTags.model';
+import { pageFilesModel } from './models/pageFiles.model';
+import { pageEditModel } from './models/pageEdit.model';
+import { relatedPagesModel } from './models/relatedPages.model';
 function _handleVirtualPage(error) {
     if(error.errorCode === 404 && error.response && error.response['@virtual']) {
         return Promise.resolve(pageModel.parse(error.response));

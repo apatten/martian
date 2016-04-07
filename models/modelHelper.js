@@ -50,4 +50,4 @@ let modelHelper = {
         }
     }
 };
-export {modelHelper};
+export { modelHelper };

@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {utility} from './lib/utility';
-import {stringUtility} from './lib/stringUtility';
-import {Plug} from './lib/plug';
-import {searchModel} from './models/search.model';
+import { utility } from './lib/utility';
+import { stringUtility } from './lib/stringUtility';
+import { Plug } from './lib/plug';
+import { searchModel } from './models/search.model';
 function _buildSearchConstraints(params) {
     let constraints = [];
     params.namespace = 'main';

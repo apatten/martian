@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {contextMapModel} from './contextMap.model';
+import { modelHelper } from './modelHelper';
+import { contextMapModel } from './contextMap.model';
 let contextMapsModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -34,4 +34,4 @@ let contextMapsModel = {
         return parsed;
     }
 };
-export {contextMapsModel};
+export { contextMapsModel };

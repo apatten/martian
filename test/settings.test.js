@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Settings} from 'lib/settings';
+import { Settings } from 'lib/settings';
 describe('Settings', () => {
     it('can get and set a single config item', () => {
         Settings.defaults = {

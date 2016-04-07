@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
+import { modelHelper } from './modelHelper';
 let pageRatingModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -57,4 +57,4 @@ let pageRatingModel = {
         return parsed;
     }
 };
-export {pageRatingModel};
+export { pageRatingModel };

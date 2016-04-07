@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {utility} from './lib/utility';
-import {fileModel} from './models/file.model';
+import { utility } from './lib/utility';
+import { fileModel } from './models/file.model';
 
 /**
  * A base class for managing file attachments on both published pages and drafts.  This class can not be instantiated directly.

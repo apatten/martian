@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {UriParser, UriSearchParams} from 'lib/uriParser';
+import { UriParser, UriSearchParams } from 'lib/uriParser';
 describe('URI Parser', () => {
     describe('construction', () => {
         it('can construct a parser (simple)', () => {
