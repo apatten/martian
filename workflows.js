@@ -55,4 +55,31 @@ export class WorkflowManager {
         });
         return this._plug.at('submit-feedback').post(request, utility.jsonRequestType);
     }
+
+    /**
+     * Send a message requesting an article be created on the site.
+     * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     */
+    requestArticle(options) {
+        let request = JSON.stringify(options);
+        return this._plug.at('submit-article-request').post(request, utility.jsonRequestType);
+    }
+
+    /**
+     * Send a message that submits a support issue.
+     * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     */
+    submitIssue(options) {
+        let request = JSON.stringify(options);
+        return this._plug.at('submit-issue').post(request, utility.jsonRequestType);
+    }
+
+    /**
+     * Send a message to site support.
+     * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     */
+    contactSupport(options) {
+        let request = JSON.stringify(options);
+        return this._plug.at('contact-support').post(request, utility.jsonRequestType);
+    }
 }

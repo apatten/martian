@@ -25,13 +25,28 @@ describe('Workflows', () => {
             let wm = null;
             beforeEach(() => {
                 wm = new WorkflowManager();
+                spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
             });
             afterEach(() => {
                 wm = null;
             });
             it('can submit page feedback', (done) => {
-                spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
                 wm.submitFeedback({}).then(() => {
+                    done();
+                });
+            });
+            it('can send a request article message', (done) => {
+                wm.requestArticle({}).then(() => {
+                    done();
+                });
+            });
+            it('can send a submit issue message', (done) => {
+                wm.submitIssue({}).then(() => {
+                    done();
+                });
+            });
+            it('can send a contact support message', (done) => {
+                wm.contactSupport({}).then(() => {
                     done();
                 });
             });
