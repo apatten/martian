@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {Settings} from 'lib/settings';
+import { Plug } from 'lib/plug';
+import { Settings } from 'lib/settings';
 describe('Plug', () => {
     describe('constructor', () => {
         it('will construct a Plug with no URL provided', () => {
@@ -175,7 +175,7 @@ describe('Plug', () => {
             });
         });
         it('can handle a failing GET request', (done) => {
-            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 500, responseText: '{ \"message\": \"internal error\" }' });
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andReturn({ status: 500, responseText: '{ "message": "internal error" }' });
             p.get().catch((r) => {
                 expect(r).toBeDefined();
                 expect(r.message).toBe('internal error');
@@ -204,7 +204,7 @@ describe('Plug', () => {
             });
         });
         it('can handle a failing POST request', (done) => {
-            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 500, responseText: '{ \"message\": \"internal error\" }' });
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 500, responseText: '{ "message": "internal error" }' });
             p.post().catch((e) => {
                 expect(e.message).toBe('internal error');
                 expect(e.errorCode).toBe(500);
@@ -231,7 +231,7 @@ describe('Plug', () => {
             });
         });
         it('can handle a failing PUT request', (done) => {
-            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 500, responseText: '{ \"message\": \"internal error\" }' });
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'POST').andReturn({ status: 500, responseText: '{ "message": "internal error" }' });
             p.put().catch((e) => {
                 expect(e.message).toBe('internal error');
                 expect(e.errorCode).toBe(500);
@@ -283,7 +283,7 @@ describe('Plug', () => {
             });
         });
         it('can handle a failing OPTIONS request', (done) => {
-            jasmine.Ajax.stubRequest(uriMatcher, null, 'OPTIONS').andReturn({ status: 500, responseText: '{ \"message\": \"internal error\" }' });
+            jasmine.Ajax.stubRequest(uriMatcher, null, 'OPTIONS').andReturn({ status: 500, responseText: '{ "message": "internal error" }' });
             p.options().catch((e) => {
                 expect(e.message).toBe('internal error');
                 expect(e.errorCode).toBe(500);
@@ -359,6 +359,9 @@ describe('Plug', () => {
         });
         it('can handle an XHR timeout', (done) => {
             jasmine.Ajax.stubRequest(uriMatcher, null, 'GET').andTimeout();
+
+            // Set timeout in jasmine to 1 ms.
+            jasmine.clock().install().tick(1);
             p = new Plug(settings, { constructionParams: { timeout: 1 } });
             p.get().catch((e) => {
                 expect(e).toBeDefined();

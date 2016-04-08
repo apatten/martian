@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {searchModel} from 'models/search.model';
-import {Settings} from 'lib/settings';
-import {Site} from 'site';
+import { Plug } from 'lib/plug';
+import { searchModel } from 'models/search.model';
+import { Settings } from 'lib/settings';
+import { Site } from 'site';
 describe('Site API', () => {
     let settings = new Settings({
         host: 'https://www.example.com',

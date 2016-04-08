@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {PageFileBase} from './PageFileBase';
+import { Plug } from './lib/plug';
+import { PageFileBase } from './PageFileBase';
 
 /**
  * A class for managing a file attachment on an published page.

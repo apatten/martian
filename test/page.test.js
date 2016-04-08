@@ -16,19 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {pageModel} from 'models/page.model';
-import {pageContentsModel} from 'models/pageContents.model';
-import {subpagesModel} from 'models/subpages.model';
-import {pageTreeModel} from 'models/pageTree.model';
-import {pageTagsModel} from 'models/pageTags.model';
-import {pageRatingModel} from 'models/pageRating.model';
-import {pageFilesModel} from 'models/pageFiles.model';
-import {pageMoveModel} from 'models/pageMove.model';
-import {pageEditModel} from 'models/pageEdit.model';
-import {relatedPagesModel} from 'models/relatedPages.model';
-import {pageRatingsModel} from 'models/pageRatings.model';
-import {Page, PageManager} from 'page';
+import { Plug } from 'lib/plug';
+import { pageModel } from 'models/page.model';
+import { pageContentsModel } from 'models/pageContents.model';
+import { subpagesModel } from 'models/subpages.model';
+import { pageTreeModel } from 'models/pageTree.model';
+import { pageTagsModel } from 'models/pageTags.model';
+import { pageRatingModel } from 'models/pageRating.model';
+import { pageFilesModel } from 'models/pageFiles.model';
+import { pageMoveModel } from 'models/pageMove.model';
+import { pageEditModel } from 'models/pageEdit.model';
+import { relatedPagesModel } from 'models/relatedPages.model';
+import { pageRatingsModel } from 'models/pageRatings.model';
+import { Page, PageManager } from 'page';
 describe('Page', () => {
     describe('constructor tests', () => {
         it('can construct a new Page object using page ID', () => {

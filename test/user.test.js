@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {Settings} from 'lib/settings';
-import {userModel} from 'models/user.model';
-import {userListModel} from 'models/userList.model';
-import {UserManager, User} from 'user';
+import { Plug } from 'lib/plug';
+import { Settings } from 'lib/settings';
+import { userModel } from 'models/user.model';
+import { userListModel } from 'models/userList.model';
+import { UserManager, User } from 'user';
 describe('User API', () => {
     let settings = new Settings({ host: 'http://www.example.com', token: 'abcd1234' });
     describe('constructor', () => {

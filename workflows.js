@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {stringUtility} from './lib/stringUtility';
-import {utility} from './lib/utility';
+import { Plug } from './lib/plug';
+import { stringUtility } from './lib/stringUtility';
+import { utility } from './lib/utility';
 
 /**
  * A class for working with site workflows.

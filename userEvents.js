@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {utility} from './lib/utility';
-import {userActivityModel} from './models/userActivity.model';
-import {eventListModel} from './models/eventList.model';
-import {eventDetailModel} from './models/eventDetail.model';
+import { Plug } from './lib/plug';
+import { utility } from './lib/utility';
+import { userActivityModel } from './models/userActivity.model';
+import { eventListModel } from './models/eventList.model';
+import { eventDetailModel } from './models/eventDetail.model';
 
 /**
  * A class for fetching and managing events triggered by users.

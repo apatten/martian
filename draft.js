@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {utility} from './lib/utility';
-import {PageBase} from './pageBase';
-import {pageModel} from './models/page.model';
+import { Plug } from './lib/plug';
+import { utility } from './lib/utility';
+import { PageBase } from './pageBase';
+import { pageModel } from './models/page.model';
 
 /**
  * A class for managing a single unpublished draft page.

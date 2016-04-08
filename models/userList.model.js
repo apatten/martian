@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
-import {userModel} from './user.model';
+import { modelHelper } from './modelHelper';
+import { userModel } from './user.model';
 let userListModel = {
     parse: (data) => {
         let obj = modelHelper.fromJson(data);
@@ -37,4 +37,4 @@ let userListModel = {
         return parsed;
     }
 };
-export {userListModel};
+export { userListModel };

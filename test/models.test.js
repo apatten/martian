@@ -16,36 +16,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {contextIdModel} from 'models/contextId.model';
-import {contextIdsModel} from 'models/contextIds.model';
-import {contextMapModel} from 'models/contextMap.model';
-import {contextMapsModel} from 'models/contextMaps.model';
-import {fileModel} from 'models/file.model';
-import {fileRevisionsModel} from 'models/fileRevisions.model';
-import {groupModel} from 'models/group.model';
-import {groupListModel} from 'models/groupList.model';
-import {learningPathModel} from 'models/learningPath.model';
-import {learningPathsModel} from 'models/learningPaths.model';
-import {pageModel} from 'models/page.model';
-import {pageContentsModel} from 'models/pageContents.model';
-import {pageTreeModel} from 'models/pageTree.model';
-import {pageEditModel} from 'models/pageEdit.model';
-import {pageFilesModel} from 'models/pageFiles.model';
-import {pageMoveModel} from 'models/pageMove.model';
-import {pagePropertyModel} from 'models/pageProperty.model';
-import {pagePropertiesModel} from 'models/pageProperties.model';
-import {pageRatingModel} from 'models/pageRating.model';
-import {pageRatingsModel} from 'models/pageRatings.model';
-import {pageTagsModel} from 'models/pageTags.model';
-import {searchModel} from 'models/search.model';
-import {subpagesModel} from 'models/subpages.model';
-import {userModel} from 'models/user.model';
-import {userListModel} from 'models/userList.model';
-import {userActivityModel} from 'models/userActivity.model';
-import {eventModel} from 'models/event.model';
-import {eventDetailModel} from 'models/eventDetail.model';
-import {eventListModel} from 'models/eventList.model';
-import {relatedPagesModel} from 'models/relatedPages.model';
+import { contextIdModel } from 'models/contextId.model';
+import { contextIdsModel } from 'models/contextIds.model';
+import { contextMapModel } from 'models/contextMap.model';
+import { contextMapsModel } from 'models/contextMaps.model';
+import { fileModel } from 'models/file.model';
+import { fileRevisionsModel } from 'models/fileRevisions.model';
+import { groupModel } from 'models/group.model';
+import { groupListModel } from 'models/groupList.model';
+import { learningPathModel } from 'models/learningPath.model';
+import { learningPathsModel } from 'models/learningPaths.model';
+import { pageModel } from 'models/page.model';
+import { pageContentsModel } from 'models/pageContents.model';
+import { pageTreeModel } from 'models/pageTree.model';
+import { pageEditModel } from 'models/pageEdit.model';
+import { pageFilesModel } from 'models/pageFiles.model';
+import { pageMoveModel } from 'models/pageMove.model';
+import { pagePropertyModel } from 'models/pageProperty.model';
+import { pagePropertiesModel } from 'models/pageProperties.model';
+import { pageRatingModel } from 'models/pageRating.model';
+import { pageRatingsModel } from 'models/pageRatings.model';
+import { pageTagsModel } from 'models/pageTags.model';
+import { searchModel } from 'models/search.model';
+import { subpagesModel } from 'models/subpages.model';
+import { userModel } from 'models/user.model';
+import { userListModel } from 'models/userList.model';
+import { userActivityModel } from 'models/userActivity.model';
+import { eventModel } from 'models/event.model';
+import { eventDetailModel } from 'models/eventDetail.model';
+import { eventListModel } from 'models/eventList.model';
+import { relatedPagesModel } from 'models/relatedPages.model';
 describe('Models', () => {
     describe('Context ID models', () => {
         it('can parse a context ID', () => {

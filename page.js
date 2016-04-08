@@ -16,16 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {utility} from './lib/utility';
-import {PageBase} from './pageBase';
-import {pageModel} from './models/page.model';
-import {subpagesModel} from './models/subpages.model';
-import {pageContentsModel} from './models/pageContents.model';
-import {pageTreeModel} from './models/pageTree.model';
-import {pageRatingModel} from './models/pageRating.model';
-import {pageMoveModel} from './models/pageMove.model';
-import {pageRatingsModel} from './models/pageRatings.model';
+import { Plug } from './lib/plug';
+import { utility } from './lib/utility';
+import { PageBase } from './pageBase';
+import { pageModel } from './models/page.model';
+import { subpagesModel } from './models/subpages.model';
+import { pageContentsModel } from './models/pageContents.model';
+import { pageTreeModel } from './models/pageTree.model';
+import { pageRatingModel } from './models/pageRating.model';
+import { pageMoveModel } from './models/pageMove.model';
+import { pageRatingsModel } from './models/pageRatings.model';
 
 /**
  * A class for managing a published page.

@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from './lib/plug';
-import {utility} from './lib/utility';
-import {groupModel} from './models/group.model';
-import {groupListModel} from './models/groupList.model';
-import {userListModel} from './models/userList.model';
+import { Plug } from './lib/plug';
+import { utility } from './lib/utility';
+import { groupModel } from './models/group.model';
+import { groupListModel } from './models/groupList.model';
+import { userListModel } from './models/userList.model';
 
 /**
  * A class for managing a single group of users.

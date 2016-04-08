@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {MTError} from './mtError';
+import { MTError } from './mtError';
 export class XhrError extends MTError {
     constructor(xhr, customMessage = '') {
         let response;

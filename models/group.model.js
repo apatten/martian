@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {modelHelper} from './modelHelper';
+import { modelHelper } from './modelHelper';
 let groupModel = {
     parse(data) {
         let obj = modelHelper.fromJson(data);
@@ -27,4 +27,4 @@ let groupModel = {
         };
     }
 };
-export {groupModel};
+export { groupModel };

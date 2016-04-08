@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Plug} from 'lib/plug';
-import {groupListModel} from 'models/groupList.model';
-import {groupModel} from 'models/group.model';
-import {userListModel} from 'models/userList.model';
-import {GroupManager, Group} from 'group';
+import { Plug } from 'lib/plug';
+import { groupListModel } from 'models/groupList.model';
+import { groupModel } from 'models/group.model';
+import { userListModel } from 'models/userList.model';
+import { GroupManager, Group } from 'group';
 describe('Group API', () => {
     let gm = null;
     beforeEach(() => {
