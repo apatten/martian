@@ -39,6 +39,7 @@ let searchModel = {
                     mime: result.mime,
                     rank: result.rank,
                     title: result.title,
+                    type: result.type,
                     uri: result.uri,
                     uriTrack: result['uri.track'],
                     page: {
