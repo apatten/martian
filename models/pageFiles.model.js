@@ -16,25 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { fileModel } from './file.model';
-let pageFilesModel = {
-    parse: function(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            offset: modelHelper.getInt(obj['@offset']),
-            totalcount: modelHelper.getInt(obj['@totalcount']),
-            href: obj['@href']
-        };
-        if('file' in obj) {
-            parsed.file = [];
-            let files = modelHelper.getArray(obj.file);
-            files.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
-            });
-        }
-        return parsed;
+export let pageFilesModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@offset',
+        name: 'offset',
+        transform: 'integer'
+    },
+    {
+        field: '@totalcount',
+        name: 'totalCount',
+        transform: 'integer'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'file',
+        name: 'files',
+        isArray: true,
+        transform: fileModel
     }
-};
-export { pageFilesModel };
+];

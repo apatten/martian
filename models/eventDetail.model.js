@@ -16,22 +16,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { eventModel } from './event.model';
-export let eventDetailModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            summary: {
-                id: obj.summary['@id'],
-                datetime: modelHelper.getDate(obj.summary['@datetime']),
-                count: modelHelper.getInt(obj.summary['@count']),
-                journaled: modelHelper.getBool(obj.summary['@journaled']),
-                diffable: modelHelper.getBool(obj.summary['@diffable']),
-                event: eventModel.parse(obj.summary.event)
+export let eventDetailModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: 'summary',
+        transform: [
+            {
+                field: '@id',
+                name: 'id'
+            },
+            {
+                field: '@datetime',
+                name: 'datetime',
+                transform: 'date'
+            },
+            {
+                field: '@count',
+                name: 'count',
+                transform: 'integer'
+            },
+            {
+                field: '@journaled',
+                name: 'journaled',
+                transform: 'boolean'
+            },
+            {
+                field: '@diffable',
+                name: 'diffable',
+                transform: 'boolean'
+            },
+            {
+                field: 'event',
+                transform: eventModel
             }
-        };
-        return parsed;
+        ]
     }
-};
+];

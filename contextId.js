@@ -145,7 +145,14 @@ export class ContextIdManager {
      * @returns {Promise.<contextIdsModel>} - A promise that, when resolved, yields a {@link contextIdsModel} object.
      */
     getDefinitions() {
-        return this.definitionsPlug.get().then(contextIdsModel.parse);
+        return this.definitionsPlug.get().then(function(response) {
+
+            // response is an empty string when site has no context IDs.
+            if(response === '') {
+                response = '{"context": []}';
+            }
+            contextIdsModel.parse(response);
+        });
     }
 
     /**

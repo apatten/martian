@@ -16,29 +16,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let pageTagsModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            href: obj['@href']
-        };
-        if('tag' in obj) {
-            parsed.tags = [];
-            let tags = modelHelper.getArray(obj.tag);
-            tags.forEach((tag) => {
-                parsed.tags.push({
-                    value: tag['@value'],
-                    id: modelHelper.getInt(tag['@id']),
-                    href: tag['@href'],
-                    title: tag.title,
-                    type: tag.type,
-                    uri: tag.uri
-                });
-            });
-        }
-        return parsed;
+export let pageTagsModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'tag',
+        name: 'tags',
+        isArray: true,
+        transform: [
+            {
+                field: '@id',
+                name: 'id',
+                transformer: 'integer'
+            },
+            {
+                field: '@value',
+                name: 'value'
+            },
+            {
+                field: '@href',
+                name: 'href'
+            },
+            {
+                field: 'title'
+            },
+            {
+                field: 'type'
+            },
+            {
+                field: 'uri'
+            }
+        ]
     }
-};
-export { pageTagsModel };
+];

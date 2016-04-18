@@ -16,58 +16,103 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let searchModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let search = {
-            ranking: obj['@ranking'],
-            queryId: obj['@queryid'],
-            queryCount: modelHelper.getInt(obj['@querycount']),
-            recommendationCount: modelHelper.getInt(obj['@count.recommendations']),
-            count: modelHelper.getInt(obj['@count']),
-            result: []
-        };
-        if('result' in obj) {
-            let results = modelHelper.getArray(obj.result);
-            results.forEach((result) => {
-                search.result.push({
-                    author: result.author,
-                    content: result.content,
-                    dateModified: modelHelper.getDate(result['date.modified']),
-                    id: result.id,
-                    mime: result.mime,
-                    rank: result.rank,
-                    title: result.title,
-                    type: result.type,
-                    uri: result.uri,
-                    uriTrack: result['uri.track'],
-                    page: {
-                        path: result.page.path,
-                        rating: result.page.rating,
-                        title: result.page.title,
-                        uriUi: result.page['uri.ui']
-                    }
-                });
-            });
-        }
-        if('summary' in obj) {
-            search.summary = {
-                path: obj.summary['@path'],
-                results: []
-            };
-            if('results' in obj.summary) {
-                let results = modelHelper.getArray(obj.summary.results);
-                results.forEach((result) => {
-                    search.summary.results.push({
-                        path: result['@path'],
-                        count: modelHelper.getInt(result['@count']),
-                        title: result['@title']
-                    });
-                });
+import { pageModel } from './page.model';
+export let searchModel = [
+    {
+        field: '@ranking',
+        name: 'ranking'
+    },
+    {
+        field: '@queryid',
+        name: 'queryId'
+    },
+    {
+        field: '@querycount',
+        name: 'queryCount',
+        transform: 'integer'
+    },
+    {
+        field: '@count.recommendations',
+        name: 'recommendationCount',
+        transform: 'integer'
+    },
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: 'result',
+        name: 'results',
+        isArray: true,
+        transform: [
+            {
+                field: 'author'
+            },
+            {
+                field: 'content'
+            },
+            {
+                field: 'date.modified',
+                name: 'dateModified',
+                transform: 'date'
+            },
+            {
+                field: 'id',
+                transform: 'integer'
+            },
+            {
+                field: 'mime'
+            },
+            {
+                field: 'rank',
+                transform: 'integer'
+            },
+            {
+                field: 'title'
+            },
+            {
+                field: 'type'
+            },
+            {
+                field: 'uri'
+            },
+            {
+                field: 'uri.track',
+                name: 'uriTrack'
+            },
+            {
+                field: 'page',
+                transform: pageModel
             }
-        }
-        return search;
+        ]
+    },
+    {
+        field: 'summary',
+        transform: [
+            {
+                field: '@path',
+                name: 'path'
+            },
+            {
+                field: 'results',
+                isArray: true,
+                transform: [
+                    {
+                        field: '@path',
+                        name: 'path'
+                    },
+                    {
+                        field: '@count',
+                        name: 'count',
+                        transform: 'integer'
+                    },
+                    {
+                        field: '@title',
+                        name: 'title'
+                    }
+                ]
+            }
+        ]
     }
-};
-export { searchModel };
+];

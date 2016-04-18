@@ -16,17 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-export let permissionsModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            operations: modelHelper.getString(obj.operations).split(','),
-            role: {
-                id: modelHelper.getInt(obj.role['@id']),
-                name: modelHelper.getString(obj.role)
+export let permissionsModel = [
+    {
+        field: [ 'operations', '#text' ],
+        transform(value) {
+            if(typeof value === 'string') {
+                return value.split(',');
             }
-        };
-        return parsed;
+            return [];
+        }
+    },
+    {
+        field: 'role',
+        transform(value) {
+            let roleObj = {};
+            if(typeof value === 'string') {
+                roleObj.name = value;
+            } else if(value && typeof value === 'object') {
+                if('#text' in value) {
+                    roleObj.name = value['#text'];
+                }
+                if('@id' in value) {
+                    roleObj.id = parseInt(value['@id'], 10);
+                }
+                if('@href' in value) {
+                    roleObj.href = value['@href'];
+                }
+            }
+            return roleObj;
+        }
     }
-};
+];

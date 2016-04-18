@@ -16,26 +16,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { pageModel } from './page.model';
-let contextMapModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            default: modelHelper.getBool(obj['@default']),
-            exists: modelHelper.getBool(obj['@exists']),
-            description: obj.description,
-            id: obj.id,
-            language: obj.language
-        };
-        if('page' in obj) {
-            parsed.page = pageModel.parse(obj.page);
-        }
-        if('pageid' in obj) {
-            let id = modelHelper.getString(obj.pageid);
-            parsed.pageId = modelHelper.getInt(id);
-        }
-        return parsed;
+export let contextMapModel = [
+    {
+        field: '@default',
+        name: 'default',
+        transform: 'boolean'
+    },
+    {
+        field: '@exists',
+        name: 'exists',
+        transform: 'boolean'
+    },
+    {
+        field: 'description'
+    },
+    {
+        field: 'id'
+    },
+    {
+        field: 'language'
+    },
+    {
+        field: 'page',
+        model: pageModel
+    },
+    {
+        field: [ 'pageid', '#text' ],
+        transform: 'integer'
     }
-};
-export { contextMapModel };
+];
