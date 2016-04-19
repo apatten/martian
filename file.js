@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { fileModel } from './models/file.model';
 import { fileRevisionsModel } from './models/fileRevisions.model';
 
@@ -40,7 +41,8 @@ export class File {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the attachment information.
      */
     getInfo() {
-        return this._plug.at('info').get().then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('info').get().then(fileModelParser);
     }
 
     /**
@@ -57,7 +59,8 @@ export class File {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the file information.
      */
     setDescription(description) {
-        return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('description').put(description, utility.textRequestType).then(fileModelParser);
     }
 
     /**

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PageBase } from 'pageBase';
+import { PageBase } from '../pageBase';
 describe('Page Base', () => {
     it('can not construct a PageBase object directly', () => {
         expect(() => new PageBase()).toThrowError(TypeError);

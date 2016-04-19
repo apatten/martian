@@ -20,10 +20,11 @@ export let permissionsModel = [
     {
         field: [ 'operations', '#text' ],
         transform(value) {
+            let result = [];
             if(typeof value === 'string') {
-                return value.split(',');
+                result = value.split(',');
             }
-            return [];
+            return result;
         }
     },
     {

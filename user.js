@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { userModel } from './models/user.model';
 import { userListModel } from './models/userList.model';
 
@@ -41,7 +42,8 @@ export class User {
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
     getInfo() {
-        return this._plug.get().then(userModel.parse);
+        let userModelParser = modelParser.createParser(userModel);
+        return this._plug.get().then(userModelParser);
     }
 }
 
@@ -64,7 +66,8 @@ export class UserManager {
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
     getCurrentUser() {
-        return this.plug.at('current').get().then(userModel.parse);
+        let userModelParser = modelParser.createParser(userModel);
+        return this.plug.at('current').get().then(userModelParser);
     }
 
     /**
@@ -72,7 +75,8 @@ export class UserManager {
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, returns a {@link userListModel} containing the list of users.
      */
     getUsers() {
-        return this.plug.get().then(userListModel.parse);
+        let userListModelParser = modelParser.createParser(userListModel);
+        return this.plug.get().then(userListModelParser);
     }
 
     /**
@@ -90,7 +94,8 @@ export class UserManager {
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, returns a {@link userListModel} containing the list of found users.
      */
     searchUsers(constraints) {
-        return this.plug.at('search').withParams(constraints).get().then(userListModel.parse);
+        let userListModelParser = modelParser.createParser(userListModel);
+        return this.plug.at('search').withParams(constraints).get().then(userListModelParser);
     }
 
     /**

@@ -16,40 +16,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { pageModel } from './page.model';
 import { permissionsModel } from './permissions.model';
-let userModel = {
-    parse: function(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            id: modelHelper.getInt(obj['@id']),
-            wikiId: obj['@wikiid'],
-            href: obj['@href'],
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            email: obj.email,
-            fullname: obj.fullname,
-            username: obj.username,
-            nick: obj.nick,
-            status: obj.status
-        };
-        if(typeof obj['license.seat'] === 'string') {
-            parsed.seated = modelHelper.getBool(obj['license.seat']);
-            parsed.siteOwner = false;
-        } else {
-            parsed.seated = modelHelper.getBool(modelHelper.getString(obj['license.seat']));
-            parsed.siteOwner = modelHelper.getBool(obj['license.seat']['@owner']);
-        }
-        if('date.lastlogin' in obj) {
-            parsed.dateLastLogin = modelHelper.getDate(obj['date.lastlogin']);
-        }
-        if('page.home' in obj) {
-            parsed.pageHome = pageModel.parse(obj['page.home']);
-        }
-        if('permissions.user' in obj) {
-            parsed.userPermissions = permissionsModel.parse(obj['permissions.user']);
-        }
-        return parsed;
+export let userModel = [
+    {
+        field: '@id',
+        name: 'id',
+        transform: 'integer'
+    },
+    {
+        field: '@wikiid',
+        name: 'wikiId'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'date.created',
+        name: 'dateCreated'
+    },
+    {
+        field: 'email'
+    },
+    {
+        field: 'fullname'
+    },
+    {
+        field: 'username'
+    },
+    {
+        field: 'nick'
+    },
+    {
+        field: 'status'
+    },
+    {
+        field: [ 'license.seat', '#text' ],
+        name: 'seated',
+        transform: 'boolean'
+    },
+    {
+        field: [ 'license.seat', '@owner' ],
+        name: 'siteOwner',
+        transform: 'boolean'
+    },
+    {
+        field: 'date.lastlogin',
+        name: 'dateLastLogin',
+        transform: 'date'
+    },
+    {
+        field: 'page.home',
+        name: 'pageHome',
+        transform: pageModel
+    },
+    {
+        field: 'permissions.user',
+        name: 'userPermissions',
+        transform: permissionsModel
     }
-};
-export { userModel };
+];

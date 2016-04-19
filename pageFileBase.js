@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { fileModel } from './models/file.model';
 
 /**
@@ -44,7 +45,8 @@ export class PageFileBase {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the file information.
      */
     getInfo() {
-        return this._plug.at('info').get().then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('info').get().then(fileModelParser);
     }
 
     /**
@@ -77,6 +79,7 @@ export class PageFileBase {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the file information.
      */
     updateDescription(description = '') {
-        return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('description').put(description, utility.textRequestType).then(fileModelParser);
     }
 }

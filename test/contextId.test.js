@@ -16,33 +16,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { contextIdsModel } from 'models/contextIds.model';
-import { contextIdModel } from 'models/contextId.model';
-import { contextMapsModel } from 'models/contextMaps.model';
-import { contextMapModel } from 'models/contextMap.model';
-import { ContextIdManager, ContextDefinition, ContextMap } from 'contextId';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { ContextIdManager, ContextDefinition, ContextMap } from '../contextId';
+
 describe('Context ID', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     describe('Manager', () => {
         let cm = null;
         beforeEach(() => {
             cm = new ContextIdManager();
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(contextIdModel, 'parse').and.returnValue({});
         });
         afterEach(() => {
             cm = null;
         });
         it('can fetch the list of all definitions', (done) => {
-            spyOn(contextIdsModel, 'parse').and.returnValue({});
             cm.getDefinitions().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch all context maps', (done) => {
-            spyOn(contextMapsModel, 'parse').and.returnValue({});
             cm.getMaps().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -86,7 +88,6 @@ describe('Context ID', () => {
     describe('definition instance functions', () => {
         let def = null;
         beforeEach(() => {
-            spyOn(contextIdModel, 'parse').and.returnValue({});
             def = new ContextDefinition('foo');
         });
         afterEach(() => {
@@ -132,7 +133,6 @@ describe('Context ID', () => {
     describe('ContextMap instance functions', () => {
         let map = null;
         beforeEach(() => {
-            spyOn(contextMapModel, 'parse').and.returnValue({});
             map = new ContextMap('en-us', 'foo');
         });
         afterEach(() => {
