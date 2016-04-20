@@ -21,7 +21,7 @@ export let relatedPagesModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',

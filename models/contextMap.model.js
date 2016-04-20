@@ -43,6 +43,6 @@ export let contextMapModel = [
     },
     {
         field: [ 'pageid', '#text' ],
-        transform: 'integer'
+        transform: 'number'
     }
 ];

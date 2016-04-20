@@ -21,17 +21,17 @@ export let pageFilesModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@offset',
         name: 'offset',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@totalcount',
         name: 'totalCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',

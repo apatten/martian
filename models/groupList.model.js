@@ -21,17 +21,17 @@ export let groupListModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@querycount',
         name: 'queryCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@totalcount',
         name: 'totalCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',

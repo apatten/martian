@@ -21,7 +21,7 @@ export let pageMoveModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'page',

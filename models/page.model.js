@@ -22,7 +22,7 @@ export let pageModel = [
     {
         field: '@id',
         name: 'id',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'title'
@@ -65,7 +65,7 @@ export let pageModel = [
     {
         field: '@revision',
         name: 'revision',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'date.created',

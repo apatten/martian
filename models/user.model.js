@@ -22,7 +22,7 @@ export let userModel = [
     {
         field: '@id',
         name: 'id',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@wikiid',

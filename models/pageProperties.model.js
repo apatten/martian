@@ -21,7 +21,7 @@ export let pagePropertiesModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',

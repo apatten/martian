@@ -29,17 +29,17 @@ export let searchModel = [
     {
         field: '@querycount',
         name: 'queryCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@count.recommendations',
         name: 'recommendationCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'result',
@@ -59,14 +59,14 @@ export let searchModel = [
             },
             {
                 field: 'id',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'mime'
             },
             {
                 field: 'rank',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'title'
@@ -105,7 +105,7 @@ export let searchModel = [
                     {
                         field: '@count',
                         name: 'count',
-                        transform: 'integer'
+                        transform: 'number'
                     },
                     {
                         field: '@title',

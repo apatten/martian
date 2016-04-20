@@ -21,7 +21,7 @@ export let eventDetailModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'summary',
@@ -38,7 +38,7 @@ export let eventDetailModel = [
             {
                 field: '@count',
                 name: 'count',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@journaled',
