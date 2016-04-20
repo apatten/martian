@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-import { fileModel } from './file.model';
+import { modelHelper } from './modelHelper.js';
+import { fileModel } from './file.model.js';
 let fileRevisionsModel = {
     parse: (data) => {
         let obj = modelHelper.fromJson(data);

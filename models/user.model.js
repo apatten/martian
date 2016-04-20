@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-import { pageModel } from './page.model';
-import { permissionsModel } from './permissions.model';
+import { modelHelper } from './modelHelper.js';
+import { pageModel } from './page.model.js';
+import { permissionsModel } from './permissions.model.js';
 let userModel = {
     parse: function(data) {
         let obj = modelHelper.fromJson(data);

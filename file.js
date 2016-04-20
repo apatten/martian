@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
-import { utility } from './lib/utility';
-import { fileModel } from './models/file.model';
-import { fileRevisionsModel } from './models/fileRevisions.model';
+import { Plug } from 'plug-js';
+import { utility } from './lib/utility.js';
+import { fileModel } from './models/file.model.js';
+import { fileRevisionsModel } from './models/fileRevisions.model.js';
 
 /**
  * A class for working with file attachments within the MindTouch site.
@@ -31,8 +31,8 @@ export class File {
      * @param {Number} id - The resource ID of the file.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id, settings) {
-        this._plug = new Plug(settings).at('@api', 'deki', 'files', id).withParam('draft', true);
+    constructor(id, settings = new Settings()) {
+        this._plug = new Plug(settings).at('@api', 'deki', 'files', id);
     }
 
     /**
@@ -40,7 +40,7 @@ export class File {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the attachment information.
      */
     getInfo() {
-        return this._plug.at('info').get().then(fileModel.parse);
+        return this._plug.at('info').get().then((r) => r.json()).then(fileModel.parse);
     }
 
     /**
