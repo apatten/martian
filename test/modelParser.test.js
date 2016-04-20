@@ -54,6 +54,10 @@ describe('Model Parser', () => {
             }
             expect(err).toBeDefined();
         });
+        it('returns a parsed json', () => {
+            let parsed = modelParser.to.json('{}');
+            expect(parsed).toEqual({});
+        });
     });
     describe('Valid Check', () => {
         it('returns true', () => {

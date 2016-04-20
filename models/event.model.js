@@ -102,7 +102,7 @@ export let eventModel = [
             },
             {
                 field: '_uri.query',
-                name: 'query'
+                name: 'uriQuery'
             },
             {
                 field: '_uri.scheme',
