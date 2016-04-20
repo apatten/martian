@@ -157,5 +157,18 @@ describe('Model Parser', () => {
             }
             expect(err).toBeDefined();
         });
+        it('throws when parsing bad data', () => {
+            let model = [
+                { field: 'id' }
+            ];
+            let parser = modelParser.createParser(model);
+            let err;
+            try {
+                parser(5);
+            } catch(e) {
+                err = e;
+            }
+            expect(err).toBeDefined();
+        });
     });
 });
