@@ -54,6 +54,10 @@ describe('Model Parser', () => {
             }
             expect(err).toBeDefined();
         });
+        it('returns a parsed json', () => {
+            let parsed = modelParser.to.json('{}');
+            expect(parsed).toEqual({});
+        });
     });
     describe('Valid Check', () => {
         it('returns true', () => {
@@ -148,6 +152,19 @@ describe('Model Parser', () => {
             let err;
             try {
                 parser({ id: 5 });
+            } catch(e) {
+                err = e;
+            }
+            expect(err).toBeDefined();
+        });
+        it('throws when parsing bad data', () => {
+            let model = [
+                { field: 'id' }
+            ];
+            let parser = modelParser.createParser(model);
+            let err;
+            try {
+                parser(5);
             } catch(e) {
                 err = e;
             }

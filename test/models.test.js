@@ -88,7 +88,6 @@ describe('Models', () => {
         it('can parse a list of context IDs', () => {
             expect(contextIdsModelParser(Mocks.contextIdDefinitions)).toBeDefined();
             expect(contextIdsModelParser(Mocks.contextIdDefinitionsSingle)).toBeDefined();
-            expect(contextIdsModelParser('')).toBeDefined();
         });
         it('can parse a context map', () => {
             expect(contextMapModelParser(Mocks.contextMap)).toBeDefined();
