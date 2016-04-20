@@ -17,16 +17,18 @@
  * limitations under the License.
  */
 import { utility } from './lib/utility';
-import { modelHelper } from './models/modelHelper';
+import { modelParser } from './lib/modelParser';
 import { pageModel } from './models/page.model';
 import { pageContentsModel } from './models/pageContents.model';
 import { pageTagsModel } from './models/pageTags.model';
 import { pageFilesModel } from './models/pageFiles.model';
 import { pageEditModel } from './models/pageEdit.model';
 import { relatedPagesModel } from './models/relatedPages.model';
+
 function _handleVirtualPage(error) {
     if(error.errorCode === 404 && error.response && error.response['@virtual']) {
-        return Promise.resolve(pageModel.parse(error.response));
+        let pageModelParser = modelParser.createParser(pageModel);
+        return Promise.resolve(pageModelParser(error.response));
     }
     throw error;
 }
@@ -38,10 +40,12 @@ export class PageBase {
         this._id = utility.getResourceId(id, 'home');
     }
     getFullInfo() {
-        return this._plug.get().then(pageModel.parse).catch(_handleVirtualPage);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.get().then(pageModelParser).catch(_handleVirtualPage);
     }
     getContents(params) {
-        return this._plug.at('contents').withParams(params).get().then(pageContentsModel.parse);
+        let pageContentsModelParser = modelParser.createParser(pageContentsModel);
+        return this._plug.at('contents').withParams(params).get().then(pageContentsModelParser);
     }
     setContents(contents, params = {}) {
         if(typeof contents !== 'string') {
@@ -53,14 +57,16 @@ export class PageBase {
         Object.keys(params).forEach((key) => {
             contentsParams[key] = params[key];
         });
-        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModel.parse);
+        let pageEditModelParser = modelParser.createParser(pageEditModel);
+        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModelParser);
     }
     getFiles(params = {}) {
-        return this._plug.at('files').withParams(params).get().then(pageFilesModel.parse);
+        let pageFilesModelParser = modelParser.createParser(pageFilesModel);
+        return this._plug.at('files').withParams(params).get().then(pageFilesModelParser);
     }
     getOverview() {
         return this._plug.at('overview').get().then(JSON.parse).then((overview) => {
-            return Promise.resolve({ overview: modelHelper.getString(overview) });
+            return Promise.resolve({ overview: overview });
         }).catch(() => {
             return Promise.reject('Unable to parse the page overview response');
         });
@@ -73,12 +79,14 @@ export class PageBase {
         return this._plug.at('overview').put(request);
     }
     getTags() {
-        return this._plug.at('tags').get().then(pageTagsModel.parse);
+        let pageTagsModelParser = modelParser.createParser(pageTagsModel);
+        return this._plug.at('tags').get().then(pageTagsModelParser);
     }
     getDiff() {
         throw new Error('Page.getDiff() is not implemented');
     }
     getRelated() {
-        return this._plug.at('related').get().then(relatedPagesModel.parse);
+        let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
+        return this._plug.at('related').get().then(relatedPagesModelParser);
     }
 }

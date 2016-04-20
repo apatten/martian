@@ -16,11 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { LearningPathManager, LearningPath } from 'learningPath';
-import { learningPathModel } from 'models/learningPath.model';
-import { pageModel } from 'models/page.model';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { LearningPathManager, LearningPath } from '../learningPath';
+
 describe('Learning Path API', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     let lpm = null;
     beforeEach(() => {
         lpm = new LearningPathManager();
@@ -39,7 +46,6 @@ describe('Learning Path API', () => {
     describe('Manager tests', () => {
         it('can get the listing of all of the learning paths', (done) => {
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(learningPathModel, 'parse').and.returnValue({});
             lpm.getLearningPaths().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -51,14 +57,12 @@ describe('Learning Path API', () => {
         });
         it('can create a learning path', () => {
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(learningPathModel, 'parse').and.returnValue({});
             lpm.create({ title: 'foo', name: 'bar', summary: 'baz' }).then((r) => {
                 expect(r).toBeDefined();
             });
         });
         it('can create a learning path with a long summary', () => {
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(learningPathModel, 'parse').and.returnValue({});
             lpm.create({ title: 'foo', name: 'bar', summary: 'Years isn\'t there void third darkness tree made firmament from set which morning hath signs all so meat which abundantly. Together behold land. Land form, grass isn\'t called won\'t called. Said is great second were sea beginning unto unto without she\'d. Seas seed she\'d waters hath. Saying yielding rule. Forth light creeping winged day it blessed let in multiply don\'t. Likeness creature under have, have created, i set creeping blessed his after likeness seasons midst under also days shall, don\'t male fifth tree there hath herb gathering stars. Gathering form Place whales open blessed waters seas Fruitful earth kind wherein years signs evening female spirit winged His they\'re god whales meat meat without for face. Saw moveth their open don\'t after be and without, first thing third Divided herb every greater. Lights forth from us there gathered. Appear subdue. Own fourth living, created our rule creature, firmament our our, first evening good it you\'re bring you\'re wherein said said blessed very light form saying you. Heaven, very saw dominion without every tree male. Bring their night creepeth was won\'t fill beast god thing his you\'ll cattle together earth, without is also. Set the man which creeping place. Dry made likeness.' }).then((r) => {
                 expect(r).toBeDefined();
             });
@@ -74,7 +78,6 @@ describe('Learning Path API', () => {
             learningPath = null;
         });
         it('can get a learning path', (done) => {
-            spyOn(learningPathModel, 'parse').and.returnValue({});
             learningPath.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -115,7 +118,6 @@ describe('Learning Path API', () => {
         });
         it('can add a page to a learning path', () => {
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(pageModel, 'parse').and.returnValue({});
             learningPath.addPage(123, 20160225000833).then((r) => {
                 expect(r).toBeDefined();
             });

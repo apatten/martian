@@ -16,25 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { userModel } from './user.model';
-let userListModel = {
-    parse: (data) => {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: obj['@count'],
-            users: []
-        };
-        modelHelper.addIfDefined(obj['@querycount'], 'querycount', parsed);
-        modelHelper.addIfDefined(obj['@totalcount'], 'totalcount', parsed);
-        modelHelper.addIfDefined(obj['@href'], 'href', parsed);
-        if('user' in obj) {
-            let users = modelHelper.getArray(obj.user);
-            users.forEach((user) => {
-                parsed.users.push(userModel.parse(user));
-            });
-        }
-        return parsed;
+export let userListModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@querycount',
+        name: 'queryCount',
+        transform: 'integer'
+    },
+    {
+        field: '@totalcount',
+        name: 'totalCount',
+        transform: 'integer'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'users',
+        isArray: true,
+        transform: userModel
     }
-};
-export { userListModel };
+];

@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { PageBase } from './pageBase';
 import { pageModel } from './models/page.model';
 
@@ -41,7 +42,8 @@ export class Draft extends PageBase {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the deactivated page.
      */
     deactivate() {
-        return this._plug.at('deactivate').post().then(pageModel.parse);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.at('deactivate').post().then(pageModelParser);
     }
 
     /**
@@ -73,7 +75,8 @@ export class DraftManager {
      */
     createDraft(newPath) {
         let plug = new Plug(this._settings).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
-        return plug.post().then(pageModel.parse);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return plug.post().then(pageModelParser);
     }
 
     /**

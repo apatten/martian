@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { pagePropertiesModel } from './models/pageProperties.model';
 import { pagePropertyModel } from './models/pageProperty.model';
 
@@ -49,7 +50,8 @@ export class PageProperty {
         if(names.length > 0) {
             plug = plug.withParams({ names: names.join(',') });
         }
-        return plug.get().then(pagePropertiesModel.parse);
+        let pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
+        return plug.get().then(pagePropertiesModelParser);
     }
 
     /**
@@ -61,7 +63,8 @@ export class PageProperty {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
-        return this._plug.at(encodeURIComponent(key), 'info').get().then(pagePropertyModel.parse);
+        let pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
+        return this._plug.at(encodeURIComponent(key), 'info').get().then(pagePropertyModelParser);
     }
 
     /**

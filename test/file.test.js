@@ -16,11 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { fileModel } from 'models/file.model';
-import { fileRevisionsModel } from 'models/fileRevisions.model';
-import { File } from 'file';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { File } from '../file';
+
 describe('File API', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     describe('constructor', () => {
         it('can construct a new File', () => {
             let file = new File(123);
@@ -38,14 +45,12 @@ describe('File API', () => {
             file = null;
         });
         it('can fetch file info', (done) => {
-            spyOn(fileModel, 'parse').and.returnValue({});
             file.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch file revisions', (done) => {
-            spyOn(fileRevisionsModel, 'parse').and.returnValue({});
             file.getRevisions().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -53,7 +58,6 @@ describe('File API', () => {
         });
         it('can set the file description', (done) => {
             spyOn(Plug.prototype, 'put').and.returnValue(Promise.resolve({}));
-            spyOn(fileModel, 'parse').and.returnValue({});
             file.setDescription('This is the description').then((r) => {
                 expect(r).toBeDefined();
                 done();

@@ -16,29 +16,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { eventModel } from './event.model';
-export let eventListModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            upto: obj['@upto'],
-            since: obj['@since'],
-            summary: []
-        };
-        let events = modelHelper.getArray(obj.summary);
-        events.forEach((e) => {
-            let parsedEvent = {
-                id: e['@id'],
-                datetime: modelHelper.getDate(e['@datetime']),
-                count: modelHelper.getInt(e['@count']),
-                detailid: e['@detailid'],
-                uriDetail: e['@uri.detail'],
-                event: eventModel.parse(e.event)
-            };
-            parsed.summary.push(parsedEvent);
-        });
-        return parsed;
+export let eventListModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@upto',
+        name: 'upto'
+    },
+    {
+        field: '@since',
+        name: 'since'
+    },
+    {
+        field: 'summary',
+        isArray: true,
+        transform: [
+            {
+                field: '@id',
+                name: 'id'
+            },
+            {
+                field: '@datetime',
+                name: 'datetime',
+                transform: 'date'
+            },
+            {
+                field: '@count',
+                name: 'count',
+                transform: 'integer'
+            },
+            {
+                field: '@detailid',
+                name: 'detailId'
+            },
+            {
+                field: '@uri.detail',
+                name: 'uriDetail'
+            },
+            {
+                field: 'event',
+                transform: eventModel
+            }
+        ]
     }
-};
+];

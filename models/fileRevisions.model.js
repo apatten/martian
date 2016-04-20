@@ -16,24 +16,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { fileModel } from './file.model';
-let fileRevisionsModel = {
-    parse: (data) => {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: obj['@count'],
-            totalcount: obj['@totalcount'],
-            href: obj['@href']
-        };
-        if('file' in obj) {
-            parsed.file = [];
-            let file = modelHelper.getArray(obj.file);
-            file.forEach((f) => {
-                parsed.file.push(fileModel.parse(f));
-            });
-        }
-        return parsed;
+export let fileRevisionsModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@totalcount',
+        name: 'totalCount',
+        transform: 'integer'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'file',
+        isArray: true,
+        transform: fileModel
     }
-};
-export { fileRevisionsModel };
+];

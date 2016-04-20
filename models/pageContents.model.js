@@ -16,37 +16,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let pageContentsModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            type: obj['@type'],
-            title: obj['@title']
-        };
-        if('@unsafe' in obj) {
-            parsed.unsafe = modelHelper.getBool(obj['@unsafe']);
-        }
-        if('@draft' in obj) {
-            parsed.draft = modelHelper.getBool(obj['@draft']);
-        }
-        if(Array.isArray(obj.body)) {
-            parsed.body = obj.body[0];
-            parsed.targets = pageContentsModel._getTargets(obj.body);
-        } else {
-            parsed.body = obj.body;
-        }
-        modelHelper.addIfDefined(obj.tail, 'tail', parsed);
-        return parsed;
+export let pageContentsModel = [
+    {
+        field: '@type',
+        name: 'type'
     },
-    _getTargets(body) {
-        let targets = [];
-        for(let i = 1; i < body.length; i++) {
-            targets.push({
-                [ body[i]['@target'] ]: body[i]['#text']
-            });
+    {
+        field: '@title',
+        name: 'title'
+    },
+    {
+        field: '@unsafe',
+        name: 'unsafe',
+        transform: 'boolean'
+    },
+    {
+        field: '@draft',
+        name: 'draft',
+        transform: 'boolean'
+    },
+    {
+        field: 'head'
+    },
+    {
+        field: 'tail'
+    },
+    {
+        field: 'body',
+        transform(body) {
+            return (Array.isArray(body)) ? body[0] : body;
         }
-        return targets;
+    },
+    {
+        field: 'body',
+        name: 'targets',
+        transform(body) {
+            let targets = [];
+            if(Array.isArray(body)) {
+                for(let i = 1; i < body.length; i++) {
+                    targets.push({
+                        [body[i]['@target']]: body[i]['#text']
+                    });
+                }
+            }
+            return targets;
+        }
     }
-};
-export { pageContentsModel };
+];

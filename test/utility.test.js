@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { utility } from 'lib/utility';
+import { utility } from '../lib/utility';
 describe('Martian utility', () => {
     it('can escape a string for search queries', () => {
         let unescaped = '1111\\+-&|!(){}[]^"~*?:2222';

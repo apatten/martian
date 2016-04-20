@@ -16,22 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { contextMapModel } from './contextMap.model';
-let contextMapsModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            contextMap: [],
-            languages: modelHelper.getArray(obj.languages.language)
-        };
-        if('contextmap' in obj) {
-            let maps = modelHelper.getArray(obj.contextmap);
-            maps.forEach((map) => {
-                parsed.contextMap.push(contextMapModel.parse(map));
-            });
-        }
-        return parsed;
+export let contextMapsModel = [
+    {
+        field: 'contextmap',
+        name: 'contextMap',
+        isArray: true,
+        transform: contextMapModel
+    },
+    {
+        field: [ 'languages', 'language' ],
+        isArray: true
     }
-};
-export { contextMapsModel };
+];

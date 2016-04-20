@@ -16,45 +16,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let pageRatingModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            date: modelHelper.getDate(obj['@date']),
-            seatedCount: modelHelper.getInt(obj['@seated.count']),
-            unseatedCount: modelHelper.getInt(obj['@unseated.count'])
-        };
-        if('@score' in obj && obj['@score'] !== '') {
-            parsed.score = modelHelper.getInt(obj['@score']);
-        }
-        if('@seated.score' in obj && obj['@seated.score'] !== '') {
-            parsed.seatedScore = modelHelper.getInt(obj['@seated.score']);
-        }
-        if('@unseated.score' in obj && obj['@unseated.score'] !== '') {
-            parsed.unseatedScore = modelHelper.getInt(obj['@unseated.score']);
-        }
-        if('@score.trend' in obj) {
-            parsed.scoreTrend = modelHelper.getInt(obj['@score.trend']);
-        }
-        if('@seated.score.trend' in obj) {
-            parsed.seatedScoreTrend = modelHelper.getInt(obj['@seated.score.trend']);
-        }
-        if('@unseated.score.trend' in obj) {
-            parsed.unseatedScoreTrend = modelHelper.getInt(obj['@unseated.score.trend']);
-        }
-        if('user.ratedby' in obj) {
-            let ratedBy = obj['user.ratedby'];
-            parsed.userRatedBy = {
-                id: modelHelper.getInt(ratedBy['@id']),
-                score: modelHelper.getInt(ratedBy['@score']),
-                date: modelHelper.getDate(ratedBy['@date']),
-                href: ratedBy['@href'],
-                seated: modelHelper.getBool(ratedBy['@seated'])
-            };
-        }
-        return parsed;
+export let pageRatingModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'integer'
+    },
+    {
+        field: '@date',
+        name: 'date',
+        transform: 'date'
+    },
+    {
+        field: '@seated.count',
+        name: 'seatedCount',
+        transform: 'integer'
+    },
+    {
+        field: '@unseated.count',
+        name: 'unseatedCount',
+        transform: 'integer'
+    },
+    {
+        field: '@score',
+        name: 'score',
+        transform: 'integer'
+    },
+    {
+        field: '@seated.score',
+        name: 'seatedScore',
+        transform: 'integer'
+    },
+    {
+        field: '@unseated.score',
+        name: 'unseatedScore',
+        transform: 'integer'
+    },
+    {
+        field: '@score.trend',
+        name: 'scoreTrend',
+        transform: 'integer'
+    },
+    {
+        field: '@seated.score.trend',
+        name: 'seatedScoreTrend',
+        transform: 'integer'
+    },
+    {
+        field: '@unseated.score.trend',
+        name: 'unseatedScoreTrend',
+        transform: 'integer'
+    },
+    {
+        field: 'user.ratedby',
+        name: 'userRatedBy',
+        transform: [
+            {
+                field: '@id',
+                name: 'id',
+                transform: 'integer'
+            },
+            {
+                field: '@score',
+                name: 'score',
+                transform: 'integer'
+            },
+            {
+                field: '@date',
+                name: 'date',
+                transform: 'date'
+            },
+            {
+                field: '@href',
+                name: 'href'
+            },
+            {
+                field: '@seated',
+                name: 'seated',
+                transform: 'boolean'
+            }
+        ]
     }
-};
-export { pageRatingModel };
+];

@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { userActivityModel } from './models/userActivity.model';
 import { eventListModel } from './models/eventList.model';
 import { eventDetailModel } from './models/eventDetail.model';
@@ -42,7 +43,8 @@ export class UserEvents {
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
     getActivity(userToken, params) {
-        return this.plug.at('support-agent', userToken).withParams(params).get().then(userActivityModel.parse);
+        let userActivityModelParser = modelParser.createParser(userActivityModel);
+        return this.plug.at('support-agent', userToken).withParams(params).get().then(userActivityModelParser);
     }
 
     /**
@@ -51,7 +53,8 @@ export class UserEvents {
      * @returns {Promise.<eventListModel>} - A Promise that, when resolved, yields a {@link eventListModel} that contains the listing of the user's events.
      */
     getHistory(userId) {
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then(eventListModel.parse);
+        let eventListModelParser = modelParser.createParser(eventListModel);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then(eventListModelParser);
     }
 
     /**
@@ -61,7 +64,8 @@ export class UserEvents {
      * @returns {Promise.<eventDetailModel>} - A Promise that, when resolved, yields a {@link eventDetailModel} that contains the event information.
      */
     getHistoryDetail(userId, detailId) {
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then(eventDetailModel.parse);
+        let eventDetailModelParser = modelParser.createParser(eventDetailModel);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then(eventDetailModelParser);
     }
 
     /**

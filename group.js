@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { groupModel } from './models/group.model';
 import { groupListModel } from './models/groupList.model';
 import { userListModel } from './models/userList.model';
@@ -45,7 +46,8 @@ export class Group {
      * @returns {Promise.<groupModel>} - A Promise that, when resolved, yields a {@link groupModel} containing the group information.
      */
     getInfo() {
-        return this._groupPlug.get().then(groupModel.parse);
+        let groupModelParser = modelParser.createParser(groupModel);
+        return this._groupPlug.get().then(groupModelParser);
     }
 
     /**
@@ -60,7 +62,8 @@ export class Group {
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, yields a {@link userListModel} with the users listing.
      */
     getUsers(options) {
-        return this._groupPlug.at('users').withParams(options).get().then(userListModel.parse);
+        let userListModelParser = modelParser.createParser(userListModel);
+        return this._groupPlug.at('users').withParams(options).get().then(userListModelParser);
     }
 }
 
@@ -83,7 +86,8 @@ export class GroupManager {
      * @returns {Promise.<groupListModel>} - A Promise that, when resolved, yields a {@link groupListModel} containing the group listing.
      */
     getGroupList() {
-        return this.plug.get().then(groupListModel.parse);
+        let groupListModelParser = modelParser.createParser(groupListModel);
+        return this.plug.get().then(groupListModelParser);
     }
 
     /**

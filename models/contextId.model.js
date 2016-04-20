@@ -16,14 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let contextIdModel = {
-    parse(data) {
-        let parsed = modelHelper.fromJson(data);
-        if('context' in parsed) {
-            parsed = parsed.context;
-        }
-        return parsed;
+export let contextIdModel = [
+    {
+        field: 'context'
     }
-};
-export { contextIdModel };
+];

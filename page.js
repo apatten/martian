@@ -18,6 +18,7 @@
  */
 import { Plug } from './lib/plug';
 import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
 import { PageBase } from './pageBase';
 import { pageModel } from './models/page.model';
 import { subpagesModel } from './models/subpages.model';
@@ -52,7 +53,8 @@ export class Page extends PageBase {
         Object.keys(params).forEach((key) => {
             infoParams[key] = params[key];
         });
-        return this._plug.at('info').withParams(infoParams).get().then(pageModel.parse);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.at('info').withParams(infoParams).get().then(pageModelParser);
     }
 
     /**
@@ -61,7 +63,8 @@ export class Page extends PageBase {
      * @returns {Promise.<subpagesModel>} - A Promise that, when resolved, yields a {@link subpagesModel} containing the basic page information.
      */
     getSubpages(params) {
-        return this._plug.at('subpages').withParams(params).get().then(subpagesModel.parse);
+        let subpagesModelParser = modelParser.createParser(subpagesModel);
+        return this._plug.at('subpages').withParams(params).get().then(subpagesModelParser);
     }
 
     /**
@@ -70,7 +73,8 @@ export class Page extends PageBase {
      * @returns {Promise.<pageTreeModel>} - A Promise that, when resolved, yields a {@link pageTreeModel} containing the basic page information.
      */
     getTree(params) {
-        return this._plug.at('tree').withParams(params).get().then(pageTreeModel.parse);
+        let pageTreeModelParser = modelParser.createParser(pageTreeModel);
+        return this._plug.at('tree').withParams(params).get().then(pageTreeModelParser);
     }
 
     /**
@@ -96,7 +100,8 @@ export class Page extends PageBase {
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the rating information.
      */
     getRating() {
-        return this._plug.at('ratings').get().then(pageRatingModel.parse);
+        let pageRatingModelParser = modelParser.createParser(pageRatingModel);
+        return this._plug.at('ratings').get().then(pageRatingModelParser);
     }
 
     /**
@@ -114,7 +119,8 @@ export class Page extends PageBase {
         if(oldRating !== '1' && oldRating !== '0' && oldRating !== '') {
             throw new Error('Invalid rating supplied for the old rating');
         }
-        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModel.parse);
+        let pageRatingModelParser = modelParser.createParser(pageRatingModel);
+        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModelParser);
     }
 
     /**
@@ -130,7 +136,8 @@ export class Page extends PageBase {
         //  it a proper page ID to be used in a URI segment.
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
         let contentsPlug = new Plug().at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
-        return contentsPlug.get().then(pageContentsModel.parse);
+        let pageContentsModelParser = modelParser.createParser(pageContentsModel);
+        return contentsPlug.get().then(pageContentsModelParser);
     }
 
     /**
@@ -139,7 +146,8 @@ export class Page extends PageBase {
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     move(params = {}) {
-        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModel.parse);
+        let pageMoveModelParser = modelParser.createParser(pageMoveModel);
+        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModelParser);
     }
 
     /**
@@ -147,7 +155,8 @@ export class Page extends PageBase {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} containing the page information following the activation.
      */
     activateDraft() {
-        return this._plug.at('activate-draft').post().then(pageModel.parse);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.at('activate-draft').post().then(pageModelParser);
     }
 }
 
@@ -166,6 +175,7 @@ export class PageManager {
      */
     getRatings(pageIds) {
         var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
-        return ratingsPlug.get().then(pageRatingsModel.parse);
+        let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
+        return ratingsPlug.get().then(pageRatingsModelParser);
     }
 }

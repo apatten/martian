@@ -16,20 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { pageModel } from 'models/page.model';
-import { pageContentsModel } from 'models/pageContents.model';
-import { subpagesModel } from 'models/subpages.model';
-import { pageTreeModel } from 'models/pageTree.model';
-import { pageTagsModel } from 'models/pageTags.model';
-import { pageRatingModel } from 'models/pageRating.model';
-import { pageFilesModel } from 'models/pageFiles.model';
-import { pageMoveModel } from 'models/pageMove.model';
-import { pageEditModel } from 'models/pageEdit.model';
-import { relatedPagesModel } from 'models/relatedPages.model';
-import { pageRatingsModel } from 'models/pageRatings.model';
-import { Page, PageManager } from 'page';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { Page, PageManager } from '../page';
+
 describe('Page', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     describe('constructor tests', () => {
         it('can construct a new Page object using page ID', () => {
             var page = new Page(123);
@@ -59,7 +57,6 @@ describe('Page', () => {
         beforeEach(() => {
             page = new Page(123);
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(pageModel, 'parse').and.returnValue({});
         });
         afterEach(() => {
             page = null;
@@ -83,61 +80,52 @@ describe('Page', () => {
             });
         });
         it('can get the page contents', (done) => {
-            spyOn(pageContentsModel, 'parse').and.returnValue({});
             page.getContents().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can get the subpages', (done) => {
-            spyOn(subpagesModel, 'parse').and.returnValue({});
             page.getSubpages().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can get the page tree', (done) => {
-            spyOn(pageTreeModel, 'parse').and.returnValue({});
             page.getTree().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can get the tags', (done) => {
-            spyOn(pageTagsModel, 'parse').and.returnValue({});
             page.getTags().then(() => {
                 done();
             });
         });
         it('can get the user rating', (done) => {
-            spyOn(pageRatingModel, 'parse').and.returnValue({});
             page.getRating().then(() => {
                 done();
             });
         });
         it('can fetch a template rendered in the context of the Page', (done) => {
-            spyOn(pageContentsModel, 'parse').and.returnValue({});
             page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage').then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch a template rendered in the context of the Page with supplied options', (done) => {
-            spyOn(pageContentsModel, 'parse').and.returnValue({});
             page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage', { includes: 'overview' }).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch the page\'s files with default options', (done) => {
-            spyOn(pageFilesModel, 'parse').and.returnValue({});
             page.getFiles().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch the page\'s files with supplied options', (done) => {
-            spyOn(pageFilesModel, 'parse').and.returnValue({});
             page.getFiles({ limit: 200 }).then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -148,7 +136,6 @@ describe('Page', () => {
             done();
         });
         it('can get the related pages', (done) => {
-            spyOn(relatedPagesModel, 'parse').and.returnValue(Promise.resolve({}));
             page.getRelated().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -159,7 +146,6 @@ describe('Page', () => {
         it('can get a virtual page info', (done) => {
             let page = new Page(123);
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.reject({ errorCode: 404, response: { '@virtual': true } }));
-            spyOn(pageModel, 'parse').and.returnValue({});
             page.getFullInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -217,7 +203,6 @@ describe('Page', () => {
         beforeEach(() => {
             page = new Page(123);
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(pageRatingModel, 'parse').and.returnValue({});
         });
         it('can rate a page', (done) => {
             page.rate(1).then((r) => {
@@ -263,21 +248,18 @@ describe('Page', () => {
             });
         });
         it('can move a page', (done) => {
-            spyOn(pageMoveModel, 'parse').and.returnValue({});
             page.move({ to: 'foo/bar' }).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can move a page with no options provided', (done) => {
-            spyOn(pageMoveModel, 'parse').and.returnValue({});
             page.move().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can set the page contents', (done) => {
-            spyOn(pageEditModel, 'parse').and.returnValue({});
             page.setContents('Sample contents').then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -290,14 +272,12 @@ describe('Page', () => {
             });
         });
         it('can handle setting the page contents conflict', (done) => {
-            spyOn(pageEditModel, 'parse').and.returnValue({});
             page.setContents('Sample contents', { edittime: 'now', abort: 'never' }).then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can activate a draft for the page', (done) => {
-            spyOn(pageModel, 'parse').and.returnValue({});
             page.activateDraft().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -315,7 +295,6 @@ describe('Page', () => {
             });
             it('can fetch the ratings for a set of pages', (done) => {
                 spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-                spyOn(pageRatingsModel, 'parse').and.returnValue({});
                 pm.getRatings([ 440, 441 ]).then((r) => {
                     expect(r).toBeDefined();
                     done();

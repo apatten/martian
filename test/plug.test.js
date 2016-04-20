@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { Settings } from 'lib/settings';
+import { Plug } from '../lib/plug';
+import { Settings } from '../lib/settings';
 describe('Plug', () => {
     describe('constructor', () => {
         it('will construct a Plug with no URL provided', () => {

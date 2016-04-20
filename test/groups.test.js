@@ -16,12 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { groupListModel } from 'models/groupList.model';
-import { groupModel } from 'models/group.model';
-import { userListModel } from 'models/userList.model';
-import { GroupManager, Group } from 'group';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { GroupManager, Group } from '../group';
+
 describe('Group API', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     let gm = null;
     beforeEach(() => {
         gm = new GroupManager();
@@ -32,7 +38,6 @@ describe('Group API', () => {
     describe('GroupManager', () => {
         it('can get the listing of all of the groups', (done) => {
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(groupListModel, 'parse').and.returnValue({});
             gm.getGroupList().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -67,14 +72,12 @@ describe('Group API', () => {
             group = null;
         });
         it('can fetch a single group', (done) => {
-            spyOn(groupModel, 'parse').and.returnValue({});
             group.getInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can fetch a group\'s users', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue({});
             group.getUsers().then((r) => {
                 expect(r).toBeDefined();
                 done();

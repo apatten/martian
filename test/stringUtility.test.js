@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { stringUtility } from 'lib/stringUtility';
+import { stringUtility } from '../lib/stringUtility';
 describe('string utility tests', () => {
     it('can check if a string is blank', () => {
         expect(stringUtility.isBlank()).toBe(true);
