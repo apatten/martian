@@ -20,7 +20,7 @@ export let pageTagsModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',
@@ -34,7 +34,7 @@ export let pageTagsModel = [
             {
                 field: '@id',
                 name: 'id',
-                transformer: 'integer'
+                transformer: 'number'
             },
             {
                 field: '@value',

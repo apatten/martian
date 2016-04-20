@@ -20,7 +20,7 @@ export let pageRatingModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@date',
@@ -30,42 +30,42 @@ export let pageRatingModel = [
     {
         field: '@seated.count',
         name: 'seatedCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@unseated.count',
         name: 'unseatedCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@score',
         name: 'score',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@seated.score',
         name: 'seatedScore',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@unseated.score',
         name: 'unseatedScore',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@score.trend',
         name: 'scoreTrend',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@seated.score.trend',
         name: 'seatedScoreTrend',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@unseated.score.trend',
         name: 'unseatedScoreTrend',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'user.ratedby',
@@ -74,12 +74,12 @@ export let pageRatingModel = [
             {
                 field: '@id',
                 name: 'id',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@score',
                 name: 'score',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@date',

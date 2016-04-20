@@ -21,7 +21,7 @@ export let userActivityModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@upto',

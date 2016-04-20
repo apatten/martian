@@ -22,17 +22,17 @@ export let fileModel = [
     {
         field: '@id',
         name: 'id',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@revision',
         name: 'revision',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@res-id',
         name: 'resId',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',
@@ -56,7 +56,7 @@ export let fileModel = [
     {
         field: '@res-contents-id',
         name: 'resContentsId',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: 'date.created',
@@ -79,7 +79,7 @@ export let fileModel = [
             {
                 field: '@size',
                 name: 'size',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@href',

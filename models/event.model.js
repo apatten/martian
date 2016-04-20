@@ -39,7 +39,7 @@ export let eventModel = [
     {
         field: '@version',
         name: 'version',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: [ 'request', '@id' ],
@@ -59,7 +59,7 @@ export let eventModel = [
             {
                 field: '@id',
                 name: 'id',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'name'
@@ -80,21 +80,21 @@ export let eventModel = [
             },
             {
                 field: 'limit',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'qid',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'totalrecommended',
                 name: 'totalRecommended',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: 'totalresults',
                 name: 'totalResults',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '_uri.host',

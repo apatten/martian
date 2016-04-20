@@ -21,7 +21,7 @@ export let eventListModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@upto',
@@ -47,7 +47,7 @@ export let eventListModel = [
             {
                 field: '@count',
                 name: 'count',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@detailid',

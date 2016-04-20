@@ -21,12 +21,12 @@ export let fileRevisionsModel = [
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@totalcount',
         name: 'totalCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',

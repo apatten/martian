@@ -42,13 +42,15 @@ describe('Model Parser', () => {
             expect(err).toBeDefined();
         });
         it('returns a valid integer', () => {
-            let toInteger = modelParser.to.integer('5');
+            let toInteger = modelParser.to.number('5');
             expect(toInteger).toBe(5);
+            let toFloat = modelParser.to.number('3.6');
+            expect(toFloat).toBe(3.6);
         });
         it('thows converting to integer', () => {
             let err;
             try {
-                modelParser.to.integer('55-55');
+                modelParser.to.number('55-55');
             } catch(e) {
                 err = e;
             }
@@ -122,7 +124,7 @@ describe('Model Parser', () => {
     describe('Transform Value', () => {
         it('returns the value transformed by a type converter', () => {
             let value = '5';
-            let transform = 'integer';
+            let transform = 'number';
             let result = modelParser.transformValue(value, transform);
             expect(result).toBe(5);
         });
@@ -140,6 +142,9 @@ describe('Model Parser', () => {
             ];
             let result = modelParser.transformValue(value, transform);
             expect(result).toEqual({ ids: [ 5 ] });
+        });
+        it('can throw if an invalid transform is passed in', () => {
+            expect(() => modelParser.transformValue('foo', 100)).toThrow();
         });
     });
     describe('Create Parser', () => {

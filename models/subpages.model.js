@@ -20,12 +20,12 @@ export let subpagesModel = [
     {
         field: '@totalcount',
         name: 'totalCount',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@count',
         name: 'count',
-        transform: 'integer'
+        transform: 'number'
     },
     {
         field: '@href',
@@ -39,7 +39,7 @@ export let subpagesModel = [
             {
                 field: '@id',
                 name: 'id',
-                transform: 'integer'
+                transform: 'number'
             },
             {
                 field: '@href',
