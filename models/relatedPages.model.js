@@ -16,20 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { pageModel } from './page.model';
-export let relatedPagesModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            href: obj['@href'],
-            pages: []
-        };
-        let pages = modelHelper.getArray(obj.page);
-        pages.forEach((page) => {
-            parsed.pages.push(pageModel.parse(page));
-        });
-        return parsed;
+export let relatedPagesModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'number'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'page',
+        name: 'pages',
+        isArray: true,
+        transform: pageModel
     }
-};
+];

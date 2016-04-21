@@ -16,12 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { Settings } from 'lib/settings';
-import { userModel } from 'models/user.model';
-import { userListModel } from 'models/userList.model';
-import { UserManager, User } from 'user';
+import { Plug } from '../lib/plug';
+import { Settings } from '../lib/settings';
+import { modelParser } from '../lib/modelParser';
+import { UserManager, User } from '../user';
+
 describe('User API', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     let settings = new Settings({ host: 'http://www.example.com', token: 'abcd1234' });
     describe('constructor', () => {
         it('can perform construction operations', () => {
@@ -37,7 +44,6 @@ describe('User API', () => {
         beforeEach(() => {
             userManager = new UserManager(settings);
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(userModel, 'parse').and.returnValue({});
         });
         it('can fetch the current user', (done) => {
             userManager.getCurrentUser().then((u) => {
@@ -46,28 +52,24 @@ describe('User API', () => {
             });
         });
         it('can fetch the list of all users', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.getUsers().then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (single)', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
             });
         });
         it('can fetch a list of filtered users (empty)', (done) => {
-            spyOn(userListModel, 'parse').and.returnValue({});
             userManager.searchUsers({ username: 'foo', limit: 20 }).then((u) => {
                 expect(u).toBeDefined();
                 done();
@@ -83,7 +85,6 @@ describe('User API', () => {
     describe('instance operations', () => {
         beforeEach(() => {
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(userModel, 'parse').and.returnValue({});
         });
         it('can construct a User without the manager', () => {
             let user1 = new User();

@@ -16,27 +16,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { pageModel } from './page.model';
-let pageEditModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            status: obj['@status']
-        };
-        if('page' in obj) {
-            parsed.page = pageModel.parse(obj.page);
-        }
-        if('draft' in obj) {
-            parsed.draft = pageModel.parse(obj.draft);
-        }
-        if('page.base' in obj) {
-            parsed.pageBase = pageModel.parse(obj['page.base']);
-        }
-        if('page.overwritten' in obj) {
-            parsed.pageOverwritten = pageModel.parse(obj['page.overwritten']);
-        }
-        return parsed;
+export let pageEditModel = [
+    {
+        field: '@status',
+        name: 'status'
+    },
+    {
+        field: 'page',
+        transform: pageModel
+    },
+    {
+        field: 'draft',
+        transform: pageModel
+    },
+    {
+        field: 'page.base',
+        name: 'pageBase',
+        transform: pageModel
+    },
+    {
+        field: 'page.overwritten',
+        name: 'pageOverwritten',
+        transform: pageModel
     }
-};
-export { pageEditModel };
+];

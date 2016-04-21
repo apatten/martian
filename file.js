@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 import { Plug } from 'plug-js';
-import { utility } from './lib/utility.js';
-import { fileModel } from './models/file.model.js';
-import { fileRevisionsModel } from './models/fileRevisions.model.js';
+import { utility } from './lib/utility';
+import { modelParser } from './lib/modelParser';
+import { fileModel } from './models/file.model';
+import { fileRevisionsModel } from './models/fileRevisions.model';
 
 /**
  * A class for working with file attachments within the MindTouch site.
@@ -40,7 +41,8 @@ export class File {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the attachment information.
      */
     getInfo() {
-        return this._plug.at('info').get().then((r) => r.json()).then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
     }
 
     /**
@@ -57,7 +59,8 @@ export class File {
      * @returns {Promise.<fileModel>} - A Promise that, when resolved, yields a {@link fileModel} containing the file information.
      */
     setDescription(description) {
-        return this._plug.at('description').put(description, utility.textRequestType).then(fileModel.parse);
+        let fileModelParser = modelParser.createParser(fileModel);
+        return this._plug.at('description').put(description, utility.textRequestType).then(fileModelParser);
     }
 
     /**

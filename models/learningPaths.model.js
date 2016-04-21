@@ -16,17 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { learningPathModel } from './learningPath.model';
-let learningPathsModel = {
-    parse(data) {
-        let parsed = [];
-        let obj = modelHelper.fromJson(data);
-        let learningPaths = Array.isArray(obj.learningpath) ? obj.learningpath : [ obj.learningpath ];
-        learningPaths.forEach((path) => {
-            parsed.push(learningPathModel.parse(path));
-        });
-        return parsed;
+export let learningPathsModel = [
+    {
+        field: 'learningpath',
+        name: 'learningPaths',
+        isArray: true,
+        transform: learningPathModel
     }
-};
-export { learningPathsModel };
+];

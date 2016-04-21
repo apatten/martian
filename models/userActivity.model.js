@@ -16,17 +16,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { eventModel } from './event.model';
-export let userActivityModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: modelHelper.getInt(obj['@count']),
-            upto: obj['@upto'],
-            since: obj['@since']
-        };
-        parsed.events = modelHelper.getArray(obj.event).map((e) => eventModel.parse(e));
-        return parsed;
+export let userActivityModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'number'
+    },
+    {
+        field: '@upto',
+        name: 'upto'
+    },
+    {
+        field: '@since',
+        name: 'since'
+    },
+    {
+        field: 'event',
+        name: 'events',
+        isArray: true,
+        transform: eventModel
     }
-};
+];

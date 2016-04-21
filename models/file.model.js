@@ -16,37 +16,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper.js';
-import { userModel } from './user.model.js';
-import { pageModel } from './page.model.js';
-let fileModel = {
-    parse: (data) => {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            id: modelHelper.getInt(obj['@id']),
-            revision: modelHelper.getInt(obj['@revision']),
-            resId: modelHelper.getInt(obj['@res-id']),
-            href: obj['@href'],
-            resIsHead: modelHelper.getBool(obj['@res-is-head']),
-            resIsDeleted: modelHelper.getBool(obj['@res-is-deleted']),
-            resRevIsDeleted: modelHelper.getBool(obj['@res-rev-is-head']),
-            resContentsId: modelHelper.getInt(obj['@res-contents-id']),
-            dateCreated: modelHelper.getDate(obj['date.created']),
-            description: obj.description,
-            filename: obj.filename,
-            contents: {
-                type: obj.contents['@type'],
-                size: modelHelper.getInt(obj.contents['@size']),
-                href: obj.contents['@href']
+import { userModel } from './user.model';
+import { pageModel } from './page.model';
+export let fileModel = [
+    {
+        field: '@id',
+        name: 'id',
+        transform: 'number'
+    },
+    {
+        field: '@revision',
+        name: 'revision',
+        transform: 'number'
+    },
+    {
+        field: '@res-id',
+        name: 'resId',
+        transform: 'number'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: '@res-is-head',
+        name: 'resIsHead',
+        transform: 'boolean'
+    },
+    {
+        field: '@res-is-deleted',
+        name: 'resIsDeleted',
+        transform: 'boolean'
+    },
+    {
+        field: '@res-rev-is-head',
+        name: 'resRevIsHead',
+        transform: 'boolean'
+    },
+    {
+        field: '@res-contents-id',
+        name: 'resContentsId',
+        transform: 'number'
+    },
+    {
+        field: 'date.created',
+        name: 'dateCreated',
+        transform: 'date'
+    },
+    {
+        field: 'description'
+    },
+    {
+        field: 'filename'
+    },
+    {
+        field: 'contents',
+        transform: [
+            {
+                field: '@type',
+                name: 'type'
+            },
+            {
+                field: '@size',
+                name: 'size',
+                transform: 'number'
+            },
+            {
+                field: '@href',
+                name: 'href'
             }
-        };
-        if('user.createdby' in obj) {
-            parsed.userCreatedBy = userModel.parse(obj['user.createdby']);
-        }
-        if('page.parent' in obj) {
-            parsed.pageParent = pageModel.parse(obj['page.parent']);
-        }
-        return parsed;
+        ]
+    },
+    {
+        field: 'user.createdby',
+        name: 'userCreatedBy',
+        transform: userModel
+    },
+    {
+        field: 'page.parent',
+        name: 'pageParent',
+        transform: pageModel
     }
-};
-export { fileModel };
+];

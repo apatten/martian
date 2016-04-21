@@ -16,11 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { pagePropertiesModel } from 'models/pageProperties.model';
-import { pagePropertyModel } from 'models/pageProperty.model';
-import { PageProperty } from 'pageProperty';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { PageProperty } from '../pageProperty';
+
 describe('Page Property', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     describe('constructor tests', () => {
         it('can construct a PageProperty object for the home page implicitly', () => {
             let p = new PageProperty();
@@ -52,14 +59,12 @@ describe('Page Property', () => {
             prop = null;
         });
         it('can fetch the properties from a page', (done) => {
-            spyOn(pagePropertiesModel, 'parse').and.returnValue(Mocks.pageProperties);
             prop.getProperties().then((r) => {
                 expect(r).toBeDefined();
                 done();
             });
         });
         it('can filter properties by supplying a list of names', (done) => {
-            spyOn(pagePropertiesModel, 'parse').and.returnValue(Mocks.pageProperties);
             prop.getProperties([ 'property1', 'property2' ]).then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -72,7 +77,6 @@ describe('Page Property', () => {
             });
         });
         it('can fetch a single property', (done) => {
-            spyOn(pagePropertyModel, 'parse').and.returnValue(Mocks.pageProperty);
             prop.getProperty('mindtouch.import#info').then((r) => {
                 expect(r).toBeDefined();
                 done();

@@ -17,26 +17,31 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model';
-import { modelHelper } from './modelHelper';
-let learningPathModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            title: obj.title,
-            name: obj['@name'],
-            summary: obj.summary,
-            pages: [],
-            edittime: obj.edittime,
-            uri: obj['uri.learningpath'],
-            category: obj.category
-        };
-        if(obj.pages) {
-            let pages = Array.isArray(obj.pages) ? obj.pages : [ obj.pages ];
-            pages.forEach(function(pageData) {
-                parsed.pages.push(pageModel.parse(pageData));
-            });
-        }
-        return parsed;
+export let learningPathModel = [
+    {
+        field: 'title'
+    },
+    {
+        field: '@name',
+        name: 'name'
+    },
+    {
+        field: 'summary'
+    },
+    {
+        field: 'pages',
+        isArray: true,
+        transform: pageModel
+    },
+    {
+        field: 'edittime',
+        name: 'editTime'
+    },
+    {
+        field: 'uri.learningpath',
+        name: 'uri'
+    },
+    {
+        field: 'category'
     }
-};
-export { learningPathModel };
+];

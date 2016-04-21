@@ -16,15 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
-let groupModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        return {
-            id: obj['@id'],
-            href: obj['@href'],
-            groupname: obj.groupname
-        };
+export let groupModel = [
+    {
+        field: '@id',
+        name: 'id'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'groupname',
+        name: 'groupName'
     }
-};
-export { groupModel };
+];

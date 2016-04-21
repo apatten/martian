@@ -17,8 +17,10 @@
  * limitations under the License.
  */
 import { Plug } from './lib/plug';
+import { modelParser } from './lib/modelParser';
 import { learningPathModel } from './models/learningPath.model';
 import { pageModel } from './models/page.model';
+
 let maxSummaryCount = 500;
 function getSaveXML(data) {
     let template = `<title>${data.title}</title>
@@ -41,7 +43,8 @@ export class LearningPath {
         this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths', `${name}`);
     }
     getInfo() {
-        return this._plug.get().then(learningPathModel.parse);
+        let learningPathModelParser = modelParser.createParser(learningPathModel);
+        return this._plug.get().then(learningPathModelParser);
     }
 
     // learning path operations
@@ -49,10 +52,11 @@ export class LearningPath {
         if(content.summary && content.summary.length > maxSummaryCount) {
             content.summary = content.summary.substring(0, maxSummaryCount);
         }
+        let learningPathModelParser = modelParser.createParser(learningPathModel);
 
         // Do this without mustache
         let XMLData = getSaveXML(content);
-        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModel.parse);
+        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModelParser);
     }
     remove() {
         return this._plug.at(`=${this._name}`).del();
@@ -60,13 +64,15 @@ export class LearningPath {
 
     // Page operations
     addPage(pageId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModel.parse);
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModelParser);
     }
     removePage(pageId, editTime) {
         return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).del();
     }
     reorderPage(pageId, afterId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModel.parse);
+        let learningPathModelParser = modelParser.createParser(learningPathModel);
+        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModelParser);
     }
 }
 export class LearningPathManager {
@@ -75,7 +81,8 @@ export class LearningPathManager {
         this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths');
     }
     getLearningPaths() {
-        return this._plug.get().then(learningPathModel.parse);
+        let learningPathModelParser = modelParser.createParser(learningPathModel);
+        return this._plug.get().then(learningPathModelParser);
     }
     getLearningPath(name) {
         return new LearningPath(name, this.settings);
@@ -84,6 +91,7 @@ export class LearningPathManager {
         if(data.summary.length > maxSummaryCount) {
             data.summary = data.summary.substring(0, maxSummaryCount);
         }
-        return this._plug.withParams(data).post().then(learningPathModel.parse);
+        let learningPathModelParser = modelParser.createParser(learningPathModel);
+        return this._plug.withParams(data).post().then(learningPathModelParser);
     }
 }

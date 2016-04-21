@@ -16,19 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { pageModel } from './page.model';
-let pagePropertyModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            revision: obj['@revision'],
-            name: obj['@name'],
-            href: obj['@href'],
-            dateModified: modelHelper.getDate(obj['date.modified'])
-        };
-        modelHelper.addIfDefined(obj.page, 'page', parsed, pageModel);
-        return parsed;
+export let pagePropertyModel = [
+    {
+        field: '@revision',
+        name: 'revision'
+    },
+    {
+        field: '@name',
+        name: 'name'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'date.modified',
+        name: 'dateModified',
+        transform: 'date'
+    },
+    {
+        field: 'page',
+        transform: pageModel
     }
-};
-export { pagePropertyModel };
+];

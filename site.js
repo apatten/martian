@@ -19,7 +19,9 @@
 import { utility } from './lib/utility';
 import { stringUtility } from './lib/stringUtility';
 import { Plug } from './lib/plug';
+import { modelParser } from './lib/modelParser';
 import { searchModel } from './models/search.model';
+
 function _buildSearchConstraints(params) {
     let constraints = [];
     params.namespace = 'main';
@@ -116,6 +118,7 @@ export class Site {
             constraint: _buildSearchConstraints(constraint),
             recommendations: recommendations
         };
-        return this.plug.at('query').withParams(searchParams).get().then(searchModel.parse);
+        let searchModelParser = modelParser.createParser(searchModel);
+        return this.plug.at('query').withParams(searchParams).get().then(searchModelParser);
     }
 }

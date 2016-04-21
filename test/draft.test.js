@@ -16,10 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { pageModel } from 'models/page.model';
-import { DraftManager, Draft } from 'draft';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { DraftManager, Draft } from '../draft';
+
 describe('Draft', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     describe('draft manager', () => {
         it('can construct a new draft manager', () => {
             let dm = new DraftManager();
@@ -28,7 +36,6 @@ describe('Draft', () => {
         it('can create a new draft from nothing', (done) => {
             let dm = new DraftManager();
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(pageModel, 'parse').and.returnValue({});
             dm.createDraft('new/draft/path').then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -74,7 +81,6 @@ describe('Draft', () => {
         });
         it('can get the draft info', (done) => {
             spyOn(Plug.prototype, 'get').and.returnValue(Promise.resolve({}));
-            spyOn(pageModel, 'parse').and.returnValue({});
             draft.getFullInfo().then((r) => {
                 expect(r).toBeDefined();
                 done();
@@ -82,7 +88,6 @@ describe('Draft', () => {
         });
         it('can deactivate a draft', (done) => {
             spyOn(Plug.prototype, 'post').and.returnValue(Promise.resolve({}));
-            spyOn(pageModel, 'parse').and.returnValue({});
             draft.deactivate().then((r) => {
                 expect(r).toBeDefined();
                 done();

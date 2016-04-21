@@ -16,25 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper';
 import { groupModel } from './group.model';
-let groupListModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            count: obj['@count'],
-            querycount: obj['@querycount'],
-            totalcount: obj['@totalcount'],
-            href: obj['@href']
-        };
-        if('group' in obj) {
-            parsed.group = [];
-            let groups = modelHelper.getArray(obj.group);
-            groups.forEach((group) => {
-                parsed.group.push(groupModel.parse(group));
-            });
-        }
-        return parsed;
+export let groupListModel = [
+    {
+        field: '@count',
+        name: 'count',
+        transform: 'number'
+    },
+    {
+        field: '@querycount',
+        name: 'queryCount',
+        transform: 'number'
+    },
+    {
+        field: '@totalcount',
+        name: 'totalCount',
+        transform: 'number'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: 'group',
+        name: 'groups',
+        isArray: true,
+        transform: groupModel
     }
-};
-export { groupListModel };
+];

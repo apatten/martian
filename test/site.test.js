@@ -16,11 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'lib/plug';
-import { searchModel } from 'models/search.model';
-import { Settings } from 'lib/settings';
-import { Site } from 'site';
+import { Plug } from '../lib/plug';
+import { modelParser } from '../lib/modelParser';
+import { Settings } from '../lib/settings';
+import { Site } from '../site';
+
 describe('Site API', () => {
+    beforeEach(() => {
+        spyOn(modelParser, 'createParser').and.returnValue((parsed) => {
+            if(parsed && typeof parsed === 'object') {
+                return parsed;
+            }
+        });
+    });
     let settings = new Settings({
         host: 'https://www.example.com',
         token: 'abcd1234'
@@ -70,28 +78,24 @@ describe('Site API', () => {
             sm = null;
         });
         it('can perform a default search', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search().then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ page: 123, tags: [ 'abc', '123' ], type: [ 'wiki', 'image' ] }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with some other parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ path: 'foo/bar', q: 'search thing' }).then((e) => {
                 expect(e).toBeDefined();
                 done();
             });
         });
         it('can perform a search with all parameters', (done) => {
-            spyOn(searchModel, 'parse').and.returnValue({});
             sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term' }).then((e) => {
                 expect(e).toBeDefined();
                 done();

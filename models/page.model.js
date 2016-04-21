@@ -16,88 +16,118 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { modelHelper } from './modelHelper.js';
-import { pageRatingModel } from './pageRating.model.js';
-import { userModel } from './user.model.js';
-let pageModel = {
-    parse(data) {
-        let obj = modelHelper.fromJson(data);
-        let parsed = {
-            id: modelHelper.getInt(obj['@id'])
-        };
-        modelHelper.addIfDefined(obj.title, 'title', parsed);
-        modelHelper.addIfDefined(obj['uri.ui'], 'uriUi', parsed);
-        modelHelper.addIfDefined(obj['@href'], 'href', parsed);
-        modelHelper.addIfDefined(obj['@state'], 'state', parsed);
-        modelHelper.addIfDefined(obj['@draft.state'], 'draftState', parsed);
-        modelHelper.addIfDefined(obj.article, 'article', parsed);
-        modelHelper.addIfDefined(obj.language, 'language', parsed);
-        modelHelper.addIfDefined(obj.namespace, 'namespace', parsed);
-        modelHelper.addIfDefined(obj['language.effective'], 'languageEffective', parsed);
-        modelHelper.addIfDefined(obj.timeuuid, 'timeuuid', parsed);
-        if('path' in obj) {
-            parsed.path = modelHelper.getString(obj.path);
-        }
-        if('@revision' in obj) {
-            parsed.revision = modelHelper.getInt(obj['@revision']);
-        }
-        if('date.created' in obj) {
-            parsed.dateCreated = modelHelper.getDate(obj['date.created']);
-        }
-        if('@deleted' in obj) {
-            parsed.deleted = modelHelper.getBool(obj['@deleted']);
-        }
-        if('@publish' in obj) {
-            parsed.publish = modelHelper.getBool(obj['@publish']);
-        }
-        if('@unpublish' in obj) {
-            parsed.unpublish = modelHelper.getBool(obj['@unpublish']);
-        }
-        if('@deactivate' in obj) {
-            parsed.deactivate = modelHelper.getBool(obj['@deactivate']);
-        }
-        if('@virtual' in obj) {
-            parsed.virtual = modelHelper.getBool(obj['@virtual']);
-        }
-        if('date.modified' in obj) {
-            parsed.dateModified = modelHelper.getDate(obj['date.modified']);
-        }
-        if('date.edited' in obj) {
-            parsed.dateEdited = modelHelper.getDate(obj['date.edited']);
-        }
-        if('page.parent' in obj) {
-            parsed.pageParent = pageModel._getParents(obj['page.parent']);
-        }
-        if('rating' in obj) {
-            parsed.rating = pageRatingModel.parse(obj.rating);
-        }
-        if('user.author' in obj) {
-            parsed.userAuthor = userModel.parse(obj['user.author']);
-        }
-
-        // TODO: Parse obj.files if defined
-        // TODO: Parse obj.content if defined
-        // TODO: Parse obj.properties if defined
-        // TODO: Parse obj['user.createdby'] if defined
-
-        // Only parse subpages if the property exists, and it has a 'page'
-        //  sub-property.
-        if('subpages' in obj && typeof obj.subpages !== 'string' && 'page' in obj.subpages) {
-            parsed.subpages = pageModel._getSubpages(obj.subpages);
-        }
-        return parsed;
+import { pageRatingModel } from './pageRating.model';
+import { userModel } from './user.model';
+export let pageModel = [
+    {
+        field: '@id',
+        name: 'id',
+        transform: 'number'
     },
-    _getParents(parent) {
-        return pageModel.parse(parent);
+    {
+        field: 'title'
     },
-    _getSubpages(subpages) {
-        let pageDef = subpages.page;
-        let parsed = [];
-        pageDef = modelHelper.getArray(pageDef);
-        pageDef.forEach((sp) => {
-            parsed.push(pageModel.parse(sp));
-        });
-        return parsed;
+    {
+        field: 'uri.ui',
+        name: 'uri'
+    },
+    {
+        field: '@href',
+        name: 'href'
+    },
+    {
+        field: '@state',
+        name: 'state'
+    },
+    {
+        field: '@draft.state',
+        name: 'draftState'
+    },
+    {
+        field: 'article'
+    },
+    {
+        field: 'language'
+    },
+    {
+        field: 'namespace'
+    },
+    {
+        field: 'language.effective',
+        name: 'languageEffective'
+    },
+    {
+        field: 'timeuuid'
+    },
+    {
+        field: [ 'path', '#text' ]
+    },
+    {
+        field: '@revision',
+        name: 'revision',
+        transform: 'number'
+    },
+    {
+        field: 'date.created',
+        name: 'dateCreated',
+        transform: 'date'
+    },
+    {
+        field: '@deleted',
+        name: 'deleted',
+        transform: 'boolean'
+    },
+    {
+        field: '@publish',
+        name: 'publish',
+        transform: 'boolean'
+    },
+    {
+        field: '@unpublish',
+        name: 'unpublish',
+        transform: 'boolean'
+    },
+    {
+        field: '@deactivate',
+        name: 'deactivate',
+        transform: 'boolean'
+    },
+    {
+        field: '@virtual',
+        name: 'virtual',
+        transform: 'boolean'
+    },
+    {
+        field: 'date.modified',
+        name: 'dateModified',
+        transform: 'date'
+    },
+    {
+        field: 'date.edited',
+        name: 'dateEdited',
+        transform: 'date'
+    },
+    {
+        field: 'rating',
+        transform: pageRatingModel
+    },
+    {
+        field: 'user.author',
+        name: 'userAuthor',
+        transform: userModel
     }
-};
-export { pageModel };
+];
+pageModel.push({
+    field: 'page.parent',
+    name: 'pageParent',
+    transform: pageModel
+}, {
+    field: [ 'subpages', 'page' ],
+    isArray: true,
+    transform: pageModel
+});
+
+// TODO: Handle files
+// TODO: Handle content
+// TODO: Handle properties
+// TODO: Handle 'user.createdby'
