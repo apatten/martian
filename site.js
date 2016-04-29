@@ -99,7 +99,7 @@ export class Site {
      */
     search({ page: page = 1, limit: limit = 10, tags: tags = '', type: type = '', q: q = '', path: path = '', recommendations = true } = {}) {
         let constraint = {};
-        if(path !== '') {
+        if(path !== '' && path !== '/') {
             constraint.path = path;
         }
         if(tags !== '') {
