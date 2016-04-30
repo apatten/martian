@@ -71,6 +71,16 @@ describe('URI', () => {
             it('can try to remove non-existent query parameters', () => {
                 expect(uri.removeQueryParam('132465798').toString()).toBe('https://www.example.com/foo/bar?dog=cat&llama=goat#abcd=1234&defg=5678');
             });
+            it('can change hostname', () => {
+                let result = uri.withHostname('foo.com');
+                expect(result.hostname).toBe('foo.com');
+                expect(result.toString()).toBe('https://foo.com/foo/bar?dog=cat&llama=goat#abcd=1234&defg=5678');
+            });
+            it('can change protocol', () => {
+                let result = uri.withProtocol('gopher:');
+                expect(result.protocol).toBe('gopher:');
+                expect(result.toString()).toBe('gopher://www.example.com/foo/bar?dog=cat&llama=goat#abcd=1234&defg=5678');
+            });
         });
     });
 });
