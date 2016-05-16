@@ -26,9 +26,9 @@ import { pageEditModel } from './models/pageEdit.model';
 import { relatedPagesModel } from './models/relatedPages.model';
 
 function _handleVirtualPage(error) {
-    if(error.errorCode === 404 && error.response && error.response['@virtual']) {
+    if(error.status === 404 && error.responseJson && error.responseJson['@virtual']) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return Promise.resolve(pageModelParser(error.response));
+        return Promise.resolve(pageModelParser(error.responseJson));
     }
     throw error;
 }
@@ -65,7 +65,7 @@ export class PageBase {
         return this._plug.at('files').withParams(params).get().then(pageFilesModelParser);
     }
     getOverview() {
-        return this._plug.at('overview').get().then(JSON.parse).then((overview) => {
+        return this._plug.at('overview').getJson().then((overview) => {
             return Promise.resolve({ overview: overview });
         }).catch(() => {
             return Promise.reject('Unable to parse the page overview response');

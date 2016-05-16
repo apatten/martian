@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from 'plug-js';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { fileModel } from './models/file.model';
@@ -33,7 +34,7 @@ export class File {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
-        this._plug = new Plug(settings).at('@api', 'deki', 'files', id);
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
     }
 
     /**
@@ -42,7 +43,7 @@ export class File {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
+        return this._plug.at('info').get().then(fileModelParser);
     }
 
     /**

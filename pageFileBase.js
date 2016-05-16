@@ -36,8 +36,8 @@ export class PageFileBase {
      * Get the URI for direct access to the file attachment.
      * @returns {String} - The file URI.
      */
-    getFileUri() {
-        return this._plug.getUrl();
+    get fileUrl() {
+        return this._plug.url;
     }
 
     /**
@@ -54,7 +54,7 @@ export class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful delete operation.
      */
     delete() {
-        return this._plug.del();
+        return this._plug.delete();
     }
 
     /**
@@ -70,7 +70,7 @@ export class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful removal.
      */
     clearDescription() {
-        return this._plug.at('description').del();
+        return this._plug.at('description').delete();
     }
 
     /**

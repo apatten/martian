@@ -1,0 +1,418 @@
+export let userMock = {
+    users: `{
+        "@count":"6",
+        "@querycount":"6",
+        "@totalcount":"6",
+        "@href":"https://marsdev.mindtouch.dev/@api/deki/users",
+        "user":[
+            {
+                "@id":"1",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/1",
+                "date.created":"Mon, 23 Mar 2015 17:55:57 GMT",
+                "date.lastlogin":"Sun, 22 Nov 2015 02:19:48 GMT",
+                "email":"aaronm@mindtouch.com",
+                "fullname":"Mr. Admin",
+                "groups":"",
+                "hash.email":"f7362144f4ae25d0fee0101f597ef60a",
+                "language":"",
+                "license.seat":{"@owner":"true","#text":"true"},
+                "nick":"admin",
+                "page.home":{"@id":"32","@draft.state":"inactive","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/32?redirects=0","@deleted":"false","date.created":"Mon, 23 Mar 2015 18:11:13 GMT","language":"en-US","namespace":"user","path":{"@seo":"true","@type":"fixed","#text":"User:admin"},"title":"User:admin","uri.ui":"https://marsdev.mindtouch.dev/User:admin"},
+                "password":{"@exists":"true"},
+                "permissions.effective":{
+                    "operations":{"@mask":"18446744073709551615","#text":"ADMIN,LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}
+                },
+                "permissions.revoked":"",
+                "permissions.user":{
+                    "operations":{"@mask":"9223372036854895935","#text":"ADMIN,LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,UNSAFECONTENT,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"},
+                    "role":{"@id":"5","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/5","#text":"Admin"}
+                },
+                "properties":{"@count":"0","@href":"https://marsdev.mindtouch.dev/@api/deki/users/1/properties"},
+                "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                "status":"active",
+                "timezone":"",
+                "uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "username":"admin"
+            },
+            {
+                "@id":"2",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/2",
+                "date.created":"Mon, 23 Mar 2015 17:55:57 GMT",
+                "email":"",
+                "fullname":"Anonymous User",
+                "groups":"",
+                "language":"",
+                "license.seat":"false",
+                "nick":"Anonymous",
+                "password":{"@exists":"false"},
+                "permissions.effective":{
+                    "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"}
+                },
+                "permissions.revoked":{
+                    "permissions.license.anonymous":{
+                        "operations":{
+                            "@mask":"18446744073709551600",
+                            "#text":"ADMIN,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+                        }
+                    }
+                },
+                "permissions.user":{
+                    "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"},
+                    "role":{"@id":"2","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/2","#text":"Viewer"}
+                },
+                "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/2/properties"},
+                "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                "status":"active",
+                "timezone":"",
+                "username":"Anonymous"
+            },
+            {
+                "@id":"3",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/3",
+                "date.created":"Wed, 01 Apr 2015 18:30:28 GMT",
+                "date.lastlogin":"Mon, 28 Sep 2015 15:35:48 GMT",
+                "email":"community@example.com",
+                "fullname":"Mr. Community",
+                "groups":"","hash.email":"9f6a06695af4a08a263427b9fa2cec9a",
+                "language":"",
+                "license.seat":"false",
+                "nick":"community",
+                "password":{"@exists":"true"},
+                "permissions.effective":{
+                    "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"}
+                },
+                "permissions.revoked":{
+                    "permissions.license.unseated":{
+                        "operations":{"@mask":"18446744073709551600","#text":"ADMIN,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}
+                    }
+                },
+                "permissions.user":{
+                    "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                    "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                },
+                "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/3/properties"},
+                "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                "status":"active",
+                "timezone":"",
+                "uri.avatar":"https://gravatar.com/avatar/9f6a06695af4a08a263427b9fa2cec9a.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/9f6a06695af4a08a263427b9fa2cec9a.png?d=mm",
+                "username":"community"
+            },
+            {
+                "@id":"4",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/4",
+                "date.created":"Tue, 07 Apr 2015 23:02:45 GMT",
+                "date.lastlogin":"Wed, 10 Jun 2015 15:20:34 GMT",
+                "email":"editor@example.com",
+                "fullname":"Mr. Editor",
+                "groups":"",
+                "hash.email":"3ec564d1f50ebaa304b1393eb7241f76",
+                "language":"",
+                "license.seat":"true",
+                "nick":"editor",
+                "page.home":{"@id":"372","@draft.state":"inactive","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/372?redirects=0","@deleted":"false","date.created":"Tue, 07 Apr 2015 23:02:45 GMT","language":"en-US","namespace":"user","path":{"@seo":"true","@type":"fixed","#text":"User:editor"},"title":"User:editor","uri.ui":"https://marsdev.mindtouch.dev/User:editor"},
+                "password":{"@exists":"true"},
+                "permissions.effective":{
+                    "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}
+                },
+                "permissions.revoked":"",
+                "permissions.user":{
+                    "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"},
+                    "role":{"@id":"4","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/4","#text":"Manager"}
+                },
+                "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/4/properties"},
+                "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                "status":"active",
+                "timezone":"",
+                "uri.avatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "username":"editor"
+            },
+            {
+                "@id":"6",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+                "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+                "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+                "email":"lsdkjf@example.com",
+                "fullname":"",
+                "groups":{
+                    "group":[
+                        {
+                            "@id":"2",
+                            "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2",
+                            "groupname":"<script>alert('z')</script>",
+                            "permissions.group":{
+                                "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                                "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                            },
+                            "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                            "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
+                        },
+                        {
+                            "@id":"3",
+                            "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3",
+                            "groupname":"hooray",
+                            "permissions.group":{
+                                "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                                "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                            },
+                            "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                            "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3/users"}
+                        },
+                        {
+                            "@id":"4",
+                            "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4",
+                            "groupname":"goodbye",
+                            "permissions.group":{
+                                "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"},
+                                "role":{"@id":"2","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/2","#text":"Viewer"}
+                            },
+                            "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                            "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4/users"}
+                        }
+                    ]
+                },
+                "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+                "language":"",
+                "license.seat":"true",
+                "nick":"someuser",
+                "page.home":{"@id":"433","@draft.state":"inactive","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/433?redirects=0","@deleted":"false","date.created":"Mon, 18 May 2015 20:23:08 GMT","language":"en-US","namespace":"user","path":{"@seo":"true","@type":"fixed","#text":"User:someuser"},"title":"User:someuser","uri.ui":"https://marsdev.mindtouch.dev/User:someuser"},
+                "password":{"@exists":"true"},
+                "permissions.effective":{"operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}},
+                "permissions.revoked":"",
+                "permissions.user":{
+                    "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"},
+                    "role":{"@id":"4","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/4","#text":"Manager"}
+                },
+                "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/6/properties"},
+                "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                "status":"active",
+                "timezone":"",
+                "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm","username":"someuser"
+            }
+        ]
+    }`,
+    usersSingle: `{
+        "@count":"6",
+        "@querycount":"6",
+        "@totalcount":"6",
+        "@href":"https://marsdev.mindtouch.dev/@api/deki/users",
+        "user":{
+            "@id":"6",
+            "@wikiid":"site_1",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+            "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+            "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+            "email":"lsdkjf@example.com",
+            "fullname":"",
+            "groups":{
+                "group":[
+                    {
+                        "@id":"2",
+                        "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2",
+                        "groupname":"<script>alert('z')</script>",
+                        "permissions.group":{
+                            "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                            "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                        },
+                        "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                        "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
+                    },
+                    {
+                        "@id":"3",
+                        "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3",
+                        "groupname":"hooray",
+                        "permissions.group":{
+                            "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                            "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                        },
+                        "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                        "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3/users"}
+                    },
+                    {
+                        "@id":"4",
+                        "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4",
+                        "groupname":"goodbye",
+                        "permissions.group":{
+                            "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"},
+                            "role":{"@id":"2","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/2","#text":"Viewer"}
+                        },
+                        "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                        "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4/users"}
+                    }
+                ]
+            },
+            "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+            "language":"",
+            "license.seat":"true",
+            "nick":"someuser",
+            "page.home":{"@id":"433","@draft.state":"inactive","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/433?redirects=0","@deleted":"false","date.created":"Mon, 18 May 2015 20:23:08 GMT","language":"en-US","namespace":"user","path":{"@seo":"true","@type":"fixed","#text":"User:someuser"},"title":"User:someuser","uri.ui":"https://marsdev.mindtouch.dev/User:someuser"},
+            "password":{"@exists":"true"},
+            "permissions.effective":{"operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}},
+            "permissions.revoked":"",
+            "permissions.user":{
+                "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"},
+                "role":{"@id":"4","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/4","#text":"Manager"}
+            },
+            "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/6/properties"},
+            "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+            "status":"active",
+            "timezone":"",
+            "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm","username":"someuser"
+        }
+    }`,
+    user: `{
+        "@id":"6",
+        "@wikiid":"site_1",
+        "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+        "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+        "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+        "email":"lsdkjf@example.com",
+        "fullname":"",
+        "groups":{
+            "group":[
+                {
+                    "@id":"2",
+                    "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2",
+                    "groupname":"<script>alert('z')</script>",
+                    "permissions.group":{
+                        "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                        "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                    },
+                    "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                    "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
+                },
+                {
+                    "@id":"3",
+                    "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3",
+                    "groupname":"hooray",
+                    "permissions.group":{
+                        "operations":{"@mask":"49215","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE"},
+                        "role":{"@id":"3","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/3","#text":"Contributor"}
+                    },
+                    "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                    "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/3/users"}
+                },
+                {
+                    "@id":"4",
+                    "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4",
+                    "groupname":"goodbye",
+                    "permissions.group":{
+                        "operations":{"@mask":"15","#text":"LOGIN,BROWSE,READ,SUBSCRIBE"},
+                        "role":{"@id":"2","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/2","#text":"Viewer"}
+                    },
+                    "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+                    "users":{"@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4/users"}
+                }
+            ]
+        },
+        "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+        "language":"",
+        "license.seat":"true",
+        "nick":"someuser",
+        "page.home":{"@id":"433","@draft.state":"inactive","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/433?redirects=0","@deleted":"false","date.created":"Mon, 18 May 2015 20:23:08 GMT","language":"en-US","namespace":"user","path":{"@seo":"true","@type":"fixed","#text":"User:someuser"},"title":"User:someuser","uri.ui":"https://marsdev.mindtouch.dev/User:someuser"},
+        "password":{"@exists":"true"},
+        "permissions.effective":{
+            "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"}
+        },
+        "permissions.revoked":"",
+        "permissions.user":{
+            "operations":{"@mask":"116031","#text":"LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"},
+            "role":{"@id":"4","@href":"https://marsdev.mindtouch.dev/@api/deki/site/roles/4","#text":"Manager"}
+        },
+        "properties":{"@href":"https://marsdev.mindtouch.dev/@api/deki/users/6/properties"},
+        "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
+        "status":"active",
+        "timezone":"",
+        "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+        "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+        "username":"someuser"
+    }`,
+    userSearch: `{
+        "@count":"3",
+        "user":[
+            {
+                "@id":"3",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/3",
+                "date.created":"Wed, 01 Apr 2015 18:30:28 GMT",
+                "date.lastlogin":"Mon, 28 Sep 2015 15:35:48 GMT",
+                "email":"community@example.com",
+                "fullname":"Mr. Community",
+                "hash.email":"9f6a06695af4a08a263427b9fa2cec9a",
+                "license.seat":"false",
+                "nick":"community",
+                "password":{"@exists":"true"},
+                "status":"active",
+                "uri.avatar":"https://gravatar.com/avatar/9f6a06695af4a08a263427b9fa2cec9a.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/9f6a06695af4a08a263427b9fa2cec9a.png?d=mm",
+                "username":"community"
+            },
+            {
+                "@id":"4",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/4",
+                "date.created":"Tue, 07 Apr 2015 23:02:45 GMT",
+                "date.lastlogin":"Wed, 10 Jun 2015 15:20:34 GMT",
+                "email":"editor@example.com",
+                "fullname":"Mr. Editor",
+                "hash.email":"3ec564d1f50ebaa304b1393eb7241f76",
+                "license.seat":"true",
+                "nick":"editor",
+                "password":{"@exists":"true"},
+                "status":"active",
+                "uri.avatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "username":"editor"
+            },
+            {
+                "@id":"1",
+                "@wikiid":"site_1",
+                "@href":"https://marsdev.mindtouch.dev/@api/deki/users/1",
+                "date.created":"Mon, 23 Mar 2015 17:55:57 GMT",
+                "date.lastlogin":"Sun, 22 Nov 2015 02:19:48 GMT",
+                "email":"aaronm@mindtouch.com",
+                "fullname":"Mr. Admin",
+                "hash.email":"f7362144f4ae25d0fee0101f597ef60a",
+                "license.seat":{"@owner":"true","#text":"true"},
+                "nick":"admin",
+                "password":{"@exists":"true"},
+                "status":"active",
+                "uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "username":"admin"
+            }
+        ]
+    }`,
+    userSearchSingle: `{
+        "@count":"1",
+        "user":{
+            "@id":"6",
+            "@wikiid":"site_1",
+            "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
+            "date.created":"Mon, 18 May 2015 20:23:08 GMT",
+            "date.lastlogin":"Mon, 18 May 2015 20:23:41 GMT",
+            "email":"lsdkjf@example.com",
+            "fullname":"",
+            "hash.email":"72f86b6d0d73b4708bf04ceacd066411",
+            "license.seat":"true",
+            "nick":"someuser",
+            "password":{"@exists":"true"},
+            "status":"active",
+            "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+            "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
+            "username":"someuser"
+        }
+    }`,
+    userSearchEmpty: `{
+        "@count":"0"
+    }`
+};

@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { modelParser } from './lib/modelParser';
 import { contextIdsModel } from './models/contextIds.model';
 import { contextIdModel } from './models/contextId.model';
@@ -33,12 +34,12 @@ export class ContextDefinition {
      * @param {String} id - The ID of the context definition.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id, settings) {
+    constructor(id, settings = new Settings()) {
         if(!id) {
             throw new Error('an ID must be supplied to create a new ContextDefinition');
         }
         this.id = id;
-        this.plug = new Plug(settings).at('@api', 'deki', 'contexts', id);
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts', id);
     }
 
     /**
@@ -81,13 +82,13 @@ export class ContextMap {
      * @param {String} id - The ID of the associated {@link ContextDefinition}.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(language, id, settings) {
+    constructor(language, id, settings = new Settings()) {
         if(!id || !language) {
             throw new Error('an ID and language must be supplied to create a new ContextMap');
         }
         this.id = id;
         this.language = language;
-        this.plug = new Plug(settings).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
     }
 
     /**
@@ -131,10 +132,10 @@ export class ContextIdManager {
      * Construct a new ContextIdManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
-        this.mapsPlug = new Plug(settings).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
-        this.definitionsPlug = new Plug(settings).at('@api', 'deki', 'contexts');
-        this.settings = settings;
+    constructor(settings = new Settings()) {
+        this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
+        this.definitionsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
+        this._settings = settings;
     }
 
     /**
@@ -152,10 +153,10 @@ export class ContextIdManager {
      */
     getDefinitions() {
         let contextIdsParser = modelParser.createParser(contextIdsModel);
-        return this.definitionsPlug.get().then((response) => {
+        return this.definitionsPlug.getJson().then((response) => {
 
             // response is an empty string when site has no context IDs.
-            if(response && typeof response === 'object' && Object.keys(response).length === 0) {
+            if(response && Object.keys(response).length === 0) {
                 response = { context: [] };
             }
             return response;
@@ -183,7 +184,7 @@ export class ContextIdManager {
      * @returns {ContextDefinition} - A new {@link ContextDefinition} object.
      */
     getDefinition(id) {
-        return new ContextDefinition(id, this.settings);
+        return new ContextDefinition(id, this._settings);
     }
 
     /**
@@ -193,6 +194,6 @@ export class ContextIdManager {
      * @returns {ContextMap} - A new {@link ContextMap} object.
      */
     getMap(language, id) {
-        return new ContextMap(language, id, this.settings);
+        return new ContextMap(language, id, this._settings);
     }
 }

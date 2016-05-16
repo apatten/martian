@@ -1,0 +1,7 @@
+{
+    "name": "mindtouch-martian",
+    "testEnvironment": "node",
+    "coverageDirectory": "__coverage__",
+    "collectCoverage": true,
+    "unmockedModulePathPatterns": [ "<rootDir>/models/" ]
+}

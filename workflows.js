@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
-import { stringUtility } from './lib/stringUtility';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 
 /**
@@ -29,8 +29,8 @@ export class WorkflowManager {
      * Construct a new FeedbackManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
-        this._plug = new Plug(settings).at('@api', 'deki', 'workflow');
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'workflow');
     }
 
     /**
@@ -44,7 +44,10 @@ export class WorkflowManager {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful feedback submission.
      */
     submitFeedback(options) {
-        let path = options.path || stringUtility.leftTrim(window.location.pathname, '/');
+        let path = options.path;
+        if(!path) {
+            throw new Error('The page path for feedback must be supplied');
+        }
         let request = JSON.stringify({
             _path: encodeURIComponent(path),
             userEmail: options.userEmail,

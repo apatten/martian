@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
-import { stringUtility } from './lib/stringUtility';
-import { Plug } from './lib/plug';
 import { modelParser } from './lib/modelParser';
 import { searchModel } from './models/search.model';
 
@@ -28,8 +28,8 @@ function _buildSearchConstraints(params) {
     constraints.push('+namespace:' + utility.searchEscape(params.namespace));
     if('path' in params) {
         let path = params.path;
-        if(stringUtility.startsWith(path, '/')) {
-            path = stringUtility.leftTrim(path, '/');
+        if(path.substr(0, 1) === '/') {
+            path = path.substr(1);
         }
         constraints.push('+path.ancestor:' + utility.searchEscape(path));
     }
@@ -63,8 +63,8 @@ export class Site {
      * Construct a Site object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
-        this.plug = new Plug(settings).at('@api', 'deki', 'site');
+    constructor(settings = new Settings()) {
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
     }
 
     /**

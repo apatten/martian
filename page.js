@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { PageBase } from './pageBase';
@@ -38,9 +39,10 @@ export class Page extends PageBase {
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id = 'home', settings) {
+    constructor(id = 'home', settings = new Settings()) {
         super(id);
-        this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id);
+        this._settings = settings;
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id);
     }
 
     /**
@@ -82,7 +84,7 @@ export class Page extends PageBase {
      * @returns {Promise.<Array>} - The array of hierarchical page IDs.
      */
     getTreeIds() {
-        return this._plug.at('tree').withParam('format', 'ids').get().then((idString) => {
+        return this._plug.at('tree').withParam('format', 'ids').getText().then((idString) => {
             return idString.split(',').map((id) => {
                 let numId = parseInt(id, 10);
                 if(isNaN(numId)) {
@@ -135,7 +137,7 @@ export class Page extends PageBase {
         // Double-URL-encode the path and add '=' to the beginning.  This makes
         //  it a proper page ID to be used in a URI segment.
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
-        let contentsPlug = new Plug().at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
+        let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
         return contentsPlug.get().then(pageContentsModelParser);
     }
@@ -164,8 +166,8 @@ export class Page extends PageBase {
  * A class for managing all of the published pages on a site.
  */
 export class PageManager {
-    constructor(settings) {
-        this._plug = new Plug(settings).at('@api', 'deki', 'pages');
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages');
     }
 
     /**

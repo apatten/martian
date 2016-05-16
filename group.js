@@ -16,8 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
 import { utility } from './lib/utility';
+import { Settings } from './lib/settings';
 import { modelParser } from './lib/modelParser';
 import { groupModel } from './models/group.model';
 import { groupListModel } from './models/groupList.model';
@@ -33,12 +34,12 @@ export class Group {
      * @param {Number|String} id - The integer group ID, or the group name string.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id, settings) {
+    constructor(id, settings = new Settings()) {
         if(!id) {
             throw new Error('A group ID must be supplied');
         }
         this._id = utility.getResourceId(id);
-        this._groupPlug = new Plug(settings).at('@api', 'deki', 'groups', this._id);
+        this._groupPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups', this._id);
     }
 
     /**
@@ -76,8 +77,8 @@ export class GroupManager {
      * Construct a GroupManager object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
-        this.plug = new Plug(settings).at('@api', 'deki', 'groups');
+    constructor(settings = new Settings()) {
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups');
         this.settings = settings;
     }
 
