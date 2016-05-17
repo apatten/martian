@@ -14,6 +14,9 @@ class Plug {
     get() {
         return Promise.resolve({});
     }
+    getJson() {
+        return Promise.resolve({});
+    }
     post() {
         return Promise.resolve({});
     }

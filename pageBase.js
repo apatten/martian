@@ -26,9 +26,12 @@ import { pageEditModel } from './models/pageEdit.model';
 import { relatedPagesModel } from './models/relatedPages.model';
 
 function _handleVirtualPage(error) {
-    if(error.status === 404 && error.responseJson && error.responseJson['@virtual']) {
-        let pageModelParser = modelParser.createParser(pageModel);
-        return Promise.resolve(pageModelParser(error.responseJson));
+    if(error.status === 404 && error.responseText) {
+        let responseJson = JSON.parse(error.responseText);
+        if(responseJson['@virtual'] === 'true') {
+            let pageModelParser = modelParser.createParser(pageModel);
+            return Promise.resolve(pageModelParser(responseJson));
+        }
     }
     throw error;
 }
@@ -41,11 +44,11 @@ export class PageBase {
     }
     getFullInfo() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.get().then(pageModelParser).catch(_handleVirtualPage);
+        return this._plug.getJson().then(pageModelParser).catch(_handleVirtualPage);
     }
     getContents(params) {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return this._plug.at('contents').withParams(params).get().then(pageContentsModelParser);
+        return this._plug.at('contents').withParams(params).getJson().then(pageContentsModelParser);
     }
     setContents(contents, params = {}) {
         if(typeof contents !== 'string') {

@@ -1,6 +1,6 @@
 /* eslint-env jasmine, jest */
-jest.unmock('../page');
 jest.unmock('../pageBase');
+jest.unmock('../page');
 jest.unmock('../contextId');
 jest.unmock('../lib/modelParser');
 import { Plug } from 'mindtouch-http';
@@ -22,12 +22,11 @@ describe('Special page Tests', () => {
         return p.getOverview().catch(() => {});
     });
     pit('can fetch a virtual page', () => {
-        Plug.prototype.get = jest.fn(() => {
+        Plug.prototype.getJson = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',
                 status: 404,
-                responseText: '{"@virtual":true}',
-                responseJson: { '@virtual': true }
+                responseText: '{"@virtual":"true"}'
             });
         });
         let p = new Page(123);
