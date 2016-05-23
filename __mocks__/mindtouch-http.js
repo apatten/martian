@@ -17,10 +17,19 @@ class Plug {
     getJson() {
         return Promise.resolve({});
     }
+    getText() {
+        return Promise.resolve('');
+    }
     post() {
         return Promise.resolve({});
     }
+    postJson() {
+        return Promise.resolve({});
+    }
     put() {
+        return Promise.resolve({});
+    }
+    putJson() {
         return Promise.resolve({});
     }
     delete() {

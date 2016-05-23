@@ -61,11 +61,11 @@ export class PageBase {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModelParser);
+        return this._plug.at('contents').withParams(contentsParams).postJson(contents, 'text/plain; charset=utf-8').then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
-        return this._plug.at('files').withParams(params).get().then(pageFilesModelParser);
+        return this._plug.at('files').withParams(params).getJson().then(pageFilesModelParser);
     }
     getOverview() {
         return this._plug.at('overview').getJson().then((overview) => {
@@ -83,13 +83,13 @@ export class PageBase {
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
-        return this._plug.at('tags').get().then(pageTagsModelParser);
+        return this._plug.at('tags').getJson().then(pageTagsModelParser);
     }
     getDiff() {
         throw new Error('Page.getDiff() is not implemented');
     }
     getRelated() {
         let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
-        return this._plug.at('related').get().then(relatedPagesModelParser);
+        return this._plug.at('related').getJson().then(relatedPagesModelParser);
     }
 }

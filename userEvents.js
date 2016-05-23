@@ -45,7 +45,7 @@ export class UserEvents {
      */
     getActivity(userToken, params) {
         let userActivityModelParser = modelParser.createParser(userActivityModel);
-        return this.plug.at('support-agent', userToken).withParams(params).get().then(userActivityModelParser);
+        return this.plug.at('support-agent', userToken).withParams(params).getJson().then(userActivityModelParser);
     }
 
     /**
@@ -55,7 +55,7 @@ export class UserEvents {
      */
     getHistory(userId) {
         let eventListModelParser = modelParser.createParser(eventListModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then(eventListModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).getJson().then(eventListModelParser);
     }
 
     /**
@@ -66,7 +66,7 @@ export class UserEvents {
      */
     getHistoryDetail(userId, detailId) {
         let eventDetailModelParser = modelParser.createParser(eventDetailModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then(eventDetailModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).getJson().then(eventDetailModelParser);
     }
 
     /**

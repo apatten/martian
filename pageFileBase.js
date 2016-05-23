@@ -46,7 +46,7 @@ export class PageFileBase {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then(fileModelParser);
+        return this._plug.at('info').getJson().then(fileModelParser);
     }
 
     /**
@@ -62,7 +62,7 @@ export class PageFileBase {
      * @returns {Promise.<String>} - A Promise that, when resolved, yields the file description.
      */
     getDescription() {
-        return this._plug.at('description').get();
+        return this._plug.at('description').getJson();
     }
 
     /**
@@ -80,6 +80,6 @@ export class PageFileBase {
      */
     updateDescription(description = '') {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').put(description, utility.textRequestType).then(fileModelParser);
+        return this._plug.at('description').putJson(description, utility.textRequestType).then(fileModelParser);
     }
 }

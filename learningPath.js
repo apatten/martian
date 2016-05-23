@@ -45,7 +45,7 @@ export class LearningPath {
     }
     getInfo() {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.get().then(learningPathModelParser);
+        return this._plug.getJson().then(learningPathModelParser);
     }
 
     // learning path operations
@@ -57,7 +57,7 @@ export class LearningPath {
 
         // Do this without mustache
         let XMLData = getSaveXML(content);
-        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModelParser);
+        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).postJson(XMLData, 'application/xml').then(learningPathModelParser);
     }
     remove() {
         return this._plug.at(`=${this._name}`).delete();
@@ -66,14 +66,14 @@ export class LearningPath {
     // Page operations
     addPage(pageId, editTime) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModelParser);
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).postJson().then(pageModelParser);
     }
     removePage(pageId, editTime) {
         return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).delete();
     }
     reorderPage(pageId, afterId, editTime) {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModelParser);
+        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).postJson().then(learningPathModelParser);
     }
 }
 export class LearningPathManager {
@@ -83,7 +83,7 @@ export class LearningPathManager {
     }
     getLearningPaths() {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.get().then(learningPathModelParser);
+        return this._plug.getJson().then(learningPathModelParser);
     }
     getLearningPath(name) {
         return new LearningPath(name, this.settings);
@@ -93,6 +93,6 @@ export class LearningPathManager {
             data.summary = data.summary.substring(0, maxSummaryCount);
         }
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.withParams(data).post().then(learningPathModelParser);
+        return this._plug.withParams(data).postJson().then(learningPathModelParser);
     }
 }

@@ -56,7 +56,7 @@ export class Page extends PageBase {
             infoParams[key] = params[key];
         });
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('info').withParams(infoParams).get().then(pageModelParser);
+        return this._plug.at('info').withParams(infoParams).getJson().then(pageModelParser);
     }
 
     /**
@@ -66,7 +66,7 @@ export class Page extends PageBase {
      */
     getSubpages(params) {
         let subpagesModelParser = modelParser.createParser(subpagesModel);
-        return this._plug.at('subpages').withParams(params).get().then(subpagesModelParser);
+        return this._plug.at('subpages').withParams(params).getJson().then(subpagesModelParser);
     }
 
     /**
@@ -76,7 +76,7 @@ export class Page extends PageBase {
      */
     getTree(params) {
         let pageTreeModelParser = modelParser.createParser(pageTreeModel);
-        return this._plug.at('tree').withParams(params).get().then(pageTreeModelParser);
+        return this._plug.at('tree').withParams(params).getJson().then(pageTreeModelParser);
     }
 
     /**
@@ -103,7 +103,7 @@ export class Page extends PageBase {
      */
     getRating() {
         let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').get().then(pageRatingModelParser);
+        return this._plug.at('ratings').getJson().then(pageRatingModelParser);
     }
 
     /**
@@ -122,7 +122,7 @@ export class Page extends PageBase {
             throw new Error('Invalid rating supplied for the old rating');
         }
         let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then(pageRatingModelParser);
+        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).postJson(null, utility.textRequestType).then(pageRatingModelParser);
     }
 
     /**
@@ -139,7 +139,7 @@ export class Page extends PageBase {
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
         let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return contentsPlug.get().then(pageContentsModelParser);
+        return contentsPlug.getJson().then(pageContentsModelParser);
     }
 
     /**
@@ -149,7 +149,7 @@ export class Page extends PageBase {
      */
     move(params = {}) {
         let pageMoveModelParser = modelParser.createParser(pageMoveModel);
-        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then(pageMoveModelParser);
+        return this._plug.at('move').withParams(params).postJson(null, 'text/plain; charset=utf-8').then(pageMoveModelParser);
     }
 
     /**
@@ -158,7 +158,7 @@ export class Page extends PageBase {
      */
     activateDraft() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('activate-draft').post().then(pageModelParser);
+        return this._plug.at('activate-draft').postJson().then(pageModelParser);
     }
 }
 
@@ -178,6 +178,6 @@ export class PageManager {
     getRatings(pageIds) {
         var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
         let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-        return ratingsPlug.get().then(pageRatingsModelParser);
+        return ratingsPlug.getJson().then(pageRatingsModelParser);
     }
 }

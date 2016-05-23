@@ -44,7 +44,7 @@ export class Draft extends PageBase {
      */
     deactivate() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('deactivate').post().then(pageModelParser);
+        return this._plug.at('deactivate').postJson().then(pageModelParser);
     }
 
     /**
@@ -77,7 +77,7 @@ export class DraftManager {
     createDraft(newPath) {
         let plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
         let pageModelParser = modelParser.createParser(pageModel);
-        return plug.post().then(pageModelParser);
+        return plug.postJson().then(pageModelParser);
     }
 
     /**

@@ -48,7 +48,7 @@ export class Group {
      */
     getInfo() {
         let groupModelParser = modelParser.createParser(groupModel);
-        return this._groupPlug.get().then(groupModelParser);
+        return this._groupPlug.getJson().then(groupModelParser);
     }
 
     /**
@@ -64,7 +64,7 @@ export class Group {
      */
     getUsers(options) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this._groupPlug.at('users').withParams(options).get().then(userListModelParser);
+        return this._groupPlug.at('users').withParams(options).getJson().then(userListModelParser);
     }
 }
 
@@ -88,7 +88,7 @@ export class GroupManager {
      */
     getGroupList() {
         let groupListModelParser = modelParser.createParser(groupListModel);
-        return this.plug.get().then(groupListModelParser);
+        return this.plug.getJson().then(groupListModelParser);
     }
 
     /**

@@ -44,7 +44,7 @@ export class User {
      */
     getInfo() {
         let userModelParser = modelParser.createParser(userModel);
-        return this._plug.get().then(userModelParser);
+        return this._plug.getJson().then(userModelParser);
     }
 }
 
@@ -68,7 +68,7 @@ export class UserManager {
      */
     getCurrentUser() {
         let userModelParser = modelParser.createParser(userModel);
-        return this.plug.at('current').get().then(userModelParser);
+        return this.plug.at('current').getJson().then(userModelParser);
     }
 
     /**
@@ -77,7 +77,7 @@ export class UserManager {
      */
     getUsers() {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.get().then(userListModelParser);
+        return this.plug.getJson().then(userListModelParser);
     }
 
     /**
@@ -96,7 +96,7 @@ export class UserManager {
      */
     searchUsers(constraints) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.at('search').withParams(constraints).get().then(userListModelParser);
+        return this.plug.at('search').withParams(constraints).getJson().then(userListModelParser);
     }
 
     /**
