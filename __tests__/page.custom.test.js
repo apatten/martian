@@ -33,7 +33,7 @@ describe('Special page Tests', () => {
         return p.getFullInfo();
     });
     pit('can get through virtual page checking when there is another failure', () => {
-        Plug.prototype.get = jest.fn(() => {
+        Plug.prototype.getJson = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',
                 status: 404,
