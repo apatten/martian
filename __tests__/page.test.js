@@ -92,6 +92,9 @@ describe('Page', () => {
         pit('can get the related pages', () => {
             return page.getRelated();
         });
+        pit('can get the page overview', () => {
+            return page.getOverview();
+        });
     });
     describe('page rating', () => {
         let page = null;

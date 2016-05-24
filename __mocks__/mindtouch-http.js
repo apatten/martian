@@ -1,3 +1,11 @@
+class Response {
+    json() {
+        return Promise.resolve({});
+    }
+    text() {
+        return Promise.resolve('');
+    }
+}
 class Plug {
     get url() {
         return '';
@@ -12,28 +20,16 @@ class Plug {
         return new Plug();
     }
     get() {
-        return Promise.resolve({});
-    }
-    getJson() {
-        return Promise.resolve({});
-    }
-    getText() {
-        return Promise.resolve('');
+        return Promise.resolve(new Response());
     }
     post() {
-        return Promise.resolve({});
-    }
-    postJson() {
-        return Promise.resolve({});
+        return Promise.resolve(new Response());
     }
     put() {
-        return Promise.resolve({});
-    }
-    putJson() {
-        return Promise.resolve({});
+        return Promise.resolve(new Response());
     }
     delete() {
-        return Promise.resolve({});
+        return Promise.resolve(new Response());
     }
 }
-export { Plug };
+export { Plug, Response };

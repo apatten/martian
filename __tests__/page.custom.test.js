@@ -3,26 +3,22 @@ jest.unmock('../pageBase');
 jest.unmock('../page');
 jest.unmock('../contextId');
 jest.unmock('../lib/modelParser');
-import { Plug } from 'mindtouch-http';
+import { Plug, Response } from 'mindtouch-http';
 import { Page } from '../page';
 import { ContextIdManager } from '../contextId';
 describe('Special page Tests', () => {
-    pit('can get the page overview', () => {
-        Plug.prototype.getJson = jest.fn(() => {
-            return Promise.resolve('This is the overview');
-        });
-        let p = new Page();
-        return p.getOverview();
+    beforeEach(() => {
+        Response.prototype.json = jest.fn(() => Promise.resolve({}));
+        Response.prototype.text = jest.fn(() => Promise.resolve(''));
+        Plug.prototype.get = jest.fn(() => Promise.resolve(new Response()));
     });
     pit('can fail on overview fetching', () => {
-        Plug.prototype.getJson = jest.fn(() => {
-            return Promise.reject('This is not json');
-        });
+        Response.prototype.json = jest.fn(() => Promise.reject());
         let p = new Page();
         return p.getOverview().catch(() => {});
     });
     pit('can fetch a virtual page', () => {
-        Plug.prototype.getJson = jest.fn(() => {
+        Plug.prototype.get = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',
                 status: 404,
@@ -33,7 +29,7 @@ describe('Special page Tests', () => {
         return p.getFullInfo();
     });
     pit('can get through virtual page checking when there is another failure', () => {
-        Plug.prototype.getJson = jest.fn(() => {
+        Plug.prototype.get = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',
                 status: 404,
@@ -44,37 +40,17 @@ describe('Special page Tests', () => {
         return page.getFullInfo().catch(() => {});
     });
     pit('can get the ID path in the tree', () => {
-        Plug.prototype.getText = jest.fn(() => {
-            return Promise.resolve('123,456');
-        });
+        Response.prototype.text = jest.fn(() => Promise.resolve('123,456'));
         let page = new Page(123);
         return page.getTreeIds();
     });
     it('can get the ID path in the tree (invalid data)', () => {
-        Plug.prototype.getText = jest.fn(() => {
-            return Promise.resolve('123,abc');
-        });
+        Response.prototype.text = jest.fn(() => Promise.resolve('123,abc'));
         let page = new Page(123);
         return page.getTreeIds().catch(() => {});
     });
-    pit('can fetch the list of all context definitions', () => {
-        Plug.prototype.getJson = jest.fn(() => {
-            return Promise.resolve({ context: [ 'abc', 'def' ] });
-        });
-        const cm = new ContextIdManager();
-        return cm.getDefinitions();
-    });
-    pit('can fetch the list of all context definitions (empty response)', () => {
-        Plug.prototype.getJson = jest.fn(() => {
-            return Promise.resolve({});
-        });
-        const cm = new ContextIdManager();
-        return cm.getDefinitions();
-    });
     pit('can fetch the list of all context definitions (invalid response)', () => {
-        Plug.prototype.getJson = jest.fn(() => {
-            return Promise.resolve([]);
-        });
+        Response.prototype.json = jest.fn(() => Promise.resolve([]));
         const cm = new ContextIdManager();
         return cm.getDefinitions();
     });

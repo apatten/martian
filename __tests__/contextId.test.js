@@ -31,6 +31,12 @@ describe('Context ID', () => {
         pit('can fetch all context maps', () => {
             return cm.getMaps();
         });
+        pit('can fetch the list of all context definitions', () => {
+            return cm.getDefinitions();
+        });
+        pit('can fetch the list of all context definitions (empty response)', () => {
+            return cm.getDefinitions();
+        });
         pit('can add a context ID definition', () => {
             return cm.addDefinition('foo');
         });

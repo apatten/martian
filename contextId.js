@@ -48,7 +48,7 @@ export class ContextDefinition {
      */
     getInfo() {
         let contextIdParser = modelParser.createParser(contextIdsModel);
-        return this.plug.getJson().then(contextIdParser);
+        return this.plug.get().then((r) => r.json()).then(contextIdParser);
     }
 
     /**
@@ -59,7 +59,7 @@ export class ContextDefinition {
     updateDescription(description = '') {
         let contextIdParser = modelParser.createParser(contextIdsModel);
         let updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
-        return this.plug.putJson(updateRequest, 'application/xml; charset=utf-8').then(contextIdParser);
+        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(contextIdParser);
     }
 
     /**
@@ -97,7 +97,7 @@ export class ContextMap {
      */
     getInfo() {
         let contextMapParser = modelParser.createParser(contextMapModel);
-        return this.plug.getJson().then(contextMapParser);
+        return this.plug.get().then((r) => r.json()).then(contextMapParser);
     }
 
     /**
@@ -111,7 +111,7 @@ export class ContextMap {
         }
         let contextMapParser = modelParser.createParser(contextMapModel);
         let updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${this.language}</language></contextmap>`;
-        return this.plug.putJson(updateRequest, 'application/xml; charset=utf-8').then(contextMapParser);
+        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(contextMapParser);
     }
 
     /**
@@ -144,7 +144,7 @@ export class ContextIdManager {
      */
     getMaps() {
         let contextMapsParser = modelParser.createParser(contextMapsModel);
-        return this.mapsPlug.getJson().then(contextMapsParser);
+        return this.mapsPlug.get().then((r) => r.json()).then(contextMapsParser);
     }
 
     /**
@@ -153,7 +153,7 @@ export class ContextIdManager {
      */
     getDefinitions() {
         let contextIdsParser = modelParser.createParser(contextIdsModel);
-        return this.definitionsPlug.getJson().then((response) => {
+        return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
 
             // response is an empty string when site has no context IDs.
             if(response && Object.keys(response).length === 0) {
@@ -175,7 +175,7 @@ export class ContextIdManager {
         }
         let contextIdParser = modelParser.createParser(contextIdModel);
         let addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
-        return this.definitionsPlug.postJson(addRequest, 'application/xml; charset=utf-8').then(contextIdParser);
+        return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(contextIdParser);
     }
 
     /**

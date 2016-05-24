@@ -56,7 +56,7 @@ export class Page extends PageBase {
             infoParams[key] = params[key];
         });
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('info').withParams(infoParams).getJson().then(pageModelParser);
+        return this._plug.at('info').withParams(infoParams).get().then((r) => r.json()).then(pageModelParser);
     }
 
     /**
@@ -66,7 +66,7 @@ export class Page extends PageBase {
      */
     getSubpages(params) {
         let subpagesModelParser = modelParser.createParser(subpagesModel);
-        return this._plug.at('subpages').withParams(params).getJson().then(subpagesModelParser);
+        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(subpagesModelParser);
     }
 
     /**
@@ -76,7 +76,7 @@ export class Page extends PageBase {
      */
     getTree(params) {
         let pageTreeModelParser = modelParser.createParser(pageTreeModel);
-        return this._plug.at('tree').withParams(params).getJson().then(pageTreeModelParser);
+        return this._plug.at('tree').withParams(params).get().then((r) => r.json()).then(pageTreeModelParser);
     }
 
     /**
@@ -84,7 +84,7 @@ export class Page extends PageBase {
      * @returns {Promise.<Array>} - The array of hierarchical page IDs.
      */
     getTreeIds() {
-        return this._plug.at('tree').withParam('format', 'ids').getText().then((idString) => {
+        return this._plug.at('tree').withParam('format', 'ids').get().then((r) => r.text()).then((idString) => {
             return idString.split(',').map((id) => {
                 let numId = parseInt(id, 10);
                 if(isNaN(numId)) {
@@ -103,7 +103,7 @@ export class Page extends PageBase {
      */
     getRating() {
         let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').getJson().then(pageRatingModelParser);
+        return this._plug.at('ratings').get().then((r) => r.json()).then(pageRatingModelParser);
     }
 
     /**
@@ -122,7 +122,7 @@ export class Page extends PageBase {
             throw new Error('Invalid rating supplied for the old rating');
         }
         let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).postJson(null, utility.textRequestType).then(pageRatingModelParser);
+        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then((r) => r.json()).then(pageRatingModelParser);
     }
 
     /**
@@ -139,7 +139,7 @@ export class Page extends PageBase {
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
         let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return contentsPlug.getJson().then(pageContentsModelParser);
+        return contentsPlug.get().then((r) => r.json()).then(pageContentsModelParser);
     }
 
     /**
@@ -149,7 +149,7 @@ export class Page extends PageBase {
      */
     move(params = {}) {
         let pageMoveModelParser = modelParser.createParser(pageMoveModel);
-        return this._plug.at('move').withParams(params).postJson(null, 'text/plain; charset=utf-8').then(pageMoveModelParser);
+        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then((r) => r.json()).then(pageMoveModelParser);
     }
 
     /**
@@ -158,7 +158,7 @@ export class Page extends PageBase {
      */
     activateDraft() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('activate-draft').postJson().then(pageModelParser);
+        return this._plug.at('activate-draft').post().then((r) => r.json()).then(pageModelParser);
     }
 }
 
@@ -178,6 +178,6 @@ export class PageManager {
     getRatings(pageIds) {
         var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
         let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-        return ratingsPlug.getJson().then(pageRatingsModelParser);
+        return ratingsPlug.get().then((r) => r.json()).then(pageRatingsModelParser);
     }
 }

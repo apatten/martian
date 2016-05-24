@@ -82,7 +82,7 @@ export class Site {
         if('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
-        return locPlug.getText();
+        return locPlug.get().then((r) => r.text());
     }
 
     /**
@@ -119,6 +119,6 @@ export class Site {
             recommendations: recommendations
         };
         let searchModelParser = modelParser.createParser(searchModel);
-        return this.plug.at('query').withParams(searchParams).getJson().then(searchModelParser);
+        return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(searchModelParser);
     }
 }

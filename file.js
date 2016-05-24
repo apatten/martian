@@ -43,7 +43,7 @@ export class File {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').getJson().then(fileModelParser);
+        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
     }
 
     /**
@@ -51,7 +51,7 @@ export class File {
      * @returns {Promise.<fileRevisionsModel>} - A Promise that, when resolved, yields a {@link fileRevisionsModel} containing the revision listing.
      */
     getRevisions() {
-        return this._plug.at('revisions').getJson().then(fileRevisionsModel.parse);
+        return this._plug.at('revisions').get().then((r) => r.json()).then(fileRevisionsModel.parse);
     }
 
     /**
@@ -61,7 +61,7 @@ export class File {
      */
     setDescription(description) {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').putJson(description, utility.textRequestType).then(fileModelParser);
+        return this._plug.at('description').put(description, utility.textRequestType).then((r) => r.json()).then(fileModelParser);
     }
 
     /**

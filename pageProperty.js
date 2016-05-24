@@ -52,7 +52,7 @@ export class PageProperty {
             plug = plug.withParams({ names: names.join(',') });
         }
         let pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
-        return plug.getJson().then(pagePropertiesModelParser);
+        return plug.get().then((r) => r.json()).then(pagePropertiesModelParser);
     }
 
     /**
@@ -65,7 +65,7 @@ export class PageProperty {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
         let pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
-        return this._plug.at(encodeURIComponent(key), 'info').getJson().then(pagePropertyModelParser);
+        return this._plug.at(encodeURIComponent(key), 'info').get().then((r) => r.json()).then(pagePropertyModelParser);
     }
 
     /**
@@ -90,6 +90,6 @@ export class PageProperty {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
         }
-        return this._plug.withParams({ depth: depth, names: key }).getJson();
+        return this._plug.withParams({ depth: depth, names: key }).get().then((r) => r.json());
     }
 }
