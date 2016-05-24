@@ -10,35 +10,16 @@ This Library is provided for and supported by the open source community. Support
 ### Install
 
 ```sh
-// jspm.io
-$ npm install -g jspm
 $ jspm install mindtouch-martian
 ```
 
 ### Usage
-Use Plug to construct HTTP requests and handle responses as promises...
-
-```javascript
-import Plug from 'martian/plug';
-
-let homePagePlug = new Plug().at('@api', 'deki', 'pages', 'home', 'contents');
-homePagePlug.get().then(function(response) {
-
-    // do something with the JSON response...
-    return response.data;
-}).then(function(data) {
-
-    // do something else with it...
-});
-
-```
-
 Use API objects to get business entities (user, page, file, etc)
 
 ```javascript
 import User from 'martian/user';
 
-let user = User.getCurrentUser();
-
-// do something with user.username, user.fullname, user.email, etc..
+let user = User.getCurrentUser().then((user) => {
+    // do something with user.username, user.fullname, user.email, etc..
+});
 ```

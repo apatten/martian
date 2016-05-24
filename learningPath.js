@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { modelParser } from './lib/modelParser';
 import { learningPathModel } from './models/learningPath.model';
 import { pageModel } from './models/page.model';
@@ -38,13 +39,13 @@ function getSaveXML(data) {
 export class LearningPath {
 
     // Constructor
-    constructor(name, settings) {
+    constructor(name, settings = new Settings()) {
         this._name = name;
-        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths', `${name}`);
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths', `${name}`);
     }
     getInfo() {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.get().then(learningPathModelParser);
+        return this._plug.get().then((r) => r.json()).then(learningPathModelParser);
     }
 
     // learning path operations
@@ -56,33 +57,33 @@ export class LearningPath {
 
         // Do this without mustache
         let XMLData = getSaveXML(content);
-        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then(learningPathModelParser);
+        return this._plug.at(`=${this._name}`).withParam('edittime', content.edittime).post(XMLData, 'application/xml').then((r) => r.json()).then(learningPathModelParser);
     }
     remove() {
-        return this._plug.at(`=${this._name}`).del();
+        return this._plug.at(`=${this._name}`).delete();
     }
 
     // Page operations
     addPage(pageId, editTime) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then(pageModelParser);
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).post().then((r) => r.json()).then(pageModelParser);
     }
     removePage(pageId, editTime) {
-        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).del();
+        return this._plug.at(`=${this._name}`, 'pages', pageId).withParam('edittime', editTime).delete();
     }
     reorderPage(pageId, afterId, editTime) {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then(learningPathModelParser);
+        return this._plug.at(`=${this._name}`, 'pages', pageId, 'order').withParams({ edittime: editTime, afterId: afterId }).post().then((r) => r.json()).then(learningPathModelParser);
     }
 }
 export class LearningPathManager {
-    constructor(settings) {
+    constructor(settings = new Settings()) {
         this.settings = settings;
-        this._plug = new Plug(settings).at('@api', 'deki', 'learningpaths');
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths');
     }
     getLearningPaths() {
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.get().then(learningPathModelParser);
+        return this._plug.get().then((r) => r.json()).then(learningPathModelParser);
     }
     getLearningPath(name) {
         return new LearningPath(name, this.settings);
@@ -92,6 +93,6 @@ export class LearningPathManager {
             data.summary = data.summary.substring(0, maxSummaryCount);
         }
         let learningPathModelParser = modelParser.createParser(learningPathModel);
-        return this._plug.withParams(data).post().then(learningPathModelParser);
+        return this._plug.withParams(data).post().then((r) => r.json()).then(learningPathModelParser);
     }
 }

@@ -16,8 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
-import { PageFileBase } from './PageFileBase';
+import { Plug } from 'mindtouch-http';
+import { PageFileBase } from './pageFileBase';
+import { Settings } from './lib/settings';
 
 /**
  * A class for managing a file attachment on an published page.
@@ -30,8 +31,8 @@ export class PageFile extends PageFileBase {
      * @param {String} filename - The filename of the file to manage.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(pageId, filename, settings) {
+    constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
     }
 }

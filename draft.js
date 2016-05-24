@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { PageBase } from './pageBase';
@@ -32,9 +33,9 @@ export class Draft extends PageBase {
      * @param {Number|String} [id=home] - The id of the draft to construct.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id = 'home', settings) {
+    constructor(id = 'home', settings = new Settings()) {
         super(id);
-        this._plug = new Plug(settings).at('@api', 'deki', 'drafts', this._id);
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id);
     }
 
     /**
@@ -43,7 +44,7 @@ export class Draft extends PageBase {
      */
     deactivate() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('deactivate').post().then(pageModelParser);
+        return this._plug.at('deactivate').post().then((r) => r.json()).then(pageModelParser);
     }
 
     /**
@@ -64,7 +65,7 @@ export class DraftManager {
      * Create a new DraftManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
+    constructor(settings = new Settings()) {
         this._settings = settings;
     }
 
@@ -74,9 +75,9 @@ export class DraftManager {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
     createDraft(newPath) {
-        let plug = new Plug(this._settings).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
+        let plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
         let pageModelParser = modelParser.createParser(pageModel);
-        return plug.post().then(pageModelParser);
+        return plug.post().then((r) => r.json()).then(pageModelParser);
     }
 
     /**

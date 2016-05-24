@@ -1,13 +1,10 @@
 {
   "extends": "mindtouch",
   "globals": {
-    "window": false,
-    "XMLHttpRequest": false,
     "Mocks": true
   },
   "env": {
-    "es6": true,
-    "jasmine": true
+    "es6": true
   },
   "parserOptions": {
     "ecmaVersion": 6,

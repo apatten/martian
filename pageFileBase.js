@@ -36,8 +36,8 @@ export class PageFileBase {
      * Get the URI for direct access to the file attachment.
      * @returns {String} - The file URI.
      */
-    getFileUri() {
-        return this._plug.getUrl();
+    get fileUrl() {
+        return this._plug.url;
     }
 
     /**
@@ -46,7 +46,7 @@ export class PageFileBase {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then(fileModelParser);
+        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
     }
 
     /**
@@ -54,7 +54,7 @@ export class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful delete operation.
      */
     delete() {
-        return this._plug.del();
+        return this._plug.delete();
     }
 
     /**
@@ -62,7 +62,7 @@ export class PageFileBase {
      * @returns {Promise.<String>} - A Promise that, when resolved, yields the file description.
      */
     getDescription() {
-        return this._plug.at('description').get();
+        return this._plug.at('description').get().then((r) => r.json());
     }
 
     /**
@@ -70,7 +70,7 @@ export class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful removal.
      */
     clearDescription() {
-        return this._plug.at('description').del();
+        return this._plug.at('description').delete();
     }
 
     /**
@@ -80,6 +80,6 @@ export class PageFileBase {
      */
     updateDescription(description = '') {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').put(description, utility.textRequestType).then(fileModelParser);
+        return this._plug.at('description').put(description, utility.textRequestType).then((r) => r.json()).then(fileModelParser);
     }
 }

@@ -26,9 +26,12 @@ import { pageEditModel } from './models/pageEdit.model';
 import { relatedPagesModel } from './models/relatedPages.model';
 
 function _handleVirtualPage(error) {
-    if(error.errorCode === 404 && error.response && error.response['@virtual']) {
-        let pageModelParser = modelParser.createParser(pageModel);
-        return Promise.resolve(pageModelParser(error.response));
+    if(error.status === 404 && error.responseText) {
+        let responseJson = JSON.parse(error.responseText);
+        if(responseJson['@virtual'] === 'true') {
+            let pageModelParser = modelParser.createParser(pageModel);
+            return Promise.resolve(pageModelParser(responseJson));
+        }
     }
     throw error;
 }
@@ -41,11 +44,11 @@ export class PageBase {
     }
     getFullInfo() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.get().then(pageModelParser).catch(_handleVirtualPage);
+        return this._plug.get().then((r) => r.json()).then(pageModelParser).catch(_handleVirtualPage);
     }
     getContents(params) {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return this._plug.at('contents').withParams(params).get().then(pageContentsModelParser);
+        return this._plug.at('contents').withParams(params).get().then((r) => r.json()).then(pageContentsModelParser);
     }
     setContents(contents, params = {}) {
         if(typeof contents !== 'string') {
@@ -58,14 +61,14 @@ export class PageBase {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then(pageEditModelParser);
+        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then((r) => r.json()).then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
-        return this._plug.at('files').withParams(params).get().then(pageFilesModelParser);
+        return this._plug.at('files').withParams(params).get().then((r) => r.json()).then(pageFilesModelParser);
     }
     getOverview() {
-        return this._plug.at('overview').get().then(JSON.parse).then((overview) => {
+        return this._plug.at('overview').get().then((r) => r.json()).then((overview) => {
             return Promise.resolve({ overview: overview });
         }).catch(() => {
             return Promise.reject('Unable to parse the page overview response');
@@ -80,13 +83,13 @@ export class PageBase {
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
-        return this._plug.at('tags').get().then(pageTagsModelParser);
+        return this._plug.at('tags').get().then((r) => r.json()).then(pageTagsModelParser);
     }
     getDiff() {
         throw new Error('Page.getDiff() is not implemented');
     }
     getRelated() {
         let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
-        return this._plug.at('related').get().then(relatedPagesModelParser);
+        return this._plug.at('related').get().then((r) => r.json()).then(relatedPagesModelParser);
     }
 }

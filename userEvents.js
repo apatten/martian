@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { userActivityModel } from './models/userActivity.model';
@@ -32,9 +33,9 @@ export class UserEvents {
      * Construct a new UserEvents object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
+    constructor(settings = new Settings()) {
         this.settings = settings;
-        this.plug = new Plug(settings).at('@api', 'deki', 'events');
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'events');
     }
 
     /**
@@ -44,7 +45,7 @@ export class UserEvents {
      */
     getActivity(userToken, params) {
         let userActivityModelParser = modelParser.createParser(userActivityModel);
-        return this.plug.at('support-agent', userToken).withParams(params).get().then(userActivityModelParser);
+        return this.plug.at('support-agent', userToken).withParams(params).get().then((r) => r.json()).then(userActivityModelParser);
     }
 
     /**
@@ -54,7 +55,7 @@ export class UserEvents {
      */
     getHistory(userId) {
         let eventListModelParser = modelParser.createParser(eventListModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then(eventListModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then((r) => r.json()).then(eventListModelParser);
     }
 
     /**
@@ -65,7 +66,7 @@ export class UserEvents {
      */
     getHistoryDetail(userId, detailId) {
         let eventDetailModelParser = modelParser.createParser(eventDetailModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then(eventDetailModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then((r) => r.json()).then(eventDetailModelParser);
     }
 
     /**

@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { pagePropertiesModel } from './models/pageProperties.model';
@@ -32,9 +33,9 @@ export class PageProperty {
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id = 'home', settings) {
+    constructor(id = 'home', settings = new Settings()) {
         this._id = utility.getResourceId(id, 'home');
-        this._plug = new Plug(settings).at('@api', 'deki', 'pages', this._id, 'properties');
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id, 'properties');
     }
 
     /**
@@ -51,7 +52,7 @@ export class PageProperty {
             plug = plug.withParams({ names: names.join(',') });
         }
         let pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
-        return plug.get().then(pagePropertiesModelParser);
+        return plug.get().then((r) => r.json()).then(pagePropertiesModelParser);
     }
 
     /**
@@ -64,7 +65,7 @@ export class PageProperty {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
         let pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
-        return this._plug.at(encodeURIComponent(key), 'info').get().then(pagePropertyModelParser);
+        return this._plug.at(encodeURIComponent(key), 'info').get().then((r) => r.json()).then(pagePropertyModelParser);
     }
 
     /**
@@ -89,6 +90,6 @@ export class PageProperty {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
         }
-        return this._plug.withParams({ depth: depth, names: key }).get();
+        return this._plug.withParams({ depth: depth, names: key }).get().then((r) => r.json());
     }
 }

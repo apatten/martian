@@ -16,7 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Plug } from './lib/plug';
+import { Plug } from 'mindtouch-http';
+import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
 import { userModel } from './models/user.model';
@@ -32,9 +33,9 @@ export class User {
      * @param {Number|String} [id='current'] - The user's numeric ID or username.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(id = 'current', settings) {
+    constructor(id = 'current', settings = new Settings()) {
         this._id = utility.getResourceId(id, 'current');
-        this._plug = new Plug(settings).at('@api', 'deki', 'users', this._id);
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users', this._id);
     }
 
     /**
@@ -43,7 +44,7 @@ export class User {
      */
     getInfo() {
         let userModelParser = modelParser.createParser(userModel);
-        return this._plug.get().then(userModelParser);
+        return this._plug.get().then((r) => r.json()).then(userModelParser);
     }
 }
 
@@ -56,9 +57,9 @@ export class UserManager {
      * Construct a new UserManager object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
-    constructor(settings) {
+    constructor(settings = new Settings()) {
         this.settings = settings;
-        this.plug = new Plug(settings).at('@api', 'deki', 'users');
+        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users');
     }
 
     /**
@@ -67,7 +68,7 @@ export class UserManager {
      */
     getCurrentUser() {
         let userModelParser = modelParser.createParser(userModel);
-        return this.plug.at('current').get().then(userModelParser);
+        return this.plug.at('current').get().then((r) => r.json()).then(userModelParser);
     }
 
     /**
@@ -76,7 +77,7 @@ export class UserManager {
      */
     getUsers() {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.get().then(userListModelParser);
+        return this.plug.get().then((r) => r.json()).then(userListModelParser);
     }
 
     /**
@@ -95,7 +96,7 @@ export class UserManager {
      */
     searchUsers(constraints) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.at('search').withParams(constraints).get().then(userListModelParser);
+        return this.plug.at('search').withParams(constraints).get().then((r) => r.json()).then(userListModelParser);
     }
 
     /**
