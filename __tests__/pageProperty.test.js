@@ -56,13 +56,17 @@ describe('Page Property', () => {
             return prop.getProperties([ 'property1', 'property2' ]);
         });
         pit('can can fail gracefully if supplying an invalid name filter', () => {
-            return prop.getProperties('property1').catch(() => {});
+            return prop.getProperties('property1').then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can fetch a single property', () => {
             return prop.getProperty('mindtouch.import#info');
         });
         pit('can fail gracefully if a key is not supplied when fetching a single property', () => {
-            return prop.getProperty().catch(() => {});
+            return prop.getProperty().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can fetch properties from children of the root page', () => {
             return prop.getPropertyForChildren('property1');
@@ -71,13 +75,17 @@ describe('Page Property', () => {
             return prop.getPropertyForChildren('property1', 2);
         });
         pit('can fail gracefully if a key is not supplied when fetching children properties', () => {
-            return prop.getPropertyForChildren().catch(() => {});
+            return prop.getPropertyForChildren().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can fetch the contents of a single property', () => {
             return prop.getPropertyContents('property1');
         });
         pit('can fail gracefully if a key is not supplied when fetching the contents of a property', () => {
-            return prop.getPropertyContents().catch(() => {});
+            return prop.getPropertyContents().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
     });
 });

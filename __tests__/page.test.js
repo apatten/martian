@@ -131,7 +131,9 @@ describe('Page', () => {
             return page.setOverview({ body: 'FOO' });
         });
         pit('can fail if no arguments are sent when setting the page overview', () => {
-            return page.setOverview().catch(() => {});
+            return page.setOverview().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can move a page', () => {
             return page.move({ to: 'foo/bar' });
@@ -143,7 +145,9 @@ describe('Page', () => {
             return page.setContents('Sample contents');
         });
         pit('can fail when setting invalid page contents', () => {
-            return page.setContents({}).catch(() => {});
+            return page.setContents({}).then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can handle setting the page contents conflict', () => {
             return page.setContents('Sample contents', { edittime: 'now', abort: 'never' });

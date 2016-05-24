@@ -41,7 +41,9 @@ describe('Site API', () => {
             return sm.getResourceString({ key: 'Test.Resource.key', lang: 'en-us' });
         });
         pit('can fail if no resource key is supplied', () => {
-            return sm.getResourceString().catch(() => {});
+            return sm.getResourceString().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
     });
     describe('search operations', () => {

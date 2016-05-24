@@ -15,7 +15,9 @@ describe('Special page Tests', () => {
     pit('can fail on overview fetching', () => {
         Response.prototype.json = jest.fn(() => Promise.reject());
         let p = new Page();
-        return p.getOverview().catch(() => {});
+        return p.getOverview().then((r) => {
+            expect(r).not.toBeDefined();
+        }).catch(() => {});
     });
     pit('can fetch a virtual page', () => {
         Plug.prototype.get = jest.fn(() => {
@@ -37,7 +39,9 @@ describe('Special page Tests', () => {
             });
         });
         let page = new Page(123);
-        return page.getFullInfo().catch(() => {});
+        return page.getFullInfo().then((r) => {
+            expect(r).not.toBeDefined();
+        }).catch(() => {});
     });
     pit('can get the ID path in the tree', () => {
         Response.prototype.text = jest.fn(() => Promise.resolve('123,456'));

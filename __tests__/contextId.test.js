@@ -44,7 +44,9 @@ describe('Context ID', () => {
             return cm.addDefinition('foo', 'Foo description');
         });
         pit('can fail if an ID is not supplied when trying to add a definition', () => {
-            return cm.addDefinition().catch(() => {});
+            return cm.addDefinition().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         it('can get a content ID Definition by id', () => {
             let def = cm.getDefinition('foo');
@@ -108,7 +110,9 @@ describe('Context ID', () => {
             return map.update(123);
         });
         pit('can fail if an ID is not supplied when updating a map', () => {
-            return map.update().catch(() => {});
+            return map.update().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
         });
         pit('can clear a mapping', () => {
             return map.remove();
