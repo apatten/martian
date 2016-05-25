@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 export let contextIdModel = [
-    {
-        field: 'context'
-    }
+    { field: 'description' },
+    { field: 'id' }
 ];

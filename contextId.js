@@ -47,7 +47,7 @@ export class ContextDefinition {
      * @returns {Promise.<contextIdModel>} - A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     getInfo() {
-        let contextIdParser = modelParser.createParser(contextIdsModel);
+        let contextIdParser = modelParser.createParser(contextIdModel);
         return this.plug.get().then((r) => r.json()).then(contextIdParser);
     }
 
@@ -57,7 +57,7 @@ export class ContextDefinition {
      * @returns {Promise.<contextIdModel>} - A promise that, when resolved, yields a contextIdModel object.
      */
     updateDescription(description = '') {
-        let contextIdParser = modelParser.createParser(contextIdsModel);
+        let contextIdParser = modelParser.createParser(contextIdModel);
         let updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
         return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(contextIdParser);
     }

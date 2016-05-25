@@ -15,7 +15,7 @@ notifications:
 
 cache:
   directories:
-    - node_modules
+    - $HOME/.npm
 
 before_install:
   - npm -g install npm@3
