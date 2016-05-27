@@ -121,10 +121,6 @@ pageModel.push({
     field: 'page.parent',
     name: 'pageParent',
     transform: pageModel
-}, {
-    field: [ 'subpages', 'page' ],
-    isArray: true,
-    transform: pageModel
 });
 
 // TODO: Handle files
