@@ -6,6 +6,14 @@ class Response {
         return Promise.resolve('');
     }
 }
+class Uri {
+    constructor(url) {
+        this.url = url;
+    }
+    get origin() {
+        return this.url;
+    }
+}
 class Plug {
     get url() {
         return '';
@@ -32,4 +40,4 @@ class Plug {
         return Promise.resolve(new Response());
     }
 }
-export { Plug, Response };
+export { Plug, Response, Uri };
