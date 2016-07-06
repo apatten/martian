@@ -3,7 +3,6 @@
     "coverageDirectory": "__coverage__",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
-        "api.js": true,
         "contextId.js": true,
         "draft.js": true,
         "draftFile.js": true,

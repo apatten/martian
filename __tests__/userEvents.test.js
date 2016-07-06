@@ -47,5 +47,8 @@ describe('User Events', () => {
         pit('can fetch a specific user history event detail', () => {
             return ue.getHistoryDetail(20, '1682aa2a-8165-bca3-3033-1176848a90b2');
         });
+        pit('can log a web widget impression event', () => {
+            return ue.logWebWidgetImpression();
+        });
     });
 });

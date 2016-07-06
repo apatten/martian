@@ -60,4 +60,12 @@ export class UserEvents {
     logSearch(userId, eventData) {
         return this.plug.at('search', utility.getResourceId(userId, 'current')).post(JSON.stringify(eventData), utility.jsonRequestType);
     }
+
+    /**
+     * Log a web widget impression event. This request will fail if not called from a MindTouch web widget.
+     * @returns {Promise} - A Promise that, when resolved, contains the status of the web widget impression request.
+     */
+    logWebWidgetImpression() {
+        return this.plug.at('web-widget-impression').post();
+    }
 }
