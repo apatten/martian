@@ -67,6 +67,35 @@ export let eventModel = [
         ]
     },
     {
+        field: 'file',
+        transform: [
+            {
+                field: '@id',
+                name: 'id',
+                transform: 'number'
+            },
+            {
+                field: '@revision',
+                name: 'revision',
+                transform: 'number'
+            },
+            {
+                field: '@res-id',
+                name: 'resId',
+                transform: 'number'
+            },
+            {
+                field: 'description'
+            },
+            {
+                field: 'filename'
+            },
+            {
+                field: 'location'
+            }
+        ]
+    },
+    {
         field: 'data',
         transform: [
             {
