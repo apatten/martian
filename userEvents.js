@@ -26,8 +26,9 @@ export class UserEvents {
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
     getActivity(userToken, params) {
-        let userActivityModelParser = modelParser.createParser(userActivityModel);
-        return this.plug.at('support-agent', userToken).withParams(params).get().then((r) => r.json()).then(userActivityModelParser);
+        const token = utility.getUserToken(userToken);
+        const userActivityModelParser = modelParser.createParser(userActivityModel);
+        return this.plug.at('support-agent', token).withParams(params).get().then((r) => r.json()).then(userActivityModelParser);
     }
 
     /**
@@ -36,7 +37,7 @@ export class UserEvents {
      * @returns {Promise.<eventListModel>} - A Promise that, when resolved, yields a {@link eventListModel} that contains the listing of the user's events.
      */
     getHistory(userId) {
-        let eventListModelParser = modelParser.createParser(eventListModel);
+        const eventListModelParser = modelParser.createParser(eventListModel);
         return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then((r) => r.json()).then(eventListModelParser);
     }
 
@@ -47,7 +48,7 @@ export class UserEvents {
      * @returns {Promise.<eventDetailModel>} - A Promise that, when resolved, yields a {@link eventDetailModel} that contains the event information.
      */
     getHistoryDetail(userId, detailId) {
-        let eventDetailModelParser = modelParser.createParser(eventDetailModel);
+        const eventDetailModelParser = modelParser.createParser(eventDetailModel);
         return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then((r) => r.json()).then(eventDetailModelParser);
     }
 
