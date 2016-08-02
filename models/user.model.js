@@ -25,6 +25,11 @@ export let userModel = [
         transform: 'number'
     },
     {
+        field: '@anonymous',
+        name: 'anonymous',
+        transform: 'boolean'
+    },
+    {
         field: '@wikiid',
         name: 'wikiId'
     },
