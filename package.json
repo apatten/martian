@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "dependencies": {
-    "mindtouch-http": "git+https://github.com/MindTouch/mindtouch-http.js.git#0.0.0"
+    "mindtouch-http": "git+https://github.com/MindTouch/mindtouch-http.js.git#0.1.0"
   }
 }
