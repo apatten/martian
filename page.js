@@ -10,6 +10,7 @@ import { pageTreeModel } from './models/pageTree.model';
 import { pageRatingModel } from './models/pageRating.model';
 import { pageMoveModel } from './models/pageMove.model';
 import { pageRatingsModel } from './models/pageRatings.model';
+import { pageDeleteModel } from './models/pageDelete.model';
 
 /**
  * A class for managing a published page.
@@ -135,7 +136,16 @@ export class Page extends PageBase {
     }
 
     /**
-     * Using the current page, activates a draft; copying tghe page's content and attachments.
+     * Delete a page
+     * @returns {Promise.<pageDeleteModel>} - A Promise that, when resolved, yields a {@link pageDeleteModel} containing information regearding pages that were deleted.
+     */
+    delete(recursive = false) {
+        const pageDeleteModelParser = modelParser.createParser(pageDeleteModel);
+        return this._plug.withParam('recursive', recursive).delete().then((r) => r.json()).then(pageDeleteModelParser);
+    }
+
+    /**
+     * Using the current page, activates a draft; copying the page's content and attachments.
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} containing the page information following the activation.
      */
     activateDraft() {

@@ -155,6 +155,12 @@ describe('Page', () => {
         pit('can activate a draft for the page', () => {
             return page.activateDraft();
         });
+        pit('can delete a page', () => {
+            return page.delete();
+        });
+        pit('can delete pages recursively', () => {
+            return page.delete(true);
+        });
     });
     describe('Page manager', () => {
         describe('functional tests', () => {
