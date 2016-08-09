@@ -25,5 +25,9 @@
         "lib/tokenHelper.js": true,
         "lib/utility.js": true
     },
-    "unmockedModulePathPatterns": [ "<rootDir>/models/" ]
+    "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
+    "testPathIgnorePatterns": [
+        "<rootDir>/node_modules/",
+        "<rootDir>/models/__tests__/mock/"
+    ]
 }

@@ -17,12 +17,12 @@
     "inspect": "eslint ./**/*.js"
   },
   "devDependencies": {
-    "babel-jest": "12.1.0",
-    "babel-polyfill": "6.9.1",
-    "babel-preset-es2015": "6.9.0",
-    "eslint": "2.11.1",
+    "babel-jest": "14.1.0",
+    "babel-polyfill": "6.13.0",
+    "babel-preset-es2015": "6.13.2",
+    "eslint": "3.2.2",
     "eslint-config-mindtouch": "1.0.0",
-    "jest-cli": "12.1.1"
+    "jest-cli": "14.1.0"
   },
   "author": "MindTouch",
   "bugs": {

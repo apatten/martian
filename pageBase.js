@@ -43,7 +43,7 @@ export class PageBase {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, 'text/plain; charset=utf-8').then((r) => r.json()).then(pageEditModelParser);
+        return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType).then((r) => r.json()).then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
@@ -61,7 +61,7 @@ export class PageBase {
             return Promise.reject(new Error('No overview body was supplied'));
         }
         let request = `<overview>${options.body}</overview>`;
-        return this._plug.at('overview').put(request);
+        return this._plug.at('overview').put(request, utility.xmlRequestType);
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
