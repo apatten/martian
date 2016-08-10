@@ -1,6 +1,6 @@
 {
     "name": "mindtouch-martian",
-    "coverageDirectory": "__coverage__",
+    "coverageDirectory": "__coverage-jsdom__",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
         "api.js": true,

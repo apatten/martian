@@ -27,6 +27,12 @@ class Plug {
     withParams() {
         return new Plug();
     }
+    withHeader() {
+        return new Plug();
+    }
+    withHeaders() {
+        return new Plug();
+    }
     get() {
         return Promise.resolve(new Response());
     }
