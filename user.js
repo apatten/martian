@@ -94,7 +94,7 @@ export class UserManager {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
         const encodedAuth = utility.base64.encode(`${username}:${password}`);
-        const authPlug = this._plug.withHeader('Authorization', `Basic ${encodedAuth}`);
+        const authPlug = this._plug.at('authenticate').withHeader('Authorization', `Basic ${encodedAuth}`);
         return authPlug[lowerMethod]().then((r) => r.text());
     }
 
