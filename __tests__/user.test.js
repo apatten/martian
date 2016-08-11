@@ -37,6 +37,9 @@ describe('User API', () => {
         pit('can fetch the current user', () => {
             return userManager.getCurrentUser();
         });
+        pit('can fetch the current user with excluded elements', () => {
+            return userManager.getCurrentUser(['groups', 'properties']);
+        });
         pit('can fetch the list of all users', () => {
             return userManager.getUsers();
         });
@@ -66,6 +69,10 @@ describe('User API', () => {
         pit('can get the info for a user', () => {
             let user = new User(123);
             return user.getInfo();
+        });
+        pit('can get the info for a user with excluded elements', () => {
+            let user = new User(123);
+            return user.getInfo(['groups', 'properties']);
         });
     });
 });
