@@ -22,14 +22,20 @@ export class User {
 
     /**
      * Get the user information.
-     * @param {Array} excludes - elements to exclude from response (allowed: groups, properties)
+     * @param {Object} params - The various params that provide context to the request
+     * @param {Array|String} params.exclude - elements to exclude from response (allowed: groups, properties, ex: ['groups', 'properties'], 'groups,properties')
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo(excludes = []) {
+    getInfo({
+        exclude = []
+    } = {}) {
         let userModelParser = modelParser.createParser(userModel);
         let plug = this._plug;
-        if(excludes && Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+        if(Array.isArray(exclude) && exclude.length) {
+            exclude = exclude.join();
+        }
+        if(exclude) {
+            plug = plug.withParam('exclude', exclude);
         }
         return plug.get().then((r) => r.json()).then(userModelParser);
     }
@@ -51,14 +57,20 @@ export class UserManager {
 
     /**
      * Get the currently signed-in user.
-     * @param {Array} excludes - elements to exclude from response (allowed: groups, properties)
+     * @param {Object} params - The various params that provide context to the request
+     * @param {Array|String} params.exclude - elements to exclude from response (allowed: groups, properties, ex: ['groups', 'properties'], 'groups,properties')
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
-    getCurrentUser(excludes = []) {
+    getCurrentUser({
+        exclude = []
+    } = {}) {
         let userModelParser = modelParser.createParser(userModel);
         let plug = this.plug;
-        if(excludes && Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+        if(Array.isArray(exclude) && exclude.length) {
+            exclude = exclude.join();
+        }
+        if(exclude) {
+            plug = plug.withParam('exclude', exclude);
         }
         return plug.at('current').get().then((r) => r.json()).then(userModelParser);
     }
