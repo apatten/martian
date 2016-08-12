@@ -22,11 +22,19 @@ export class User {
 
     /**
      * Get the user information.
+     * @param {Object} params - The various params that provide context to the request
+     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo() {
+    getInfo({
+        excludes = []
+    } = {}) {
         let userModelParser = modelParser.createParser(userModel);
-        return this._plug.get().then((r) => r.json()).then(userModelParser);
+        let plug = this._plug;
+        if(Array.isArray(excludes) && excludes.length) {
+            plug = plug.withParam('exclude', excludes.join());
+        }
+        return plug.get().then((r) => r.json()).then(userModelParser);
     }
 }
 
@@ -46,11 +54,19 @@ export class UserManager {
 
     /**
      * Get the currently signed-in user.
+     * @param {Object} params - The various params that provide context to the request
+     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
-    getCurrentUser() {
+    getCurrentUser({
+        excludes = []
+    } = {}) {
         let userModelParser = modelParser.createParser(userModel);
-        return this._plug.at('current').get().then((r) => r.json()).then(userModelParser);
+        let plug = this._plug;
+        if(Array.isArray(excludes) && excludes.length) {
+            plug = plug.withParam('exclude', excludes.join())
+        }
+        return plug.at('current').get().then((r) => r.json()).then(userModelParser);
     }
 
     /**
