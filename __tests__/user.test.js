@@ -34,23 +34,34 @@ describe('User API', () => {
         beforeEach(() => {
             userManager = new UserManager();
         });
-        pit('can fetch the current user', () => {
+        it('can fetch the current user', () => {
             return userManager.getCurrentUser();
         });
-        pit('can fetch the current user with excluded elements array', () => {
+        it('can fetch the current user with excluded elements array', () => {
             return userManager.getCurrentUser({ excludes: [ 'groups', 'properties' ] });
         });
-        pit('can fetch the list of all users', () => {
+        it('can fetch the list of all users', () => {
             return userManager.getUsers();
         });
-        pit('can fetch a list of filtered users', () => {
+        it('can fetch a list of filtered users', () => {
             return userManager.searchUsers({ username: 'foo', limit: 20 });
         });
-        pit('can fetch a list of filtered users (single)', () => {
+        it('can fetch a list of filtered users (single)', () => {
             return userManager.searchUsers({ username: 'foo', limit: 20 });
         });
-        pit('can fetch a list of filtered users (empty)', () => {
+        it('can fetch a list of filtered users (empty)', () => {
             return userManager.searchUsers({ username: 'foo', limit: 20 });
+        });
+        it('can authenticate a user (GET)', () => {
+            return userManager.authenticate({ username: 'admin', password: 'password' });
+        });
+        it('can authenticate a user (POST)', () => {
+            return userManager.authenticate({ username: 'admin', password: 'password', method: 'POST' });
+        });
+        it('can authenticate a user (invalid method)', () => {
+            return userManager.authenticate({ username: 'admin', password: 'password', method: 'DELETE' }).catch((e) => {
+                expect(e.message).toBe('GET and POST are the only valid methods for user authentication.');
+            });
         });
         it('can fetch a user', () => {
             let u1 = userManager.getUser();
@@ -66,7 +77,7 @@ describe('User API', () => {
             let user3 = new User(123);
             expect(user3).toBeDefined();
         });
-        pit('can get the info for a user', () => {
+        it('can get the info for a user', () => {
             let user = new User(123);
             return user.getInfo();
         });

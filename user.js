@@ -26,9 +26,7 @@ export class User {
      * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo({
-        excludes = []
-    } = {}) {
+    getInfo({ excludes = [] } = {}) {
         let userModelParser = modelParser.createParser(userModel);
         let plug = this._plug;
         if(Array.isArray(excludes) && excludes.length) {
@@ -48,8 +46,8 @@ export class UserManager {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.settings = settings;
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users');
+        this._settings = settings;
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users');
     }
 
     /**
@@ -62,7 +60,7 @@ export class UserManager {
         excludes = []
     } = {}) {
         let userModelParser = modelParser.createParser(userModel);
-        let plug = this.plug;
+        let plug = this._plug;
         if(Array.isArray(excludes) && excludes.length) {
             plug = plug.withParam('exclude', excludes.join())
         }
@@ -75,7 +73,7 @@ export class UserManager {
      */
     getUsers() {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.get().then((r) => r.json()).then(userListModelParser);
+        return this._plug.get().then((r) => r.json()).then(userListModelParser);
     }
 
     /**
@@ -94,7 +92,24 @@ export class UserManager {
      */
     searchUsers(constraints) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this.plug.at('search').withParams(constraints).get().then((r) => r.json()).then(userListModelParser);
+        return this._plug.at('search').withParams(constraints).get().then((r) => r.json()).then(userListModelParser);
+    }
+
+    /**
+     * Authenticate a user
+     * @param {Object} options - The authentication options.
+     * @param {String} options.method - Either 'GET' or 'POST' to direct the use of those forms of the API call.
+     * @param {String} options.username - The username of the user to authenticate.
+     * @param {String} options.password - The password of the user to authenticate.
+     */
+    authenticate({ method = 'GET', username, password }) {
+        const lowerMethod = method.toLowerCase();
+        if(lowerMethod !== 'get' && lowerMethod !== 'post') {
+            return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
+        }
+        const encodedAuth = utility.base64.encode(`${username}:${password}`);
+        const authPlug = this._plug.at('authenticate').withHeader('Authorization', `Basic ${encodedAuth}`);
+        return authPlug[lowerMethod]().then((r) => r.text());
     }
 
     /**
@@ -103,6 +118,6 @@ export class UserManager {
      * @returns {User} - The User object corresponding to the supplied ID.
      */
     getUser(id = 'current') {
-        return new User(id, this.settings);
+        return new User(id, this._settings);
     }
 }

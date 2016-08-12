@@ -1,7 +1,7 @@
 {
     "name": "mindtouch-martian",
     "testEnvironment": "node",
-    "coverageDirectory": "__coverage__",
+    "coverageDirectory": "__coverage-node__",
     "collectCoverage": true,
     "collectCoverageOnlyFrom": {
         "api.js": true,
