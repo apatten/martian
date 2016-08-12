@@ -26,9 +26,7 @@ export class User {
      * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo({
-        excludes = []
-    } = {}) {
+    getInfo({ excludes = [] } = {}) {
         let userModelParser = modelParser.createParser(userModel);
         let plug = this._plug;
         if(Array.isArray(excludes) && excludes.length) {
