@@ -40,6 +40,9 @@ describe('User API', () => {
         pit('can fetch the current user with excluded elements array', () => {
             return userManager.getCurrentUser({ excludes: [ 'groups', 'properties' ] });
         });
+        pit('can fetch the current user activity id', () => {
+            return userManager.getCurrentUserActivityId();
+        });
         pit('can fetch the list of all users', () => {
             return userManager.getUsers();
         });
