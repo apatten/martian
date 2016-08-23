@@ -68,6 +68,28 @@ export class UserManager {
     }
 
     /**
+     * Get the currently signed-in user's activity id.
+     * @returns {Promise.<String>} - A Promise that, when resolved, returns a string with the current user activity ID.
+     */
+    getCurrentUserActivityId() {
+        return this._plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
+            return Promise.all([
+                r.json().then(modelParser.createParser(userModel)),
+                new Promise((resolve, reject) => {
+                    const sessionId = r.headers.get('X-Deki-Session');
+                    if(sessionId !== null) {
+                        resolve(sessionId);
+                    } else {
+                        reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
+                    }
+                })
+            ]);
+        }).then(([ user, sessionId ]) => {
+            return `${user.id}:${sessionId}`;
+        });
+    }
+
+    /**
      * Get all of the users.
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, returns a {@link userListModel} containing the list of users.
      */

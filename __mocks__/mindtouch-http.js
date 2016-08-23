@@ -5,6 +5,16 @@ class Response {
     text() {
         return Promise.resolve('');
     }
+    get headers() {
+        return this._get_headers();
+    }
+    _get_headers() {
+        return {
+            get: () => {
+                return '';
+            }
+        };
+    }
 }
 class Uri {
     constructor(url) {
