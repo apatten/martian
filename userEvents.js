@@ -22,11 +22,11 @@ export class UserEvents {
 
     /**
      * Get the user activity.
-     * @param {Number|String} userToken - A token that identifies the user from an event perspective.  It can be the user's numeric ID, username, or another system-defined token.
+     * @param {Number|String} userActivityToken - A token that identifies the user from an user activity perspective. It can be the user's numeric ID, username, or another system-defined token.
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
-    getActivity(userToken, params) {
-        const token = utility.getUserToken(userToken);
+    getActivity(userActivityToken, params) {
+        const token = utility.getNormalizedUserActivityToken(userActivityToken);
         const userActivityModelParser = modelParser.createParser(userActivityModel);
         return this.plug.at('support-agent', token).withParams(params).get().then((r) => r.json()).then(userActivityModelParser);
     }
