@@ -41,10 +41,10 @@ describe('User API', () => {
         it('can fetch the current user with excluded elements array', () => {
             return userManager.getCurrentUser({ excludes: [ 'groups', 'properties' ] });
         });
-        it('can fetch the current user activity id', () => {
-            return userManager.getCurrentUserActivityId();
+        it('can fetch the current user activity token', () => {
+            return userManager.getCurrentUserActivityToken();
         });
-        it('rejects if cannot get X-Deki-Session header when fetching current user activity id', (done) => {
+        it('rejects if cannot get X-Deki-Session header when fetching current user activity token', (done) => {
             Response.prototype._get_headers = () => {
                 return {
                     get: () => {
@@ -52,7 +52,7 @@ describe('User API', () => {
                     }
                 };
             };
-            return userManager.getCurrentUserActivityId().catch((e) => {
+            return userManager.getCurrentUserActivityToken().catch((e) => {
                 expect(e).toBeDefined();
                 done();
             });

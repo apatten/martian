@@ -69,9 +69,9 @@ export class UserManager {
 
     /**
      * Get the currently signed-in user's activity id.
-     * @returns {Promise.<String>} - A Promise that, when resolved, returns a string with the current user activity ID.
+     * @returns {Promise.<String>} - A Promise that, when resolved, returns a string with the current user activity token.
      */
-    getCurrentUserActivityId() {
+    getCurrentUserActivityToken() {
         return this._plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
             return Promise.all([
                 r.json().then(modelParser.createParser(userModel)),
