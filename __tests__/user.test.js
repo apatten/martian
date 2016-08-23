@@ -19,6 +19,7 @@
 /* eslint-env jasmine, jest */
 jest.unmock('../user');
 import { UserManager, User } from '../user';
+import { Response } from 'mindtouch-http';
 describe('User API', () => {
     describe('constructor', () => {
         it('can perform construction operations', () => {
@@ -42,6 +43,19 @@ describe('User API', () => {
         });
 		it('can fetch the current user activity id', () => {
             return userManager.getCurrentUserActivityId();
+        });
+        it('rejects if cannot get X-Deki-Session header when fetching current user activity id', (done) => {
+            Response.prototype._get_headers = () => {
+                return {
+                    get: () => {
+                        return null;
+                    }
+                };
+            };
+            return userManager.getCurrentUserActivityId().catch((e) => {
+                expect(e).toBeDefined();
+                done();
+            });
         });
         it('can fetch the list of all users', () => {
             return userManager.getUsers();

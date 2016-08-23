@@ -72,7 +72,7 @@ export class UserManager {
      * @returns {Promise.<String>} - A Promise that, when resolved, returns a string with the current user activity ID.
      */
     getCurrentUserActivityId() {
-        return this.plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
+        return this._plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
             return Promise.all([
                 r.json().then(modelParser.createParser(userModel)),
                 new Promise((resolve, reject) => {
