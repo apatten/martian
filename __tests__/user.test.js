@@ -41,7 +41,7 @@ describe('User API', () => {
         it('can fetch the current user with excluded elements array', () => {
             return userManager.getCurrentUser({ excludes: [ 'groups', 'properties' ] });
         });
-		it('can fetch the current user activity id', () => {
+        it('can fetch the current user activity id', () => {
             return userManager.getCurrentUserActivityId();
         });
         it('rejects if cannot get X-Deki-Session header when fetching current user activity id', (done) => {
