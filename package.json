@@ -13,7 +13,7 @@
   "scripts": {
     "test-node": "jest --config jest-node.json",
     "test-jsdom": "jest --config jest-jsdom.json",
-    "test": "npm run test-jsdom & npm run test-node;wait",
+    "test": "npm run test-jsdom && npm run test-node",
     "inspect": "eslint ./**/*.js"
   },
   "devDependencies": {
