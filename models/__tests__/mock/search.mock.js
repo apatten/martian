@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 export let searchMock = {
-    search: `{
+    search: {
         "@ranking":"adaptive",
         "@queryid":"13",
         "@querycount":"2",
@@ -76,8 +76,8 @@ export let searchMock = {
                 }
             ]
         }
-    }`,
-    searchSingle: `{
+    },
+    searchSingle: {
         "@ranking":"adaptive",
         "@queryid":"2521",
         "@querycount":"1",
@@ -110,8 +110,8 @@ export let searchMock = {
                 "@title":"Documentation"
             }
         }
-    }`,
-    searchSingleNoResultSummary: `{
+    },
+    searchSingleNoResultSummary: {
         "@ranking":"adaptive",
         "@queryid":"2521",
         "@querycount":"1",
@@ -139,13 +139,13 @@ export let searchMock = {
         "summary":{
             "@path":"foo/bar"
         }
-    }`,
-    searchEmpty: `{
+    },
+    searchEmpty: {
         "@ranking":"adaptive",
         "@queryid":"2518",
         "@querycount":"0",
         "@count.recommendations":"0",
         "@count":"0",
         "parsedQuery":"+(content:(3347sadoflhjsd) title:(3347sadoflhjsd)^10 path.title:(3347sadoflhjsd)^4 description:(3347sadoflhjsd)^3 tag:(3347sadoflhjsd)^2 filename:(3347sadoflhjsd)^10 filetitle:(3347sadoflhjsd) keywords:(3347sadoflhjsd)^10 ) +type:(wiki document image binary)"
-    }`
+    }
 };

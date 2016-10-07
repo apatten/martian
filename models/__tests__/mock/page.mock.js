@@ -1,5 +1,5 @@
 export let pageMock = {
-    pageInfo: `{
+    pageInfo: {
         "@id":"123",
         "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
         "@deleted":"false",
@@ -10,8 +10,8 @@ export let pageMock = {
         "path":"foo/bar",
         "title":"Foo Bar",
         "uri.ui":"https://www.example.com/foo/bar"
-    }`,
-    page: `{
+    },
+    page: {
         "@id":"123",
         "@draft.state":"inactive",
         "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
@@ -50,8 +50,8 @@ export let pageMock = {
         "uri.ui":"https://www.example.com/Category_1/Guide_1/Test_For_Ajax_Save",
         "user.author":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"},
         "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
-    }`,
-    virtualPage: `{
+    },
+    virtualPage: {
         "@id":"0",
         "@virtual":"true",
         "@draft.state":"inactive",
@@ -91,8 +91,8 @@ export let pageMock = {
         },
         "title":"Page Title",
         "uri.ui":"https://editor.mindtouch.dev/Page_Title"
-    }`,
-    pageNoParent: `{
+    },
+    pageNoParent: {
         "@id":"123",
         "@draft.state":"inactive",
         "@href":"https://www.example.com/@api/deki/pages/123?redirects=0",
@@ -130,8 +130,8 @@ export let pageMock = {
         "uri.ui":"https://www.example.com/Category_1/Guide_1/Test_For_Ajax_Save",
         "user.author":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"},
         "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://www.example.com/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 25 Jun 2015 16:48:14 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
-    }`,
-    subpages: `{
+    },
+    subpages: {
         "@totalcount":"2",
         "@count":"2",
         "@href":"https://www.example.com/@api/deki/pages/123/subpages",
@@ -139,19 +139,19 @@ export let pageMock = {
             {"@id": "456","@href": "https://www.example.com/@api/deki/pages/456?redirects=0", "path": "foo/bar/baz", "title": "Baz"},
             {"@id": "457","@href": "https://www.example.com/@api/deki/pages/457?redirects=0", "path": "foo/bar/title", "title": "Title"}
         ]
-    }`,
-    subpagesSingle: `{
+    },
+    subpagesSingle: {
         "@totalcount":"1",
         "@count":"1",
         "@href":"https://www.example.com/@api/deki/pages/123/subpages",
         "page.subpage":{"@id": "456","@href": "https://www.example.com/@api/deki/pages/456?redirects=0", "path": "foo/bar/baz", "title": "Baz"}
-    }`,
-    subpagesEmpty: `{
+    },
+    subpagesEmpty: {
         "@totalcount":"0",
         "@count":"0",
         "@href":"https://www.example.com/@api/deki/pages/123/subpages"
-    }`,
-    pageContent: `{
+    },
+    pageContent: {
         "@type":"text/html",
         "@title":"Test For Ajax Save",
         "@unsafe":"true",
@@ -159,14 +159,14 @@ export let pageMock = {
             "<p>Sample Content</p>",
             {"@target":"toc","#text":"<em>No headers</em>"}
         ]
-    }`,
-    pageContentSimple: `{
+    },
+    pageContentSimple: {
         "@type":"text/html",
         "@title":"Community",
         "@unsafe":"true",
         "body":"<p>Sample Content</p>"
-    }`,
-    pageTree: `{
+    },
+    pageTree: {
         "page":{
             "@id":"123",
             "@href":"https://www.example.com/@api/deki/pages/343?redirects=0",
@@ -255,8 +255,8 @@ export let pageMock = {
             "title":"Guide 1",
             "uri.ui":"https://www.example.com/Category_1/Guide_1"
         }
-    }`,
-    pageTags: `{
+    },
+    pageTags: {
         "@count":"2",
         "@href":"https://www.example.com/@api/deki/pages/422/tags",
         "tag":[
@@ -277,8 +277,8 @@ export let pageMock = {
                 "uri":"https://www.example.com/Special:Tags?tag=test:b"
             }
         ]
-    }`,
-    pageTagsSingle: `{
+    },
+    pageTagsSingle: {
         "@count":"1",
         "@href":"https://www.example.com/@api/deki/pages/422/tags",
         "tag":{
@@ -289,19 +289,19 @@ export let pageMock = {
             "type":"text",
             "uri":"https://www.example.com/Special:Tags?tag=article:topic-guide"
         }
-    }`,
-    pageTagsEmpty: `{
+    },
+    pageTagsEmpty: {
         "@count":"0",
         "@href":"https://www.example.com/@api/deki/pages/422/tags"
-    }`,
-    pageOverview: `{
+    },
+    pageOverview: {
         "@needsmigration":"false",
         "#text":"The page overview."
-    }`,
-    pageOverviewError: `{
+    },
+    pageOverviewError: {
         "@needsmigration":"false"
-    }`,
-    pageRating: `{
+    },
+    pageRating: {
         "@score":"1",
         "@score.trend":"1",
         "@count":"1",
@@ -319,8 +319,8 @@ export let pageMock = {
             "@href":"https://marsdev.mindtouch.dev/@api/deki/users/1",
             "@seated":"true"
         }
-    }`,
-    pageMove: `{
+    },
+    pageMove: {
         "@count":"2",
         "page":[
             {
@@ -345,8 +345,8 @@ export let pageMock = {
                 "uri.ui":"https://marsdev.mindtouch.dev/Category_1/Guide_4/Page_Title"
             }
         ]
-    }`,
-    pageMoveSingle: `{
+    },
+    pageMoveSingle: {
         "@count":"1",
         "page":{
             "@id":"358","@href":"https://marsdev.mindtouch.dev/@api/deki/pages/358?redirects=0",
@@ -358,11 +358,11 @@ export let pageMock = {
             "title":"Guide 4",
             "uri.ui":"https://marsdev.mindtouch.dev/Category_1/Guide_4"
         }
-    }`,
-    pageMoveEmpty: `{
+    },
+    pageMoveEmpty: {
         "@count":"0"
-    }`,
-    pageRatings: `{
+    },
+    pageRatings: {
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/ratings",
         "@count":"2",
         "page":[
@@ -427,8 +427,8 @@ export let pageMock = {
                 "uri.ui":"https://marsdev.mindtouch.dev/Category_2/Guide_3/Topic_3"
             }
         ]
-    }`,
-    pageRatingsSingle: `{
+    },
+    pageRatingsSingle: {
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/ratings",
         "@count":"1",
         "page":{
@@ -461,12 +461,12 @@ export let pageMock = {
             "title":"Topic 2",
             "uri.ui":"https://marsdev.mindtouch.dev/Category_2/Guide_3/Topic_2"
         }
-    }`,
-    pageRatingsEmpty: `{
+    },
+    pageRatingsEmpty: {
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/ratings",
         "@count":"0"
-    }`,
-    pageFiles: `{
+    },
+    pageFiles: {
         "@count":"2",
         "@offset":"0",
         "@totalcount":"7",
@@ -575,8 +575,8 @@ export let pageMock = {
                 }
             }
         ]
-    }`,
-    pageFilesSingle: `{
+    },
+    pageFilesSingle: {
         "@count":"1",
         "@offset":"0",
         "@totalcount":"7",
@@ -632,14 +632,14 @@ export let pageMock = {
                 "username":"admin"
             }
         }
-    }`,
-    pageFilesEmpty: `{
+    },
+    pageFilesEmpty: {
         "@count":"0",
         "@offset":"0",
         "@totalcount":"7",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/362/files"
-    }`,
-    pageSetContents: `{
+    },
+    pageSetContents: {
         "@status":"success",
         "page":{
             "@id":"564",
@@ -657,8 +657,8 @@ export let pageMock = {
             "title":"Page Title 2",
             "uri.ui":"http://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title_2"
         }
-    }`,
-    pageSetContentsConflict: `{
+    },
+    pageSetContentsConflict: {
         "@status":"conflict",
         "page":{
             "@id":"310",
@@ -766,8 +766,8 @@ export let pageMock = {
                 "username":"admin"
             }
         }
-    }`,
-    relatedPages: `{
+    },
+    relatedPages: {
         "@count":"14",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/507/related",
         "page":[
@@ -798,8 +798,8 @@ export let pageMock = {
                 "uri.ui":"https://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title/BLANK!!"
             }
         ]
-    }`,
-    relatedPagesSingle: `{
+    },
+    relatedPagesSingle: {
         "@count":"1",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/pages/507/related",
         "page": {
@@ -815,5 +815,5 @@ export let pageMock = {
             "title":"Category 2",
             "uri.ui":"https://marsdev.mindtouch.dev/Category_2"
         }
-    }`
+    }
 };

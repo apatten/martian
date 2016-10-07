@@ -1,5 +1,5 @@
 export let groupMock = {
-    groupListing: `{
+    groupListing: {
         "@count":"3",
         "@querycount":"3",
         "@totalcount":"3",
@@ -39,8 +39,8 @@ export let groupMock = {
                 "users":{"@count":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/groups/4/users"}
             }
         ]
-    }`,
-    groupListingSingle: `{
+    },
+    groupListingSingle: {
         "@count":"1",
         "@querycount":"1",
         "@totalcount":"1",
@@ -56,14 +56,14 @@ export let groupMock = {
             "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
             "users":{"@count":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
         }
-    }`,
-    groupListingEmpty: `{
+    },
+    groupListingEmpty: {
         "@count":"0",
         "@querycount":"0",
         "@totalcount":"0",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/groups"
-    }`,
-    group: `{
+    },
+    group: {
         "@id":"2",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2",
         "groupname":"<script>alert('z')</script>",
@@ -73,8 +73,8 @@ export let groupMock = {
         },
         "service.authentication":{"@id":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/site/services/1"},
         "users":{"@count":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/groups/2/users"}
-    }`,
-    groupUsers: `{
+    },
+    groupUsers: {
         "@count":"2",
         "@querycount":"2",
         "@totalcount":"2",
@@ -115,8 +115,8 @@ export let groupMock = {
                 "username":"editor"
             }
         ]
-    }`,
-    groupUsersSingle: `{
+    },
+    groupUsersSingle: {
         "@count":"1",
         "@querycount":"1",
         "@totalcount":"1",
@@ -138,5 +138,5 @@ export let groupMock = {
             "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
             "username":"someuser"
         }
-    }`
+    }
 };
