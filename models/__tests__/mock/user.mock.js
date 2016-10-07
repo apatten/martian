@@ -1,5 +1,5 @@
 export let userMock = {
-    users: `{
+    users: {
         "@count":"6",
         "@querycount":"6",
         "@totalcount":"6",
@@ -203,8 +203,8 @@ export let userMock = {
                 "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm","username":"someuser"
             }
         ]
-    }`,
-    usersSingle: `{
+    },
+    usersSingle: {
         "@id":"6",
         "@anonymous":"false",
         "@wikiid":"site_1",
@@ -268,8 +268,8 @@ export let userMock = {
         "timezone":"",
         "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
         "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm","username":"someuser"
-    }`,
-    user: `{
+    },
+    user: {
         "@id":"6",
         "@wikiid":"site_1",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/users/6",
@@ -335,8 +335,8 @@ export let userMock = {
         "uri.avatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
         "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
         "username":"someuser"
-    }`,
-    userSearch: `{
+    },
+    userSearch: {
         "@count":"3",
         "user":[
             {
@@ -391,8 +391,8 @@ export let userMock = {
                 "username":"admin"
             }
         ]
-    }`,
-    userSearchSingle: `{
+    },
+    userSearchSingle: {
         "@count":"1",
         "user":{
             "@id":"6",
@@ -411,8 +411,8 @@ export let userMock = {
             "uri.gravatar":"https://gravatar.com/avatar/72f86b6d0d73b4708bf04ceacd066411.png?d=mm",
             "username":"someuser"
         }
-    }`,
-    userSearchEmpty: `{
+    },
+    userSearchEmpty: {
         "@count":"0"
-    }`
+    }
 };

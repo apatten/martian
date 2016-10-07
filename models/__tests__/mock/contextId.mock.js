@@ -1,19 +1,19 @@
-export let contextIdMock = {
-    contextIdDefinitions: `{
+export const contextIdMock = {
+    contextIdDefinitions: {
         "context":[
             {"description":"Foo description","id":"foo"},
             {"description":"","id":"sdf"}
         ]
-    }`,
-    contextIdDefinitionsSingle: `{
+    },
+    contextIdDefinitionsSingle: {
         "context":{"description":"","id":"foo"}
-    }`,
+    },
     contextIdDefinitionsEmpty: '',
-    contextIdDefinition: `{
+    contextIdDefinition: {
         "description":"Description of foo",
         "id":"foo"
-    }`,
-    contextMaps: `{
+    },
+    contextMaps: {
         "contextmap":[
             {
                 "@default":"false",
@@ -74,8 +74,8 @@ export let contextIdMock = {
         "languages":{
             "language":["en-us","pt-br"]
         }
-    }`,
-    contextMapsSingleLanguage: `{
+    },
+    contextMapsSingleLanguage: {
         "contextmap":[
             {
                 "@default":"false",
@@ -113,8 +113,8 @@ export let contextIdMock = {
             }
         ],
         "languages":{"language":"en-us"}
-    }`,
-    contextMapSingleSingle: `{
+    },
+    contextMapSingleSingle: {
         "contextmap":{
             "@default":"false",
             "@exists":"true",
@@ -123,26 +123,26 @@ export let contextIdMock = {
             "language":"en-us"
         },
         "languages":{"language":"en-us"}
-    }`,
-    contextMapsEmptySingleLanguage: `{
+    },
+    contextMapsEmptySingleLanguage: {
         "languages":{
             "language":"en-us"
         }
-    }`,
-    contextMapsEmpty: `{
+    },
+    contextMapsEmpty: {
         "languages":{
             "language":["en-us","pt-br"]
         }
-    }`,
-    contextMap: `{
+    },
+    contextMap: {
         "@default":"false",
         "@exists":"true",
         "description":"Foo Description",
         "id":"foo",
         "language":"en-us",
         "pageid":"273"
-    }`,
-    contextMapVerbose: `{
+    },
+    contextMapVerbose: {
         "@default":"false",
         "@exists":"true",
         "description":"Foo Description",
@@ -162,5 +162,5 @@ export let contextIdMock = {
             "uri.ui":"https://marsdev.mindtouch.dev/Category_1"
         },
         "pageid":{"@page-status":"included","#text":"336"}
-    }`
+    }
 };

@@ -1,5 +1,5 @@
 let learningPathMock = {
-    learningPath: `{
+    learningPath: {
         "@name": "foobar",
         "@editable": "true",
         "@revision": "5",
@@ -28,8 +28,8 @@ let learningPathMock = {
                 "uri.ui": "https://www.example.com/foo/bar"
             }
         ]
-    }`,
-    learningPathSinglePage: `{
+    },
+    learningPathSinglePage: {
         "@name": "foobar",
         "@editable": "true",
         "@revision": "5",
@@ -56,8 +56,8 @@ let learningPathMock = {
             "uri.learningpath": "https://www.example.com/foo/bar?mt-learningpath=script-test",
             "uri.ui": "https://www.example.com/foo/bar"
         }
-    }`,
-    learningPathNoPages: `{
+    },
+    learningPathNoPages: {
         "@name": "foobar",
         "@editable": "true",
         "@revision": "5",
@@ -67,14 +67,14 @@ let learningPathMock = {
         "title": "foo",
         "uri.learningpath": "https://www.example.com/@lp/foobar",
         "pages": []
-    }`
+    }
 };
-learningPathMock.learningPaths = `{
-    "learningpath": [
-        ${learningPathMock.learningPath}
+learningPathMock.learningPaths = {
+    learningPath: [
+        `${learningPathMock.learningPath}`
     ]
-}`;
-learningPathMock.learningPathsSingular = `{
-    "learningpath": ${learningPathMock.learningPath}
-}`;
+};
+learningPathMock.learningPathsSingular = {
+    learningPath: `${learningPathMock.learningPath}`
+};
 export { learningPathMock };

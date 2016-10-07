@@ -45,6 +45,8 @@ describe('User API', () => {
             return userManager.getCurrentUserActivityToken();
         });
         it('rejects if cannot get X-Deki-Session header when fetching current user activity token', (done) => {
+
+            // eslint-disable-next-line camelcase
             Response.prototype._get_headers = () => {
                 return {
                     get: () => {

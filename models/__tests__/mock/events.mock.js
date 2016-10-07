@@ -1,10 +1,10 @@
 export let eventsMock = {
-    userActivityEmpty: `{
+    userActivityEmpty: {
         "@count":"0",
         "@upto":"eb5cff2e-fd9b-11e4-ae3f-d421f411f250",
         "@since":"daaf75d0-fd9b-11e4-90b5-7d8c11a788c9"
-    }`,
-    userActivitySingle: `{
+    },
+    userActivitySingle: {
         "@count":"3",
         "@upto":"eb5cff2e-fd9b-11e4-ae3f-d421f411f250",
         "@since":"daaf75d0-fd9b-11e4-90b5-7d8c11a788c9",
@@ -30,8 +30,8 @@ export let eventsMock = {
             },
             "request":{"@id":"eb5cff2e-fd9b-11e4-ae3f-d7734efeb7bb"}
         }
-    }`,
-    userActivity: `{
+    },
+    userActivity: {
         "@count":"3",
         "@upto":"eb5cff2e-fd9b-11e4-ae3f-d421f411f250",
         "@since":"daaf75d0-fd9b-11e4-90b5-7d8c11a788c9",
@@ -100,8 +100,8 @@ export let eventsMock = {
                 "user":{"@id":"6"}
             }
         ]
-    }`,
-    event: `{
+    },
+    event: {
         "@id":"8aecfaba-d5cf-11e5-ba3a-6ade75ec748e",
         "@datetime":"Wed, 17 Feb 2016 23:38:27 GMT",
         "@type":"page.content:update",
@@ -121,8 +121,8 @@ export let eventsMock = {
         },
         "request":{"@id":"8aecfaba-d5cf-11e5-ba3a-64d74b9028b3"},
         "revision":"18"
-    }`,
-    eventUserName: `{
+    },
+    eventUserName: {
         "@id":"e91852da-d5b4-11e5-9a92-af4a7f17d011",
         "@datetime":"Wed, 17 Feb 2016 20:27:48 GMT",
         "@type":"page:create",
@@ -143,8 +143,8 @@ export let eventsMock = {
         },
         "request":{"@id":"e91852da-d5b4-11e5-9a92-c5ed5b4adba2"},
         "user":{"@id":"8","name":"none"}
-    }`,
-    eventDetail: `{
+    },
+    eventDetail: {
         "@count":"1",
         "summary":{
             "@id":"8aecfaba-d5cf-11e5-ba3a-28b32c020000",
@@ -166,8 +166,8 @@ export let eventsMock = {
                 "revision":"18"
             }
         }
-    }`,
-    eventList: `{
+    },
+    eventList: {
         "@count":"25",
         "@upto":"73c38628-ebd3-11e5-a8c6-b853ffffffff",
         "@since":"3f90bb30-b58e-11e5-b0fb-40b8b7010000",
@@ -726,5 +726,5 @@ export let eventsMock = {
                 "users":{"user":{"@id":"1"}}
             }
         ]
-    }`
+    }
 };

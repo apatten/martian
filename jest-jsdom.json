@@ -22,8 +22,10 @@
         "lib/modelParser.js": true,
         "lib/settings.js": true,
         "lib/tokenHelper.js": true,
-        "lib/utility.js": true
+        "lib/utility.js": true,
+        "lib/propWatcher.js": true
     },
+    "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
     "testPathIgnorePatterns": [
         "<rootDir>/node_modules/",

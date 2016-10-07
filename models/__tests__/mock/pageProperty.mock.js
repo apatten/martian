@@ -1,5 +1,5 @@
 export let pagePropertyMock = {
-    pageProperties: `{
+    pageProperties: {
         "@count":"1",
         "@href":"https://www.example.com/@api/deki/pages/231/properties",
         "property":[
@@ -44,8 +44,8 @@ export let pagePropertyMock = {
                 "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT"
             }
         ]
-    }`,
-    pagePropertiesSingle: `{
+    },
+    pagePropertiesSingle: {
         "@count":"1",
         "@href":"https://www.example.com/@api/deki/pages/231/properties",
         "property":{
@@ -68,12 +68,12 @@ export let pagePropertyMock = {
             },
             "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT"
         }
-    }`,
-    pagePropertiesEmpty: `{
+    },
+    pagePropertiesEmpty: {
         "@count":"0",
         "@href":"https://www.example.com/@api/deki/pages/231/properties"
-    }`,
-    pageProperty: `{
+    },
+    pageProperty: {
         "@revision":"2",
         "@resid":"300",
         "@name":"mindtouch.import#info",
@@ -91,8 +91,8 @@ export let pagePropertyMock = {
             }
         },
         "date.modified":"Mon, 01 Jul 2013 22:35:35 GMT"
-    }`,
-    pagePropertyPage: `{
+    },
+    pagePropertyPage: {
         "@revision":"2",
         "@resid":"300",
         "@name":"mindtouch.import#info",
@@ -122,8 +122,8 @@ export let pagePropertyMock = {
             "title":"Foo Bar",
             "uri.ui":"https://www.example.com/foo/bar"
         }
-    }`,
-    childrenProperties: `{
+    },
+    childrenProperties: {
         "@count":"2",
         "property":[
             {
@@ -205,5 +205,5 @@ export let pagePropertyMock = {
                 }
             }
         ]
-    }`
+    }
 };

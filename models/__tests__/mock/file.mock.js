@@ -1,5 +1,5 @@
 export let fileMock = {
-    file: `{
+    file: {
         "@id":"87",
         "@revision":"1",
         "@res-id":"821",
@@ -35,8 +35,8 @@ export let fileMock = {
         },
         "revisions":{"@count":"1","@totalcount":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/files/87/revisions"},
         "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://marsdev.mindtouch.dev/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 03 Sep 2015 20:10:02 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
-    }`,
-    fileReduced: `{
+    },
+    fileReduced: {
         "@id":"87",
         "@revision":"1",
         "@res-id":"821",
@@ -70,8 +70,8 @@ export let fileMock = {
             }
         },
         "revisions":{"@count":"1","@totalcount":"1","@href":"https://marsdev.mindtouch.dev/@api/deki/files/87/revisions"}
-    }`,
-    fileRevisions: `{
+    },
+    fileRevisions: {
         "@count":"2",
         "@totalcount":"2",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/files/58/revisions?changefilter=content",
@@ -138,8 +138,8 @@ export let fileMock = {
                 "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://marsdev.mindtouch.dev/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 03 Sep 2015 20:10:02 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
             }
         ]
-    }`,
-    fileRevisionsSingle: `{
+    },
+    fileRevisionsSingle: {
         "@count":"1",
         "@totalcount":"1",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/files/58/revisions?changefilter=content",
@@ -183,10 +183,10 @@ export let fileMock = {
             "user-action":{"@type":"content"},
             "user.createdby":{"@id":"1","@wikiid":"site_1","@href":"https://marsdev.mindtouch.dev/@api/deki/users/1","date.created":"Mon, 23 Mar 2015 17:55:57 GMT","date.lastlogin":"Thu, 03 Sep 2015 20:10:02 GMT","email":"aaronm@mindtouch.com","fullname":"","hash.email":"f7362144f4ae25d0fee0101f597ef60a","license.seat":{"@owner":"true","#text":"true"},"nick":"admin","password":{"@exists":"true"},"status":"active","uri.avatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","uri.gravatar":"https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm","username":"admin"}
         }
-    }`,
-    fileRevisionsEmpty: `{
+    },
+    fileRevisionsEmpty: {
         "@count":"0",
         "@totalcount":"0",
         "@href":"https://marsdev.mindtouch.dev/@api/deki/files/58/revisions?changefilter=content"
-    }`
+    }
 };

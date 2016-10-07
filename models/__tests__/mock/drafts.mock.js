@@ -1,5 +1,5 @@
 export let draftsMock = {
-    draft: `{
+    draft: {
         "@id":"301",
         "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301",
         "@state":"unpublished",
@@ -83,8 +83,8 @@ export let draftsMock = {
             "uri.gravatar":"https://gravatar.com/avatar/1ca3d810b8057bf39bdafb3fb445877b.png?d=mm",
             "username":"admin"
         }
-    }`,
-    draftBasic: `{
+    },
+    draftBasic: {
         "@href":"https://editor2.mindtouch.dev/@api/deki/drafts/301",
         "@state":"unpublished",
         "@revision":"1",
@@ -102,8 +102,8 @@ export let draftsMock = {
         "timeuuid":"45436480-afc9-11e5-80a4-1c1090b42d1e",
         "title":"Category 3",
         "uri.ui":"https://editor2.mindtouch.dev/Category_3?mt-draft=true"
-    }`,
-    draftsWithTags: `{
+    },
+    draftsWithTags: {
         "pages":{
             "page":[
                 {
@@ -195,8 +195,8 @@ export let draftsMock = {
                 }
             ]
         }
-    }`,
-    draftContent: `{
+    },
+    draftContent: {
         "@type":"text/html",
         "@title":"Test For Ajax Save",
         "@draft":"true",
@@ -204,8 +204,8 @@ export let draftsMock = {
             "<p>Sample Content</p>",
             {"@target":"toc","#text":"<em>No headers</em>"}
         ]
-    }`,
-    draftSetContents: `{
+    },
+    draftSetContents: {
         "@status":"success",
         "draft":{
             "@id":"123",
@@ -217,5 +217,5 @@ export let draftsMock = {
             "title":"Page Title 2",
             "uri.ui":"http://marsdev.mindtouch.dev/Category_1/Guide_1/Page_Title_2"
         }
-    }`
+    }
 };
