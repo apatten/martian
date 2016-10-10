@@ -91,6 +91,6 @@ export class PageProperty {
         if(!value.text) {
             return Promise.reject(new Error('Attempting to set a property without providing a property value'));
         }
-        return this._plug.withParams(params).post(value.text, value.type);
+        return this._plug.withParams(params).put(value.text, value.type);
     }
 }
