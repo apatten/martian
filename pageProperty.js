@@ -74,4 +74,23 @@ export class PageProperty {
         }
         return this._plug.withParams({ depth: depth, names: key }).get().then((r) => r.json());
     }
+
+    /**
+     * Set a property on the page
+     * @param {String} key - The key of the property to set
+     * @param {Object} value - An object conteining information regarding the value to set.
+     * @param {String} value.text - The string value representing the property value to set.
+     * @param {String} [value.type=@see utility.textRequestType] - The mime type of the value's text field.
+     * @param {Object} params - An object that contains values that will direct the behavior of the operation.
+     * @returns {Promise} - A Promise that, when resolved, indicates the property was set successfully.
+     */
+    setProperty(key, value = { type: utility.textRequestType }, params = { abort: 'modified' }) {
+        if(!key) {
+            return Promise.reject(new Error('Attempting to set a property without providing a property key'));
+        }
+        if(!value.text) {
+            return Promise.reject(new Error('Attempting to set a property without providing a property value'));
+        }
+        return this._plug.withParams(params).post(value.text, value.type);
+    }
 }
