@@ -94,6 +94,6 @@ export class PageProperty {
         if(!value.type) {
             value.type = utility.textRequestType;
         }
-        return this._plug.withParams(params).put(value.text, value.type);
+        return this._plug.at(encodeURIComponent(key)).withParams(params).put(value.text, value.type);
     }
 }
