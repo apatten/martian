@@ -109,5 +109,8 @@ describe('Page Property', () => {
         it('can set a page property', () => {
             return prop.setProperty('property1', { text: 'property text', type: 'text/plain' });
         });
+        it('can set a page property using the default mime type', () => {
+            return prop.setProperty('property1', { text: 'property text' });
+        });
     });
 });

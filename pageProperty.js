@@ -84,12 +84,15 @@ export class PageProperty {
      * @param {Object} params - An object that contains values that will direct the behavior of the operation.
      * @returns {Promise} - A Promise that, when resolved, indicates the property was set successfully.
      */
-    setProperty(key, value = { type: utility.textRequestType }, params = { abort: 'modified' }) {
+    setProperty(key, value = { }, params = { abort: 'modified' }) {
         if(!key) {
             return Promise.reject(new Error('Attempting to set a property without providing a property key'));
         }
         if(!value.text) {
             return Promise.reject(new Error('Attempting to set a property without providing a property value'));
+        }
+        if(!value.type) {
+            value.type = utility.textRequestType;
         }
         return this._plug.withParams(params).put(value.text, value.type);
     }
