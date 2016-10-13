@@ -16,32 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model';
-import { propertyContentsModel } from './propertyContents.model'
-export let pagePropertyModel = [
-    {
-        field: '@revision',
-        name: 'revision'
-    },
-    {
-        field: '@name',
-        name: 'name'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'date.modified',
-        name: 'dateModified',
-        transform: 'date'
-    },
-    {
-        field: 'page',
-        transform: pageModel
-    },
-    {
-        field: 'contents',
-        transform: propertyContentsModel
-    }
+export const propertyContentsModel = [
+    { field: '#text', name: 'text' },
+    { field: '@href', name: 'href' },
+    { field: '@type', name: 'type' },
+    { field: '@size', name: 'size' }
 ];

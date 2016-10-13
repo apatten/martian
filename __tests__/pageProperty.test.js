@@ -49,43 +49,68 @@ describe('Page Property', () => {
         afterEach(() => {
             prop = null;
         });
-        pit('can fetch the properties from a page', () => {
+        it('can fetch the properties from a page', () => {
             return prop.getProperties();
         });
-        pit('can filter properties by supplying a list of names', () => {
+        it('can filter properties by supplying a list of names', () => {
             return prop.getProperties([ 'property1', 'property2' ]);
         });
-        pit('can can fail gracefully if supplying an invalid name filter', () => {
+        it('can can fail gracefully if supplying an invalid name filter', () => {
             return prop.getProperties('property1').then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
         });
-        pit('can fetch a single property', () => {
+        it('can fetch a single property', () => {
             return prop.getProperty('mindtouch.import#info');
         });
-        pit('can fail gracefully if a key is not supplied when fetching a single property', () => {
+        it('can fail gracefully if a key is not supplied when fetching a single property', () => {
             return prop.getProperty().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
         });
-        pit('can fetch properties from children of the root page', () => {
+        it('can fetch properties from children of the root page', () => {
             return prop.getPropertyForChildren('property1');
         });
-        pit('can fetch properties from children of the root page, and with a supplied depth', () => {
+        it('can fetch properties from children of the root page, and with a supplied depth', () => {
             return prop.getPropertyForChildren('property1', 2);
         });
-        pit('can fail gracefully if a key is not supplied when fetching children properties', () => {
+        it('can fail gracefully if a key is not supplied when fetching children properties', () => {
             return prop.getPropertyForChildren().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
         });
-        pit('can fetch the contents of a single property', () => {
+        it('can fetch the contents of a single property', () => {
             return prop.getPropertyContents('property1');
         });
-        pit('can fail gracefully if a key is not supplied when fetching the contents of a property', () => {
+        it('can fail gracefully if a key is not supplied when fetching the contents of a property', () => {
             return prop.getPropertyContents().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
+        });
+    });
+    describe('setting tests', () => {
+        let prop = null;
+        beforeEach(() => {
+            prop = new PageProperty(123);
+        });
+        afterEach(() => {
+            prop = null;
+        });
+        it('can fail gracefully if a key is not provided when setting a page property', () => {
+            return prop.setProperty().then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
+        });
+        it('can fail gracefully if the value text is not provided when setting a page property', () => {
+            return prop.setProperty('property1').then((r) => {
+                expect(r).not.toBeDefined();
+            }).catch(() => {});
+        });
+        it('can set a page property', () => {
+            return prop.setProperty('property1', { text: 'property text', type: 'text/plain' });
+        });
+        it('can set a page property using the default mime type', () => {
+            return prop.setProperty('property1', { text: 'property text' });
         });
     });
 });
