@@ -50,49 +50,49 @@ describe('Page', () => {
         afterEach(() => {
             page = null;
         });
-        pit('can get the simple page info', () => {
+        it('can get the simple page info', () => {
             return page.getInfo();
         });
-        pit('can get the simple page info with params', () => {
+        it('can get the simple page info with params', () => {
             return page.getInfo({ exclude: 'revision' });
         });
-        pit('can get the page info', () => {
+        it('can get the page info', () => {
             return page.getFullInfo();
         });
-        pit('can get the page contents', () => {
+        it('can get the page contents', () => {
             return page.getContents();
         });
-        pit('can get the subpages', () => {
+        it('can get the subpages', () => {
             return page.getSubpages();
         });
-        pit('can get the page tree', () => {
+        it('can get the page tree', () => {
             return page.getTree();
         });
-        pit('can get the tags', () => {
+        it('can get the tags', () => {
             return page.getTags();
         });
-        pit('can get the user rating', () => {
+        it('can get the user rating', () => {
             return page.getRating();
         });
-        pit('can fetch a template rendered in the context of the Page', () => {
+        it('can fetch a template rendered in the context of the Page', () => {
             return page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage');
         });
-        pit('can fetch a template rendered in the context of the Page with supplied options', () => {
+        it('can fetch a template rendered in the context of the Page with supplied options', () => {
             return page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage', { includes: 'overview' });
         });
-        pit('can fetch the page\'s files with default options', () => {
+        it('can fetch the page\'s files with default options', () => {
             return page.getFiles();
         });
-        pit('can fetch the page\'s files with supplied options', () => {
+        it('can fetch the page\'s files with supplied options', () => {
             return page.getFiles({ limit: 200 });
         });
         it('can get the diff for a page', () => {
             expect(() => page.getDiff()).toThrowError(Error);
         });
-        pit('can get the related pages', () => {
+        it('can get the related pages', () => {
             return page.getRelated();
         });
-        pit('can get the page overview', () => {
+        it('can get the page overview', () => {
             return page.getOverview();
         });
     });
@@ -104,10 +104,10 @@ describe('Page', () => {
         afterEach(() => {
             page = null;
         });
-        pit('can rate a page', () => {
+        it('can rate a page', () => {
             return page.rate(1);
         });
-        pit('can reset a page rating implicitly', () => {
+        it('can reset a page rating implicitly', () => {
             return page.rate();
         });
         it('can fail for invalid page rating values', () => {
@@ -127,39 +127,43 @@ describe('Page', () => {
         afterEach(() => {
             page = null;
         });
-        pit('can set the page overview', () => {
+        it('can set the page overview', () => {
             return page.setOverview({ body: 'FOO' });
         });
-        pit('can fail if no arguments are sent when setting the page overview', () => {
+        it('can fail if no arguments are sent when setting the page overview', () => {
             return page.setOverview().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
         });
-        pit('can move a page', () => {
+        it('can move a page', () => {
             return page.move({ to: 'foo/bar' });
         });
-        pit('can move a page with no options provided', () => {
+        it('can move a page with no options provided', () => {
             return page.move();
         });
-        pit('can set the page contents', () => {
+        it('can set the page contents', () => {
             return page.setContents('Sample contents');
         });
-        pit('can fail when setting invalid page contents', () => {
+        it('can fail when setting invalid page contents', () => {
             return page.setContents({}).then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
         });
-        pit('can handle setting the page contents conflict', () => {
+        it('can handle setting the page contents conflict', () => {
             return page.setContents('Sample contents', { edittime: 'now', abort: 'never' });
         });
-        pit('can activate a draft for the page', () => {
+        it('can activate a draft for the page', () => {
             return page.activateDraft();
         });
-        pit('can delete a page', () => {
+        it('can delete a page', () => {
             return page.delete();
         });
-        pit('can delete pages recursively', () => {
+        it('can delete pages recursively', () => {
             return page.delete(true);
+        });
+        it('can attach a file to a page', () => {
+            const f = new File([], 'test.jpg');
+            return page.attachFile(f);
         });
     });
     describe('Page manager', () => {
@@ -171,7 +175,7 @@ describe('Page', () => {
             afterEach(() => {
                 pm = null;
             });
-            pit('can fetch the ratings for a set of pages', () => {
+            it('can fetch the ratings for a set of pages', () => {
                 return pm.getRatings([ 440, 441 ]);
             });
         });
