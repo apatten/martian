@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model';
-import { propertyContentsModel } from './propertyContents.model'
+import { propertyContentsModel } from './propertyContents.model';
 export let pagePropertyModel = [
     {
         field: '@revision',
