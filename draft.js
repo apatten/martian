@@ -17,6 +17,7 @@ export class Draft extends PageBase {
      */
     constructor(id = 'home', settings = new Settings()) {
         super(id);
+        this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id);
     }
 

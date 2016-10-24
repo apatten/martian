@@ -16,10 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { fileModel } from './file.model';
-export const fileRevisionsModel = [
-    { field: '@count', name: 'count', transform: 'number' },
-    { field: '@totalcount', name: 'totalCount', transform: 'number' },
-    { field: '@href', name: 'href' },
-    { field: 'file', isArray: true, transform: fileModel }
+export const importArchiveModel = [
+    { field: 'uri.status', name: 'statusUri' }
 ];

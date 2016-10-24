@@ -1,4 +1,4 @@
-import { Plug } from 'mindtouch-http';
+import { Plug, progressPlugFactory } from 'mindtouch-http';
 import { Settings } from './lib/settings';
 import { utility } from './lib/utility';
 import { modelParser } from './lib/modelParser';
@@ -16,6 +16,8 @@ export class File {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
+        this._id = id;
+        this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
     }
 
@@ -33,7 +35,7 @@ export class File {
      * @returns {Promise.<fileRevisionsModel>} - A Promise that, when resolved, yields a {@link fileRevisionsModel} containing the revision listing.
      */
     getRevisions() {
-        return this._plug.at('revisions').get().then((r) => r.json()).then(fileRevisionsModel.parse);
+        return this._plug.at('revisions').get().then((r) => r.json()).then(modelParser.createParser(fileRevisionsModel));
     }
 
     /**
@@ -52,5 +54,17 @@ export class File {
      */
     delete() {
         return this._plug.delete();
+    }
+
+    /**
+     * Upload a new file to serve as a revision in place of the current file.
+     * @param { File } file - The file object to upload.
+     * @param { String } filename - The filename of the new revision.
+     * @param { function } progress - A function that is called to indicate upload progress before the upload is complete.
+     */
+    addRevision(file, filename, progress) {
+        const progressPlug = new progressPlugFactory.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'files', this._id);
+        const progressInfo = { callback: progress, size: file.size };
+        return progressPlug.at(utility.getResourceId(filename)).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
     }
 }
