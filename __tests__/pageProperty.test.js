@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../pageProperty');
-import { PageProperty } from '../pageProperty';
+jest.unmock('../pageProperty.js');
+import { PageProperty } from '../pageProperty.js';
+
 describe('Page Property', () => {
     describe('constructor tests', () => {
         it('can construct a PageProperty object for the home page implicitly', () => {

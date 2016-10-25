@@ -1,9 +1,9 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { pagePropertiesModel } from './models/pageProperties.model';
-import { pagePropertyModel } from './models/pageProperty.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { pagePropertiesModel } from './models/pageProperties.model.js';
+import { pagePropertyModel } from './models/pageProperty.model.js';
 
 /**
  * A class for managing the properties of a page.

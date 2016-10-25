@@ -1,6 +1,6 @@
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { fileModel } from './models/file.model';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { fileModel } from './models/file.model.js';
 
 /**
  * A base class for managing file attachments on both published pages and drafts.  This class can not be instantiated directly.

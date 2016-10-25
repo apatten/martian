@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../learningPath');
-import { LearningPathManager, LearningPath } from '../learningPath';
+jest.unmock('../learningPath.js');
+import { LearningPathManager, LearningPath } from '../learningPath.js';
 
 describe('Learning Path API', () => {
     let lpm = null;

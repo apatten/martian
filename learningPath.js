@@ -1,8 +1,8 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { modelParser } from './lib/modelParser';
-import { learningPathModel } from './models/learningPath.model';
-import { pageModel } from './models/page.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { learningPathModel } from './models/learningPath.model.js';
+import { pageModel } from './models/page.model.js';
 
 let maxSummaryCount = 500;
 function getSaveXML(data) {

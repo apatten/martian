@@ -1,11 +1,14 @@
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { pageModel } from './models/page.model';
-import { pageContentsModel } from './models/pageContents.model';
-import { pageTagsModel } from './models/pageTags.model';
-import { pageFilesModel } from './models/pageFiles.model';
-import { pageEditModel } from './models/pageEdit.model';
-import { relatedPagesModel } from './models/relatedPages.model';
+import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { pageModel } from './models/page.model.js';
+import { pageContentsModel } from './models/pageContents.model.js';
+import { pageTagsModel } from './models/pageTags.model.js';
+import { pageFilesModel } from './models/pageFiles.model.js';
+import { pageEditModel } from './models/pageEdit.model.js';
+import { relatedPagesModel } from './models/relatedPages.model.js';
+import { fileModel } from './models/file.model.js';
+import { pageOverviewModel } from './models/pageOverview.model.js';
 
 function _handleVirtualPage(error) {
     if(error.status === 404 && error.responseText) {
@@ -49,12 +52,13 @@ export class PageBase {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
         return this._plug.at('files').withParams(params).get().then((r) => r.json()).then(pageFilesModelParser);
     }
+    attachFile(file, filename, progress) {
+        const progressPlug = new progressPlugFactory.ProgressPlug(this._plug.url, this._settings.plugConfig);
+        const progressInfo = { callback: progress, size: file.size };
+        return progressPlug.at('files', filename).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+    }
     getOverview() {
-        return this._plug.at('overview').get().then((r) => r.json()).then((overview) => {
-            return Promise.resolve({ overview: overview });
-        }).catch(() => {
-            return Promise.reject('Unable to parse the page overview response');
-        });
+        return this._plug.at('overview').get().then((r) => r.json()).then(modelParser.createParser(pageOverviewModel));
     }
     setOverview(options = {}) {
         if(!('body' in options)) {

@@ -1,6 +1,6 @@
 /* eslint-env jasmine, jest */
-jest.unmock('../api');
-import { Api } from '../api';
+jest.unmock('../api.js');
+import { Api } from '../api.js';
 
 describe('API Module', () => {
     let api = null;

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model';
+import { pageModel } from './page.model.js';
 export let learningPathModel = [
     {
         field: 'title'

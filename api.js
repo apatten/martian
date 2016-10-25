@@ -1,5 +1,5 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
 
 /**
  * A class for validating HTTP requests to the MindTouch site API.

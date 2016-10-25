@@ -1,25 +1,26 @@
 /* eslint-env jasmine, jest */
-jest.unmock('../pageBase');
-jest.unmock('../page');
-jest.unmock('../contextId');
-jest.unmock('../lib/modelParser');
-import { Plug, Response } from 'mindtouch-http';
-import { Page } from '../page';
-import { ContextIdManager } from '../contextId';
+const Response = require.requireActual('../__mocks__/response.js');
+const Plug = require.requireActual('../__mocks__/plug.js').Plug;
+
+jest.unmock('../page.js');
+jest.unmock('../pageBase.js');
+jest.unmock('../contextId.js');
+import { Page } from '../page.js';
+import { ContextIdManager } from '../contextId.js';
+
 describe('Special page Tests', () => {
     beforeEach(() => {
         Response.prototype.json = jest.fn(() => Promise.resolve({}));
         Response.prototype.text = jest.fn(() => Promise.resolve(''));
-        Plug.prototype.get = jest.fn(() => Promise.resolve(new Response()));
     });
-    pit('can fail on overview fetching', () => {
+    it('can fail on overview fetching', () => {
         Response.prototype.json = jest.fn(() => Promise.reject());
         let p = new Page();
         return p.getOverview().then((r) => {
             expect(r).not.toBeDefined();
         }).catch(() => {});
     });
-    pit('can fetch a virtual page', () => {
+    it('can fetch a virtual page', () => {
         Plug.prototype.get = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',
@@ -30,7 +31,7 @@ describe('Special page Tests', () => {
         let p = new Page(123);
         return p.getFullInfo();
     });
-    pit('can get through virtual page checking when there is another failure', () => {
+    it('can get through virtual page checking when there is another failure', () => {
         Plug.prototype.get = jest.fn(() => {
             return Promise.reject({
                 message: 'Not found',

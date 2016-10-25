@@ -1,10 +1,10 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { modelParser } from './lib/modelParser';
-import { contextIdsModel } from './models/contextIds.model';
-import { contextIdModel } from './models/contextId.model';
-import { contextMapsModel } from './models/contextMaps.model';
-import { contextMapModel } from './models/contextMap.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { contextIdsModel } from './models/contextIds.model.js';
+import { contextIdModel } from './models/contextId.model.js';
+import { contextMapsModel } from './models/contextMaps.model.js';
+import { contextMapModel } from './models/contextMap.model.js';
 
 /**
  * A class to manage individual Context IDs.

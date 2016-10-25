@@ -16,21 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pagePropertyModel } from './pageProperty.model.js';
-export let pagePropertiesModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'property',
-        name: 'properties',
-        isArray: true,
-        transform: pagePropertyModel
-    }
+export const pageOverviewModel = [
+    { field: '#text', name: 'text' },
+    { field: '@needsmigration', name: 'needsMigration', transform: 'boolean' }
 ];

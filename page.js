@@ -1,16 +1,18 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { PageBase } from './pageBase';
-import { pageModel } from './models/page.model';
-import { subpagesModel } from './models/subpages.model';
-import { pageContentsModel } from './models/pageContents.model';
-import { pageTreeModel } from './models/pageTree.model';
-import { pageRatingModel } from './models/pageRating.model';
-import { pageMoveModel } from './models/pageMove.model';
-import { pageRatingsModel } from './models/pageRatings.model';
-import { pageDeleteModel } from './models/pageDelete.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { PageBase } from './pageBase.js';
+import { pageModel } from './models/page.model.js';
+import { subpagesModel } from './models/subpages.model.js';
+import { pageContentsModel } from './models/pageContents.model.js';
+import { pageTreeModel } from './models/pageTree.model.js';
+import { pageRatingModel } from './models/pageRating.model.js';
+import { pageMoveModel } from './models/pageMove.model.js';
+import { pageRatingsModel } from './models/pageRatings.model.js';
+import { pageDeleteModel } from './models/pageDelete.model.js';
+import { importArchiveModel } from './models/importArchive.model.js';
 
 /**
  * A class for managing a published page.
@@ -151,6 +153,21 @@ export class Page extends PageBase {
     activateDraft() {
         let pageModelParser = modelParser.createParser(pageModel);
         return this._plug.at('activate-draft').post().then((r) => r.json()).then(pageModelParser);
+    }
+
+    /**
+     * Import a MindTouch archive file as a child node of the page.
+     *
+     */
+    importArchive(file, filename, progress) {
+        const progressPlug = new progressPlugFactory.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+        const progressInfo = { callback: progress, size: file.size };
+        return progressPlug
+            .at('import')
+            .withParams({ filename: filename, behavior: 'async' })
+            .put(file, file.type, progressInfo)
+            .then((r) => JSON.parse(r.responseText))
+            .then(modelParser.createParser(importArchiveModel));
     }
 }
 

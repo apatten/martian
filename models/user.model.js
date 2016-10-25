@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model';
-import { permissionsModel } from './permissions.model';
+import { pageModel } from './page.model.js';
+import { permissionsModel } from './permissions.model.js';
 export let userModel = [
     {
         field: '@id',

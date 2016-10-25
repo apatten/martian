@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../site');
-import { Site } from '../site';
+jest.unmock('../site.js');
+import { Site } from '../site.js';
+
 describe('Site API', () => {
     describe('construction', () => {
         it('can attempt to construct a Site object', () => {

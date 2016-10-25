@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { fileModel } from './file.model';
+import { fileModel } from './file.model.js';
 export let pageFilesModel = [
     {
         field: '@count',

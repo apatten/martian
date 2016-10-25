@@ -1,9 +1,10 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { userModel } from './models/user.model';
-import { userListModel } from './models/userList.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { platform } from './lib/platform.js';
+import { modelParser } from './lib/modelParser.js';
+import { userModel } from './models/user.model.js';
+import { userListModel } from './models/userList.model.js';
 
 /**
  * A class for managing a MindTouch user.
@@ -129,7 +130,7 @@ export class UserManager {
         if(lowerMethod !== 'get' && lowerMethod !== 'post') {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
-        const encodedAuth = utility.base64.encode(`${username}:${password}`);
+        const encodedAuth = platform.base64.encode(`${username}:${password}`);
         const authPlug = this._plug.at('authenticate').withHeader('Authorization', `Basic ${encodedAuth}`);
         return authPlug[lowerMethod]().then((r) => r.text());
     }

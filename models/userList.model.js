@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { userModel } from './user.model';
+import { userModel } from './user.model.js';
 export let userListModel = [
     {
         field: '@count',

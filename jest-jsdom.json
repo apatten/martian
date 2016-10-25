@@ -30,5 +30,11 @@
     "testPathIgnorePatterns": [
         "<rootDir>/node_modules/",
         "<rootDir>/models/__tests__/mock/"
-    ]
+    ],
+    "moduleNameMapper": {
+        "mindtouch-http/plug.js": "<rootDir>/__mocks__/plug.js",
+        "mindtouch-http/progressPlugFactory.js": "<rootDir>/__mocks__/progressPlugFactory.js",
+        "mindtouch-http/uri.js": "<rootDir>/__mocks__/uri.js",
+        "mindtouch-http/lib/uriParser.js": "<rootDir>/__mocks__/uriParser.js"
+    }
 }

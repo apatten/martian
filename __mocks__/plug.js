@@ -1,31 +1,5 @@
-class Response {
-    json() {
-        return Promise.resolve({});
-    }
-    text() {
-        return Promise.resolve('');
-    }
-    get headers() {
-        return this._get_headers();
-    }
-
-    // eslint-disable-next-line camelcase
-    _get_headers() {
-        return {
-            get: () => {
-                return '';
-            }
-        };
-    }
-}
-class Uri {
-    constructor(url) {
-        this.url = url;
-    }
-    get origin() {
-        return this.url;
-    }
-}
+/* eslint-env node */
+const Response = require.requireActual('./response.js');
 class Plug {
     get url() {
         return '';
@@ -58,4 +32,4 @@ class Plug {
         return Promise.resolve(new Response());
     }
 }
-export { Plug, Response, Uri };
+module.exports = { Plug };

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { learningPathModel } from './learningPath.model';
+import { learningPathModel } from './learningPath.model.js';
 export let learningPathsModel = [
     {
         field: 'learningpath',

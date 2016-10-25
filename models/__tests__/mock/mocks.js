@@ -1,16 +1,16 @@
-import { dataMock } from './data.mock';
-import { contextIdMock } from './contextId.mock';
-import { draftsMock } from './drafts.mock';
-import { eventsMock } from './events.mock';
-import { fileMock } from './file.mock';
-import { groupMock } from './group.mock';
-import { learningPathMock } from './learningPath.mock';
-import { pageMock } from './page.mock';
-import { pagePropertyMock } from './pageProperty.mock';
-import { searchMock } from './search.mock';
-import { userMock } from './user.mock';
+import { dataMock } from './data.mock.js';
+import { contextIdMock } from './contextId.mock.js';
+import { draftsMock } from './drafts.mock.js';
+import { eventsMock } from './events.mock.js';
+import { fileMock } from './file.mock.js';
+import { groupMock } from './group.mock.js';
+import { learningPathMock } from './learningPath.mock.js';
+import { pageMock } from './page.mock.js';
+import { pagePropertyMock } from './pageProperty.mock.js';
+import { searchMock } from './search.mock.js';
+import { userMock } from './user.mock.js';
 
-let mockLibs = [
+const mockLibs = [
     dataMock,
     contextIdMock,
     draftsMock,
@@ -23,7 +23,7 @@ let mockLibs = [
     searchMock,
     userMock
 ];
-let Mocks = {};
+const Mocks = {};
 mockLibs.forEach((lib) => {
     Object.keys(lib).forEach((libKey) => {
         Mocks[libKey] = lib[libKey];

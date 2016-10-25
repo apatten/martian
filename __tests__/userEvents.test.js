@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../userEvents');
-import { UserEvents } from '../userEvents';
+jest.unmock('../userEvents.js');
+import { UserEvents } from '../userEvents.js';
+
 describe('User Events', () => {
     describe('constructor', () => {
         it('can construct a user events object', () => {

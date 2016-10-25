@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../draft');
-jest.unmock('../pageBase');
-import { DraftManager, Draft } from '../draft';
+jest.unmock('../pageBase.js');
+jest.unmock('../draft.js');
+import { DraftManager, Draft } from '../draft.js';
 
 describe('Draft', () => {
     describe('draft manager', () => {

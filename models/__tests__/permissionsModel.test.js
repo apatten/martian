@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../permissions.model');
-import { permissionsModel } from '../permissions.model';
+jest.unmock('../permissions.model.js');
+import { permissionsModel } from '../permissions.model.js';
+
 describe('Permissions Model', () => {
     it('returns the parsed operations', () => {
         let operations1 = 'foo,bar';
