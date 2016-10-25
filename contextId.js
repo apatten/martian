@@ -87,7 +87,7 @@ export class ContextMap {
      * @param {Number} pageId - The page ID to use for the Context ID mapping.
      * @returns {Promise.<contextMapModel>} - A promise that, when resolved, yields a {@link contextMapModel} object.
      */
-    update(pageId = null) {
+    update(pageId) {
         if(!pageId) {
             return Promise.reject(new Error('a page ID must be supplied in order to update a mapping'));
         }
