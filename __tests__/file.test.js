@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../file');
-import { File } from '../file';
+jest.unmock('../file.js');
+import { File } from '../file.js';
 
 describe('File API', () => {
     describe('constructor', () => {
@@ -36,16 +36,16 @@ describe('File API', () => {
         afterEach(() => {
             file = null;
         });
-        pit('can fetch file info', () => {
+        it('can fetch file info', () => {
             return file.getInfo();
         });
-        pit('can fetch file revisions', () => {
+        it('can fetch file revisions', () => {
             return file.getRevisions();
         });
-        pit('can set the file description', () => {
+        it('can set the file description', () => {
             return file.setDescription('This is the description');
         });
-        pit('can delete a file', () => {
+        it('can delete a file', () => {
             return file.delete();
         });
     });

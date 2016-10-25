@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../contextId');
-import { ContextIdManager, ContextDefinition, ContextMap } from '../contextId';
+jest.unmock('../contextId.js');
+import { ContextIdManager, ContextDefinition, ContextMap } from '../contextId.js';
+
 describe('Context ID', () => {
     describe('Manager', () => {
         let cm = null;
@@ -28,22 +29,22 @@ describe('Context ID', () => {
         afterEach(() => {
             cm = null;
         });
-        pit('can fetch all context maps', () => {
+        it('can fetch all context maps', () => {
             return cm.getMaps();
         });
-        pit('can fetch the list of all context definitions', () => {
+        it('can fetch the list of all context definitions', () => {
             return cm.getDefinitions();
         });
-        pit('can fetch the list of all context definitions (empty response)', () => {
+        it('can fetch the list of all context definitions (empty response)', () => {
             return cm.getDefinitions();
         });
-        pit('can add a context ID definition', () => {
+        it('can add a context ID definition', () => {
             return cm.addDefinition('foo');
         });
-        pit('can add a context ID definition with a description', () => {
+        it('can add a context ID definition with a description', () => {
             return cm.addDefinition('foo', 'Foo description');
         });
-        pit('can fail if an ID is not supplied when trying to add a definition', () => {
+        it('can fail if an ID is not supplied when trying to add a definition', () => {
             return cm.addDefinition().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});
@@ -73,22 +74,21 @@ describe('Context ID', () => {
         afterEach(() => {
             def = null;
         });
-        pit('can get the definition info', () => {
+        it('can get the definition info', () => {
             return def.getInfo();
         });
-        pit('can update the description of a definintion', () => {
+        it('can update the description of a definintion', () => {
             return def.updateDescription('New Description');
         });
-        pit('can implicitly clear the description of a definintion', () => {
+        it('can implicitly clear the description of a definintion', () => {
             return def.updateDescription();
         });
-        pit('can delete a definition', () => {
+        it('can delete a definition', () => {
             return def.delete();
         });
     });
     describe('Context Map constructor', () => {
         it('can construct a new Context Map', () => {
-            expect(() => ContextMap()).toThrow();
             expect(() => new ContextMap()).toThrow();
             expect(() => new ContextMap('foo')).toThrow();
             let cm = new ContextMap('en-us', 'foo');
@@ -103,18 +103,23 @@ describe('Context ID', () => {
         afterEach(() => {
             map = null;
         });
-        pit('can get the info of a map', () => {
+        it('can get the info of a map', () => {
             return map.getInfo();
         });
-        pit('can update an existing map', () => {
+        it('can update an existing map', () => {
             return map.update(123);
         });
-        pit('can fail if an ID is not supplied when updating a map', () => {
-            return map.update().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+        it('can fail if an ID is not supplied when updating a map', () => {
+            const success = jest.fn();
+            return map.update().then(() => {
+                success();
+                throw new Error();
+            }).catch((e) => {
+                expect(success).not.toHaveBeenCalled();
+                expect(e).toBeDefined();
+            });
         });
-        pit('can clear a mapping', () => {
+        it('can clear a mapping', () => {
             return map.remove();
         });
     });

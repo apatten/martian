@@ -16,101 +16,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model';
-export let searchModel = [
-    {
-        field: '@ranking',
-        name: 'ranking'
-    },
-    {
-        field: '@queryid',
-        name: 'queryId'
-    },
-    {
-        field: '@querycount',
-        name: 'queryCount',
-        transform: 'number'
-    },
-    {
-        field: '@count.recommendations',
-        name: 'recommendationCount',
-        transform: 'number'
-    },
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
+import { pageModel } from './page.model.js';
+export const searchModel = [
+    { field: '@ranking', name: 'ranking' },
+    { field: '@queryid', name: 'queryId' },
+    { field: '@querycount', name: 'queryCount', transform: 'number' },
+    { field: '@count.recommendations', name: 'recommendationCount', transform: 'number' },
+    { field: '@count', name: 'count', transform: 'number' },
     {
         field: 'result',
         name: 'results',
         isArray: true,
         transform: [
-            {
-                field: 'author'
-            },
-            {
-                field: 'content'
-            },
-            {
-                field: 'date.modified',
-                name: 'dateModified',
-                transform: 'date'
-            },
-            {
-                field: 'id',
-                transform: 'number'
-            },
-            {
-                field: 'mime'
-            },
-            {
-                field: 'rank',
-                transform: 'number'
-            },
-            {
-                field: 'title'
-            },
-            {
-                field: 'type'
-            },
-            {
-                field: 'uri'
-            },
-            {
-                field: 'uri.track',
-                name: 'uriTrack'
-            },
-            {
-                field: 'page',
-                transform: pageModel
-            }
+            { field: 'author' },
+            { field: 'content' },
+            { field: 'date.modified', name: 'dateModified', transform: 'date' },
+            { field: 'id', transform: 'number' },
+            { field: 'mime' },
+            { field: 'rank', transform: 'number' },
+            { field: 'title' },
+            { field: 'type' },
+            { field: 'uri' },
+            { field: 'uri.track', name: 'uriTrack' },
+            { field: 'page', transform: pageModel }
         ]
     },
     {
         field: 'summary',
         transform: [
-            {
-                field: '@path',
-                name: 'path'
-            },
+            { field: '@path', name: 'path' },
             {
                 field: 'results',
                 isArray: true,
                 transform: [
-                    {
-                        field: '@path',
-                        name: 'path'
-                    },
-                    {
-                        field: '@count',
-                        name: 'count',
-                        transform: 'number'
-                    },
-                    {
-                        field: '@title',
-                        name: 'title'
-                    }
+                    { field: '@path', name: 'path' },
+                    { field: '@count', name: 'count', transform: 'number' },
+                    { field: '@title', name: 'title' }
                 ]
             }
         ]

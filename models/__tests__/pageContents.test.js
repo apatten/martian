@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../pageContents.model');
-import { pageContentsModel } from '../pageContents.model';
+jest.unmock('../pageContents.model.js');
+import { pageContentsModel } from '../pageContents.model.js';
+
 describe('Page Contents Model', () => {
     it('returns the parsed "body" array', () => {
         let mockData = {

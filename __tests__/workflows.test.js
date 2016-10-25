@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../workflows');
-import { WorkflowManager } from '../workflows';
+jest.unmock('../workflows.js');
+import { WorkflowManager } from '../workflows.js';
+
 describe('Workflows', () => {
     describe('operations', () => {
         describe('submit feedback', () => {
@@ -33,15 +34,21 @@ describe('Workflows', () => {
                 return wm.submitFeedback({ path: 'foo' });
             });
             it('can fail if the page feedback path is not supplied', () => {
-                expect(() => wm.submitFeedback({})).toThrow();
+                const success = jest.fn();
+                return wm.submitFeedback({}).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch((e) => {
+                    expect(success).not.toHaveBeenCalled();
+                });
             });
-            pit('can send a request article message', () => {
+            it('can send a request article message', () => {
                 return wm.requestArticle({});
             });
-            pit('can send a submit issue message', () => {
+            it('can send a submit issue message', () => {
                 return wm.submitIssue({});
             });
-            pit('can send a contact support message', () => {
+            it('can send a contact support message', () => {
                 return wm.contactSupport({});
             });
         });

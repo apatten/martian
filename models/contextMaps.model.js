@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { contextMapModel } from './contextMap.model';
+import { contextMapModel } from './contextMap.model.js';
 export let contextMapsModel = [
     {
         field: 'contextmap',

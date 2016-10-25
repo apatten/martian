@@ -1,6 +1,6 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
 
 /**
  * A class for working with site workflows.
@@ -28,7 +28,7 @@ export class WorkflowManager {
     submitFeedback(options) {
         let path = options.path;
         if(!path) {
-            throw new Error('The page path for feedback must be supplied');
+            return Promise.reject(new Error('The page path for feedback must be supplied'));
         }
         let request = JSON.stringify({
             _path: encodeURIComponent(path),

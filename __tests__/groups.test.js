@@ -17,8 +17,9 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../group');
-import { GroupManager, Group } from '../group';
+jest.unmock('../group.js');
+import { GroupManager, Group } from '../group.js';
+
 describe('Group API', () => {
     let gm = null;
     beforeEach(() => {

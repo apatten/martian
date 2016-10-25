@@ -1,8 +1,8 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { searchModel } from './models/search.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { searchModel } from './models/search.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];

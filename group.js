@@ -1,10 +1,10 @@
-import { Plug } from 'mindtouch-http';
-import { utility } from './lib/utility';
-import { Settings } from './lib/settings';
-import { modelParser } from './lib/modelParser';
-import { groupModel } from './models/group.model';
-import { groupListModel } from './models/groupList.model';
-import { userListModel } from './models/userList.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { utility } from './lib/utility.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { groupModel } from './models/group.model.js';
+import { groupListModel } from './models/groupList.model.js';
+import { userListModel } from './models/userList.model.js';
 
 /**
  * A class for managing a single group of users.

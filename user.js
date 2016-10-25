@@ -1,10 +1,10 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
 import { platform } from './lib/platform.js';
-import { modelParser } from './lib/modelParser';
-import { userModel } from './models/user.model';
-import { userListModel } from './models/userList.model';
+import { modelParser } from './lib/modelParser.js';
+import { userModel } from './models/user.model.js';
+import { userListModel } from './models/userList.model.js';
 
 /**
  * A class for managing a MindTouch user.

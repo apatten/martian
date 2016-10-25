@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../draftFile');
-jest.unmock('../pageFileBase');
-import { DraftFile } from '../draftFile';
+jest.unmock('../pageFileBase.js');
+jest.unmock('../draftFile.js');
+import { DraftFile } from '../draftFile.js';
+
 describe('Draft files', () => {
     describe('constructor', () => {
         it('can construct a new Draft File', () => {

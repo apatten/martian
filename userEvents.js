@@ -1,10 +1,10 @@
-import { Plug } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { userActivityModel } from './models/userActivity.model';
-import { eventListModel } from './models/eventList.model';
-import { eventDetailModel } from './models/eventDetail.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { userActivityModel } from './models/userActivity.model.js';
+import { eventListModel } from './models/eventList.model.js';
+import { eventDetailModel } from './models/eventDetail.model.js';
 
 /**
  * A class for fetching and managing events triggered by users.

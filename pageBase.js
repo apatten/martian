@@ -1,12 +1,12 @@
-import { progressPlugFactory } from 'mindtouch-http';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { pageModel } from './models/page.model';
-import { pageContentsModel } from './models/pageContents.model';
-import { pageTagsModel } from './models/pageTags.model';
-import { pageFilesModel } from './models/pageFiles.model';
-import { pageEditModel } from './models/pageEdit.model';
-import { relatedPagesModel } from './models/relatedPages.model';
+import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { pageModel } from './models/page.model.js';
+import { pageContentsModel } from './models/pageContents.model.js';
+import { pageTagsModel } from './models/pageTags.model.js';
+import { pageFilesModel } from './models/pageFiles.model.js';
+import { pageEditModel } from './models/pageEdit.model.js';
+import { relatedPagesModel } from './models/relatedPages.model.js';
 import { fileModel } from './models/file.model.js';
 import { pageOverviewModel } from './models/pageOverview.model.js';
 

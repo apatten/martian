@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../pageFile');
-jest.unmock('../pageFileBase');
-import { PageFile } from '../pageFile';
+jest.unmock('../pageFileBase.js');
+jest.unmock('../pageFile.js');
+import { PageFile } from '../pageFile.js';
+
 describe('Page files', () => {
     describe('constructor', () => {
         it('can construct a new Page File', () => {
@@ -38,22 +39,22 @@ describe('Page files', () => {
         it('can get the file URL', () => {
             expect(pf.fileUrl).toBeDefined();
         });
-        pit('can get the file info', () => {
+        it('can get the file info', () => {
             return pf.getInfo();
         });
-        pit('can delete a file', () => {
+        it('can delete a file', () => {
             return pf.delete();
         });
-        pit('can get the file description', () => {
+        it('can get the file description', () => {
             return pf.getDescription();
         });
-        pit('can clear the file description', () => {
+        it('can clear the file description', () => {
             return pf.clearDescription();
         });
-        pit('can update the file description (default)', () => {
+        it('can update the file description (default)', () => {
             return pf.updateDescription();
         });
-        pit('can update the file description (value)', () => {
+        it('can update the file description (value)', () => {
             return pf.updateDescription('foo');
         });
     });

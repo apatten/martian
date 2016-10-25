@@ -17,9 +17,11 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../user');
-import { UserManager, User } from '../user';
-import { Response } from 'mindtouch-http';
+const Response = require.requireActual('../__mocks__/response.js');
+
+jest.unmock('../user.js');
+import { UserManager, User } from '../user.js';
+
 describe('User API', () => {
     describe('constructor', () => {
         it('can perform construction operations', () => {

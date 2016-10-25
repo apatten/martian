@@ -1,6 +1,6 @@
-import { Plug } from 'mindtouch-http';
-import { PageFileBase } from './pageFileBase';
-import { Settings } from './lib/settings';
+import { Plug } from 'mindtouch-http/plug.js';
+import { PageFileBase } from './pageFileBase.js';
+import { Settings } from './lib/settings.js';
 
 /**
  * A class for managing a file attachment on an unpublished page.

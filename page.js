@@ -1,16 +1,17 @@
-import { Plug, progressPlugFactory } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { PageBase } from './pageBase';
-import { pageModel } from './models/page.model';
-import { subpagesModel } from './models/subpages.model';
-import { pageContentsModel } from './models/pageContents.model';
-import { pageTreeModel } from './models/pageTree.model';
-import { pageRatingModel } from './models/pageRating.model';
-import { pageMoveModel } from './models/pageMove.model';
-import { pageRatingsModel } from './models/pageRatings.model';
-import { pageDeleteModel } from './models/pageDelete.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { PageBase } from './pageBase.js';
+import { pageModel } from './models/page.model.js';
+import { subpagesModel } from './models/subpages.model.js';
+import { pageContentsModel } from './models/pageContents.model.js';
+import { pageTreeModel } from './models/pageTree.model.js';
+import { pageRatingModel } from './models/pageRating.model.js';
+import { pageMoveModel } from './models/pageMove.model.js';
+import { pageRatingsModel } from './models/pageRatings.model.js';
+import { pageDeleteModel } from './models/pageDelete.model.js';
 import { importArchiveModel } from './models/importArchive.model.js';
 
 /**

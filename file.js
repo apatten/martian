@@ -1,9 +1,10 @@
-import { Plug, progressPlugFactory } from 'mindtouch-http';
-import { Settings } from './lib/settings';
-import { utility } from './lib/utility';
-import { modelParser } from './lib/modelParser';
-import { fileModel } from './models/file.model';
-import { fileRevisionsModel } from './models/fileRevisions.model';
+import { Plug } from 'mindtouch-http/plug.js';
+import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { fileModel } from './models/file.model.js';
+import { fileRevisionsModel } from './models/fileRevisions.model.js';
 
 /**
  * A class for working with file attachments within the MindTouch site.

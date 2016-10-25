@@ -16,114 +16,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageRatingModel } from './pageRating.model';
-import { userModel } from './user.model';
-export let pageModel = [
-    {
-        field: '@id',
-        name: 'id',
-        transform: 'number'
-    },
-    {
-        field: 'title'
-    },
-    {
-        field: 'uri.ui',
-        name: 'uri'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: '@state',
-        name: 'state'
-    },
-    {
-        field: '@draft.state',
-        name: 'draftState'
-    },
-    {
-        field: 'article'
-    },
-    {
-        field: 'language'
-    },
-    {
-        field: 'namespace'
-    },
-    {
-        field: 'language.effective',
-        name: 'languageEffective'
-    },
-    {
-        field: 'timeuuid'
-    },
-    {
-        field: [ 'path', '#text' ]
-    },
-    {
-        field: '@revision',
-        name: 'revision',
-        transform: 'number'
-    },
-    {
-        field: 'date.created',
-        name: 'dateCreated',
-        transform: 'date'
-    },
-    {
-        field: '@deleted',
-        name: 'deleted',
-        transform: 'boolean'
-    },
-    {
-        field: '@publish',
-        name: 'publish',
-        transform: 'boolean'
-    },
-    {
-        field: '@unpublish',
-        name: 'unpublish',
-        transform: 'boolean'
-    },
-    {
-        field: '@deactivate',
-        name: 'deactivate',
-        transform: 'boolean'
-    },
-    {
-        field: '@virtual',
-        name: 'virtual',
-        transform: 'boolean'
-    },
-    {
-        field: 'date.modified',
-        name: 'dateModified',
-        transform: 'date'
-    },
-    {
-        field: 'date.edited',
-        name: 'dateEdited',
-        transform: 'date'
-    },
+import { pageRatingModel } from './pageRating.model.js';
+import { userModel } from './user.model.js';
+const pageModel = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: 'title' },
+    { field: 'uri.ui', name: 'uri' },
+    { field: '@href', name: 'href' },
+    { field: '@state', name: 'state' },
+    { field: '@draft.state', name: 'draftState' },
+    { field: 'article' },
+    { field: 'language' },
+    { field: 'namespace' },
+    { field: 'language.effective', name: 'languageEffective' },
+    { field: 'timeuuid' },
+    { field: [ 'path', '#text' ] },
+    { field: '@revision', name: 'revision', transform: 'number' },
+    { field: 'date.created', name: 'dateCreated', transform: 'date' },
+    { field: '@deleted', name: 'deleted', transform: 'boolean' },
+    { field: '@publish', name: 'publish', transform: 'boolean' },
+    { field: '@unpublish', name: 'unpublish', transform: 'boolean' },
+    { field: '@deactivate', name: 'deactivate', transform: 'boolean' },
+    { field: '@virtual', name: 'virtual', transform: 'boolean' },
+    { field: 'date.modified', name: 'dateModified', transform: 'date' },
+    { field: 'date.edited', name: 'dateEdited', transform: 'date' },
     {
         field: 'rating',
-        transform: pageRatingModel
+        constructTransform(rating) {
+            if(typeof rating === 'object' && rating !== null) {
+                return pageRatingModel;
+            }
+        }
     },
-    {
-        field: 'user.author',
-        name: 'userAuthor',
-        transform: userModel
-    }
+    { field: 'user.author', name: 'userAuthor', transform: userModel }
 ];
-pageModel.push({
-    field: 'page.parent',
-    name: 'pageParent',
-    transform: pageModel
-});
-
-// TODO: Handle files
-// TODO: Handle content
-// TODO: Handle properties
-// TODO: Handle 'user.createdby'
+pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
+export { pageModel };
