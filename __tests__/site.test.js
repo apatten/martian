@@ -55,17 +55,29 @@ describe('Site API', () => {
         afterEach(() => {
             sm = null;
         });
-        pit('can perform a default search', () => {
+        it('can perform a default search', () => {
             return sm.search();
         });
-        pit('can perform a search with some parameters', () => {
+        it('can perform a search with some parameters', () => {
             return sm.search({ page: 123, tags: [ 'abc', '123' ], type: [ 'wiki', 'image' ] });
         });
-        pit('can perform a search with some other parameters', () => {
+        it('can perform a search with some other parameters', () => {
             return sm.search({ path: 'foo/bar', q: 'search thing' });
         });
-        pit('can perform a search with all parameters', () => {
+        it('can perform a search with all parameters', () => {
             return sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term' });
         });
     });
+    describe('site tags operations', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('can fetch all site tags', () => {
+            return sm.getTags();
+        });
+    })
 });

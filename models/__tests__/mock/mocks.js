@@ -8,6 +8,7 @@ import { learningPathMock } from './learningPath.mock.js';
 import { pageMock } from './page.mock.js';
 import { pagePropertyMock } from './pageProperty.mock.js';
 import { searchMock } from './search.mock.js';
+import { siteMock } from './site.mock.js';
 import { userMock } from './user.mock.js';
 
 const mockLibs = [
@@ -21,6 +22,7 @@ const mockLibs = [
     pageMock,
     pagePropertyMock,
     searchMock,
+    siteMock,
     userMock
 ];
 const Mocks = {};

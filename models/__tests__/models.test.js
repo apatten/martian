@@ -50,6 +50,7 @@ import { eventModel } from '../event.model.js';
 import { eventDetailModel } from '../eventDetail.model.js';
 import { eventListModel } from '../eventList.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
+import { siteTagsModel } from '../siteTags.model.js';
 
 let contextIdModelParser = modelParser.createParser(contextIdModel);
 let contextIdsModelParser = modelParser.createParser(contextIdsModel);
@@ -81,6 +82,7 @@ let eventModelParser = modelParser.createParser(eventModel);
 let eventDetailModelParser = modelParser.createParser(eventDetailModel);
 let eventListModelParser = modelParser.createParser(eventListModel);
 let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
+let siteTagsModelParser = modelParser.createParser(siteTagsModel);
 
 describe('Models', () => {
     describe('Context ID models', () => {
@@ -258,6 +260,11 @@ describe('Models', () => {
         it('can parse a list of related pages', () => {
             expect(relatedPagesModelParser(Mocks.relatedPages)).toBeDefined();
             expect(relatedPagesModelParser(Mocks.relatedPagesSingle)).toBeDefined();
+        });
+    });
+    describe('Site Tags model', () => {
+        it('can parse a list of site tags', () => {
+            expect(siteTagsModelParser(Mocks.siteTags)).toBeDefined();
         });
     });
 });

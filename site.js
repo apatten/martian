@@ -3,6 +3,7 @@ import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
+import { siteTagsModel } from './models/siteTags.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -46,6 +47,7 @@ export class Site {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
+        console.log('magic');
         this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
     }
 
@@ -66,6 +68,12 @@ export class Site {
         }
         return locPlug.get().then((r) => r.text());
     }
+    
+    getTags(params) {
+        let siteTagsModelParser = modelParser.createParser(siteTagsModel);
+        return this.plug.at('tags').withParams(params).get().then((r) => r.json()).then(siteTagsModelParser);
+    }
+
 
     /**
      * Perform a search across the site.

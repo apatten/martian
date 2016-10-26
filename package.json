@@ -32,6 +32,8 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "dependencies": {
+    "jest": "^16.0.2",
+    "jest-cli": "^16.0.2",
     "mindtouch-http": "git+https://github.com/mindtouch/mindtouch-http.js.git#1.0.0-beta.2"
   }
 }
