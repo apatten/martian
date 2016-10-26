@@ -47,8 +47,9 @@ import { userModel } from '../user.model.js';
 import { userListModel } from '../userList.model.js';
 import { userActivityModel } from '../userActivity.model.js';
 import { eventModel } from '../event.model.js';
-import { eventDetailModel } from '../eventDetail.model.js';
-import { eventListModel } from '../eventList.model.js';
+import { userHistoryDetailModel } from '../userHistoryDetail.model.js';
+import { userHistoryModel } from '../userHistory.model.js';
+import { pageHistoryModel } from '../pageHistory.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 
 let contextIdModelParser = modelParser.createParser(contextIdModel);
@@ -78,9 +79,10 @@ let userModelParser = modelParser.createParser(userModel);
 let userListModelParser = modelParser.createParser(userListModel);
 let userActivityModelParser = modelParser.createParser(userActivityModel);
 let eventModelParser = modelParser.createParser(eventModel);
-let eventDetailModelParser = modelParser.createParser(eventDetailModel);
-let eventListModelParser = modelParser.createParser(eventListModel);
+let userHistoryDetailModelParser = modelParser.createParser(userHistoryDetailModel);
+let userHistoryModelParser = modelParser.createParser(userHistoryModel);
 let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
+const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
 
 describe('Models', () => {
     describe('Context ID models', () => {
@@ -204,6 +206,14 @@ describe('Models', () => {
             expect(pageTagsModelParser(Mocks.pageTagsEmpty)).toBeDefined();
         });
     });
+    describe('Page history model', () => {
+        it('can parse a list of page history event summary', () => {
+            expect(pageHistoryModelParser(Mocks.pageEventSummary)).toBeDefined();
+        });
+        it('can parse a single page history event summary', () => {
+            expect(pageHistoryModelParser(Mocks.pageEventSummarySingle)).toBeDefined();
+        });
+    });
     describe('Search model', () => {
         it('can parse search result info', () => {
             expect(searchModelParser(Mocks.search)).toBeDefined();
@@ -246,12 +256,12 @@ describe('Models', () => {
     });
     describe('Event detail model', () => {
         it('can parse an event detail', () => {
-            expect(eventDetailModelParser(Mocks.eventDetail)).toBeDefined();
+            expect(userHistoryDetailModelParser(Mocks.eventDetail)).toBeDefined();
         });
     });
     describe('Event list model', () => {
         it('can parse an event list', () => {
-            expect(eventListModelParser(Mocks.eventList)).toBeDefined();
+            expect(userHistoryModelParser(Mocks.eventList)).toBeDefined();
         });
     });
     describe('Related pages model', () => {

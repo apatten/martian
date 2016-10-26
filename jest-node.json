@@ -18,7 +18,7 @@
         "pageProperty.js": true,
         "site.js": true,
         "user.js": true,
-        "userEvents.js": true,
+        "events.js": true,
         "workflows.js": true,
         "lib/modelParser.js": true,
         "lib/settings.js": true,

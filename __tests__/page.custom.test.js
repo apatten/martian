@@ -44,7 +44,7 @@ describe('Special page Tests', () => {
             expect(r).not.toBeDefined();
         }).catch(() => {});
     });
-    pit('can get the ID path in the tree', () => {
+    it('can get the ID path in the tree', () => {
         Response.prototype.text = jest.fn(() => Promise.resolve('123,456'));
         let page = new Page(123);
         return page.getTreeIds();
@@ -54,7 +54,7 @@ describe('Special page Tests', () => {
         let page = new Page(123);
         return page.getTreeIds().catch(() => {});
     });
-    pit('can fetch the list of all context definitions (invalid response)', () => {
+    it('can fetch the list of all context definitions (invalid response)', () => {
         Response.prototype.json = jest.fn(() => Promise.resolve([]));
         const cm = new ContextIdManager();
         return cm.getDefinitions();
