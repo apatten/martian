@@ -1,5 +1,5 @@
 import { Plug } from 'mindtouch-http/plug.js';
-import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { ProgressPlug } from 'mindtouch-http/progressPlug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -159,12 +159,18 @@ export class Page extends PageBase {
      * Import a MindTouch archive file as a child node of the page.
      *
      */
-    importArchive(file, filename, progress, params = {}) {
-        const progressPlug = new progressPlugFactory.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
-        const progressInfo = { callback: progress, size: file.size };
-        const apiParams = Object.assign({ filename: filename, behavior: 'async' }, params);
-        return progressPlug.at('import').withParams(apiParams).put(file, file.type, progressInfo)
-            .then((r) => JSON.parse(r.responseText))
+    importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null }, params) {
+        const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
+        if(progress !== null) {
+            const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+            const progressInfo = { callback: progress, size: size };
+            return progressPlug.at('import').withParams(apiParams).put(file, type, progressInfo)
+                .then((r) => JSON.parse(r.responseText))
+                .catch((e) => Promise.reject(JSON.parse(e.responseText)))
+                .then(modelParser.createParser(importArchiveModel));
+        }
+        return this._plug.withHeader('Content-Length', size).withParams(apiParams).at('import').put(file, type)
+            .then((r) => r.json())
             .catch((e) => Promise.reject(JSON.parse(e.responseText)))
             .then(modelParser.createParser(importArchiveModel));
     }

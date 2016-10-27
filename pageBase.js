@@ -1,4 +1,4 @@
-import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { ProgressPlug } from 'mindtouch-http/progressPlug.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pageModel } from './models/page.model.js';
@@ -52,10 +52,13 @@ export class PageBase {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
         return this._plug.at('files').withParams(params).get().then((r) => r.json()).then(pageFilesModelParser);
     }
-    attachFile(file, filename, progress) {
-        const progressPlug = new progressPlugFactory.ProgressPlug(this._plug.url, this._settings.plugConfig);
-        const progressInfo = { callback: progress, size: file.size };
-        return progressPlug.at('files', filename).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+    attachFile(file, { name = file.name, size = file.size, type = file.type, progress = null }) {
+        if(progress !== null) {
+            const progressPlug = new ProgressPlug(this._plug.url, this._settings.plugConfig);
+            const progressInfo = { callback: progress, size };
+            return progressPlug.at('files', name).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+        }
+        return this._plug.withHeader('Content-Length', size).at('files', name).put(file, type).then((r) => r.json());
     }
     getOverview() {
         return this._plug.at('overview').get().then((r) => r.json()).then(modelParser.createParser(pageOverviewModel));
