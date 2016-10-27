@@ -1,6 +1,6 @@
 {
   "name": "mindtouch-martian",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Core JavaScript API for MindTouch",
   "license": "Apache-2.0",
   "main": false,
@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "dependencies": {
-    "mindtouch-http": "git+https://github.com/mindtouch/mindtouch-http.js.git#1.0.0-beta.2"
+    "mindtouch-http": "git+https://github.com/mindtouch/mindtouch-http.js.git#1.0.0"
   }
 }
