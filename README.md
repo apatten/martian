@@ -17,7 +17,7 @@ $ jspm install mindtouch-martian
 Use API objects to get business entities (user, page, file, etc)
 
 ```javascript
-import User from 'martian/user';
+import { User } from 'martian/user';
 
 let user = User.getCurrentUser().then((user) => {
     // do something with user.username, user.fullname, user.email, etc..
