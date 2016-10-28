@@ -18,45 +18,18 @@
  */
 import { eventModel } from './event.model.js';
 export const pageHistoryModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@upto',
-        name: 'upto'
-    },
-    {
-        field: '@since',
-        name: 'since'
-    },
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@upto', name: 'upto' },
+    { field: '@since', name: 'since' },
     {
         field: 'summary',
         isArray: true,
         transform: [
-            {
-                field: '@id',
-                name: 'id'
-            },
-            {
-                field: '@datetime',
-                name: 'datetime',
-                transform: 'date'
-            },
-            {
-                field: '@count',
-                name: 'count',
-                transform: 'number'
-            },
-            {
-                field: '@uri.detail',
-                name: 'uriDetail'
-            },
-            {
-                field: 'event',
-                transform: eventModel
-            }
+            { field: '@id', name: 'id' },
+            { field: '@datetime', name: 'datetime', transform: 'date' },
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@uri.detail', name: 'uriDetail' },
+            { field: 'event', transform: eventModel }
         ]
     }
 ];
