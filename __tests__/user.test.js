@@ -102,7 +102,7 @@ describe('User API', () => {
             let user = new User(123);
             return user.getInfo();
         });
-        pit('can get the info for a user with excluded elements array', () => {
+        it('can get the info for a user with excluded elements array', () => {
             let user = new User(123);
             return user.getInfo({ excludes: [ 'groups', 'properties' ] });
         });

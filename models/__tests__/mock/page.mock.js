@@ -815,5 +815,107 @@ export let pageMock = {
             "title":"Category 2",
             "uri.ui":"https://marsdev.mindtouch.dev/Category_2"
         }
+    },
+    pageEventSummary: {
+        "@count":"6",
+        "@upto":"33e11cec-9b8b-11e6-ac5c-51d5ffffffff",
+        "@since":"6f2d7d9a-7765-11e5-9abd-485d58010000",
+        "summary":[
+            {
+                "@id":"78d93318-d69a-11e5-9873-91eb58010000",
+                "@datetime":"Thu, 18 Feb 2016 23:51:04 GMT",
+                "@count":"1",
+                "@uri.detail":"https://jh-s-responsive.mindtouch.us/@api/deki/events/page/344/78d93318-d69a-11e5-9873-91eb58010000",
+                "event":{
+                    "@id":"78d93318-d69a-11e5-9873-507404d18984",
+                    "@datetime":"Thu, 18 Feb 2016 23:51:04 GMT",
+                    "@type":"page.restriction:update",
+                    "@language":"en-US",
+                    "@journaled":"false",
+                    "@version":"2",
+                    "@cascading":"true",
+                    "page":{
+                        "@id":"344",
+                        "@revision":"0",
+                        "path":"Indexed"
+                    },
+                    "previous.restriction-id":"2",
+                    "request":{
+                        "@id":"78d93318-d69a-11e5-9873-68f70b3591eb"
+                    },
+                    "restriction-id":"1",
+                    "root.page":{
+                        "@id":"1",
+                        "@revision":"0",
+                        "path":""
+                    }
+                }
+            },
+            {
+                "@id":"7343c9d2-d699-11e5-9209-7f0a58010000",
+                "@datetime":"Thu, 18 Feb 2016 23:43:45 GMT",
+                "@count":"1",
+                "@uri.detail":"https://jh-s-responsive.mindtouch.us/@api/deki/events/page/344/7343c9d2-d699-11e5-9209-7f0a58010000",
+                "event":{
+                    "@id":"7343c9d2-d699-11e5-9209-23c2075e1676",
+                    "@datetime":"Thu, 18 Feb 2016 23:43:45 GMT",
+                    "@type":"page.restriction:update",
+                    "@language":"en-US",
+                    "@journaled":"false",
+                    "@version":"2",
+                    "@cascading":"true",
+                    "page":{
+                        "@id":"344",
+                        "@revision":"0",
+                        "path":"Indexed"
+                    },
+                    "previous.restriction-id":"1",
+                    "request":{
+                        "@id":"7343c9d2-d699-11e5-9209-df674ce57f0a"
+                    },
+                    "restriction-id":"2",
+                    "root.page":{
+                        "@id":"1",
+                        "@revision":"0",
+                        "path":""
+                    }
+                }
+            }
+        ]
+    },
+    pageEventSummarySingle: {
+        "@count":"6",
+        "@upto":"33e11cec-9b8b-11e6-ac5c-51d5ffffffff",
+        "@since":"6f2d7d9a-7765-11e5-9abd-485d58010000",
+        "summary": {
+            "@id":"78d93318-d69a-11e5-9873-91eb58010000",
+            "@datetime":"Thu, 18 Feb 2016 23:51:04 GMT",
+            "@count":"1",
+            "@uri.detail":"https://jh-s-responsive.mindtouch.us/@api/deki/events/page/344/78d93318-d69a-11e5-9873-91eb58010000",
+            "event":{
+                "@id":"78d93318-d69a-11e5-9873-507404d18984",
+                "@datetime":"Thu, 18 Feb 2016 23:51:04 GMT",
+                "@type":"page.restriction:update",
+                "@language":"en-US",
+                "@journaled":"false",
+                "@version":"2",
+                "@cascading":"true",
+                "page":{
+                    "@id":"344",
+                    "@revision":"0",
+                    "path":"Indexed"
+                },
+                "previous.restriction-id":"2",
+                "request":{
+                    "@id":"78d93318-d69a-11e5-9873-68f70b3591eb"
+                },
+                "restriction-id":"1",
+                "root.page":{
+                    "@id":"1",
+                    "@revision":"0",
+                    "path":""
+                }
+            }
+        }
     }
 };

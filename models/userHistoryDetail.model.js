@@ -17,23 +17,14 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
-export let eventListModel = [
+export const userHistoryDetailModel = [
     {
         field: '@count',
         name: 'count',
         transform: 'number'
     },
     {
-        field: '@upto',
-        name: 'upto'
-    },
-    {
-        field: '@since',
-        name: 'since'
-    },
-    {
         field: 'summary',
-        isArray: true,
         transform: [
             {
                 field: '@id',
@@ -50,12 +41,14 @@ export let eventListModel = [
                 transform: 'number'
             },
             {
-                field: '@detailid',
-                name: 'detailId'
+                field: '@journaled',
+                name: 'journaled',
+                transform: 'boolean'
             },
             {
-                field: '@uri.detail',
-                name: 'uriDetail'
+                field: '@diffable',
+                name: 'diffable',
+                transform: 'boolean'
             },
             {
                 field: 'event',

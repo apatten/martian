@@ -17,7 +17,7 @@
         "pageProperty.js": true,
         "site.js": true,
         "user.js": true,
-        "userEvents.js": true,
+        "events.js": true,
         "workflows.js": true,
         "lib/modelParser.js": true,
         "lib/settings.js": true,
@@ -33,7 +33,7 @@
     ],
     "moduleNameMapper": {
         "mindtouch-http/plug.js": "<rootDir>/__mocks__/plug.js",
-        "mindtouch-http/progressPlugFactory.js": "<rootDir>/__mocks__/progressPlugFactory.js",
+        "mindtouch-http/progressPlug.js": "<rootDir>/__mocks__/progressPlug.js",
         "mindtouch-http/uri.js": "<rootDir>/__mocks__/uri.js",
         "mindtouch-http/lib/uriParser.js": "<rootDir>/__mocks__/uriParser.js"
     }

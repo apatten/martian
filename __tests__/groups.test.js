@@ -29,7 +29,7 @@ describe('Group API', () => {
         gm = null;
     });
     describe('GroupManager', () => {
-        pit('can get the listing of all of the groups', () => {
+        it('can get the listing of all of the groups', () => {
             return gm.getGroupList();
         });
         it('can get a Group object by ID', () => {
@@ -59,7 +59,7 @@ describe('Group API', () => {
         afterEach(() => {
             group = null;
         });
-        pit('can fetch a single group', () => {
+        it('can fetch a single group', () => {
             return group.getInfo();
         });
         it('can fetch a group\'s users', () => {

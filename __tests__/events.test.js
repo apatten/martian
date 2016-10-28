@@ -17,39 +17,42 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
-jest.unmock('../userEvents.js');
-import { UserEvents } from '../userEvents.js';
+jest.unmock('../events.js');
+import { Events } from '../events.js';
 
 describe('User Events', () => {
     describe('constructor', () => {
         it('can construct a user events object', () => {
-            let ue = new UserEvents();
+            let ue = new Events();
             expect(ue).toBeDefined();
-            expect(() => UserEvents()).toThrow();
+            expect(() => Events()).toThrow();
         });
     });
     describe('functionality', () => {
         let ue = null;
         beforeEach(() => {
-            ue = new UserEvents();
+            ue = new Events();
         });
         afterEach(() => {
             ue = null;
         });
-        pit('can fetch activity for a user', () => {
-            return ue.getActivity('viewer');
+        it('can fetch activity for a user', () => {
+            return ue.getUserActivity('viewer');
         });
-        pit('can log a search event', () => {
+        it('can log a search event', () => {
             return ue.logSearch('viewer', {});
         });
-        pit('can fetch a user\'s history listing', () => {
-            return ue.getHistory(20);
+        it('can fetch a user\'s history listing', () => {
+            return ue.getUserHistory(20);
         });
-        pit('can fetch a specific user history event detail', () => {
-            return ue.getHistoryDetail(20, '1682aa2a-8165-bca3-3033-1176848a90b2');
+        it('can fetch a specific user history event detail', () => {
+            return ue.getUserHistoryDetail(20, '1682aa2a-8165-bca3-3033-1176848a90b2');
         });
-        pit('can log a web widget impression event', () => {
+        it('can log a web widget impression event', () => {
             return ue.logWebWidgetImpression();
+        });
+        it('can fetch a page history event', () => {
+            return ue.getPageHistory();
         });
     });
 });
