@@ -27,9 +27,7 @@ export class Events {
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
     getUserActivity(userActivityToken, params) {
-        const token = utility.getNormalizedUserActivityToken(userActivityToken);
-        const userActivityModelParser = modelParser.createParser(userActivityModel);
-        return this.plug.at('support-agent', token).withParams(params).get().then((r) => r.json()).then(userActivityModelParser);
+        return this.plug.at('support-agent', utility.getNormalizedUserActivityToken(userActivityToken)).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(userActivityModel));
     }
 
     /**
@@ -38,8 +36,7 @@ export class Events {
      * @returns {Promise.<userHistoryModel>} - A Promise that, when resolved, yields a {@link userHistoryModel} that contains the listing of the user's events.
      */
     getUserHistory(userId) {
-        const userHistoryModelParser = modelParser.createParser(userHistoryModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then((r) => r.json()).then(userHistoryModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current')).get().then((r) => r.json()).then(modelParser.createParser(userHistoryModel));
     }
 
     /**
@@ -49,18 +46,17 @@ export class Events {
      * @returns {Promise.<userHistoryDetailModel>} - A Promise that, when resolved, yields a {@link userHistoryDetailModel} that contains the event information.
      */
     getUserHistoryDetail(userId, detailId) {
-        const userHistoryDetailModelParser = modelParser.createParser(userHistoryDetailModel);
-        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then((r) => r.json()).then(userHistoryDetailModelParser);
+        return this.plug.at('user-page', utility.getResourceId(userId, 'current'), detailId).get().then((r) => r.json()).then(modelParser.createParser(userHistoryDetailModel));
     }
 
     /**
      * Get page history summary.
      * @param {Number|String} [id='home'] - The page ID or path.
+     * @param {Object} params (limit, upto, include) - Optional.
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
      */
-    getPageHistory(pageId) {
-        const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
-        return this.plug.at('page', utility.getResourceId(pageId, 'home')).get().then((r) => r.json()).then(pageHistoryModelParser);
+    getPageHistory(pageId, params) {
+        return this.plug.at('page', utility.getResourceId(pageId, 'home')).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
