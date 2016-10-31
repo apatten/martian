@@ -20,6 +20,7 @@ export class File {
         this._id = id;
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._progressPlug = new progressPlugFactory.ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
     }
 
     /**
@@ -64,8 +65,14 @@ export class File {
      * @param { function } progress - A function that is called to indicate upload progress before the upload is complete.
      */
     addRevision(file, filename, progress) {
-        const progressPlug = new progressPlugFactory.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'files', this._id);
         const progressInfo = { callback: progress, size: file.size };
-        return progressPlug.at(utility.getResourceId(filename)).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+        return this._progressPlug.at(utility.getResourceId(filename)).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+    }
+}
+export class FileDraft extends File {
+    constructor(id, settings = new Settings()) {
+        super(id, settings);
+        this._plug = this._plug.withParam('draft', 'true');
+        this._progressPlug = this._progressPlug.withParam('draft', 'true');
     }
 }
