@@ -64,7 +64,7 @@ export class PageBase {
         if(!('body' in options)) {
             return Promise.reject(new Error('No overview body was supplied'));
         }
-        let request = `<overview>${options.body}</overview>`;
+        let request = `<overview>${utility.escapeHTML(options.body)}</overview>`;
         return this._plug.at('overview').put(request, utility.xmlRequestType);
     }
     getTags() {
