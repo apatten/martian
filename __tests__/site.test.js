@@ -35,13 +35,13 @@ describe('Site API', () => {
         afterEach(() => {
             sm = null;
         });
-        pit('can fetch a translated string', () => {
+        it('can fetch a translated string', () => {
             return sm.getResourceString({ key: 'Test.Resource.key' });
         });
-        pit('can fetch a translated string with language supplied', () => {
+        it('can fetch a translated string with language supplied', () => {
             return sm.getResourceString({ key: 'Test.Resource.key', lang: 'en-us' });
         });
-        pit('can fail if no resource key is supplied', () => {
+        it('can fail if no resource key is supplied', () => {
             return sm.getResourceString().then((r) => {
                 expect(r).not.toBeDefined();
             }).catch(() => {});

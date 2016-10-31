@@ -38,7 +38,7 @@ describe('Workflows', () => {
                 return wm.submitFeedback({}).then(() => {
                     success();
                     throw new Error('The call did not throw.');
-                }).catch((e) => {
+                }).catch(() => {
                     expect(success).not.toHaveBeenCalled();
                 });
             });

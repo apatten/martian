@@ -1,5 +1,5 @@
 import { Plug } from 'mindtouch-http/plug.js';
-import { progressPlugFactory } from 'mindtouch-http/progressPlugFactory.js';
+import { ProgressPlug } from 'mindtouch-http/progressPlug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -20,6 +20,7 @@ export class File {
         this._id = id;
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._progressPlug = new ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
     }
 
     /**
@@ -63,9 +64,18 @@ export class File {
      * @param { String } filename - The filename of the new revision.
      * @param { function } progress - A function that is called to indicate upload progress before the upload is complete.
      */
-    addRevision(file, filename, progress) {
-        const progressPlug = new progressPlugFactory.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'files', this._id);
-        const progressInfo = { callback: progress, size: file.size };
-        return progressPlug.at(utility.getResourceId(filename)).put(file, file.type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+    addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null }) {
+        if(progress !== null) {
+            const progressInfo = { callback: progress, size };
+            return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+        }
+        return this._plug.withHeader('Content-Length', size).at(utility.getResourceId(name)).put(file, type).then((r) => r.json()).then(modelParser.createParser(fileModel));
+    }
+}
+export class FileDraft extends File {
+    constructor(id, settings = new Settings()) {
+        super(id, settings);
+        this._plug = this._plug.withParam('draft', 'true');
+        this._progressPlug = this._progressPlug.withParam('draft', 'true');
     }
 }

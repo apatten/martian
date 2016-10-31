@@ -27,7 +27,7 @@ describe('Draft', () => {
             let dm = new DraftManager();
             expect(dm).toBeDefined();
         });
-        pit('can create a new draft from nothing', () => {
+        it('can create a new draft from nothing', () => {
             let dm = new DraftManager();
             return dm.createDraft('new/draft/path');
         });
@@ -66,13 +66,13 @@ describe('Draft', () => {
         afterEach(() => {
             draft = null;
         });
-        pit('can get the draft info', () => {
+        it('can get the draft info', () => {
             return draft.getFullInfo();
         });
-        pit('can deactivate a draft', () => {
+        it('can deactivate a draft', () => {
             return draft.deactivate();
         });
-        pit('can publish a draft', () => {
+        it('can publish a draft', () => {
             return draft.publish();
         });
     });

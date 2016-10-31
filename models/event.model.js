@@ -17,126 +17,50 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let eventModel = [
-    {
-        field: '@id',
-        name: 'id'
-    },
-    {
-        field: '@datetime',
-        name: 'datetime',
-        transform: 'date'
-    },
-    {
-        field: '@type',
-        name: 'type'
-    },
-    {
-        field: '@journaled',
-        name: 'journaled',
-        transform: 'boolean'
-    },
-    {
-        field: '@version',
-        name: 'version',
-        transform: 'number'
-    },
-    {
-        field: [ 'request', '@id' ],
-        name: 'requestId'
-    },
-    {
-        field: '@language',
-        name: 'language'
-    },
-    {
-        field: 'page',
-        transform: pageModel
-    },
+export const eventModel = [
+    { field: '@id', name: 'id' },
+    { field: '@datetime', name: 'datetime', transform: 'date' },
+    { field: '@type', name: 'type' },
+    { field: '@journaled', name: 'journaled', transform: 'boolean' },
+    { field: '@version', name: 'version', transform: 'number' },
+    { field: '@cascading', name: 'cascading', transform: 'boolean' },
+    { field: [ 'request', '@id' ], name: 'requestId' },
+    { field: '@language', name: 'language' },
+    { field: 'page', transform: pageModel },
+    { field: 'root.page', name: 'rootPage', transform: pageModel },
+    { field: 'previous.restriction-id', name: 'previousRestrictionId', value: 'number' },
+    { field: 'restriction-id', name: 'restrictionId', value: 'number' },
     {
         field: 'user',
         transform: [
-            {
-                field: '@id',
-                name: 'id',
-                transform: 'number'
-            },
-            {
-                field: 'name'
-            }
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: 'name' }
         ]
     },
     {
         field: 'file',
         transform: [
-            {
-                field: '@id',
-                name: 'id',
-                transform: 'number'
-            },
-            {
-                field: '@revision',
-                name: 'revision',
-                transform: 'number'
-            },
-            {
-                field: '@res-id',
-                name: 'resId',
-                transform: 'number'
-            },
-            {
-                field: 'description'
-            },
-            {
-                field: 'filename'
-            },
-            {
-                field: 'location'
-            }
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: '@revision', name: 'revision', transform: 'number' },
+            { field: '@res-id', name: 'resId', transform: 'number' },
+            { field: 'description' },
+            { field: 'filename' },
+            { field: 'location' }
         ]
     },
     {
         field: 'data',
         transform: [
-            {
-                field: 'constraint'
-            },
-            {
-                field: 'path'
-            },
-            {
-                field: 'query'
-            },
-            {
-                field: 'limit',
-                transform: 'number'
-            },
-            {
-                field: 'qid',
-                transform: 'number'
-            },
-            {
-                field: 'totalrecommended',
-                name: 'totalRecommended',
-                transform: 'number'
-            },
-            {
-                field: 'totalresults',
-                name: 'totalResults',
-                transform: 'number'
-            },
-            {
-                field: '_uri.host',
-                name: 'host'
-            },
-            {
-                field: '_uri.query',
-                name: 'uriQuery'
-            },
-            {
-                field: '_uri.scheme',
-                name: 'scheme'
-            }
+            { field: 'constraint' },
+            { field: 'path' },
+            { field: 'query' },
+            { field: 'limit', transform: 'number' },
+            { field: 'qid', transform: 'number' },
+            { field: 'totalrecommended', name: 'totalRecommended', transform: 'number' },
+            { field: 'totalresults', name: 'totalResults', transform: 'number' },
+            { field: '_uri.host', name: 'host' },
+            { field: '_uri.query', name: 'uriQuery' },
+            { field: '_uri.scheme', name: 'scheme' }
         ]
     }
 ];
