@@ -20,6 +20,7 @@ export class File {
         this._id = id;
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._progressPlug = new ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
     }
 
     /**
@@ -65,10 +66,16 @@ export class File {
      */
     addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null }) {
         if(progress !== null) {
-            const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'files', this._id);
             const progressInfo = { callback: progress, size };
-            return progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
         }
         return this._plug.withHeader('Content-Length', size).at(utility.getResourceId(name)).put(file, type).then((r) => r.json()).then(modelParser.createParser(fileModel));
+    }
+}
+export class FileDraft extends File {
+    constructor(id, settings = new Settings()) {
+        super(id, settings);
+        this._plug = this._plug.withParam('draft', 'true');
+        this._progressPlug = this._progressPlug.withParam('draft', 'true');
     }
 }

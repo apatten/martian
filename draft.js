@@ -37,6 +37,14 @@ export class Draft extends PageBase {
     publish() {
         return this._plug.at('publish').post();
     }
+
+    /**
+     * Unpublish a live page and create a draft out of it.
+     * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the unpublished page.
+     */
+    unpublish() {
+        return this._plug.at('unpublish').post().then(modelParser.createParser(pageModel));
+    }
 }
 
 /**
