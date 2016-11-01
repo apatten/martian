@@ -17,37 +17,45 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
+import { userModel } from './user.model.js';
+import { fileModel } from './file.model.js';
+import { groupModel } from './group.model.js';
+
+function dateOrStringTransformer(value) {
+    const date = new Date(value);
+    const dateValue = date.getDate();
+
+    // eslint-disable-next-line no-self-compare
+    if(dateValue !== dateValue) {
+        return value;
+    }
+    return date;
+}
+
 export const eventModel = [
-    { field: '@id', name: 'id' },
-    { field: '@datetime', name: 'datetime', transform: 'date' },
-    { field: '@type', name: 'type' },
-    { field: '@journaled', name: 'journaled', transform: 'boolean' },
-    { field: '@version', name: 'version', transform: 'number' },
     { field: '@cascading', name: 'cascading', transform: 'boolean' },
-    { field: [ 'request', '@id' ], name: 'requestId' },
+    { field: '@datetime', name: 'datetime', transform: 'date' },
+    { field: '@id', name: 'id' },
+    { field: '@journaled', name: 'journaled', transform: 'boolean' },
     { field: '@language', name: 'language' },
-    { field: 'page', transform: pageModel },
-    { field: 'root.page', name: 'rootPage', transform: pageModel },
+    { field: 'change-comment', name: 'changeComment' },
     { field: 'previous.restriction-id', name: 'previousRestrictionId', value: 'number' },
     { field: 'restriction-id', name: 'restrictionId', value: 'number' },
-    {
-        field: 'user',
-        transform: [
-            { field: '@id', name: 'id', transform: 'number' },
-            { field: 'name' }
-        ]
-    },
-    {
-        field: 'file',
-        transform: [
-            { field: '@id', name: 'id', transform: 'number' },
-            { field: '@revision', name: 'revision', transform: 'number' },
-            { field: '@res-id', name: 'resId', transform: 'number' },
-            { field: 'description' },
-            { field: 'filename' },
-            { field: 'location' }
-        ]
-    },
+    { field: 'legacy-commit', name: 'legacyComment' },
+    { field: 'root.page', name: 'rootPage', transform: pageModel },
+    { field: '@type', name: 'type' },
+    { field: '@version', name: 'version', transform: 'number' },
+    { field: 'to', transform: dateOrStringTransformer },
+    { field: 'from', transform: dateOrStringTransformer },
+    { field: 'afternode.page', name: 'afternodePage', transform: pageModel },
+    { field: 'displayname.current', name: 'currentDisplayName' },
+    { field: 'displayname.previous', name: 'previousDisplayName' },
+    { field: 'create-reason', name: 'createReason' },
+    { field: 'source.page', name: 'sourcePage', transform: pageModel },
+    { field: 'page', transform: pageModel },
+    { field: 'user', transform: userModel },
+    { field: 'file', transform: fileModel },
+    { filed: 'source.file', name: 'sourceFile', transform: fileModel },
     {
         field: 'data',
         transform: [
@@ -61,6 +69,65 @@ export const eventModel = [
             { field: '_uri.host', name: 'host' },
             { field: '_uri.query', name: 'uriQuery' },
             { field: '_uri.scheme', name: 'scheme' }
+        ]
+    },
+    {
+        field: 'diff',
+        transform: [
+            { field: '@toolarge', name: 'tooLarge', transform: 'boolean' },
+            { field: 'added', transform: 'number' },
+            { field: 'attributes', transform: 'number' },
+            { field: 'removed', transform: 'number' },
+            { field: 'structural', transform: 'number' }
+        ]
+    },
+    {
+        field: 'grant',
+        transform: [
+            { field: 'group', transform: groupModel },
+            { field: 'id', transform: 'number' },
+            {
+                field: 'role',
+                transform: [
+                    { field: '@id', name: 'id', transform: 'number' }
+                ]
+            },
+            { field: 'type' },
+            { field: 'user', transform: userModel }
+        ]
+    },
+    {
+        field: 'property',
+        transform: [
+            { field: 'name' }
+        ]
+    },
+    {
+        field: 'request',
+        transform: [
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@id', name: 'id' },
+            { field: '@seq', name: 'seq', transform: 'number' },
+            { field: 'ip' },
+            { field: 'session-id', name: 'sessionId' },
+            { field: 'signature' },
+            { field: 'user', transform: userModel }
+        ]
+    },
+    {
+        field: [ 'tags-added', 'tag' ],
+        name: 'tagsAdded',
+        isArray: true,
+        transform: [
+            { field: 'name' }
+        ]
+    },
+    {
+        field: [ 'tags-removed', 'tag' ],
+        name: 'tagsRemoved',
+        isArray: true,
+        transform: [
+            { field: 'name' }
         ]
     }
 ];
