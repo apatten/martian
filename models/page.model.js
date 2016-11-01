@@ -21,6 +21,7 @@ import { userModel } from './user.model.js';
 const pageModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: 'title' },
+    { field: '@guid', name: 'guid' },
     { field: 'uri.ui', name: 'uri' },
     { field: '@href', name: 'href' },
     { field: '@state', name: 'state' },
@@ -32,6 +33,7 @@ const pageModel = [
     { field: 'timeuuid' },
     { field: [ 'path', '#text' ] },
     { field: '@revision', name: 'revision', transform: 'number' },
+    { field: 'path.original', name: 'originalPath' },
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },
     { field: '@publish', name: 'publish', transform: 'boolean' },

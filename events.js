@@ -6,6 +6,7 @@ import { userActivityModel } from './models/userActivity.model.js';
 import { userHistoryModel } from './models/userHistory.model.js';
 import { userHistoryDetailModel } from './models/userHistoryDetail.model.js';
 import { pageHistoryModel } from './models/pageHistory.model.js';
+import { pageHistoryDetailModel } from './models/pageHistoryDetail.model.js';
 
 /**
  * A class for fetching and managing events.
@@ -57,6 +58,17 @@ export class Events {
      */
     getPageHistory(pageId, params) {
         return this.plug.at('page', utility.getResourceId(pageId, 'home')).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+    }
+
+    /**
+     * Get page history detail.
+     * @param {Number|String} pageId = 'home' - The page ID or path.
+     * @param {String} detailId - The detail ID.
+     * @param {Object} params (include) - Optional.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
+     */
+    getPageHistoryDetail(pageId, detailId, params) {
+        return this.plug.at('page', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**

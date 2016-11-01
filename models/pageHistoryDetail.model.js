@@ -17,21 +17,7 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
-export const pageHistoryModel = [
+export const pageHistoryDetailModel = [
     { field: '@count', name: 'count', transform: 'number' },
-    { field: '@since', name: 'since' },
-    { field: '@upto', name: 'upto' },
-    {
-        field: 'summary',
-        isArray: true,
-        transform: [
-            { field: '@count', name: 'count', transform: 'number' },
-            { field: '@datetime', name: 'datetime', transform: 'date' },
-            { field: '@diffable', name: 'diffable', transform: 'boolean' },
-            { field: '@id', name: 'id' },
-            { field: '@journaled', name: 'journaled', transform: 'boolean' },
-            { field: '@uri.detail', name: 'uriDetail' },
-            { field: 'event', transform: eventModel }
-        ]
-    }
+    { field: 'event', isArray: true, transform: eventModel }
 ];

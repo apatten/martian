@@ -30,6 +30,7 @@ export const fileModel = [
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'description' },
     { field: 'filename' },
+    { field: 'location' },
     {
         field: 'contents',
         transform: [
