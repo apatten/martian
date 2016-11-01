@@ -16,17 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export let groupModel = [
-    {
-        field: '@id',
-        name: 'id'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'groupname',
-        name: 'groupName'
-    }
+export const groupModel = [
+    { field: '@id', name: 'id' },
+    { field: '@href', name: 'href' },
+    { field: 'groupname', name: 'groupName' }
 ];

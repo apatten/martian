@@ -19,6 +19,7 @@
 import { pageModel } from './page.model.js';
 import { userModel } from './user.model.js';
 import { fileModel } from './file.model.js';
+import { groupModel } from './group.model.js';
 
 function dateOrStringTransformer(value) {
     const date = new Date(value);
@@ -39,7 +40,6 @@ export const eventModel = [
     { field: '@language', name: 'language' },
     { field: 'change-comment', name: 'changeComment' },
     { field: 'previous.restriction-id', name: 'previousRestrictionId', value: 'number' },
-    { field: [ 'request', '@id' ], name: 'requestId' },
     { field: 'restriction-id', name: 'restrictionId', value: 'number' },
     { field: 'legacy-commit', name: 'legacyComment' },
     { field: 'root.page', name: 'rootPage', transform: pageModel },
@@ -84,14 +84,7 @@ export const eventModel = [
     {
         field: 'grant',
         transform: [
-            {
-                field: 'group',
-                transform: [
-                    { field: '@href', name: 'href' },
-                    { field: '@id', name: 'id' },
-                    { field: 'groupname' }
-                ]
-            },
+            { field: 'group', transform: groupModel },
             { field: 'id', transform: 'number' },
             {
                 field: 'role',
