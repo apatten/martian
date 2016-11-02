@@ -163,7 +163,7 @@ describe('Page', () => {
             return page.delete(true);
         });
         xit('can attach a file to a page', () => {
-            const f = new File([], 'test.jpg');
+            const f = new File([], 'test.jpg');  // eslint-disable-line no-undef
             return page.attachFile(f);
         });
     });
