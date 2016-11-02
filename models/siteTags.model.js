@@ -16,8 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model.js';
-import { permissionsModel } from './permissions.model.js';
 export const siteTagsModelGet = [
     {
         field: '@count',
@@ -28,7 +26,7 @@ export const siteTagsModelGet = [
         field: 'tag',
         name: 'tags',
         isArray: true,
-        transform : [
+        transform: [
             {
                 field: '@value',
                 name: 'value'
@@ -60,7 +58,7 @@ export const siteTagsModelPost = [
         field: 'skipped-pageids',
         name: 'skippedPageIds',
         transform(value) {
-            if(typeof value === 'string'){
+            if(typeof value === 'string') {
                 return value.split(',');
             }
             return [];
