@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const groupModel = [
-    { field: '@id', name: 'id' },
-    { field: '@href', name: 'href' },
-    { field: 'groupname', name: 'groupName' }
+import { eventModel } from './event.model.js';
+export const pageHistoryDetailModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: 'event', isArray: true, transform: eventModel }
 ];
