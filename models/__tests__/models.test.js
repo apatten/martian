@@ -50,42 +50,42 @@ import { eventModel } from '../event.model.js';
 import { userHistoryDetailModel } from '../userHistoryDetail.model.js';
 import { userHistoryModel } from '../userHistory.model.js';
 import { pageHistoryModel } from '../pageHistory.model.js';
+import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModel } from '../siteTags.model.js';
 
-let contextIdModelParser = modelParser.createParser(contextIdModel);
-let contextIdsModelParser = modelParser.createParser(contextIdsModel);
-let contextMapModelParser = modelParser.createParser(contextMapModel);
-let contextMapsModelParser = modelParser.createParser(contextMapsModel);
-let fileModelParser = modelParser.createParser(fileModel);
-let fileRevisionsModelParser = modelParser.createParser(fileRevisionsModel);
-let groupModelParser = modelParser.createParser(groupModel);
-let groupListModelParser = modelParser.createParser(groupListModel);
-let learningPathModelParser = modelParser.createParser(learningPathModel);
-let learningPathsModelParser = modelParser.createParser(learningPathsModel);
-let pageModelParser = modelParser.createParser(pageModel);
-let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-let pageTreeModelParser = modelParser.createParser(pageTreeModel);
-let pageEditModelParser = modelParser.createParser(pageEditModel);
-let pageFilesModelParser = modelParser.createParser(pageFilesModel);
-let pageMoveModelParser = modelParser.createParser(pageMoveModel);
-let pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
-let pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
-let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-let pageTagsModelParser = modelParser.createParser(pageTagsModel);
-let searchModelParser = modelParser.createParser(searchModel);
-let subpagesModelParser = modelParser.createParser(subpagesModel);
-let userModelParser = modelParser.createParser(userModel);
-let userListModelParser = modelParser.createParser(userListModel);
-let userActivityModelParser = modelParser.createParser(userActivityModel);
-let eventModelParser = modelParser.createParser(eventModel);
-let userHistoryDetailModelParser = modelParser.createParser(userHistoryDetailModel);
-let userHistoryModelParser = modelParser.createParser(userHistoryModel);
-let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
-let siteTagsModelParser = modelParser.createParser(siteTagsModel);
+const contextIdModelParser = modelParser.createParser(contextIdModel);
+const contextIdsModelParser = modelParser.createParser(contextIdsModel);
+const contextMapModelParser = modelParser.createParser(contextMapModel);
+const contextMapsModelParser = modelParser.createParser(contextMapsModel);
+const fileModelParser = modelParser.createParser(fileModel);
+const fileRevisionsModelParser = modelParser.createParser(fileRevisionsModel);
+const groupModelParser = modelParser.createParser(groupModel);
+const groupListModelParser = modelParser.createParser(groupListModel);
+const learningPathModelParser = modelParser.createParser(learningPathModel);
+const learningPathsModelParser = modelParser.createParser(learningPathsModel);
+const pageModelParser = modelParser.createParser(pageModel);
+const pageContentsModelParser = modelParser.createParser(pageContentsModel);
+const pageTreeModelParser = modelParser.createParser(pageTreeModel);
+const pageEditModelParser = modelParser.createParser(pageEditModel);
+const pageFilesModelParser = modelParser.createParser(pageFilesModel);
+const pageMoveModelParser = modelParser.createParser(pageMoveModel);
+const pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
+const pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
+const pageRatingModelParser = modelParser.createParser(pageRatingModel);
+const pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
+const pageTagsModelParser = modelParser.createParser(pageTagsModel);
+const searchModelParser = modelParser.createParser(searchModel);
+const subpagesModelParser = modelParser.createParser(subpagesModel);
+const userModelParser = modelParser.createParser(userModel);
+const userListModelParser = modelParser.createParser(userListModel);
+const userActivityModelParser = modelParser.createParser(userActivityModel);
+const eventModelParser = modelParser.createParser(eventModel);
+const userHistoryDetailModelParser = modelParser.createParser(userHistoryDetailModel);
+const userHistoryModelParser = modelParser.createParser(userHistoryModel);
+const relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
 const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
-
+const pageHistoryDetailModelParser = modelParser.createParser(pageHistoryDetailModel);
 
 describe('Models', () => {
     describe('Context ID models', () => {
@@ -215,6 +215,11 @@ describe('Models', () => {
         });
         it('can parse a single page history event summary', () => {
             expect(pageHistoryModelParser(Mocks.pageEventSummarySingle)).toBeDefined();
+        });
+    });
+    describe('Page history detail model', () => {
+        it('can parse a single page history event detail', () => {
+            expect(pageHistoryDetailModelParser(Mocks.eventDetail)).toBeDefined();
         });
     });
     describe('Search model', () => {
