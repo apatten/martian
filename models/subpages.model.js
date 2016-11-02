@@ -16,66 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { pageModel } from './page.model.js';
 export let subpagesModel = [
-    {
-        field: '@totalcount',
-        name: 'totalCount',
-        transform: 'number'
-    },
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
+    { field: '@totalcount', name: 'totalCount', transform: 'number' },
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@href', name: 'href' },
     {
         field: 'page.subpage',
         name: 'subpages',
         isArray: true,
-        transform: [
-            {
-                field: '@id',
-                name: 'id',
-                transform: 'number'
-            },
-            {
-                field: '@href',
-                name: 'href'
-            },
-            {
-                field: '@deleted',
-                name: 'deleted',
-                transform: 'boolean'
-            },
-            {
-                field: '@subpages',
-                name: 'hasSubpages',
-                transform: 'boolean'
-            },
-            {
-                field: 'date.created',
-                name: 'dateCreated',
-                transform: 'date'
-            },
-            {
-                field: 'language'
-            },
-            {
-                field: 'namespace'
-            },
-            {
-                field: [ 'path', '#text' ]
-            },
-            {
-                field: 'title'
-            },
-            {
-                field: 'uri.ui',
-                name: 'uri'
-            }
-        ]
+        transform: pageModel
     }
 ];

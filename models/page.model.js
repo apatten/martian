@@ -34,12 +34,15 @@ const pageModel = [
     { field: [ 'path', '#text' ] },
     { field: '@revision', name: 'revision', transform: 'number' },
     { field: 'path.original', name: 'originalPath' },
-    { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },
     { field: '@publish', name: 'publish', transform: 'boolean' },
     { field: '@unpublish', name: 'unpublish', transform: 'boolean' },
     { field: '@deactivate', name: 'deactivate', transform: 'boolean' },
     { field: '@virtual', name: 'virtual', transform: 'boolean' },
+    { field: '@subpages', name: 'hasSubpages', transform: 'boolean' },
+    { field: '@terminal', name: 'terminal', transform: 'boolean' },
+    { field: 'user.author', name: 'userAuthor', transform: userModel },
+    { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'date.modified', name: 'dateModified', transform: 'date' },
     { field: 'date.edited', name: 'dateEdited', transform: 'date' },
     {
@@ -49,8 +52,8 @@ const pageModel = [
                 return pageRatingModel;
             }
         }
-    },
-    { field: 'user.author', name: 'userAuthor', transform: userModel }
+    }
 ];
+pageModel.push({ field: [ 'subpages', 'page' ], name: 'subpages', isArray: true, transform: pageModel });
 pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
 export { pageModel };
