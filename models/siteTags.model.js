@@ -18,8 +18,7 @@
  */
 import { pageModel } from './page.model.js';
 import { permissionsModel } from './permissions.model.js';
-export let siteTagsModel = [
-
+export const siteTagsModelGet = [
     {
         field: '@count',
         name: 'count',
@@ -53,5 +52,18 @@ export let siteTagsModel = [
                 field: 'uri'
             }
         ]
+    }
+];
+
+export const siteTagsModelPost = [
+    {
+        field: 'skipped-pageids',
+        name: 'skippedPageIds',
+        transform(value) {
+            if(typeof value === 'string'){
+                return value.split(',');
+            }
+            return [];
+        }
     }
 ];

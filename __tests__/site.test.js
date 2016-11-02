@@ -78,6 +78,9 @@ describe('Site API', () => {
         });
         it('can fetch all site tags', () => {
             return sm.getTags();
+        });;
+        it('can update batch site tags', () => {
+            return sm.updateBatchTags();
         });
     })
 });
