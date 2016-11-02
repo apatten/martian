@@ -80,7 +80,7 @@ describe('Site API', () => {
             return sm.getTags();
         });;
         it('can update batch site tags', () => {
-            return sm.updateBatchTags();
+            return sm.setTags();
         });
     })
 });

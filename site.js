@@ -110,7 +110,7 @@ export class Site {
      * @param {Array} options.add=[] - A tag array containing all the pages containing this tag where they need to be added.
      * @param {Array} options.remove=[] - A tag array containing all the pages containing this tag where they need to be removed.
      */
-    updateBatchTags(params) {
+    setTags(params) {
         const XMLBatchData = _getBatchTagsTemplate(params);
         const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
         return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);
