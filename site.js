@@ -43,7 +43,7 @@ function _getBatchTagsTemplate(data) {
         data.add.forEach((elm) => {
             let tagStr = `<tag.add value="${utility.escapeHTML(elm.name)}">`;
             elm.pageids.forEach((id) => {
-                tagStr += `<page id="${utility.escapeHTML(id)}"></page>`;
+                tagStr += `<page id="${id}"></page>`;
             });
             tagStr += '</tag.add>';
 
@@ -54,7 +54,7 @@ function _getBatchTagsTemplate(data) {
         data.remove.forEach((elm) => {
             let tagStr = `<tag.remove value="${utility.escapeHTML(elm.name)}">`;
             elm.pageids.forEach((id) => {
-                tagStr += `<page id="${utility.escapeHTML(id)}"></page>`;
+                tagStr += `<page id="${id}"></page>`;
             });
             tagStr += '</tag.remove>';
             postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
