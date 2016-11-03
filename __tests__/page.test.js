@@ -72,6 +72,9 @@ describe('Page', () => {
         it('can get the tags', () => {
             return page.getTags();
         });
+        it('can get the tags', () => {
+            return page.setTags();
+        });
         it('can get the user rating', () => {
             return page.getRating();
         });

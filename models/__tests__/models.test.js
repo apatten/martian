@@ -52,6 +52,7 @@ import { userHistoryModel } from '../userHistory.model.js';
 import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
+import { siteTagsModel } from '../siteTags.model.js';
 
 const contextIdModelParser = modelParser.createParser(contextIdModel);
 const contextIdsModelParser = modelParser.createParser(contextIdsModel);
@@ -275,6 +276,11 @@ describe('Models', () => {
         it('can parse a list of related pages', () => {
             expect(relatedPagesModelParser(Mocks.relatedPages)).toBeDefined();
             expect(relatedPagesModelParser(Mocks.relatedPagesSingle)).toBeDefined();
+        });
+    });
+    describe('Site Tags model', () => {
+        it('can parse a list of site tags', () => {
+            expect(siteTagsModelParser(Mocks.siteTags)).toBeDefined();
         });
     });
 });
