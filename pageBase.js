@@ -20,6 +20,16 @@ function _handleVirtualPage(error) {
     }
     throw error;
 }
+function getSaveXML(data) {
+    let template = ``;
+    if(Array.isArray(data)) {
+        data.forEach((tag) => {
+            template = `${template}<tag value="${utility.escapeHTML(tag)}" />`;
+        });
+    }
+    template = `<tags>${template}</tags>`;
+    return template;
+}
 export class PageBase {
     constructor(id) {
         if(this.constructor.name === 'PageBase') {
@@ -73,6 +83,11 @@ export class PageBase {
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug.at('tags').get().then((r) => r.json()).then(pageTagsModelParser);
+    }
+    setTags(params) {
+        let XMLData = getSaveXML(params);
+        let pageTagsModelParser = modelParser.createParser(pageTagsModel);
+        return this._plug.at(`tags`).put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
     }
     getDiff() {
         throw new Error('Page.getDiff() is not implemented');

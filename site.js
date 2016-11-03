@@ -3,6 +3,7 @@ import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
+import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -36,6 +37,33 @@ function _buildSearchConstraints(params) {
     return '+(' + constraints.join(' ') + ')';
 }
 
+function _getBatchTagsTemplate(data) {
+    var postBatchTagsTemplate = `<?xml version="1.0"?><tags>`;
+    if(Array.isArray(data['add']) && data['add'].length > 0){
+        data.add.forEach((elm) => {
+            let tagStr = `<tag.add value="${utility.escapeHTML(elm.name)}">`;
+            elm.pageids.forEach((id) => {
+                tagStr += `<page id="${utility.escapeHTML(id)}"></page>`;
+            });
+            tagStr += '</tag.add>';
+
+            postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
+        });
+    }
+    if(Array.isArray(data['remove']) && data['remove'].length > 0){
+        data.remove.forEach((elm) => {
+            let tagStr = `<tag.remove value="${utility.escapeHTML(elm.name)}">`;
+            elm.pageids.forEach((id) => {
+                tagStr += `<page id="${utility.escapeHTML(id)}"></page>`;
+            });
+            tagStr += '</tag.remove>';
+            postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
+        });
+    }
+    postBatchTagsTemplate = postBatchTagsTemplate + `</tags>`;
+    return postBatchTagsTemplate;
+}
+
 /**
  * A class for administering aspects of a MindTouch site.
  */
@@ -65,6 +93,27 @@ export class Site {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get().then((r) => r.text());
+    }
+
+    /**
+     * Get tags list.
+     * @param {String} [q=''] - A tag string to contrain search results to pages containing this tag.
+     */
+    getTags(params) {
+        const siteTagsModelParser = modelParser.createParser(siteTagsModelGet);
+        return this.plug.at('tags').withParams(params).get().then((r) => r.json()).then(siteTagsModelParser);
+    }
+
+    /**
+     * Post tags list for each page that each tag in contained in.
+     * @param {Object} options - Options to direct the fetching of the localized tags.
+     * @param {Array} options.add=[] - A tag array containing all the pages containing this tag where they need to be added.
+     * @param {Array} options.remove=[] - A tag array containing all the pages containing this tag where they need to be removed.
+     */
+    setTags(params) {
+        const XMLBatchData = _getBatchTagsTemplate(params);
+        const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
+        return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);
     }
 
     /**

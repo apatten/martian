@@ -16,15 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const pageTagsModel = [
+export const siteTagsModelGet = [
     {
         field: '@count',
         name: 'count',
         transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
     },
     {
         field: 'tag',
@@ -32,13 +28,13 @@ export const pageTagsModel = [
         isArray: true,
         transform: [
             {
-                field: '@id',
-                name: 'id',
-                transformer: 'number'
-            },
-            {
                 field: '@value',
                 name: 'value'
+            },
+            {
+                field: '@id',
+                name: 'id',
+                transform: 'number'
             },
             {
                 field: '@href',
@@ -54,5 +50,18 @@ export const pageTagsModel = [
                 field: 'uri'
             }
         ]
+    }
+];
+
+export const siteTagsModelPost = [
+    {
+        field: 'skipped-pageids',
+        name: 'skippedPageIds',
+        transform(value) {
+            if(typeof value === 'string') {
+                return value.split(',');
+            }
+            return [];
+        }
     }
 ];

@@ -68,4 +68,19 @@ describe('Site API', () => {
             return sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term' });
         });
     });
+    describe('site tags operations', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('can fetch all site tags', () => {
+            return sm.getTags();
+        });
+        it('can update batch site tags', () => {
+            return sm.setTags();
+        });
+    });
 });
