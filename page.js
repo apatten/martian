@@ -159,7 +159,7 @@ export class Page extends PageBase {
      * Import a MindTouch archive file as a child node of the page.
      *
      */
-    importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null }, params) {
+    importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
         if(progress !== null) {
             const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);

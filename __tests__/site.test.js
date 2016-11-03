@@ -79,7 +79,16 @@ describe('Site API', () => {
         it('can fetch all site tags', () => {
             return sm.getTags();
         });
-        it('can update batch site tags', () => {
+        it('can update batch site tags (add only)', () => {
+            return sm.setTags({ add: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+        });
+        it('can update batch site tags (remove only)', () => {
+            return sm.setTags({ remove: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+        });
+        it('can update batch site tags (add and remove)', () => {
+            return sm.setTags({ add: [ { name: 'foo', pageids: [ 123, 456 ] } ], remove: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+        });
+        it('can update batch site tags (empty request)', () => {
             return sm.setTags();
         });
     });

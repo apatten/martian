@@ -1,5 +1,5 @@
-export let siteMock = {
-    siteTags: {
+export const siteMock = {
+    siteTagsGet: {
         "@count":"24",
         "tag":[
             {
@@ -27,6 +27,8 @@ export let siteMock = {
                 "uri":"https://mjolnir.mindtouch.dev/Special:Tags?tag=thorium"
             }
         ]
+    },
+    siteTagsPost: {
+        "skipped-pageids":"123,456,789"
     }
-
 };

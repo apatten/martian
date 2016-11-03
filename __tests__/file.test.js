@@ -18,14 +18,19 @@
  */
 /* eslint-env jasmine, jest */
 jest.unmock('../file.js');
-import { File } from '../file.js';
+import { File, FileDraft } from '../file.js';
 
 describe('File API', () => {
     describe('constructor', () => {
         it('can construct a new File', () => {
-            let file = new File(123);
+            const file = new File(123);
             expect(file).toBeDefined();
             expect(() => File()).toThrow();
+        });
+        it('can construct a new FileDraft', () => {
+            const fileDraft = new FileDraft(123);
+            expect(fileDraft).toBeDefined();
+            expect(() => FileDraft()).toThrow();
         });
     });
     describe('operations', () => {
@@ -47,6 +52,18 @@ describe('File API', () => {
         });
         it('can delete a file', () => {
             return file.delete();
+        });
+        it('can add a file revision (no progress)', () => {
+            return file.addRevision({}, { name: 'test.png', type: 'image/png', size: 1000 });
+        });
+        it('can add a file revision (no added info)', () => {
+            return file.addRevision({ name: 'test.png', type: 'image/png', size: 1000 });
+        });
+        it('can add a file revision with progress', () => {
+            return file.addRevision({}, { name: 'test.png', type: 'image/png', size: 1000, progress: () => {} });
+        });
+        it('can add a file revision with progress (no added info)', () => {
+            return file.addRevision({}, { name: 'test.png', type: 'image/png', size: 1000, progress: () => {} });
         });
     });
 });

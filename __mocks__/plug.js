@@ -5,19 +5,19 @@ class Plug {
         return '';
     }
     at() {
-        return new Plug();
+        return new this.constructor();
     }
     withParam() {
-        return new Plug();
+        return new this.constructor();
     }
     withParams() {
-        return new Plug();
+        return new this.constructor();
     }
     withHeader() {
-        return new Plug();
+        return new this.constructor();
     }
     withHeaders() {
-        return new Plug();
+        return new this.constructor();
     }
     get() {
         return Promise.resolve(new Response());

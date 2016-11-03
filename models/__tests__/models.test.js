@@ -52,7 +52,7 @@ import { userHistoryModel } from '../userHistory.model.js';
 import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
-import { siteTagsModel } from '../siteTags.model.js';
+import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
 
 const contextIdModelParser = modelParser.createParser(contextIdModel);
 const contextIdsModelParser = modelParser.createParser(contextIdsModel);
@@ -280,7 +280,9 @@ describe('Models', () => {
     });
     describe('Site Tags model', () => {
         it('can parse a list of site tags', () => {
-            expect(siteTagsModelParser(Mocks.siteTags)).toBeDefined();
+            expect(modelParser.createParser(siteTagsModelGet)(Mocks.siteTagsGet)).toBeDefined();
+            expect(modelParser.createParser(siteTagsModelPost)(Mocks.siteTagsPost)).toBeDefined();
+            expect(modelParser.createParser(siteTagsModelPost)('')).toBeDefined();
         });
     });
 });

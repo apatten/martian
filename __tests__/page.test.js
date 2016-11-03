@@ -72,9 +72,6 @@ describe('Page', () => {
         it('can get the tags', () => {
             return page.getTags();
         });
-        it('can get the tags', () => {
-            return page.setTags();
-        });
         it('can get the user rating', () => {
             return page.getRating();
         });
@@ -165,9 +162,35 @@ describe('Page', () => {
         it('can delete pages recursively', () => {
             return page.delete(true);
         });
-        xit('can attach a file to a page', () => {
-            const f = new File([], 'test.jpg');  // eslint-disable-line no-undef
-            return page.attachFile(f);
+        it('can set the tags', () => {
+            return page.setTags([ 'foo', 'bar' ]);
+        });
+        it('can set the tags (empty request)', () => {
+            return page.setTags();
+        });
+        it('can attach a file to a page (no progress)', () => {
+            return page.attachFile({}, { name: 'test.jpg', type: 'image/jpg', size: 1000 });
+        });
+        it('can attach a file to a page (no added info)', () => {
+            return page.attachFile({ name: 'test.jpg', type: 'image/jpg', size: 1000 });
+        });
+        it('can attach a file to a page (with progress)', () => {
+            return page.attachFile({}, { name: 'test.jpg', type: 'image/jpg', size: 1000, progress: () => {} });
+        });
+        it('can import an archive (no progress)', () => {
+            return page.importArchive({}, { name: 'test.mtarc', size: 1000 }, { foo: 'bar' });
+        });
+        it('can import an archive (empty added info)', () => {
+            return page.importArchive({ name: 'test.mtarc', size: 1000 }, {}, { foo: 'bar' });
+        });
+        it('can import an archive (no added info, no params)', () => {
+            return page.importArchive({ name: 'test.mtarc', size: 1000 });
+        });
+        it('can import an archive with progress', () => {
+            return page.importArchive({}, { name: 'test.mtarc', size: 1000, progress: () => {} }, { foo: 'bar' });
+        });
+        it('can import an archive with progress (no params)', () => {
+            return page.importArchive({}, { name: 'test.mtarc', size: 1000, progress: () => {} });
         });
     });
     describe('Page manager', () => {

@@ -64,7 +64,7 @@ export class File {
      * @param { String } filename - The filename of the new revision.
      * @param { function } progress - A function that is called to indicate upload progress before the upload is complete.
      */
-    addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null }) {
+    addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
         if(progress !== null) {
             const progressInfo = { callback: progress, size };
             return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));

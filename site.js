@@ -38,8 +38,8 @@ function _buildSearchConstraints(params) {
 }
 
 function _getBatchTagsTemplate(data) {
-    var postBatchTagsTemplate = `<?xml version="1.0"?><tags>`;
-    if(Array.isArray(data['add']) && data['add'].length > 0){
+    var postBatchTagsTemplate = '<?xml version="1.0"?><tags>';
+    if(Array.isArray(data.add) && data.add.length > 0) {
         data.add.forEach((elm) => {
             let tagStr = `<tag.add value="${utility.escapeHTML(elm.name)}">`;
             elm.pageids.forEach((id) => {
@@ -50,7 +50,7 @@ function _getBatchTagsTemplate(data) {
             postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
         });
     }
-    if(Array.isArray(data['remove']) && data['remove'].length > 0){
+    if(Array.isArray(data.remove) && data.remove.length > 0) {
         data.remove.forEach((elm) => {
             let tagStr = `<tag.remove value="${utility.escapeHTML(elm.name)}">`;
             elm.pageids.forEach((id) => {
@@ -60,7 +60,7 @@ function _getBatchTagsTemplate(data) {
             postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
         });
     }
-    postBatchTagsTemplate = postBatchTagsTemplate + `</tags>`;
+    postBatchTagsTemplate = `${postBatchTagsTemplate}</tags>`;
     return postBatchTagsTemplate;
 }
 
@@ -99,7 +99,7 @@ export class Site {
      * Get tags list.
      * @param {String} [q=''] - A tag string to contrain search results to pages containing this tag.
      */
-    getTags(params) {
+    getTags(params = {}) {
         const siteTagsModelParser = modelParser.createParser(siteTagsModelGet);
         return this.plug.at('tags').withParams(params).get().then((r) => r.json()).then(siteTagsModelParser);
     }
@@ -110,7 +110,7 @@ export class Site {
      * @param {Array} options.add=[] - A tag array containing all the pages containing this tag where they need to be added.
      * @param {Array} options.remove=[] - A tag array containing all the pages containing this tag where they need to be removed.
      */
-    setTags(params) {
+    setTags(params = {}) {
         const XMLBatchData = _getBatchTagsTemplate(params);
         const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
         return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);

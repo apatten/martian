@@ -138,7 +138,7 @@ export class ContextIdManager {
         return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
 
             // response is an empty string when site has no context IDs.
-            if(response && Object.keys(response).length === 0) {
+            if(response === '') {
                 response = { context: [] };
             }
             return response;

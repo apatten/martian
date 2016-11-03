@@ -17,38 +17,18 @@
  * limitations under the License.
  */
 export const siteTagsModelGet = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
+    { field: '@count', name: 'count', transform: 'number' },
     {
         field: 'tag',
         name: 'tags',
         isArray: true,
         transform: [
-            {
-                field: '@value',
-                name: 'value'
-            },
-            {
-                field: '@id',
-                name: 'id',
-                transform: 'number'
-            },
-            {
-                field: '@href',
-                name: 'href'
-            },
-            {
-                field: 'title'
-            },
-            {
-                field: 'type'
-            },
-            {
-                field: 'uri'
-            }
+            { field: '@value', name: 'value' },
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: '@href', name: 'href' },
+            { field: 'title' },
+            { field: 'type' },
+            { field: 'uri' }
         ]
     }
 ];

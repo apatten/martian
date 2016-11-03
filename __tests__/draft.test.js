@@ -75,5 +75,8 @@ describe('Draft', () => {
         it('can publish a draft', () => {
             return draft.publish();
         });
+        it('can unpublish a draft', () => {
+            return draft.unpublish();
+        });
     });
 });
