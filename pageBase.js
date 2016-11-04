@@ -1,4 +1,4 @@
-import { ProgressPlug } from 'mindtouch-http/progressPlug.js';
+import { ProgressPlug } from 'mindtouch-http.js/progressPlug.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pageModel } from './models/page.model.js';

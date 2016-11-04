@@ -1,5 +1,5 @@
-import { Plug } from 'mindtouch-http/plug.js';
-import { ProgressPlug } from 'mindtouch-http/progressPlug.js';
+import { Plug } from 'mindtouch-http.js/plug.js';
+import { ProgressPlug } from 'mindtouch-http.js/progressPlug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
