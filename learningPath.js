@@ -1,4 +1,4 @@
-import { Plug } from 'mindtouch-http/plug.js';
+import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { learningPathModel } from './models/learningPath.model.js';
