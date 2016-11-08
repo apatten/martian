@@ -1,8 +1,8 @@
 /* eslint-env jasmine, jest */
-jest.unmock('mindtouch-http/plug.js');
-jest.mock('mindtouch-http/plug.js', () => require.requireActual('../__mocks__/plug.js'));
-jest.unmock('mindtouch-http/progressPlug.js');
-jest.mock('mindtouch-http/progressPlug.js', () => require.requireActual('../__mocks__/progressPlug.js'));
+jest.unmock('mindtouch-http.js/plug.js');
+jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/plug.js'));
+jest.unmock('mindtouch-http.js/progressPlug.js');
+jest.mock('mindtouch-http.js/progressPlug.js', () => require.requireActual('../__mocks__/progressPlug.js'));
 
 jest.unmock('../page.js');
 jest.unmock('../pageBase.js');
@@ -38,7 +38,7 @@ describe('Special page Tests', () => {
         return cm.getDefinitions();
     });
     it('can fetch a virtual page', () => {
-        jest.mock('mindtouch-http/plug.js', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => {
             class Plug {
                 at() {
                     return new Plug();
@@ -61,7 +61,7 @@ describe('Special page Tests', () => {
         return p.getFullInfo().then((r) => expect(r.virtual).toBe(true));
     });
     it('can get through virtual page checking when there is another failure', () => {
-        jest.mock('mindtouch-http/plug.js', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => {
             class Plug {
                 at() {
                     return new Plug();
@@ -90,7 +90,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can get through virtual page checking when there is another failure (no responseText)', () => {
-        jest.mock('mindtouch-http/plug.js', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => {
             class Plug {
                 at() {
                     return new Plug();
@@ -119,7 +119,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can import an archive with a conflict (no progress)', () => {
-        jest.mock('mindtouch-http/plug.js', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => {
             class Plug {
                 at() {
                     return new Plug();
@@ -152,7 +152,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can import an archive with a conflict (with progress)', () => {
-        jest.mock('mindtouch-http/progressPlug.js', () => {
+        jest.mock('mindtouch-http.js/progressPlug.js', () => {
             class ProgressPlug {
                 at() {
                     return new ProgressPlug();
