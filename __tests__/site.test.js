@@ -64,8 +64,11 @@ describe('Site API', () => {
         it('can perform a search with some other parameters', () => {
             return sm.search({ path: 'foo/bar', q: 'search thing' });
         });
+        it('can perform a search with a namespace param', () => {
+            return sm.search({ q: 'search term', namespaces: 'template' });
+        });
         it('can perform a search with all parameters', () => {
-            return sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term' });
+            return sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', page: 123, limit: 10, q: 'search term', namespaces: [ 'main', 'template' ] });
         });
     });
     describe('site tags operations', () => {
