@@ -7,8 +7,6 @@ import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js'
 
 function _buildSearchConstraints(params) {
     let constraints = [];
-    params.namespace = 'main';
-    constraints.push('+namespace:' + utility.searchEscape(params.namespace));
     if('path' in params) {
         let path = params.path;
         if(path.substr(0, 1) === '/') {
@@ -17,7 +15,7 @@ function _buildSearchConstraints(params) {
         constraints.push('+path.ancestor:' + utility.searchEscape(path));
     }
     if('tags' in params) {
-        var tags = params.tags;
+        let tags = params.tags;
         if(typeof tags === 'string' && (tags)) {
             tags = tags.split(',');
         }
@@ -26,7 +24,7 @@ function _buildSearchConstraints(params) {
         });
     }
     if('type' in params) {
-        var types = params.type;
+        let types = params.type;
         if(typeof types === 'string' && (types)) {
             types = types.split(',');
         }
@@ -34,6 +32,13 @@ function _buildSearchConstraints(params) {
             constraints.push('+type:' + utility.searchEscape(type));
         });
     }
+    let namespaces = params.namespaces;
+    if(typeof namespaces === 'string') {
+        namespaces = namespaces.split(',');
+    }
+    namespaces.forEach((ns) => {
+        constraints.push(`+namespace:${utility.searchEscape(ns)}`);
+    });
     return '+(' + constraints.join(' ') + ')';
 }
 
@@ -121,14 +126,15 @@ export class Site {
      * This function takes a single parameter with the following options.
      * @param {Number} [page=1] The paginated page number offset to return.
      * @param {Number} [limit=10] - Limit search results to the specified number of items per paginated page.
-     * @param {String} [tags=''] - A comma-separated list of tags to constrain search results to items containing one of the tags.
-     * @param {String} [type=''] - Type or types to filter the results in a comma delimited list.  Valid types: `wiki`, `document`, `image`, `binary`
+     * @param {String|Array} [tags=''] - A comma-separated list or array of tags to constrain search results to items containing one of the tags.
+     * @param {String|Array} [type=''] - Type or types to filter the results in a comma delimited list or an array.  Valid types: `wiki`, `document`, `image`, `binary`
      * @param {String} [q=''] - Search keywords or advanced search syntax.
      * @param {String} [path=''] - A page path to constrain the search results to items located under the specified path.
+     * @param {String|Array} [namespace='main'] - A comma-separated list or array of namespaces to filter the results by. Valid namespaces: 'main', 'template', 'user'.
      * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
      * @returns {Promise.<searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
      */
-    search({ page: page = 1, limit: limit = 10, tags: tags = '', type: type = '', q: q = '', path: path = '', recommendations = true } = {}) {
+    search({ page = 1, limit = 10, tags = '', type = '', q = '', path = '', recommendations = true, namespaces = 'main' } = {}) {
         let constraint = {};
         if(path !== '' && path !== '/') {
             constraint.path = path;
@@ -139,6 +145,7 @@ export class Site {
         if(type !== '') {
             constraint.type = type;
         }
+        constraint.namespaces = namespaces;
         let searchParams = {
             limit: limit,
             page: page,
