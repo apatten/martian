@@ -33,7 +33,7 @@ const pageModel = [
     { field: 'timeuuid' },
     { field: [ 'path', '#text' ] },
     { field: '@revision', name: 'revision', transform: 'number' },
-    { field: 'path.original', name: 'originalPath' },
+    { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },
     { field: '@publish', name: 'publish', transform: 'boolean' },
     { field: '@unpublish', name: 'unpublish', transform: 'boolean' },
