@@ -122,6 +122,13 @@ export class Site {
     }
 
     /**
+     * Post list of new feature status.
+     */
+    setFeatureStatus() {
+        return new Plug().at('@app','newfeature','status.json').post().then((r) => r.json());
+    }
+
+    /**
      * Perform a search across the site.
      * This function takes a single parameter with the following options.
      * @param {Number} [page=1] The paginated page number offset to return.

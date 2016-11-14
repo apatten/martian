@@ -95,4 +95,19 @@ describe('Site API', () => {
             return sm.setTags();
         });
     });
+    describe('verify new feature status', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('post read status on new features', () => {
+            return sm.setFeatureStatus();
+        });
+        it('post read status on new features with passed argument', () => {
+            return sm.setFeatureStatus('foo/bar/url');
+        });
+    });
 });
