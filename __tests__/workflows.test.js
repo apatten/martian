@@ -30,8 +30,14 @@ describe('Workflows', () => {
             afterEach(() => {
                 wm = null;
             });
+            it('does not throw a sync error', () => {
+                expect(wm.submitFeedback.bind(wm)).not.toThrow();
+                expect(wm.requestArticle.bind(wm)).not.toThrow();
+                expect(wm.submitIssue.bind(wm)).not.toThrow();
+                expect(wm.contactSupport.bind(wm)).not.toThrow();
+            });
             it('can submit page feedback', () => {
-                return wm.submitFeedback({ path: 'foo' });
+                return wm.submitFeedback({ _path: 'foo' });
             });
             it('can fail if the page feedback path is not supplied', () => {
                 const success = jest.fn();
@@ -46,10 +52,46 @@ describe('Workflows', () => {
                 return wm.requestArticle({});
             });
             it('can send a submit issue message', () => {
-                return wm.submitIssue({});
+                return wm.submitIssue({ _path: 'foo', _search: 'bar' });
+            });
+            it('can fail if the submit issue path is not supplied', () => {
+                const success = jest.fn();
+                return wm.submitIssue({ _search: 'bar' }).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail if the submit issue search is not supplied', () => {
+                const success = jest.fn();
+                return wm.submitIssue({ _path: 'foo' }).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
             });
             it('can send a contact support message', () => {
-                return wm.contactSupport({});
+                return wm.contactSupport({ _path: 'foo', _search: 'bar' });
+            });
+            it('can fail if the contact support path is not supplied', () => {
+                const success = jest.fn();
+                return wm.contactSupport({ _search: 'bar' }).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail if the contact support search is not supplied', () => {
+                const success = jest.fn();
+                return wm.contactSupport({ _path: 'foo' }).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
             });
         });
     });

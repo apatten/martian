@@ -53,6 +53,7 @@ import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
+import { workflowsModel } from '../workflows.model.js';
 
 const contextIdModelParser = modelParser.createParser(contextIdModel);
 const contextIdsModelParser = modelParser.createParser(contextIdsModel);
@@ -86,6 +87,7 @@ const userHistoryModelParser = modelParser.createParser(userHistoryModel);
 const relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
 const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
 const pageHistoryDetailModelParser = modelParser.createParser(pageHistoryDetailModel);
+const workflowsModelParser = modelParser.createParser(workflowsModel);
 
 describe('Models', () => {
     describe('Context ID models', () => {
@@ -283,6 +285,11 @@ describe('Models', () => {
             expect(modelParser.createParser(siteTagsModelGet)(Mocks.siteTagsGet)).toBeDefined();
             expect(modelParser.createParser(siteTagsModelPost)(Mocks.siteTagsPost)).toBeDefined();
             expect(modelParser.createParser(siteTagsModelPost)('')).toBeDefined();
+        });
+    });
+    describe('Workflows model', () => {
+        it('can parse a workflow response', () => {
+            expect(workflowsModelParser(Mocks.workflows)).toBeDefined();
         });
     });
 });
