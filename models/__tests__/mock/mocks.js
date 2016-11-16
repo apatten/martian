@@ -10,6 +10,7 @@ import { pagePropertyMock } from './pageProperty.mock.js';
 import { searchMock } from './search.mock.js';
 import { siteMock } from './site.mock.js';
 import { userMock } from './user.mock.js';
+import { workflowsMock } from './workflows.mock.js';
 
 const mockLibs = [
     dataMock,
@@ -23,7 +24,8 @@ const mockLibs = [
     pagePropertyMock,
     searchMock,
     siteMock,
-    userMock
+    userMock,
+    workflowsMock
 ];
 const Mocks = {};
 mockLibs.forEach((lib) => {
