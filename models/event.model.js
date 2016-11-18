@@ -55,7 +55,7 @@ export const eventModel = [
     { field: 'page', transform: pageModel },
     { field: 'user', transform: userModel },
     { field: 'file', transform: fileModel },
-    { filed: 'source.file', name: 'sourceFile', transform: fileModel },
+    { field: 'source.file', name: 'sourceFile', transform: fileModel },
     {
         field: 'data',
         transform: [
