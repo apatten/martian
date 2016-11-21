@@ -54,8 +54,14 @@ describe('User Events', () => {
         it('can fetch a page history event', () => {
             return ue.getPageHistory();
         });
+        it('can fetch a draft history event', () => {
+            return ue.getDraftHistory();
+        });
         it('can fetch a page history detail event', () => {
             return ue.getPageHistoryDetail();
+        });
+        it('can fetch a draft history detail event', () => {
+            return ue.getDraftHistoryDetail();
         });
     });
 });
