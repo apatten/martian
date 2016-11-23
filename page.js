@@ -50,8 +50,7 @@ export class Page extends PageBase {
      * @returns {Promise.<subpagesModel>} - A Promise that, when resolved, yields a {@link subpagesModel} containing the basic page information.
      */
     getSubpages(params) {
-        let subpagesModelParser = modelParser.createParser(subpagesModel);
-        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(subpagesModelParser);
+        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(subpagesModel));
     }
 
     /**
@@ -190,8 +189,7 @@ export class PageManager {
      * @returns {Promise.<pageRatingsModel>} - A Promise that, when resolved, yields a {@link pageRatingsModel} object with the ratings information.
      */
     getRatings(pageIds) {
-        var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
-        let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-        return ratingsPlug.get().then((r) => r.json()).then(pageRatingsModelParser);
+        const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
+        return ratingsPlug.get().then((r) => r.json()).then(modelParser.createParser(pageRatingsModel));
     }
 }
