@@ -19,10 +19,11 @@
 import { pageModel } from './page.model.js';
 export const searchModel = [
     { field: '@ranking', name: 'ranking' },
-    { field: '@queryid', name: 'queryId' },
+    { field: '@queryid', name: 'queryId', transform: 'number' },
     { field: '@querycount', name: 'queryCount', transform: 'number' },
     { field: '@count.recommendations', name: 'recommendationCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
+    { field: 'parsedQuery' },
     {
         field: 'result',
         name: 'results',
@@ -38,7 +39,17 @@ export const searchModel = [
             { field: 'type' },
             { field: 'uri' },
             { field: 'uri.track', name: 'uriTrack' },
-            { field: 'page', transform: pageModel }
+            { field: 'page', transform: pageModel },
+            { field: 'preview' },
+            {
+                field: 'tag',
+                name: 'tags',
+                transform(value) {
+                    if(value) {
+                        return value.split('\n');
+                    }
+                }
+            }
         ]
     },
     {
