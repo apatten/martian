@@ -67,7 +67,6 @@ const learningPathModelParser = modelParser.createParser(learningPathModel);
 const learningPathsModelParser = modelParser.createParser(learningPathsModel);
 const pageModelParser = modelParser.createParser(pageModel);
 const pageContentsModelParser = modelParser.createParser(pageContentsModel);
-const pageTreeModelParser = modelParser.createParser(pageTreeModel);
 const pageEditModelParser = modelParser.createParser(pageEditModel);
 const pageFilesModelParser = modelParser.createParser(pageFilesModel);
 const pageMoveModelParser = modelParser.createParser(pageMoveModel);
@@ -159,7 +158,7 @@ describe('Models', () => {
     });
     describe('Page tree model', () => {
         it('can parse page tree info', () => {
-            expect(pageTreeModelParser(Mocks.pageTree)).toBeDefined();
+            expect(modelParser.createParser(pageTreeModel)(Mocks.pageTree)).toBeDefined();
         });
     });
     describe('Page edit model', () => {
