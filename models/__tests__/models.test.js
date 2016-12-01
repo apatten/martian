@@ -104,6 +104,8 @@ describe('Models', () => {
             }
             function testEntry(entry, validProps) {
                 if(!propsAreValid(entry, validProps)) {
+
+                    // eslint-disable-next-line
                     console.log(entry);
                     throw new Error('Invalid property found');
                 }
