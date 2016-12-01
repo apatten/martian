@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let contextMapModel = [
+export const contextMapModel = [
     {
         field: '@default',
         name: 'default',
@@ -39,7 +39,7 @@ export let contextMapModel = [
     },
     {
         field: 'page',
-        model: pageModel
+        transform: pageModel
     },
     {
         field: [ 'pageid', '#text' ],

@@ -34,7 +34,7 @@ export const pageTagsModel = [
             {
                 field: '@id',
                 name: 'id',
-                transformer: 'number'
+                transform: 'number'
             },
             {
                 field: '@value',
