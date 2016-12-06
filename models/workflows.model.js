@@ -16,20 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const pageTagsModel = [
-    { field: '@count', name: 'count', transform: 'number' },
+export const workflowsModel = [
     { field: '@href', name: 'href' },
-    {
-        field: 'tag',
-        name: 'tags',
-        isArray: true,
-        transform: [
-            { field: '@id', name: 'id', transform: 'number' },
-            { field: '@value', name: 'value' },
-            { field: '@href', name: 'href' },
-            { field: 'title' },
-            { field: 'type' },
-            { field: 'uri' }
-        ]
-    }
+    { field: 'uri.next', name: 'uriNext' }
 ];

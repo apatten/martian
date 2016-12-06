@@ -39,8 +39,8 @@ export const eventModel = [
     { field: '@journaled', name: 'journaled', transform: 'boolean' },
     { field: '@language', name: 'language' },
     { field: 'change-comment', name: 'changeComment' },
-    { field: 'previous.restriction-id', name: 'previousRestrictionId', value: 'number' },
-    { field: 'restriction-id', name: 'restrictionId', value: 'number' },
+    { field: 'previous.restriction-id', name: 'previousRestrictionId', transform: 'number' },
+    { field: 'restriction-id', name: 'restrictionId', transform: 'number' },
     { field: 'legacy-commit', name: 'legacyComment' },
     { field: 'root.page', name: 'rootPage', transform: pageModel },
     { field: '@type', name: 'type' },
@@ -55,7 +55,7 @@ export const eventModel = [
     { field: 'page', transform: pageModel },
     { field: 'user', transform: userModel },
     { field: 'file', transform: fileModel },
-    { filed: 'source.file', name: 'sourceFile', transform: fileModel },
+    { field: 'source.file', name: 'sourceFile', transform: fileModel },
     {
         field: 'data',
         transform: [

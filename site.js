@@ -165,8 +165,8 @@ export class Site {
     /**
      * Perform a search across the site.
      * This function takes a single parameter with the following options.
-     * @param {Number} [page=1] The paginated page number offset to return.
      * @param {Number} [limit=10] - Limit search results to the specified number of items per paginated page.
+     * @param {Number} [offset=10] - The index in the total query results at which to begin the returned result set.
      * @param {String|Array} [tags=''] - A comma-separated list or array of tags to constrain search results to items containing one of the tags.
      * @param {String|Array} [type=''] - Type or types to filter the results in a comma delimited list or an array.  Valid types: `wiki`, `document`, `image`, `binary`
      * @param {String} [q=''] - Search keywords or advanced search syntax.
@@ -175,8 +175,8 @@ export class Site {
      * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
      * @returns {Promise.<searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
      */
-    search({ page = 1, limit = 10, tags = '', type = '', q = '', path = '', recommendations = true, namespaces = 'main' } = {}) {
-        let constraint = {};
+    search({ limit = 10, offset = 0, q = '', path = '', recommendations = true, tags = '', type = '', namespaces = 'main' } = {}) {
+        const constraint = {};
         if(path !== '' && path !== '/') {
             constraint.path = path;
         }
@@ -187,17 +187,15 @@ export class Site {
             constraint.type = type;
         }
         constraint.namespaces = namespaces;
-        let searchParams = {
+        const searchParams = {
             limit: limit,
-            page: page,
-            offset: (parseInt(limit, 10) * (parseInt(page, 10) - 1)),
+            offset: offset,
             sortBy: '-date,-rank',
             q: q,
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint),
             recommendations: recommendations
         };
-        let searchModelParser = modelParser.createParser(searchModel);
-        return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(searchModelParser);
+        return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
     }
 }

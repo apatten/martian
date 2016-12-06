@@ -108,6 +108,9 @@ describe('Page', () => {
         it('can rate a page', () => {
             return page.rate(1);
         });
+        it('can rate a page; sending in the old rating', () => {
+            return page.rate(1, 0);
+        });
         it('can reset a page rating implicitly', () => {
             return page.rate();
         });

@@ -56,241 +56,276 @@ import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
 import { availableLogsModel } from '../availableLogs.model.js';
 import { logModel } from '../availableLogs.model.js';
 import { logUrlModel } from '../logUrl.model.js';
+import { workflowsModel } from '../workflows.model.js';
 
-const contextIdModelParser = modelParser.createParser(contextIdModel);
-const contextIdsModelParser = modelParser.createParser(contextIdsModel);
-const contextMapModelParser = modelParser.createParser(contextMapModel);
-const contextMapsModelParser = modelParser.createParser(contextMapsModel);
-const fileModelParser = modelParser.createParser(fileModel);
-const fileRevisionsModelParser = modelParser.createParser(fileRevisionsModel);
-const groupModelParser = modelParser.createParser(groupModel);
-const groupListModelParser = modelParser.createParser(groupListModel);
-const learningPathModelParser = modelParser.createParser(learningPathModel);
-const learningPathsModelParser = modelParser.createParser(learningPathsModel);
-const pageModelParser = modelParser.createParser(pageModel);
-const pageContentsModelParser = modelParser.createParser(pageContentsModel);
-const pageTreeModelParser = modelParser.createParser(pageTreeModel);
-const pageEditModelParser = modelParser.createParser(pageEditModel);
-const pageFilesModelParser = modelParser.createParser(pageFilesModel);
-const pageMoveModelParser = modelParser.createParser(pageMoveModel);
-const pagePropertyModelParser = modelParser.createParser(pagePropertyModel);
-const pagePropertiesModelParser = modelParser.createParser(pagePropertiesModel);
-const pageRatingModelParser = modelParser.createParser(pageRatingModel);
-const pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-const pageTagsModelParser = modelParser.createParser(pageTagsModel);
-const searchModelParser = modelParser.createParser(searchModel);
-const subpagesModelParser = modelParser.createParser(subpagesModel);
-const userModelParser = modelParser.createParser(userModel);
-const userListModelParser = modelParser.createParser(userListModel);
-const userActivityModelParser = modelParser.createParser(userActivityModel);
-const eventModelParser = modelParser.createParser(eventModel);
-const userHistoryDetailModelParser = modelParser.createParser(userHistoryDetailModel);
-const userHistoryModelParser = modelParser.createParser(userHistoryModel);
-const relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
-const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
-const pageHistoryDetailModelParser = modelParser.createParser(pageHistoryDetailModel);
-const availableLogsModelParser = modelParser.createParser(availableLogsModel);
-const logUrlModelParser = modelParser.createParser(logUrlModel);
+// Add all imported models here for property checking
+const allModels = [
+    contextIdModel,
+    contextIdsModel,
+    contextMapModel,
+    contextMapsModel,
+    fileModel,
+    fileRevisionsModel,
+    groupModel,
+    groupListModel,
+    learningPathModel,
+    learningPathsModel,
+    pageModel,
+    pageContentsModel,
+    pageTreeModel,
+    pageEditModel,
+    pageFilesModel,
+    pageMoveModel,
+    pagePropertyModel,
+    pagePropertiesModel,
+    pageRatingModel,
+    pageRatingsModel,
+    pageTagsModel,
+    searchModel,
+    subpagesModel,
+    userModel,
+    userListModel,
+    userActivityModel,
+    eventModel,
+    userHistoryDetailModel,
+    userHistoryModel,
+    pageHistoryModel,
+    pageHistoryDetailModel,
+    relatedPagesModel,
+    siteTagsModelGet,
+    siteTagsModelPost,
+    availableLogsModel,
+    logModel,
+    logUrlModel,
+    workflowsModel
+];
 
 describe('Models', () => {
+    describe('Property checking', () => {
+        it('only has valid properties', () => {
+            const defaultProps = [ 'field', 'name', 'isArray', 'transform', 'constructTransform' ];
+            const preProcessorProps = [ 'preProcessor', 'model' ];
+            function propsAreValid(obj, validProps) {
+                return Object.keys(obj).every((prop) => validProps.includes(prop));
+            }
+            function testEntry(entry, validProps) {
+                if(!propsAreValid(entry, validProps)) {
+
+                    // eslint-disable-next-line
+                    console.log(entry);
+                    throw new Error('Invalid property found');
+                }
+                if(Array.isArray(entry.transform) && !allModels.includes(entry.transform)) {
+                    entry.transform.forEach((subEntry) => testEntry(subEntry, validProps));
+                }
+            }
+            allModels.forEach((model) => {
+                if(!Array.isArray(model)) {
+                    testEntry(model, preProcessorProps);
+                    model = model.model;
+                }
+                model.forEach((entry) => testEntry(entry, defaultProps));
+            });
+        });
+    });
     describe('Available logs model', () => {
         it('can parse a list of logs', () => {
-            expect(availableLogsModelParser(Mocks.availableLogs)).toBeDefined();
+            expect(modelParser.createParser(logModel)(Mocks.contextIdDefinition)).toBeDefined();
         });
     });
     describe('Log URL model', () => {
         it('can parse a log URL', () => {
-            expect(logUrlModelParser(Mocks.logUrl)).toBeDefined();
+            expect(modelParser.createParser(logUrlModel)(Mocks.contextIdDefinition)).toBeDefined();
         });
     });
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
-            expect(contextIdModelParser(Mocks.contextIdDefinition)).toBeDefined();
-            expect(contextIdModelParser(Mocks.contextIdDefinitionsSingle)).toBeDefined();
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinition)).toBeDefined();
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinitionsSingle)).toBeDefined();
         });
         it('can parse a list of context IDs', () => {
-            expect(contextIdsModelParser(Mocks.contextIdDefinitions)).toBeDefined();
-            expect(contextIdsModelParser(Mocks.contextIdDefinitionsSingle)).toBeDefined();
+            expect(modelParser.createParser(contextIdsModel)(Mocks.contextIdDefinitions)).toBeDefined();
+            expect(modelParser.createParser(contextIdsModel)(Mocks.contextIdDefinitionsSingle)).toBeDefined();
         });
         it('can parse a context map', () => {
-            expect(contextMapModelParser(Mocks.contextMap)).toBeDefined();
-            expect(contextMapModelParser(Mocks.contextMapVerbose)).toBeDefined();
+            expect(modelParser.createParser(contextMapModel)(Mocks.contextMap)).toBeDefined();
+            expect(modelParser.createParser(contextMapModel)(Mocks.contextMapVerbose)).toBeDefined();
         });
         it('can parse a list of context maps', () => {
-            expect(contextMapsModelParser(Mocks.contextMaps)).toBeDefined();
-            expect(contextMapsModelParser(Mocks.contextMapsSingleLanguage)).toBeDefined();
-            expect(contextMapsModelParser(Mocks.contextMapSingleSingle)).toBeDefined();
-            expect(contextMapsModelParser(Mocks.contextMapsEmpty)).toBeDefined();
+            expect(modelParser.createParser(contextMapsModel)(Mocks.contextMaps)).toBeDefined();
+            expect(modelParser.createParser(contextMapsModel)(Mocks.contextMapsSingleLanguage)).toBeDefined();
+            expect(modelParser.createParser(contextMapsModel)(Mocks.contextMapSingleSingle)).toBeDefined();
+            expect(modelParser.createParser(contextMapsModel)(Mocks.contextMapsEmpty)).toBeDefined();
         });
     });
     describe('File model', () => {
         it('can parse file info', () => {
-            expect(fileModelParser(Mocks.file)).toBeDefined();
-            expect(fileModelParser(Mocks.fileReduced)).toBeDefined();
+            expect(modelParser.createParser(fileModel)(Mocks.file)).toBeDefined();
+            expect(modelParser.createParser(fileModel)(Mocks.fileReduced)).toBeDefined();
         });
         it('can parse a list of file revisions', () => {
-            expect(fileRevisionsModelParser(Mocks.fileRevisions)).toBeDefined();
-            expect(fileRevisionsModelParser(Mocks.fileRevisionsSingle)).toBeDefined();
-            expect(fileRevisionsModelParser(Mocks.fileRevisionsEmpty)).toBeDefined();
+            expect(modelParser.createParser(fileRevisionsModel)(Mocks.fileRevisions)).toBeDefined();
+            expect(modelParser.createParser(fileRevisionsModel)(Mocks.fileRevisionsSingle)).toBeDefined();
+            expect(modelParser.createParser(fileRevisionsModel)(Mocks.fileRevisionsEmpty)).toBeDefined();
         });
     });
     describe('Group model', () => {
         it('can parse group info', () => {
-            expect(groupModelParser(Mocks.group)).toBeDefined();
+            expect(modelParser.createParser(groupModel)(Mocks.group)).toBeDefined();
         });
         it('can parse a list of groups', () => {
-            expect(groupListModelParser(Mocks.groupListing)).toBeDefined();
-            expect(groupListModelParser(Mocks.groupListingSingle)).toBeDefined();
-            expect(groupListModelParser(Mocks.groupListingEmpty)).toBeDefined();
+            expect(modelParser.createParser(groupListModel)(Mocks.groupListing)).toBeDefined();
+            expect(modelParser.createParser(groupListModel)(Mocks.groupListingSingle)).toBeDefined();
+            expect(modelParser.createParser(groupListModel)(Mocks.groupListingEmpty)).toBeDefined();
         });
     });
     describe('Learning Path model', () => {
         it('can parse learning path', () => {
-            expect(learningPathModelParser(Mocks.learningPath)).toBeDefined();
-            expect(learningPathModelParser(Mocks.learningPathSinglePage)).toBeDefined();
-            expect(learningPathModelParser(Mocks.learningPathNoPages)).toBeDefined();
+            expect(modelParser.createParser(learningPathModel)(Mocks.learningPath)).toBeDefined();
+            expect(modelParser.createParser(learningPathModel)(Mocks.learningPathSinglePage)).toBeDefined();
+            expect(modelParser.createParser(learningPathModel)(Mocks.learningPathNoPages)).toBeDefined();
         });
         it('can parse multiple learning paths', () => {
-            expect(learningPathsModelParser(Mocks.learningPaths)).toBeDefined();
-            expect(learningPathsModelParser(Mocks.learningPathsSingular)).toBeDefined();
+            expect(modelParser.createParser(learningPathsModel)(Mocks.learningPaths)).toBeDefined();
+            expect(modelParser.createParser(learningPathsModel)(Mocks.learningPathsSingular)).toBeDefined();
         });
     });
     describe('Page model', () => {
         it('can parse page info', () => {
-            expect(pageModelParser(Mocks.page)).toBeDefined();
-            expect(pageModelParser(Mocks.pageInfo)).toBeDefined();
-            expect(pageModelParser(Mocks.virtualPage)).toBeDefined();
-            expect(pageModelParser(Mocks.draft)).toBeDefined();
+            expect(modelParser.createParser(pageModel)(Mocks.page)).toBeDefined();
+            expect(modelParser.createParser(pageModel)(Mocks.pageInfo)).toBeDefined();
+            expect(modelParser.createParser(pageModel)(Mocks.virtualPage)).toBeDefined();
+            expect(modelParser.createParser(pageModel)(Mocks.draft)).toBeDefined();
         });
     });
     describe('Page contents model', () => {
         it('can parse page contents info', () => {
-            expect(pageContentsModelParser(Mocks.pageContent)).toBeDefined();
-            expect(pageContentsModelParser(Mocks.pageContentSimple)).toBeDefined();
-            expect(pageContentsModelParser(Mocks.draftContent)).toBeDefined();
+            expect(modelParser.createParser(pageContentsModel)(Mocks.pageContent)).toBeDefined();
+            expect(modelParser.createParser(pageContentsModel)(Mocks.pageContentSimple)).toBeDefined();
+            expect(modelParser.createParser(pageContentsModel)(Mocks.draftContent)).toBeDefined();
         });
     });
     describe('Page tree model', () => {
         it('can parse page tree info', () => {
-            expect(pageTreeModelParser(Mocks.pageTree)).toBeDefined();
+            expect(modelParser.createParser(pageTreeModel)(Mocks.pageTree)).toBeDefined();
         });
     });
     describe('Page edit model', () => {
         it('can parse a page edit info', () => {
-            expect(pageEditModelParser(Mocks.pageSetContents)).toBeDefined();
-            expect(pageEditModelParser(Mocks.pageSetContentsConflict)).toBeDefined();
-            expect(pageEditModelParser(Mocks.draftSetContents)).toBeDefined();
+            expect(modelParser.createParser(pageEditModel)(Mocks.pageSetContents)).toBeDefined();
+            expect(modelParser.createParser(pageEditModel)(Mocks.pageSetContentsConflict)).toBeDefined();
+            expect(modelParser.createParser(pageEditModel)(Mocks.draftSetContents)).toBeDefined();
         });
     });
     describe('Page files model', () => {
         it('can parse page files info', () => {
-            expect(pageFilesModelParser(Mocks.fileRevisions)).toBeDefined();
-            expect(pageFilesModelParser(Mocks.fileRevisionsSingle)).toBeDefined();
-            expect(pageFilesModelParser(Mocks.fileRevisionsEmpty)).toBeDefined();
+            expect(modelParser.createParser(pageFilesModel)(Mocks.fileRevisions)).toBeDefined();
+            expect(modelParser.createParser(pageFilesModel)(Mocks.fileRevisionsSingle)).toBeDefined();
+            expect(modelParser.createParser(pageFilesModel)(Mocks.fileRevisionsEmpty)).toBeDefined();
         });
     });
     describe('Page move model', () => {
         it('can parse page move info', () => {
-            expect(pageMoveModelParser(Mocks.pageMove)).toBeDefined();
-            expect(pageMoveModelParser(Mocks.pageMoveSingle)).toBeDefined();
-            expect(pageMoveModelParser(Mocks.pageMoveEmpty)).toBeDefined();
+            expect(modelParser.createParser(pageMoveModel)(Mocks.pageMove)).toBeDefined();
+            expect(modelParser.createParser(pageMoveModel)(Mocks.pageMoveSingle)).toBeDefined();
+            expect(modelParser.createParser(pageMoveModel)(Mocks.pageMoveEmpty)).toBeDefined();
         });
     });
     describe('Page properties model', () => {
         it('can parse page proerty info', () => {
-            expect(pagePropertyModelParser(Mocks.pageProperty)).toBeDefined();
-            expect(pagePropertyModelParser(Mocks.pagePropertyPage)).toBeDefined();
+            expect(modelParser.createParser(pagePropertyModel)(Mocks.pageProperty)).toBeDefined();
+            expect(modelParser.createParser(pagePropertyModel)(Mocks.pagePropertyPage)).toBeDefined();
         });
         it('can parse a list of page properties', () => {
-            expect(pagePropertiesModelParser(Mocks.pageProperties)).toBeDefined();
-            expect(pagePropertiesModelParser(Mocks.pagePropertiesSingle)).toBeDefined();
-            expect(pagePropertiesModelParser(Mocks.pagePropertiesEmpty)).toBeDefined();
+            expect(modelParser.createParser(pagePropertiesModel)(Mocks.pageProperties)).toBeDefined();
+            expect(modelParser.createParser(pagePropertiesModel)(Mocks.pagePropertiesSingle)).toBeDefined();
+            expect(modelParser.createParser(pagePropertiesModel)(Mocks.pagePropertiesEmpty)).toBeDefined();
         });
     });
     describe('Page ratings model', () => {
         it('can parse page rating info', () => {
-            expect(pageRatingModelParser(Mocks.pageRating)).toBeDefined();
+            expect(modelParser.createParser(pageRatingModel)(Mocks.pageRating)).toBeDefined();
         });
         it('can parse a list of page ratings', () => {
-            expect(pageRatingsModelParser(Mocks.pageRatings)).toBeDefined();
-            expect(pageRatingsModelParser(Mocks.pageRatingsSingle)).toBeDefined();
-            expect(pageRatingsModelParser(Mocks.pageRatingsEmpty)).toBeDefined();
+            expect(modelParser.createParser(pageRatingsModel)(Mocks.pageRatings)).toBeDefined();
+            expect(modelParser.createParser(pageRatingsModel)(Mocks.pageRatingsSingle)).toBeDefined();
+            expect(modelParser.createParser(pageRatingsModel)(Mocks.pageRatingsEmpty)).toBeDefined();
         });
     });
     describe('Page tags model', () => {
         it('can parse page tags info', () => {
-            expect(pageTagsModelParser(Mocks.pageTags)).toBeDefined();
-            expect(pageTagsModelParser(Mocks.pageTagsSingle)).toBeDefined();
-            expect(pageTagsModelParser(Mocks.pageTagsEmpty)).toBeDefined();
+            expect(modelParser.createParser(pageTagsModel)(Mocks.pageTags)).toBeDefined();
+            expect(modelParser.createParser(pageTagsModel)(Mocks.pageTagsSingle)).toBeDefined();
+            expect(modelParser.createParser(pageTagsModel)(Mocks.pageTagsEmpty)).toBeDefined();
         });
     });
     describe('Page history model', () => {
         it('can parse a list of page history event summary', () => {
-            expect(pageHistoryModelParser(Mocks.pageEventSummary)).toBeDefined();
+            expect(modelParser.createParser(pageHistoryModel)(Mocks.pageEventSummary)).toBeDefined();
         });
         it('can parse a single page history event summary', () => {
-            expect(pageHistoryModelParser(Mocks.pageEventSummarySingle)).toBeDefined();
+            expect(modelParser.createParser(pageHistoryModel)(Mocks.pageEventSummarySingle)).toBeDefined();
         });
     });
     describe('Page history detail model', () => {
         it('can parse a single page history event detail', () => {
-            expect(pageHistoryDetailModelParser(Mocks.eventDetail)).toBeDefined();
+            expect(modelParser.createParser(pageHistoryDetailModel)(Mocks.eventDetail)).toBeDefined();
         });
     });
     describe('Search model', () => {
         it('can parse search result info', () => {
-            expect(searchModelParser(Mocks.search)).toBeDefined();
-            expect(searchModelParser(Mocks.searchSingle)).toBeDefined();
-            expect(searchModelParser(Mocks.searchEmpty)).toBeDefined();
-            expect(searchModelParser(Mocks.searchSingleNoResultSummary)).toBeDefined();
+            expect(modelParser.createParser(searchModel)(Mocks.search)).toBeDefined();
+            expect(modelParser.createParser(searchModel)(Mocks.searchSingle)).toBeDefined();
+            expect(modelParser.createParser(searchModel)(Mocks.searchEmpty)).toBeDefined();
+            expect(modelParser.createParser(searchModel)(Mocks.searchSingleNoResultSummary)).toBeDefined();
         });
     });
     describe('Subpages model', () => {
         it('can parse subpages info', () => {
-            expect(subpagesModelParser(Mocks.subpages)).toBeDefined();
-            expect(subpagesModelParser(Mocks.subpagesSingle)).toBeDefined();
-            expect(subpagesModelParser(Mocks.subpagesEmpty)).toBeDefined();
+            expect(modelParser.createParser(subpagesModel)(Mocks.subpages)).toBeDefined();
+            expect(modelParser.createParser(subpagesModel)(Mocks.subpagesSingle)).toBeDefined();
+            expect(modelParser.createParser(subpagesModel)(Mocks.subpagesEmpty)).toBeDefined();
         });
     });
     describe('Users model', () => {
         it('can parse user info', () => {
-            expect(userModelParser(Mocks.user)).toBeDefined();
+            expect(modelParser.createParser(userModel)(Mocks.user)).toBeDefined();
         });
         it('can parse a list of users', () => {
-            expect(userListModelParser(Mocks.users)).toBeDefined();
-            expect(userListModelParser(Mocks.usersSingle)).toBeDefined();
-            expect(userListModelParser(Mocks.userSearch)).toBeDefined();
-            expect(userListModelParser(Mocks.userSearchSingle)).toBeDefined();
-            expect(userListModelParser(Mocks.userSearchEmpty)).toBeDefined();
+            expect(modelParser.createParser(userListModel)(Mocks.users)).toBeDefined();
+            expect(modelParser.createParser(userListModel)(Mocks.usersSingle)).toBeDefined();
+            expect(modelParser.createParser(userListModel)(Mocks.userSearch)).toBeDefined();
+            expect(modelParser.createParser(userListModel)(Mocks.userSearchSingle)).toBeDefined();
+            expect(modelParser.createParser(userListModel)(Mocks.userSearchEmpty)).toBeDefined();
         });
     });
     describe('User activity model', () => {
         it('can parse a list of user activity events', () => {
-            expect(userActivityModelParser(Mocks.userActivity)).toBeDefined();
-            expect(userActivityModelParser(Mocks.userActivitySingle)).toBeDefined();
-            expect(userActivityModelParser(Mocks.userActivityEmpty)).toBeDefined();
+            expect(modelParser.createParser(userActivityModel)(Mocks.userActivity)).toBeDefined();
+            expect(modelParser.createParser(userActivityModel)(Mocks.userActivitySingle)).toBeDefined();
+            expect(modelParser.createParser(userActivityModel)(Mocks.userActivityEmpty)).toBeDefined();
         });
     });
     describe('Event model', () => {
         it('can parse an event', () => {
-            expect(eventModelParser(Mocks.event)).toBeDefined();
-            expect(eventModelParser(Mocks.eventUserName)).toBeDefined();
+            expect(modelParser.createParser(eventModel)(Mocks.event)).toBeDefined();
+            expect(modelParser.createParser(eventModel)(Mocks.eventUserName)).toBeDefined();
         });
     });
     describe('Event detail model', () => {
         it('can parse an event detail', () => {
-            expect(userHistoryDetailModelParser(Mocks.eventDetail)).toBeDefined();
+            expect(modelParser.createParser(userHistoryDetailModel)(Mocks.eventDetail)).toBeDefined();
         });
     });
     describe('Event list model', () => {
         it('can parse an event list', () => {
-            expect(userHistoryModelParser(Mocks.eventList)).toBeDefined();
+            expect(modelParser.createParser(userHistoryModel)(Mocks.eventList)).toBeDefined();
         });
     });
     describe('Related pages model', () => {
         it('can parse a list of related pages', () => {
-            expect(relatedPagesModelParser(Mocks.relatedPages)).toBeDefined();
-            expect(relatedPagesModelParser(Mocks.relatedPagesSingle)).toBeDefined();
+            expect(modelParser.createParser(relatedPagesModel)(Mocks.relatedPages)).toBeDefined();
+            expect(modelParser.createParser(relatedPagesModel)(Mocks.relatedPagesSingle)).toBeDefined();
         });
     });
     describe('Site Tags model', () => {
@@ -298,6 +333,11 @@ describe('Models', () => {
             expect(modelParser.createParser(siteTagsModelGet)(Mocks.siteTagsGet)).toBeDefined();
             expect(modelParser.createParser(siteTagsModelPost)(Mocks.siteTagsPost)).toBeDefined();
             expect(modelParser.createParser(siteTagsModelPost)('')).toBeDefined();
+        });
+    });
+    describe('Workflows model', () => {
+        it('can parse a workflow response', () => {
+            expect(modelParser.createParser(workflowsModel)(Mocks.workflows)).toBeDefined();
         });
     });
 });

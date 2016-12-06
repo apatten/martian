@@ -11,6 +11,7 @@ import { searchMock } from './search.mock.js';
 import { siteMock } from './site.mock.js';
 import { userMock } from './user.mock.js';
 import { logsMock } from './logs.mock.js';
+import { workflowsMock } from './workflows.mock.js';
 
 const mockLibs = [
     dataMock,
@@ -25,7 +26,8 @@ const mockLibs = [
     searchMock,
     siteMock,
     userMock,
-    logsMock
+    logsMock,
+    workflowsMock
 ];
 const Mocks = {};
 mockLibs.forEach((lib) => {

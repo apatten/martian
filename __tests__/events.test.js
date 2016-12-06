@@ -54,10 +54,12 @@ describe('User Events', () => {
         it('can fetch a page history event', () => {
             return ue.getPageHistory();
         });
+        it('can fetch a draft history event', () => {
+            return ue.getDraftHistory();
+        });
         it('can fetch a page history detail event', () => {
             return ue.getPageHistoryDetail();
         });
-
         it('can fetch a list of available user activity logs ', () => {
             return ue.getAvailableUserActivityLogs();
         });
@@ -75,6 +77,9 @@ describe('User Events', () => {
         });
         it('can fetch a user activity log url ', () => {
             return ue.getUserActivityLogUrl('useractivity-2016-10-000');
+        });
+        it('can fetch a draft history detail event', () => {
+            return ue.getDraftHistoryDetail();
         });
     });
 });

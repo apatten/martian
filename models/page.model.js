@@ -54,6 +54,5 @@ const pageModel = [
         }
     }
 ];
-pageModel.push({ field: [ 'subpages', 'page' ], name: 'subpages', isArray: true, transform: pageModel });
 pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
 export { pageModel };

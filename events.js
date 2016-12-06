@@ -115,6 +115,16 @@ export class Events {
     }
 
     /**
+     * Get draft history summary.
+     * @param {Number|String} [id='home'] - The page ID or path.
+     * @param {Object} params (limit, upto, include) - Optional.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
+     */
+    getDraftHistory(pageId, params) {
+        return this.plug.at('draft', utility.getResourceId(pageId, 'home')).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+    }
+
+    /**
      * Get page history detail.
      * @param {Number|String} pageId = 'home' - The page ID or path.
      * @param {String} detailId - The detail ID.
@@ -123,6 +133,17 @@ export class Events {
      */
     getPageHistoryDetail(pageId, detailId, params) {
         return this.plug.at('page', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
+    }
+
+    /**
+     * Get draft history detail.
+     * @param {Number|String} pageId = 'home' - The page ID or path.
+     * @param {String} detailId - The detail ID.
+     * @param {Object} params (include) - Optional.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
+     */
+    getDraftHistoryDetail(pageId, detailId, params) {
+        return this.plug.at('draft', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get().then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**

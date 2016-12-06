@@ -50,8 +50,7 @@ export class Page extends PageBase {
      * @returns {Promise.<subpagesModel>} - A Promise that, when resolved, yields a {@link subpagesModel} containing the basic page information.
      */
     getSubpages(params) {
-        let subpagesModelParser = modelParser.createParser(subpagesModel);
-        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(subpagesModelParser);
+        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(subpagesModel));
     }
 
     /**
@@ -87,27 +86,29 @@ export class Page extends PageBase {
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the rating information.
      */
     getRating() {
-        let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').get().then((r) => r.json()).then(pageRatingModelParser);
+        return this._plug.at('ratings').get().then((r) => r.json()).then(modelParser.createParser(pageRatingModel));
     }
 
     /**
      * Set the rating for the page.
-     * @param {String} [rating=''] - The new rating for the page.
-     * @param {String} [oldRating=''] - The old rating for the page that is being replaced by {@see rating}.
+     * @param {Number|null} [rating=null] - The new rating for the page.
+     * @param {Number|null} [oldRating=null] - The old rating for the page that is being replaced by {@see rating}.
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the new rating information.
      */
-    rate(rating = '', oldRating = '') {
-        rating = rating.toString();
-        oldRating = oldRating.toString();
-        if(rating !== '1' && rating !== '0' && rating !== '') {
+    rate(rating = null, oldRating = null) {
+        if(rating !== 1 && rating !== 0 && rating !== null) {
             throw new Error('Invalid rating supplied');
         }
-        if(oldRating !== '1' && oldRating !== '0' && oldRating !== '') {
+        if(oldRating !== 1 && oldRating !== 0 && oldRating !== null) {
             throw new Error('Invalid rating supplied for the old rating');
         }
-        let pageRatingModelParser = modelParser.createParser(pageRatingModel);
-        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then((r) => r.json()).then(pageRatingModelParser);
+        if(rating === null) {
+            rating = '';
+        }
+        if(oldRating === null) {
+            oldRating = '';
+        }
+        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageRatingModel));
     }
 
     /**
@@ -190,8 +191,7 @@ export class PageManager {
      * @returns {Promise.<pageRatingsModel>} - A Promise that, when resolved, yields a {@link pageRatingsModel} object with the ratings information.
      */
     getRatings(pageIds) {
-        var ratingsPlug = this._plug.at('pages', 'ratings').withParams({ pageids: pageIds.join(',') });
-        let pageRatingsModelParser = modelParser.createParser(pageRatingsModel);
-        return ratingsPlug.get().then((r) => r.json()).then(pageRatingsModelParser);
+        const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
+        return ratingsPlug.get().then((r) => r.json()).then(modelParser.createParser(pageRatingsModel));
     }
 }
