@@ -16,31 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const availableLogModel = [
+export const availableLogsModel = [
     {
-        field: 'log',
-        name: 'log',
-        isArray: true,
+        field: 'log', name: 'log', isArray: true,
         transform: [
-            {
-                field: '@complete',
-                name: 'complete',
-                transform: 'boolean'
-            },
-            {
-                field: 'modified',
-                name: 'modified',
-                transform: 'date'
-            },
-            {
-                field: 'month',
-                name: 'month',
-                transform: 'date'
-            },
-            {
-                field: 'name',
-                name: 'name'
-            }
+            {field: '@complete', name: 'complete', transform: 'boolean'},
+            {field: 'modified', name: 'modified', transform: 'date'},
+            {field: 'month', name: 'month', transform: 'date'},
+            {field: 'name', name: 'name'}
         ]
     }
 ];

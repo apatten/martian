@@ -4,6 +4,8 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js';
+import { availableLogsModel } from './models/availableLogs.model.js';
+import { logUrlModel } from './models/logUrl.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -121,7 +123,7 @@ export class Site {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
      */
-    getSearchQueryLogUrl({logName = ''} = {}) {
+    getSearchQueryLogUrl({logName = ''} = {}, params) {
         return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
@@ -130,7 +132,7 @@ export class Site {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getSiteActivityLogUrl({logName = ''} = {}) {
+    getSiteActivityLogUrl({logName = ''} = {}, params) {
         return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 

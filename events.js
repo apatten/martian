@@ -7,6 +7,8 @@ import { userHistoryModel } from './models/userHistory.model.js';
 import { userHistoryDetailModel } from './models/userHistoryDetail.model.js';
 import { pageHistoryModel } from './models/pageHistory.model.js';
 import { pageHistoryDetailModel } from './models/pageHistoryDetail.model.js';
+import { availableLogsModel } from './models/availableLogs.model.js';
+import { logUrlModel } from './models/logUrl.model.js';
 
 /**
  * A class for fetching and managing events.
@@ -54,7 +56,7 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getDraftHistoryLogUrl({logName = ''} = {}) {
+    getDraftHistoryLogUrl({logName = ''} = {}, params) {
         return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
@@ -63,7 +65,7 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getSiteHistoryLogUrl({logName = ''} = {}) {
+    getSiteHistoryLogUrl({logName = ''} = {}, params) {
         return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
@@ -72,7 +74,7 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getUserActivityLogUrl({logName = ''} = {}) {
+    getUserActivityLogUrl({logName = ''} = {}, params) {
         return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
