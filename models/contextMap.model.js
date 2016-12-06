@@ -17,32 +17,12 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let contextMapModel = [
-    {
-        field: '@default',
-        name: 'default',
-        transform: 'boolean'
-    },
-    {
-        field: '@exists',
-        name: 'exists',
-        transform: 'boolean'
-    },
-    {
-        field: 'description'
-    },
-    {
-        field: 'id'
-    },
-    {
-        field: 'language'
-    },
-    {
-        field: 'page',
-        model: pageModel
-    },
-    {
-        field: [ 'pageid', '#text' ],
-        transform: 'number'
-    }
+export const contextMapModel = [
+    { field: '@default', name: 'default', transform: 'boolean' },
+    { field: '@exists', name: 'exists', transform: 'boolean' },
+    { field: 'description' },
+    { field: 'id' },
+    { field: 'language' },
+    { field: 'page', transform: pageModel },
+    { field: [ 'pageid', '#text' ], transform: 'number' }
 ];
