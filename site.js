@@ -83,6 +83,22 @@ export class Site {
     }
 
     /**
+     * Get the available site activity logs.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for site activity.
+     */
+    getAvailableSiteActivityLogs() {
+        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+    }
+
+    /**
+     * Get the available search query logs.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for search query.
+     */
+    getAvailableSearchQueryLogs() {
+        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+    }
+
+    /**
      * Get the localized string corresponding to the supplied resource key.
      * @param {Object} options - Options to direct the fetching of the localized string.
      * @param {String} options.key - The key that identifies the string to fetch.
@@ -98,6 +114,24 @@ export class Site {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get().then((r) => r.text());
+    }
+
+    /**
+     * Get the available search query log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
+     */
+    getSearchQueryLogUrl({logName = ''} = {}) {
+        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the available site activity log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getSiteActivityLogUrl({logName = ''} = {}) {
+        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**

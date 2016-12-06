@@ -53,6 +53,9 @@ import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
+import { availableLogsModel } from '../availableLogs.model.js';
+import { logModel } from '../availableLogs.model.js';
+import { logUrlModel } from '../logUrl.model.js';
 
 const contextIdModelParser = modelParser.createParser(contextIdModel);
 const contextIdsModelParser = modelParser.createParser(contextIdsModel);
@@ -86,8 +89,20 @@ const userHistoryModelParser = modelParser.createParser(userHistoryModel);
 const relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
 const pageHistoryModelParser = modelParser.createParser(pageHistoryModel);
 const pageHistoryDetailModelParser = modelParser.createParser(pageHistoryDetailModel);
+const availableLogsModelParser = modelParser.createParser(availableLogsModel);
+const logUrlModelParser = modelParser.createParser(logUrlModel);
 
 describe('Models', () => {
+    describe('Available logs model', () => {
+        it('can parse a list of logs', () => {
+            expect(availableLogsModelParser(Mocks.availableLogs)).toBeDefined();
+        });
+    });
+    describe('Log URL model', () => {
+        it('can parse a log URL', () => {
+            expect(logUrlModelParser(Mocks.logUrl)).toBeDefined();
+        });
+    });
     describe('Context ID models', () => {
         it('can parse a context ID', () => {
             expect(contextIdModelParser(Mocks.contextIdDefinition)).toBeDefined();

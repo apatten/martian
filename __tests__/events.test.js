@@ -57,5 +57,24 @@ describe('User Events', () => {
         it('can fetch a page history detail event', () => {
             return ue.getPageHistoryDetail();
         });
+
+        it('can fetch a list of available user activity logs ', () => {
+            return ue.getAvailableUserActivityLogs();
+        });
+        it('can fetch a list of available site history logs ', () => {
+            return ue.getAvailableSiteHistoryLogs();
+        });
+        it('can fetch a list of available draft history logs ', () => {
+            return ue.getAvailableDraftsHistoryLogs();
+        });
+        it('can fetch a draft history log url ', () => {
+            return ue.getDraftHistoryLogUrl('drafthistory-2016-10-000');
+        });
+        it('can fetch a site history log url ', () => {
+            return ue.getSiteHistoryLogUrl('sitehistory-2016-10-000');
+        });
+        it('can fetch a user activity log url ', () => {
+            return ue.getUserActivityLogUrl('useractivity-2016-10-000');
+        });
     });
 });

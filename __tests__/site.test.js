@@ -110,4 +110,31 @@ describe('Site API', () => {
             return sm.setFeatureStatus('foo/bar/url');
         });
     });
+    describe('verify log endpoints', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('get available site activity log list', () => {
+            return sm.getAvailableSiteActivityLogs();
+        });
+        it('get available search query log list', () => {
+            return sm.getAvailableSearchQueryLogs();
+        });
+        it('get search query log url', () => {
+            return sm.getSearchQueryLogUrl();
+        });
+        it('get site activity log url', () => {
+            return sm.getSiteActivityLogUrl();
+        });
+        it('get search query log url', () => {
+            return sm.getSearchQueryLogUrl('searchqueries-2016-10-000');
+        });
+        it('get site activity log url', () => {
+            return sm.getSiteActivityLogUrl('searchqueries-2016-10-000');
+        });
+    });
 });

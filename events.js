@@ -23,6 +23,60 @@ export class Events {
     }
 
     /**
+     * Get the available user activity logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for user activity.
+     */
+    getAvailableUserActivityLogs() {
+        return this.plug.at('support-agent', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+    }
+
+    /**
+     * Get the available site history logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for site history.
+     */
+    getAvailableSiteHistoryLogs() {
+        return this.plug.at('page-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+    }
+
+    /**
+     * Get the available drafts history logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for drafts history.
+     */
+    getAvailableDraftsHistoryLogs() {
+        return this.plug.at('draft-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+    }
+
+    /**
+     * Get the draft history log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getDraftHistoryLogUrl({logName = ''} = {}) {
+        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the site history log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getSiteHistoryLogUrl({logName = ''} = {}) {
+        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the user activity log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getUserActivityLogUrl({logName = ''} = {}) {
+        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
      * Get the user activity.
      * @param {Number|String} userActivityToken - A token that identifies the user from an user activity perspective. It can be the user's numeric ID, username, or another system-defined token.
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
