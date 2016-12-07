@@ -16,4 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export let logUrlModel = { field: 'url' };
+export let logUrlModel = [
+    { field: 'url' }
+];

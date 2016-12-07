@@ -17,13 +17,13 @@
  * limitations under the License.
  */
 export const availableLogsModel = [
-    {
-        field: 'log', name: 'log', isArray: true,
+    { 
+        field: 'log',
         transform: [
-            {field: '@complete', name: 'complete', transform: 'boolean'},
-            {field: 'modified', name: 'modified', transform: 'date'},
-            {field: 'month', name: 'month', transform: 'date'},
-            {field: 'name', name: 'name'}
+            { field: '@complete', name: 'complete', transform: 'boolean' },
+            { field: 'modified', name: 'modified', transform: 'date' },
+            { field: 'month', name: 'month', transform: 'date' },
+            { field: 'name', name: 'name' }
         ]
     }
 ];

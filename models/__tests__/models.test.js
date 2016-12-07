@@ -54,7 +54,6 @@ import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
 import { availableLogsModel } from '../availableLogs.model.js';
-import { logModel } from '../availableLogs.model.js';
 import { logUrlModel } from '../logUrl.model.js';
 import { workflowsModel } from '../workflows.model.js';
 
@@ -95,7 +94,6 @@ const allModels = [
     siteTagsModelGet,
     siteTagsModelPost,
     availableLogsModel,
-    logModel,
     logUrlModel,
     workflowsModel
 ];
@@ -130,12 +128,12 @@ describe('Models', () => {
     });
     describe('Available logs model', () => {
         it('can parse a list of logs', () => {
-            expect(modelParser.createParser(logModel)(Mocks.contextIdDefinition)).toBeDefined();
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinition)).toBeDefined();
         });
     });
     describe('Log URL model', () => {
         it('can parse a log URL', () => {
-            expect(modelParser.createParser(logUrlModel)(Mocks.contextIdDefinition)).toBeDefined();
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinition)).toBeDefined();
         });
     });
     describe('Context ID models', () => {
