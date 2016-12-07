@@ -29,7 +29,7 @@ export class Events {
      * @param {String} No params necessary.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for user activity.
      */
-    getAvailableUserActivityLogs() {
+    getUserActivityLogs() {
         return this.plug.at('support-agent', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
     }
 
@@ -38,7 +38,7 @@ export class Events {
      * @param {String} No params necessary.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for site history.
      */
-    getAvailableSiteHistoryLogs() {
+    getSiteHistoryLogs() {
         return this.plug.at('page-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
     }
 
@@ -47,7 +47,7 @@ export class Events {
      * @param {String} No params necessary.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for drafts history.
      */
-    getAvailableDraftsHistoryLogs() {
+    getDraftsHistoryLogs() {
         return this.plug.at('draft-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
     }
 
@@ -56,8 +56,11 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getDraftHistoryLogUrl({logName = ''} = {}, params) {
-        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    getDraftHistoryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('draft-hierarchy', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -65,8 +68,11 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getSiteHistoryLogUrl({logName = ''} = {}, params) {
-        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    getSiteHistoryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('page-hierarchy', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -74,8 +80,11 @@ export class Events {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getUserActivityLogUrl({logName = ''} = {}, params) {
-        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    getUserActivityLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('support-agent', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**

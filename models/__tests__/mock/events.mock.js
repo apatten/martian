@@ -747,5 +747,6 @@ export let eventsMock = {
                 "month":"2016-10",
                 "name":"helprequests-2016-10-000.gz"
             }
-        ]}
+        ]
+    }
 };

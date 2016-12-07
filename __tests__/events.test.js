@@ -61,13 +61,13 @@ describe('User Events', () => {
             return ue.getPageHistoryDetail();
         });
         it('can fetch a list of available user activity logs ', () => {
-            return ue.getAvailableUserActivityLogs();
+            return ue.getUserActivityLogs();
         });
         it('can fetch a list of available site history logs ', () => {
-            return ue.getAvailableSiteHistoryLogs();
+            return ue.getSiteHistoryLogs();
         });
         it('can fetch a list of available draft history logs ', () => {
-            return ue.getAvailableDraftsHistoryLogs();
+            return ue.getDraftsHistoryLogs();
         });
         it('can fetch a draft history log url ', () => {
             return ue.getDraftHistoryLogUrl('drafthistory-2016-10-000');

@@ -95,21 +95,6 @@ describe('Site API', () => {
             return sm.setTags();
         });
     });
-    describe('verify new feature status', () => {
-        let sm = null;
-        beforeEach(() => {
-            sm = new Site();
-        });
-        afterEach(() => {
-            sm = null;
-        });
-        it('post read status on new features', () => {
-            return sm.setFeatureStatus();
-        });
-        it('post read status on new features with passed argument', () => {
-            return sm.setFeatureStatus('foo/bar/url');
-        });
-    });
     describe('verify log endpoints', () => {
         let sm = null;
         beforeEach(() => {
@@ -119,10 +104,10 @@ describe('Site API', () => {
             sm = null;
         });
         it('get available site activity log list', () => {
-            return sm.getAvailableSiteActivityLogs();
+            return sm.getSiteActivityLogs();
         });
         it('get available search query log list', () => {
-            return sm.getAvailableSearchQueryLogs();
+            return sm.getSearchQueryLogs();
         });
         it('get search query log url', () => {
             return sm.getSearchQueryLogUrl();

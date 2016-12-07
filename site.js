@@ -88,7 +88,7 @@ export class Site {
      * Get the available site activity logs.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for site activity.
      */
-    getAvailableSiteActivityLogs() {
+    getSiteActivityLogs() {
         return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
     }
 
@@ -96,7 +96,7 @@ export class Site {
      * Get the available search query logs.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for search query.
      */
-    getAvailableSearchQueryLogs() {
+    getSearchQueryLogs() {
         return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
     }
 
@@ -123,8 +123,11 @@ export class Site {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
      */
-    getSearchQueryLogUrl({logName = ''} = {}, params) {
-        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    getSearchQueryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('query', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -132,8 +135,11 @@ export class Site {
      * @param {String} logName - Name of log to retrive URL from.
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
-    getSiteActivityLogUrl({logName = ''} = {}, params) {
-        return this.plug.at('activity', 'logs', logName, 'url').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    getSiteActivityLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('activity', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -155,13 +161,6 @@ export class Site {
         const XMLBatchData = _getBatchTagsTemplate(params);
         const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
         return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);
-    }
-
-    /**
-     * Post list of new feature status.
-     */
-    setFeatureStatus() {
-        return new Plug().at('@app','newfeature','status.json').post().then((r) => r.json());
     }
 
     /**
