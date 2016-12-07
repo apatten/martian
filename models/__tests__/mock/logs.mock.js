@@ -1,5 +1,5 @@
 export let logsMock = {
-    availableLogs: {
+    reportLogs: {
         "log":[
             {
                 "@complete":"false",

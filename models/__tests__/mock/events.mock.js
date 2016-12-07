@@ -727,7 +727,7 @@ export let eventsMock = {
             }
         ]
     },
-    availableLogs: {
+    reportLogs: {
         "log":[
             {
                 "@complete":"false",

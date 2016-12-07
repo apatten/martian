@@ -4,7 +4,7 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js';
-import { availableLogsModel } from './models/availableLogs.model.js';
+import { reportLogsModel } from './models/reportLogs.model.js';
 import { logUrlModel } from './models/logUrl.model.js';
 
 function _buildSearchConstraints(params) {
@@ -86,18 +86,18 @@ export class Site {
 
     /**
      * Get the available site activity logs.
-     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for site activity.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site activity.
      */
     getSiteActivityLogs() {
-        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
     }
 
     /**
      * Get the available search query logs.
-     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing the available logs for search query.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for search query.
      */
     getSearchQueryLogs() {
-        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(availableLogsModel));
+        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
     }
 
     /**

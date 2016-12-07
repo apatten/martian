@@ -70,7 +70,7 @@ describe('User Events', () => {
             return ue.getDraftsHistoryLogs();
         });
         it('can fetch a draft history log url ', () => {
-            return ue.getDraftHistoryLogUrl('drafthistory-2016-10-000');
+            return ue.getDraftsHistoryLogUrl('drafthistory-2016-10-000');
         });
         it('can fetch a site history log url ', () => {
             return ue.getSiteHistoryLogUrl('sitehistory-2016-10-000');
@@ -79,7 +79,7 @@ describe('User Events', () => {
             return ue.getUserActivityLogUrl('useractivity-2016-10-000');
         });
         it('can fetch a draft history log url with empty params', () => {
-            return ue.getDraftHistoryLogUrl();
+            return ue.getDraftsHistoryLogUrl();
         });
         it('can fetch a site history log url with empty params', () => {
             return ue.getSiteHistoryLogUrl();

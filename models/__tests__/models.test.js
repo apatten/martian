@@ -53,7 +53,7 @@ import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
-import { availableLogsModel } from '../availableLogs.model.js';
+import { reportLogsModel } from '../reportLogs.model.js';
 import { logUrlModel } from '../logUrl.model.js';
 import { workflowsModel } from '../workflows.model.js';
 
@@ -93,7 +93,7 @@ const allModels = [
     relatedPagesModel,
     siteTagsModelGet,
     siteTagsModelPost,
-    availableLogsModel,
+    reportLogsModel,
     logUrlModel,
     workflowsModel
 ];
