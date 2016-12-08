@@ -221,7 +221,7 @@ export class Site {
                 minutes: `0${since.getMinutes()}`.slice(-2),
                 seconds: `0${since.getSeconds()}`.slice(-2)
             };
-            const sinceString = `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.minutes}${dateParts.seconds}`;
+            const sinceString = `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
             activityPlug = activityPlug.withParam('since', sinceString);
         }
         return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
