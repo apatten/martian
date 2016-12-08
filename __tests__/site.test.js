@@ -95,6 +95,45 @@ describe('Site API', () => {
             return sm.setTags();
         });
     });
+    describe('verify log endpoints', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('get available site activity log list', () => {
+            return sm.getSiteActivityLogs();
+        });
+        it('get available search query log list', () => {
+            return sm.getSearchQueryLogs();
+        });
+        it('get search query log url with empty parameters', () => {
+            const success = jest.fn();
+            return sm.getSearchQueryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('get site activity log url with empty parameters', () => {
+            const success = jest.fn();
+            return sm.getSiteActivityLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('get search query log url', () => {
+            return sm.getSearchQueryLogUrl('searchqueries-2016-10-000');
+        });
+        it('get site activity log url', () => {
+            return sm.getSiteActivityLogUrl('searchqueries-2016-10-000');
+        });
+    });
     describe('site activity', () => {
         let site = null;
         beforeEach(() => {

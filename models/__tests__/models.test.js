@@ -53,6 +53,8 @@ import { pageHistoryModel } from '../pageHistory.model.js';
 import { pageHistoryDetailModel } from '../pageHistoryDetail.model.js';
 import { relatedPagesModel } from '../relatedPages.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from '../siteTags.model.js';
+import { reportLogsModel } from '../reportLogs.model.js';
+import { logUrlModel } from '../logUrl.model.js';
 import { workflowsModel } from '../workflows.model.js';
 
 // Add all imported models here for property checking
@@ -91,6 +93,8 @@ const allModels = [
     relatedPagesModel,
     siteTagsModelGet,
     siteTagsModelPost,
+    reportLogsModel,
+    logUrlModel,
     workflowsModel
 ];
 
@@ -120,6 +124,16 @@ describe('Models', () => {
                 }
                 model.forEach((entry) => testEntry(entry, defaultProps));
             });
+        });
+    });
+    describe('Available logs model', () => {
+        it('can parse a list of logs', () => {
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinition)).toBeDefined();
+        });
+    });
+    describe('Log URL model', () => {
+        it('can parse a log URL', () => {
+            expect(modelParser.createParser(contextIdModel)(Mocks.contextIdDefinition)).toBeDefined();
         });
     });
     describe('Context ID models', () => {

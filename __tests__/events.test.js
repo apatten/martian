@@ -60,7 +60,52 @@ describe('User Events', () => {
         it('can fetch a page history detail event', () => {
             return ue.getPageHistoryDetail();
         });
-        it('can fetch a draft history detail event', () => {
+        it('can fetch a list of available user activity logs ', () => {
+            return ue.getUserActivityLogs();
+        });
+        it('can fetch a list of available site history logs ', () => {
+            return ue.getSiteHistoryLogs();
+        });
+        it('can fetch a list of available draft history logs ', () => {
+            return ue.getDraftsHistoryLogs();
+        });
+        it('can fetch a draft history log url ', () => {
+            return ue.getDraftsHistoryLogUrl('drafthistory-2016-10-000');
+        });
+        it('can fetch a site history log url ', () => {
+            return ue.getSiteHistoryLogUrl('sitehistory-2016-10-000');
+        });
+        it('can fetch a user activity log url ', () => {
+            return ue.getUserActivityLogUrl('useractivity-2016-10-000');
+        });
+        it('can fetch a draft history log url with empty params', () => {
+            const success = jest.fn();
+            return ue.getDraftsHistoryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fetch a site history log url with empty params', () => {
+            const success = jest.fn();
+            return ue.getSiteHistoryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fetch a user activity log url with empty params', () => {
+            const success = jest.fn();
+            return ue.getUserActivityLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fetch a draft history detail', () => {
             return ue.getDraftHistoryDetail();
         });
     });

@@ -7,6 +7,8 @@ import { userHistoryModel } from './models/userHistory.model.js';
 import { userHistoryDetailModel } from './models/userHistoryDetail.model.js';
 import { pageHistoryModel } from './models/pageHistory.model.js';
 import { pageHistoryDetailModel } from './models/pageHistoryDetail.model.js';
+import { reportLogsModel } from './models/reportLogs.model.js';
+import { logUrlModel } from './models/logUrl.model.js';
 
 /**
  * A class for fetching and managing events.
@@ -20,6 +22,69 @@ export class Events {
     constructor(settings = new Settings()) {
         this.settings = settings;
         this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'events');
+    }
+
+    /**
+     * Get the available user activity logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for user activity.
+     */
+    getUserActivityLogs() {
+        return this.plug.at('support-agent', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+    }
+
+    /**
+     * Get the available site history logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site history.
+     */
+    getSiteHistoryLogs() {
+        return this.plug.at('page-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+    }
+
+    /**
+     * Get the available drafts history logs.
+     * @param {String} No params necessary.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for drafts history.
+     */
+    getDraftsHistoryLogs() {
+        return this.plug.at('draft-hierarchy', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+    }
+
+    /**
+     * Get the draft history log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getDraftsHistoryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('draft-hierarchy', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the site history log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getSiteHistoryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('page-hierarchy', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the user activity log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getUserActivityLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('support-agent', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**

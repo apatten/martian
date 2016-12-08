@@ -4,6 +4,8 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js';
+import { reportLogsModel } from './models/reportLogs.model.js';
+import { logUrlModel } from './models/logUrl.model.js';
 import { siteActivityModel } from './models/siteActivity.model.js';
 
 function _buildSearchConstraints(params) {
@@ -84,6 +86,22 @@ export class Site {
     }
 
     /**
+     * Get the available site activity logs.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site activity.
+     */
+    getSiteActivityLogs() {
+        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+    }
+
+    /**
+     * Get the available search query logs.
+     * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for search query.
+     */
+    getSearchQueryLogs() {
+        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+    }
+
+    /**
      * Get the localized string corresponding to the supplied resource key.
      * @param {Object} options - Options to direct the fetching of the localized string.
      * @param {String} options.key - The key that identifies the string to fetch.
@@ -99,6 +117,30 @@ export class Site {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get().then((r) => r.text());
+    }
+
+    /**
+     * Get the available search query log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
+     */
+    getSearchQueryLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('query', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+    }
+
+    /**
+     * Get the available site activity log url.
+     * @param {String} logName - Name of log to retrive URL from.
+     * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
+     */
+    getSiteActivityLogUrl(logName) {
+        if(typeof logName === 'undefined' || logName.length === 0) {
+            return Promise.reject(new Error('Attempting to get log url without required name'));
+        }
+        return this.plug.at('activity', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
     }
 
     /**
