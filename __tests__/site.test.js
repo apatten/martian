@@ -134,4 +134,29 @@ describe('Site API', () => {
             return sm.getSiteActivityLogUrl('searchqueries-2016-10-000');
         });
     });
+    describe('site activity', () => {
+        let site = null;
+        beforeEach(() => {
+            site = new Site();
+        });
+        afterEach(() => {
+            site = null;
+        });
+        it('can fetch site activity', () => {
+            return site.getActivity();
+        });
+        it('can fetch site activity with supplied since date', () => {
+            const date = new Date('Wed, 07 Dec 2016 00:00:00');
+            return site.getActivity(date);
+        });
+        it('can fail if an invalid since date is supplied', () => {
+            const success = jest.fn();
+            return site.getActivity('').then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+    });
 });

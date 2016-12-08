@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 export const reportLogsModel = [
-    { 
+    {
         field: 'log',
         transform: [
             { field: '@complete', name: 'complete', transform: 'boolean' },

@@ -66,9 +66,9 @@ export class PageBase {
         if(progress !== null) {
             const progressPlug = new ProgressPlug(this._plug.url, this._settings.plugConfig);
             const progressInfo = { callback: progress, size };
-            return progressPlug.at('files', name).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return progressPlug.at('files', encodeURIComponent(encodeURIComponent(name))).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
         }
-        return this._plug.withHeader('Content-Length', size).at('files', name).put(file, type).then((r) => r.json());
+        return this._plug.withHeader('Content-Length', size).at('files', encodeURIComponent(name)).put(file, type).then((r) => r.json());
     }
     getOverview() {
         return this._plug.at('overview').get().then((r) => r.json()).then(modelParser.createParser(pageOverviewModel));
