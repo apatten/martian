@@ -109,11 +109,23 @@ describe('Site API', () => {
         it('get available search query log list', () => {
             return sm.getSearchQueryLogs();
         });
-        it('get search query log url', () => {
-            return sm.getSearchQueryLogUrl();
+        it('get search query log url with empty parameters', () => {
+            const success = jest.fn();
+            return sm.getSearchQueryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
-        it('get site activity log url', () => {
-            return sm.getSiteActivityLogUrl();
+        it('get site activity log url with empty parameters', () => {
+            const success = jest.fn();
+            return sm.getSiteActivityLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
         it('get search query log url', () => {
             return sm.getSearchQueryLogUrl('searchqueries-2016-10-000');

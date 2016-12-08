@@ -79,13 +79,31 @@ describe('User Events', () => {
             return ue.getUserActivityLogUrl('useractivity-2016-10-000');
         });
         it('can fetch a draft history log url with empty params', () => {
-            return ue.getDraftsHistoryLogUrl();
+            const success = jest.fn();
+            return ue.getDraftsHistoryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
         it('can fetch a site history log url with empty params', () => {
-            return ue.getSiteHistoryLogUrl();
+            const success = jest.fn();
+            return ue.getSiteHistoryLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
         it('can fetch a user activity log url with empty params', () => {
-            return ue.getUserActivityLogUrl();
+            const success = jest.fn();
+            return ue.getUserActivityLogUrl().then(() => {
+                success();
+                throw new Error();
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
         it('can fetch a draft history detail', () => {
             return ue.getDraftHistoryDetail();
