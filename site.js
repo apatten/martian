@@ -4,6 +4,7 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { searchModel } from './models/search.model.js';
 import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js';
+import { siteActivityModel } from './models/siteActivity.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -156,5 +157,31 @@ export class Site {
             recommendations: recommendations
         };
         return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+    }
+
+    /**
+     * Get the activity stats for the site.
+     * @param {Date} [since] Start date for report.
+     */
+    getActivity(since = null) {
+        let activityPlug = this.plug.at('activity');
+        if(since !== null) {
+            if(!(since instanceof Date)) {
+                return Promise.reject(new Error('The `since` parameter must be of type Date.'));
+            }
+
+            // Create a date string of the format `yyyyMMddHHmmss`
+            const dateParts = {
+                year: since.getFullYear(),
+                month: `0${since.getMonth() + 1}`.slice(-2),
+                day: `0${since.getDate()}`.slice(-2),
+                hours: `0${since.getHours()}`.slice(-2),
+                minutes: `0${since.getMinutes()}`.slice(-2),
+                seconds: `0${since.getSeconds()}`.slice(-2)
+            };
+            const sinceString = `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.minutes}${dateParts.seconds}`;
+            activityPlug = activityPlug.withParam('since', sinceString);
+        }
+        return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
     }
 }
