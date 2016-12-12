@@ -46,6 +46,9 @@ describe('Special page Tests', () => {
                 withParam() {
                     return new Plug();
                 }
+                withParams() {
+                    return new Plug();
+                }
                 get() {
                     return Promise.reject({
                         message: 'Not found',
@@ -67,6 +70,9 @@ describe('Special page Tests', () => {
                     return new Plug();
                 }
                 withParam() {
+                    return new Plug();
+                }
+                withParams() {
                     return new Plug();
                 }
                 get() {
@@ -96,6 +102,9 @@ describe('Special page Tests', () => {
                     return new Plug();
                 }
                 withParam() {
+                    return new Plug();
+                }
+                withParams() {
                     return new Plug();
                 }
                 get() {

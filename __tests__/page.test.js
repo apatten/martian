@@ -60,6 +60,9 @@ describe('Page', () => {
         it('can get the page info', () => {
             return page.getFullInfo();
         });
+        it('can get the page info with params', () => {
+            return page.getFullInfo({ t: Date.now() });
+        });
         it('can get the page contents', () => {
             return page.getContents();
         });
