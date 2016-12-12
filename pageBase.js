@@ -37,9 +37,9 @@ export class PageBase {
         }
         this._id = utility.getResourceId(id, 'home');
     }
-    getFullInfo() {
+    getFullInfo(params = {}) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.get().then((r) => r.json()).then(pageModelParser).catch(_handleVirtualPage);
+        return this._plug.withParams(params).get().then((r) => r.json()).then(pageModelParser).catch(_handleVirtualPage);
     }
     getContents(params) {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
