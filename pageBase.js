@@ -92,8 +92,7 @@ export class PageBase {
     getDiff() {
         throw new Error('Page.getDiff() is not implemented');
     }
-    getRelated() {
-        let relatedPagesModelParser = modelParser.createParser(relatedPagesModel);
-        return this._plug.at('related').get().then((r) => r.json()).then(relatedPagesModelParser);
+    getRelated(params = {}) {
+        return this._plug.at('related').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(relatedPagesModel));
     }
 }
