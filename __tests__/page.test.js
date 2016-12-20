@@ -96,6 +96,9 @@ describe('Page', () => {
         it('can get the related pages', () => {
             return page.getRelated();
         });
+        it('can get the related pages (with params)', () => {
+            return page.getRelated({ overview: true });
+        });
         it('can get the page overview', () => {
             return page.getOverview();
         });
