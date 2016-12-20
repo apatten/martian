@@ -41,6 +41,7 @@ const pageModel = [
     { field: '@virtual', name: 'virtual', transform: 'boolean' },
     { field: '@subpages', name: 'hasSubpages', transform: 'boolean' },
     { field: '@terminal', name: 'terminal', transform: 'boolean' },
+    { field: 'overview' },
     { field: 'user.author', name: 'userAuthor', transform: userModel },
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'date.modified', name: 'dateModified', transform: 'date' },
