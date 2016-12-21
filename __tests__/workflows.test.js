@@ -30,12 +30,6 @@ describe('Workflows', () => {
             afterEach(() => {
                 wm = null;
             });
-            it('does not throw a sync error', () => {
-                expect(wm.submitFeedback.bind(wm)).not.toThrow();
-                expect(wm.requestArticle.bind(wm)).not.toThrow();
-                expect(wm.submitIssue.bind(wm)).not.toThrow();
-                expect(wm.contactSupport.bind(wm)).not.toThrow();
-            });
             it('can submit page feedback', () => {
                 return wm.submitFeedback({ _path: 'foo' });
             });
@@ -48,8 +42,20 @@ describe('Workflows', () => {
                     expect(success).not.toHaveBeenCalled();
                 });
             });
+            it('can fail if no options are supplied to submitFeedback', () => {
+                const success = jest.fn();
+                return wm.submitFeedback().then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
             it('can send a request article message', () => {
                 return wm.requestArticle({});
+            });
+            it('can send a request article message with no parameters', () => {
+                return wm.requestArticle();
             });
             it('can send a submit issue message', () => {
                 return wm.submitIssue({ _path: 'foo', _search: 'bar' });
@@ -72,6 +78,15 @@ describe('Workflows', () => {
                     expect(success).not.toHaveBeenCalled();
                 });
             });
+            it('can fail if no options are supplied to submitIssue', () => {
+                const success = jest.fn();
+                return wm.submitIssue().then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
             it('can send a contact support message', () => {
                 return wm.contactSupport({ _path: 'foo', _search: 'bar' });
             });
@@ -87,6 +102,15 @@ describe('Workflows', () => {
             it('can fail if the contact support search is not supplied', () => {
                 const success = jest.fn();
                 return wm.contactSupport({ _path: 'foo' }).then(() => {
+                    success();
+                    throw new Error('The call did not throw.');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail if no options are supplied to contactSupport', () => {
+                const success = jest.fn();
+                return wm.contactSupport().then(() => {
                     success();
                     throw new Error('The call did not throw.');
                 }).catch(() => {

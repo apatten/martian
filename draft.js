@@ -43,7 +43,18 @@ export class Draft extends PageBase {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the unpublished page.
      */
     unpublish() {
-        return this._plug.at('unpublish').post().then(modelParser.createParser(pageModel));
+        return this._plug.at('unpublish').post().then((r) => r.json()).then(modelParser.createParser(pageModel));
+    }
+
+    /**
+     * Update display title for a draft
+     * @param {String} title - The new title for the draft
+     */
+    setTitle(title) {
+        if(!title) {
+            return Promise.reject(new Error('A valid title must be supplied for the draft.'));
+        }
+        return this._plug.at('title').put(title, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageModel));
     }
 }
 

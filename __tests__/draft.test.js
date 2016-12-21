@@ -78,5 +78,26 @@ describe('Draft', () => {
         it('can unpublish a draft', () => {
             return draft.unpublish();
         });
+        it('can set the draft title', () => {
+            return draft.setTitle('foo');
+        });
+        it('can fail if no title was sent to set (empty call)', () => {
+            const success = jest.fn();
+            return draft.setTitle().then(() => {
+                success();
+                throw new Error('Success was called');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail if no title was sent to set (empty string)', () => {
+            const success = jest.fn();
+            return draft.setTitle('').then(() => {
+                success();
+                throw new Error('Success was called');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
     });
 });
