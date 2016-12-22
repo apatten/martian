@@ -98,6 +98,9 @@ describe('Site API', () => {
             };
             return sm.searchIndex(params);
         });
+        it('can search the site index with a constraint string passed', () => {
+            return sm.searchIndex({ q: 'Foo', constraints: { type: 'wiki' }, constraintString: 'language:en-us AND type:wiki' });
+        });
         it('can fail if an invalid `limit` parameter is passed in', () => {
             const success = jest.fn();
             return sm.searchIndex({ limit: 'foo' }).then(() => {
