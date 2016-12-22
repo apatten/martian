@@ -66,5 +66,6 @@ export const searchModel = [
                 ]
             }
         ]
-    }
+    },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];

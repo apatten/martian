@@ -35,14 +35,16 @@ function _buildSearchConstraints(params) {
             constraints.push('+type:' + utility.searchEscape(type));
         });
     }
-    let namespaces = params.namespaces;
-    if(typeof namespaces === 'string') {
-        namespaces = namespaces.split(',');
+    if('namespaces' in params) {
+        let namespaces = params.namespaces;
+        if(typeof namespaces === 'string') {
+            namespaces = namespaces.split(',');
+        }
+        namespaces.forEach((ns) => {
+            constraints.push(`+namespace:${utility.searchEscape(ns)}`);
+        });
     }
-    namespaces.forEach((ns) => {
-        constraints.push(`+namespace:${utility.searchEscape(ns)}`);
-    });
-    return '+(' + constraints.join(' ') + ')';
+    return constraints.length > 0 ? '+(' + constraints.join(' ') + ')' : '';
 }
 
 function _getBatchTagsTemplate(data) {
@@ -199,6 +201,37 @@ export class Site {
             recommendations: recommendations
         };
         return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+    }
+
+    /**
+     * Search the site index
+     * @param {Object} options
+     * @param {String} options.q The search string
+     * @param {Number|String} [options.limit=100] The maximum number of items to retrieve. Must be a positive number or 'all' to retrieve all items.
+     * @param {Number} [options.offset=0] Number of items to skip. Must be a positive number or 0 to not skip any.
+     * @param {String} [options.sortBy='-score'] Sort field. Prefix value with '-' to sort descending.
+     * @param {Object} [options.constraints={}] Addidional search constraints
+     * @param {String} options.constraints.type The article type to filter from the results.
+     * @param {String} options.constraints.path The path to use for path.ancestor in the search constraint.
+     * @param {Array} options.constraints.tags An array of tags to only consider when returning page results.
+     * @param {Array} options.constraints.namespaces An array of namespaces to limit the results by.
+     * @param {Boolean} [options.verbose=true] Show verbose page xml
+     */
+    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraints = {}, verbose = true } = {}) {
+        if(typeof limit === 'string') {
+            if(limit !== 'all') {
+                return Promise.reject(new Error('The limit for index searching must be a number or "all"'));
+            }
+        }
+        const searchParams = {
+            q,
+            limit,
+            offset,
+            sortby: sortBy,
+            constraint: _buildSearchConstraints(constraints),
+            verbose
+        };
+        return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
     }
 
     /**

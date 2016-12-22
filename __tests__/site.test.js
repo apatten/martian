@@ -71,6 +71,43 @@ describe('Site API', () => {
             return sm.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', offset: 123, limit: 10, q: 'search term', namespaces: [ 'main', 'template' ] });
         });
     });
+    describe('search index tests', () => {
+        let sm = null;
+        beforeEach(() => {
+            sm = new Site();
+        });
+        afterEach(() => {
+            sm = null;
+        });
+        it('can search the site index with defaults', () => {
+            return sm.searchIndex();
+        });
+        it('can search the site index with all parameters sent', () => {
+            const params = {
+                q: 'search query',
+                limit: 'all',
+                offset: 10,
+                sortBy: 'date',
+                verbose: false,
+                constraints: {
+                    page: 'Category_1',
+                    tags: [ 'foo', 'bar' ],
+                    type: 'wiki',
+                    namespaces: [ 'main' ]
+                }
+            };
+            return sm.searchIndex(params);
+        });
+        it('can fail if an invalid `limit` parameter is passed in', () => {
+            const success = jest.fn();
+            return sm.searchIndex({ limit: 'foo' }).then(() => {
+                success();
+                throw new Error('Promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+    });
     describe('site tags operations', () => {
         let sm = null;
         beforeEach(() => {
