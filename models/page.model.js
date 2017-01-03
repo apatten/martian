@@ -46,6 +46,8 @@ const pageModel = [
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'date.modified', name: 'dateModified', transform: 'date' },
     { field: 'date.edited', name: 'dateEdited', transform: 'date' },
+    { field: [ 'revisions', '@count' ], name: 'revisionCount', transform: 'number' },
+    { field: [ 'comments', '@count' ], name: 'commentCount', transform: 'number' },
     {
         field: 'rating',
         constructTransform(rating) {
@@ -53,6 +55,25 @@ const pageModel = [
                 return pageRatingModel;
             }
         }
+    },
+    {
+        field: 'metrics',
+        transform: [
+            { field: 'metric.charcount', name: 'charCount', transform: 'number' },
+            { field: 'metric.views', name: 'views', transform: 'number' }
+        ]
+    },
+    {
+        field: [ 'tags', 'tag' ],
+        isArray: true,
+        transform: [
+            { field: '@href', name: 'href' },
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: '@value', name: 'value' },
+            { field: 'title' },
+            { field: 'type' },
+            { field: 'uri' }
+        ]
     }
 ];
 pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
