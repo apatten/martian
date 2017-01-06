@@ -65,5 +65,26 @@ describe('File API', () => {
         it('can add a file revision with progress (no added info)', () => {
             return file.addRevision({}, { name: 'test.png', type: 'image/png', size: 1000, progress: () => {} });
         });
+        it('can move a file', () => {
+            return file.move({ to: 'foo/bar', name: 'image.jpg' });
+        });
+        it('can fail if no `to` parameter is sent to move()', () => {
+            const success = jest.fn();
+            return file.move().then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail if no `name` parameter is sent to move()', () => {
+            const success = jest.fn();
+            return file.move({ to: 'foo/bar' }).then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
     });
 });
