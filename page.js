@@ -13,6 +13,7 @@ import { pageMoveModel } from './models/pageMove.model.js';
 import { pageRatingsModel } from './models/pageRatings.model.js';
 import { pageDeleteModel } from './models/pageDelete.model.js';
 import { importArchiveModel } from './models/importArchive.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
 
 /**
  * A class for managing a published page.
@@ -28,6 +29,7 @@ export class Page extends PageBase {
         super(id);
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -129,13 +131,47 @@ export class Page extends PageBase {
     }
 
     /**
+     * Copy a page to a specified location
+     * @param {Object} params - The params that direct the copy operation.
+     * @param {String} params.to - The new page location including the path and name of the page.
+     * @param {String} [params.title] - Set the title of the page. If not specified, default to the original title.
+     * @param {Boolean} [params.tags=true] - Copy the tags of the page on copy.
+     * @param {Boolean} [params.attachments=true] - Copy the attachments of the page on copy.
+     * @param {Boolean} [params.recursive=false] - Copy the child hierarchy of the original page.
+     * @param {String} [params.abort='exists'] - Specifies condition under which to prevent the update. Allowed values are 'exists' and 'never'.
+     * @param {String} [params.allow] - Specifies condition under which to allow the update when an error would normally be thrown.
+     * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
+     */
+    copy(params = {}) {
+        if(!params.to) {
+            return Promise.reject(new Error('The copy target location must be specified in the `to` parameter.'));
+        }
+        if(params.abort && params.abort !== 'exists' && params.abort !== 'never') {
+            return Promise.reject(new Error('The `abort` parameter must be either "exists" or "never".'));
+        }
+        if(params.allow && params.allow !== 'deleteredirects') {
+            return Promise.reject('The `allow` parameter, if specified, must have a value of "deleteredirects"');
+        }
+        return this._plug.at('copy')
+            .withParams(params)
+            .post(null, utility.textRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageMoveModel))
+            .catch((err) => Promise.reject(this._errorParser(err)));
+    }
+
+    /**
      * Move a page to a new location in the hierarchy.
      * @param {Object} [params] - Additional parameters to direct the API request.
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     move(params = {}) {
-        let pageMoveModelParser = modelParser.createParser(pageMoveModel);
-        return this._plug.at('move').withParams(params).post(null, 'text/plain; charset=utf-8').then((r) => r.json()).then(pageMoveModelParser);
+        return this._plug.at('move')
+            .withParams(params)
+            .post(null, utility.textRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageMoveModel))
+            .catch((err) => Promise.reject(this._errorParser(err)));
     }
 
     /**

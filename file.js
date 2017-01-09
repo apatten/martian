@@ -5,6 +5,7 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { fileModel } from './models/file.model.js';
 import { fileRevisionsModel } from './models/fileRevisions.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
 
 /**
  * A class for working with file attachments within the MindTouch site.
@@ -21,6 +22,7 @@ export class File {
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
         this._progressPlug = new ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -60,9 +62,9 @@ export class File {
 
     /**
      * Upload a new file to serve as a revision in place of the current file.
-     * @param { File } file - The file object to upload.
-     * @param { String } filename - The filename of the new revision.
-     * @param { function } progress - A function that is called to indicate upload progress before the upload is complete.
+     * @param {File} file - The file object to upload.
+     * @param {String} filename - The filename of the new revision.
+     * @param {function} progress - A function that is called to indicate upload progress before the upload is complete.
      */
     addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
         if(progress !== null) {
@@ -70,6 +72,27 @@ export class File {
             return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
         }
         return this._plug.withHeader('Content-Length', size).at(utility.getResourceId(name)).put(file, type).then((r) => r.json()).then(modelParser.createParser(fileModel));
+    }
+
+    /**
+     * Move the file to a new page.
+     * @param {Object} params - The parameters that direct the API request.
+     * @param {Number} params.to - The page ID of the page to move to.
+     * @param {String} params.name - The name of the new, moved file.
+     */
+    move(params = {}) {
+        if(!params.to) {
+            return Promise.reject(new Error('The `to` parameter must be specified to move a file.'));
+        }
+        if(!params.name) {
+            return Promise.reject(new Error('The `name` parameter must be specified to move a file.'));
+        }
+        return this._plug.at('move')
+            .withParams(params)
+            .post(null, utility.textRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(fileModel))
+            .catch((err) => Promise.reject(this._errorParser(err)));
     }
 }
 export class FileDraft extends File {
