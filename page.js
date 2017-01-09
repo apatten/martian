@@ -139,7 +139,7 @@ export class Page extends PageBase {
      * @param {Boolean} [params.attachments=true] - Copy the attachments of the page on copy.
      * @param {Boolean} [params.recursive=false] - Copy the child hierarchy of the original page.
      * @param {String} [params.abort='exists'] - Specifies condition under which to prevent the update. Allowed values are 'exists' and 'never'.
-     * @param {Boolean} [params.deleteRedirects=false] - Specifies whether or not to perform the copy if a redirect would be deleted as a result.
+     * @param {String} [params.allow] - Specifies condition under which to allow the update when an error would normally be thrown.
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     copy(params = {}) {
@@ -149,11 +149,8 @@ export class Page extends PageBase {
         if(params.abort && params.abort !== 'exists' && params.abort !== 'never') {
             return Promise.reject(new Error('The `abort` parameter must be either "exists" or "never".'));
         }
-        if('deleteRedirects' in params) {
-            if(params.deleteRedirects === true) {
-                params.allow = 'deleteredirects';
-            }
-            delete params.deleteRedirects;
+        if(params.allow && params.allow !== 'deleteredirects') {
+            return Promise.reject('The `allow` parameter, if specified, must have a value of "deleteredirects"');
         }
         return this._plug.at('copy')
             .withParams(params)
@@ -171,7 +168,7 @@ export class Page extends PageBase {
     move(params = {}) {
         return this._plug.at('move')
             .withParams(params)
-            .post(null, 'text/plain; charset=utf-8')
+            .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
             .catch((err) => Promise.reject(this._errorParser(err)));

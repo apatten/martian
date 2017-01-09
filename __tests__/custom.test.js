@@ -36,53 +36,21 @@ describe('Special page Tests', () => {
         return cm.getDefinitions();
     });
     it('can fetch a virtual page', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParam() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                get() {
-                    return Promise.reject({
-                        message: 'Not found',
-                        status: 404,
-                        responseText: '{"@virtual":"true"}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            get() {
+                return Promise.reject({ message: 'Not found', status: 404, responseText: '{"@virtual":"true"}' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         let p = new Page(123);
         return p.getFullInfo().then((r) => expect(r.virtual).toBe(true));
     });
     it('can get through virtual page checking when there is another failure', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParam() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                get() {
-                    return Promise.reject({
-                        message: 'Not found',
-                        status: 404,
-                        responseText: '{"notavirtualpage":true}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            get() {
+                return Promise.reject({ message: 'Not found', status: 404, responseText: '{"notavirtualpage":true}' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         const page = new Page(123);
         const success = jest.fn();
@@ -94,27 +62,11 @@ describe('Special page Tests', () => {
         });
     });
     it('can get through virtual page checking when there is another failure (no responseText)', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParam() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                get() {
-                    return Promise.reject({
-                        message: 'Not found',
-                        status: 404,
-                        responseText: ''
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            get() {
+                return Promise.reject({ message: 'Not found', status: 404, responseText: '' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         const page = new Page(123);
         const success = jest.fn();
@@ -126,27 +78,11 @@ describe('Special page Tests', () => {
         });
     });
     it('can import an archive with a conflict (no progress)', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withHeader() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                put() {
-                    return Promise.reject({
-                        message: 'Conflict',
-                        status: 409,
-                        responseText: '{}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            put() {
+                return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         const page = new Page(123);
         const success = jest.fn();
@@ -192,24 +128,11 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for Page.prototype.copy', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                post() {
-                    return Promise.reject({
-                        message: 'Conflict',
-                        status: 409,
-                        responseText: '{}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            post() {
+                return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         const page = new Page(123);
         const success = jest.fn();
@@ -222,24 +145,11 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for Page.prototype.move', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                post() {
-                    return Promise.reject({
-                        message: 'Conflict',
-                        status: 409,
-                        responseText: '{}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            post() {
+                return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
-            return { Plug };
-        });
+        }));
         const Page = require('../page.js').Page;
         const page = new Page(123);
         const success = jest.fn();
@@ -252,24 +162,11 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for File.prototype.move', () => {
-        jest.mock('mindtouch-http.js/plug.js', () => {
-            class Plug {
-                at() {
-                    return new Plug();
-                }
-                withParams() {
-                    return new Plug();
-                }
-                post() {
-                    return Promise.reject({
-                        message: 'Conflict',
-                        status: 409,
-                        responseText: '{}'
-                    });
-                }
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            post() {
+                return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
-            return { Plug };
-        });
+        }));
         const File = require('../file.js').File;
         const file = new File(123);
         const success = jest.fn();

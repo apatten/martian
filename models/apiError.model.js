@@ -36,7 +36,8 @@ export const apiErrorModel = {
                 { field: [ 'arguments', 'argument' ], name: 'arguments', isArray: true },
                 { field: 'exception' },
                 { field: 'message' },
-                { field: 'resource' }
+                { field: 'resource' },
+                { field: 'data' }
             ]
         },
         { field: 'errorText' }
