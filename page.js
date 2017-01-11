@@ -13,6 +13,7 @@ import { pageMoveModel } from './models/pageMove.model.js';
 import { pageRatingsModel } from './models/pageRatings.model.js';
 import { pageDeleteModel } from './models/pageDelete.model.js';
 import { importArchiveModel } from './models/importArchive.model.js';
+import { pageExportModel } from './models/pageExport.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 /**
@@ -210,6 +211,13 @@ export class Page extends PageBase {
             .then((r) => r.json())
             .catch((e) => Promise.reject(JSON.parse(e.responseText)))
             .then(modelParser.createParser(importArchiveModel));
+    }
+
+    /**
+     * Generates the information so that clients can stream down the exported page(s) in mtarc format.
+     */
+    getExportInformation() {
+        return this._plug.at('export').post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageExportModel));
     }
 }
 

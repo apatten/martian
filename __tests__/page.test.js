@@ -102,6 +102,9 @@ describe('Page', () => {
         it('can get the page overview', () => {
             return page.getOverview();
         });
+        it('can get the page export information', () => {
+            return page.getExportInformation();
+        });
     });
     describe('page rating', () => {
         let page = null;
