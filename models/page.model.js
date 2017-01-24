@@ -32,6 +32,7 @@ const pageModel = [
     { field: 'language.effective', name: 'languageEffective' },
     { field: 'timeuuid' },
     { field: [ 'path', '#text' ] },
+    { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
     { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },

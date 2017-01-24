@@ -92,6 +92,13 @@ describe('User API', () => {
         });
     });
     describe('instance operations', () => {
+        let user = null;
+        beforeEach(() => {
+            user = new User(123);
+        });
+        afterEach(() => {
+            user = null;
+        });
         it('can construct a User without the manager', () => {
             let user1 = new User();
             expect(user1).toBeDefined();
@@ -99,12 +106,37 @@ describe('User API', () => {
             expect(user3).toBeDefined();
         });
         it('can get the info for a user', () => {
-            let user = new User(123);
             return user.getInfo();
         });
         it('can get the info for a user with excluded elements array', () => {
-            let user = new User(123);
             return user.getInfo({ excludes: [ 'groups', 'properties' ] });
+        });
+        it('can check permissions for a user', () => {
+            return user.checkAllowed([ 20 ], { mask: 256, operations: [ 'UPDATE' ] });
+        });
+        it('can check permissions for a user (no operations)', () => {
+            return user.checkAllowed([ 20 ], { mask: 256 });
+        });
+        it('can check permissions for a user (no options)', () => {
+            return user.checkAllowed([ 20 ]);
+        });
+        it('can fail if page IDs is not an array while checking user permissions', () => {
+            const success = jest.fn();
+            return user.checkAllowed(20, { mask: 256 }).then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail if `operations` is not an array while checking user permissions', () => {
+            const success = jest.fn();
+            return user.checkAllowed([ 20 ], { operations: 256 }).then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
     });
 });

@@ -4,6 +4,7 @@ import { utility } from './lib/utility.js';
 import { platform } from './lib/platform.js';
 import { modelParser } from './lib/modelParser.js';
 import { userModel } from './models/user.model.js';
+import { pageModel } from './models/page.model.js';
 import { userListModel } from './models/userList.model.js';
 
 /**
@@ -35,6 +36,34 @@ export class User {
         }
         return plug.get().then((r) => r.json()).then(userModelParser);
     }
+
+    /**
+     * Check one or more resources if given operation is allowed.
+     * @param {Array} pageIds - An array of numeric page IDs to check if the operations specified in `options` are allowed.
+     * @param {Object} [options] - An object that contains the parameters to direct the request.
+     * @param {Number} [options.mask] - The permission bit mask required for the pages.
+     * @param {Array} [options.operations=[]] - An array of operations to verify.
+     * @param {Boolean} [options.verbose=true] - Return verbose information on permitted pages.
+     * @param {Boolean} [options.invert=false] - Return filtered instead of allowed pages. If set to `true`, forces the `verbose` parameter to `false`.
+     */
+    checkAllowed(pageIds, options = {}) {
+        if(!Array.isArray(pageIds)) {
+            return Promise.reject(new Error('Invalid value supplied for the `pageIds` array.'));
+        }
+        if(options.operations) {
+            if(!Array.isArray(options.operations)) {
+                return Promise.reject(new Error('Invalid value supplied for the `options.operations` array.'));
+            }
+            options.operations = options.operations.join(',');
+        }
+        let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
+        requestXml = `<pages>${requestXml}</pages>`;
+        return this._plug.at('allowed')
+            .withParams(options)
+            .post(requestXml, utility.xmlRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
+    }
 }
 
 /**
@@ -57,13 +86,11 @@ export class UserManager {
      * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
-    getCurrentUser({
-        excludes = []
-    } = {}) {
+    getCurrentUser({ excludes = [] } = {}) {
         let userModelParser = modelParser.createParser(userModel);
         let plug = this._plug;
         if(Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join())
+            plug = plug.withParam('exclude', excludes.join());
         }
         return plug.at('current').get().then((r) => r.json()).then(userModelParser);
     }

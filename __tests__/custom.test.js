@@ -178,4 +178,20 @@ describe('Special page Tests', () => {
             expect(e).toBeDefined();
         });
     });
+    it('can handle a rejection properly for PageManager.prototype.findPages', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            get() {
+                return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{"exception":"MindTouch.Deki.Exceptions.FindPagesMissingConstraintsException","message":"Must specify at least one constraint","resource":"System.API.Error.finding-pages-missing-constraints"}' });
+            }
+        }));
+        const PageManager = require('../page.js').PageManager;
+        const pm = new PageManager();
+        const success = jest.fn();
+        return pm.findPages({ tags: [ 'foo' ] }).then(() => {
+            success();
+            throw new Error('Promise was resolved');
+        }).catch(() => {
+            expect(success).not.toHaveBeenCalled();
+        });
+    });
 });
