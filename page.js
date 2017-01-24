@@ -14,7 +14,10 @@ import { pageRatingsModel } from './models/pageRatings.model.js';
 import { pageDeleteModel } from './models/pageDelete.model.js';
 import { importArchiveModel } from './models/importArchive.model.js';
 import { pageExportModel } from './models/pageExport.model.js';
+import { pageFindModel } from './models/pageFind.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
@@ -30,7 +33,6 @@ export class Page extends PageBase {
         super(id);
         this._settings = settings;
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id);
-        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -158,7 +160,7 @@ export class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(this._errorParser(err)));
+            .catch((err) => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -172,7 +174,7 @@ export class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(this._errorParser(err)));
+            .catch((err) => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -237,5 +239,64 @@ export class PageManager {
     getRatings(pageIds) {
         const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug.get().then((r) => r.json()).then(modelParser.createParser(pageRatingsModel));
+    }
+
+    /**
+     * Find pages based on supplied constraints
+     * @param {Object} options - The options to direct the results of the find operation.
+     * @param {Number|String} [options.parentId=home] - The parent ID of the hierarchy to search. Either a numeric page ID or a page path string.
+     * @param {Array} [options.tags=[]] - An array of tags that the found pages must contain.
+     * @param {Array} [options.missingClassifications=[]] - An array of classification prefixes that must not exist on the pages.
+     * @param {Date} [options.since] - Find pages last modified since this date.
+     * @param {Date} [options.upTo=Date.now()] - Find pages last modified up to this date.
+     */
+    findPages(options = {}) {
+        let paramFound = false;
+        const params = {};
+        if(options.parentId) {
+            params.parentid = utility.getResourceId(options.parentId, 'home');
+            paramFound = true;
+        }
+        if(options.tags) {
+            if(!Array.isArray(options.tags)) {
+                return Promise.reject(new Error('The `tags` parameter must be an Array.'));
+            }
+            if(options.tags.length > 0) {
+                params.tags = options.tags.join(',');
+                paramFound = true;
+            }
+        }
+        if(options.missingClassifications) {
+            if(!Array.isArray(options.missingClassifications)) {
+                return Promise.reject(new Error('The `missingClassifications` parameter must be an Array.'));
+            }
+            if(options.missingClassifications.length > 0) {
+                params.missingclassifications = options.missingClassifications.join(',');
+                paramFound = true;
+            }
+        }
+        if(options.since) {
+            if(!(options.since instanceof Date)) {
+                return Promise.reject(new Error('The `since` parameter must be of type Date.'));
+            }
+            params.since = utility.getApiDateString(options.since);
+            paramFound = true;
+        }
+        if(options.upTo) {
+            if(!(options.upTo instanceof Date)) {
+                return Promise.reject(new Error('The `upTo` parameter must be of type Date.'));
+            }
+            params.upto = utility.getApiDateString(options.upTo);
+            paramFound = true;
+        }
+        if(paramFound === false) {
+            return Promise.reject(new Error('At least one constraint must be supplied to find pages.'));
+        }
+        return this._plug.at('find')
+            .withParams(params)
+            .get()
+            .then((r) => r.json())
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then(modelParser.createParser(pageFindModel));
     }
 }

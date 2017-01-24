@@ -250,6 +250,71 @@ describe('Page', () => {
             it('can fetch the ratings for a set of pages', () => {
                 return pm.getRatings([ 440, 441 ]);
             });
+            it('can find pages', () => {
+                return pm.findPages({
+                    parentId: 1,
+                    tags: [ 'foo' ],
+                    missingClassifications: [ 'article:topic' ],
+                    since: new Date(1999, 12, 31),
+                    upTo: new Date(Date.now())
+                });
+            });
+            it('can find pages with missig optional parameters', () => {
+                return pm.findPages({
+                    tags: [],
+                    missingClassifications: [ 'article:topic' ],
+                    since: new Date(1999, 12, 31),
+                    upTo: new Date(Date.now())
+                });
+            });
+            it('can find pages with missig optional parameters (different ones)', () => {
+                return pm.findPages({ parentId: 1, tags: [ 'foo' ], missingClassifications: [] });
+            });
+            it('can fail when no parameters are sent to find pages', () => {
+                const success = jest.fn();
+                return pm.findPages().then(() => {
+                    success();
+                    throw new Error('success was called');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail when an invalid `tags` parameter is sent to find pages', () => {
+                const success = jest.fn();
+                return pm.findPages({ tags: 'foo' }).then(() => {
+                    success();
+                    throw new Error('success was called');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail when an invalid `missingClassifications` parameter is sent to find pages', () => {
+                const success = jest.fn();
+                return pm.findPages({ missingClassifications: 'foo' }).then(() => {
+                    success();
+                    throw new Error('success was called');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail when an invalid `since` parameter is sent to find pages', () => {
+                const success = jest.fn();
+                return pm.findPages({ since: 'foo' }).then(() => {
+                    success();
+                    throw new Error('success was called');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
+            it('can fail when an invalid `upTo` parameter is sent to find pages', () => {
+                const success = jest.fn();
+                return pm.findPages({ upTo: 'foo' }).then(() => {
+                    success();
+                    throw new Error('success was called');
+                }).catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
+            });
         });
     });
 });

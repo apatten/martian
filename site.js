@@ -247,15 +247,7 @@ export class Site {
             }
 
             // Create a date string of the format `yyyyMMddHHmmss`
-            const dateParts = {
-                year: since.getFullYear(),
-                month: `0${since.getMonth() + 1}`.slice(-2),
-                day: `0${since.getDate()}`.slice(-2),
-                hours: `0${since.getHours()}`.slice(-2),
-                minutes: `0${since.getMinutes()}`.slice(-2),
-                seconds: `0${since.getSeconds()}`.slice(-2)
-            };
-            const sinceString = `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
+            const sinceString = utility.getApiDateString(since);
             activityPlug = activityPlug.withParam('since', sinceString);
         }
         return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
