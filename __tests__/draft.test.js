@@ -23,18 +23,51 @@ import { DraftManager, Draft } from '../draft.js';
 
 describe('Draft', () => {
     describe('draft manager', () => {
+        let dm = null;
+        beforeEach(() => {
+            dm = new DraftManager();
+        });
         it('can construct a new draft manager', () => {
-            let dm = new DraftManager();
             expect(dm).toBeDefined();
         });
         it('can create a new draft from nothing', () => {
-            let dm = new DraftManager();
             return dm.createDraft('new/draft/path');
         });
         it('can get a Draft object by id', () => {
-            let dm = new DraftManager();
-            let draft = dm.getDraft(123);
-            expect(draft).toBeDefined();
+            expect(dm.getDraft(123)).toBeDefined();
+        });
+        it('can fetch the site drafts (no params)', () => {
+            return dm.getDrafts();
+        });
+        it('can fetch the site drafts (all params)', () => {
+            return dm.getDrafts({ parentId: 123, tags: [ 'foo', 'bar' ], limit: 100, include: [ 'tags' ] });
+        });
+        it('can fail if an invalid `tags` parameter is sent', () => {
+            const success = jest.fn();
+            return dm.getDrafts({ parentId: 123, tags: 'foo', limit: 100 }).then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail if an invalid `include` parameter is sent', () => {
+            const success = jest.fn();
+            return dm.getDrafts({ parentId: 123, include: 'tags', limit: 100 }).then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail if an invalid `limit` parameter is sent', () => {
+            const success = jest.fn();
+            return dm.getDrafts({ parentId: 123, limit: '100' }).then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
     });
     describe('constructor tests', () => {
