@@ -78,4 +78,5 @@ const pageModel = [
     }
 ];
 pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
+pageModel.push({ field: 'draft', transform: pageModel });
 export { pageModel };

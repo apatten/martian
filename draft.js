@@ -69,6 +69,7 @@ export class DraftManager {
      */
     constructor(settings = new Settings()) {
         this._settings = settings;
+        this._plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts');
     }
 
     /**
@@ -77,9 +78,47 @@ export class DraftManager {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
     createDraft(newPath) {
-        let plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts', utility.getResourceId(newPath), 'create');
-        let pageModelParser = modelParser.createParser(pageModel);
-        return plug.post().then((r) => r.json()).then(pageModelParser);
+        return this._plug.at(utility.getResourceId(newPath), 'create')
+            .post()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageModel));
+    }
+
+    /**
+     * Get a list of drafts filtered by options.
+     * @param {Object} [options] - The options that will filter the resulting list of drafts.
+     * @param {Number|String} [options.parentId] - Only return pages that live under this page id.
+     * @param {Array} [options.tags] - An array of tags to filter the pages by.
+     * @param {Number} [options.limit=10] - The maximum number of pages to return (not to exceed 1000)
+     * @param {Array} [options.include] - An array of elements to include. Currently, only 'tags' is allowed.
+     */
+    getDrafts(options = {}) {
+        const params = {};
+        if(options.parentId) {
+            params.parentid = utility.getResourceId(options.parentId, 'home');
+        }
+        if(options.tags) {
+            if(!Array.isArray(options.tags)) {
+                return Promise.reject(new Error('The `tags` parameter must be an array.'));
+            }
+            params.tags = options.tags.join(',');
+        }
+        if('limit' in options) {
+            if(typeof options.limit !== 'number') {
+                return Promise.reject(new Error('The `limit` parameter must be an number.'));
+            }
+            params.limit = options.limit;
+        }
+        if(options.include) {
+            if(!Array.isArray(options.include)) {
+                return Promise.reject(new Error('The `include` parameter must be an array.'));
+            }
+            params.include = options.include.join(',');
+        }
+        return this._plug.withParams(params)
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser([ { field: [ 'pages', 'page' ], name: 'pages', isArray: true, transform: pageModel } ]));
     }
 
     /**
