@@ -19,6 +19,8 @@
 export const reportLogsModel = [
     {
         field: 'log',
+        name: 'logs',
+        isArray: true,
         transform: [
             { field: '@complete', name: 'complete', transform: 'boolean' },
             { field: 'modified', name: 'modified', transform: 'date' },
