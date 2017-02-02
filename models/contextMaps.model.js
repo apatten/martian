@@ -17,15 +17,7 @@
  * limitations under the License.
  */
 import { contextMapModel } from './contextMap.model.js';
-export let contextMapsModel = [
-    {
-        field: 'contextmap',
-        name: 'contextMap',
-        isArray: true,
-        transform: contextMapModel
-    },
-    {
-        field: [ 'languages', 'language' ],
-        isArray: true
-    }
+export const contextMapsModel = [
+    { field: 'contextmap', name: 'contextMaps', isArray: true, transform: contextMapModel },
+    { field: [ 'languages', 'language' ], isArray: true }
 ];

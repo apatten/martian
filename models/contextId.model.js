@@ -16,7 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export let contextIdModel = [
-    { field: 'description' },
-    { field: 'id' }
-];
+export const contextIdModel = {
+    preProcessor(data) {
+        if(data.context) {
+            return data.context;
+        }
+        return data;
+    },
+    model: [
+        { field: 'description' },
+        { field: 'id' }
+    ]
+};

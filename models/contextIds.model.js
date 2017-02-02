@@ -16,9 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export let contextIdsModel = [
-    {
-        field: 'context',
-        isArray: true
-    }
+export const contextIdsModel = [
+    { field: 'context', name: 'contextIds', isArray: true }
 ];
