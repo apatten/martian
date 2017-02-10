@@ -48,6 +48,13 @@ export class Group {
         let userListModelParser = modelParser.createParser(userListModel);
         return this._groupPlug.at('users').withParams(options).get().then((r) => r.json()).then(userListModelParser);
     }
+
+    /**
+     * Remove the group from the site
+     */
+    delete() {
+        return this._groupPlug.delete();
+    }
 }
 
 /**
@@ -66,11 +73,53 @@ export class GroupManager {
 
     /**
      * Get the listing of all of the groups defined on the site.
+     * @param {Object} options - The options to direct the fetching of the groups
+     * @param {String} options.nameFilter - Search for groups by name or part of a name
+     * @param {Number} options.authProvider - Return groups belonging to given authentication service id
+     * @param {Number|String} options.limit - Maximum number of items to retrieve. Must be a positive number or 'all' to retrieve all items. (default: 100)
+     * @param {Number} options.offset - Number of items to skip. Must be a positive number or 0 to not skip any. (default: 0)
+     * @param {String} options.sortBy - Sort field. Prefix value with '-' to sort descending. default: No sorting. Must be one of 'id', 'name', 'role', 'service'
      * @returns {Promise.<groupListModel>} - A Promise that, when resolved, yields a {@link groupListModel} containing the group listing.
      */
-    getGroupList() {
-        let groupListModelParser = modelParser.createParser(groupListModel);
-        return this.plug.get().then((r) => r.json()).then(groupListModelParser);
+    getGroupList(options = {}) {
+        const params = {};
+        if('nameFilter' in options) {
+            if(typeof options.nameFilter !== 'string') {
+                return Promise.reject(new Error('The group name filter must be a string'));
+            }
+            if(options.nameFilter !== '') {
+                params.groupnamefilter = options.nameFilter;
+            }
+        }
+        if('authProvider' in options) {
+            if(typeof options.authProvider !== 'number') {
+                return Promise.reject(new Error('The auth provider ID must be a number'));
+            }
+            params.authprovider = options.authProvider;
+        }
+        if('limit' in options) {
+            if(typeof options.limit !== 'number' && options.limit !== 'all') {
+                return Promise.reject(new Error('The limit parameter must be a number or "all"'));
+            }
+            params.limit = options.limit;
+        }
+        if('offset' in options) {
+            if(typeof options.offset !== 'number') {
+                return Promise.reject(new Error('The offset parameter must be a number'));
+            }
+            params.offset = options.offset;
+        }
+        if('sortBy' in options) {
+            if(typeof options.sortBy !== 'string') {
+                return Promise.reject(new Error('The sortBy option must be a string'));
+            }
+            const validSortParams = [ 'id', 'name', 'role', 'service', '-id', '-name', '-role', '-service' ];
+            if(!validSortParams.includes(options.sortBy)) {
+                return Promise.reject(new Error(`The sortBy option must be one of ${validSortParams.join(', ')}`));
+            }
+            params.sortby = options.sortBy;
+        }
+        return this.plug.withParams(params).get().then((r) => r.json()).then(modelParser.createParser(groupListModel));
     }
 
     /**
