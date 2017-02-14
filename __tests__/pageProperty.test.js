@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 /* eslint-env jasmine, jest */
+jest.unmock('../pagePropertyBase.js');
 jest.unmock('../pageProperty.js');
 import { PageProperty } from '../pageProperty.js';
 
@@ -57,9 +58,13 @@ describe('Page Property', () => {
             return prop.getProperties([ 'property1', 'property2' ]);
         });
         it('can can fail gracefully if supplying an invalid name filter', () => {
-            return prop.getProperties('property1').then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            const success = jest.fn();
+            return prop.getProperties('property1').then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
         });
         it('can fetch a single property', () => {
             return prop.getProperty('mindtouch.import#info');
