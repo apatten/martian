@@ -35,6 +35,22 @@ describe('Special page Tests', () => {
         const cm = new ContextIdManager();
         return cm.getDefinitions();
     });
+    it('can handle a rejection properly for ContextIdManager.prototype.addDefinition', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            post() {
+                return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{}' });
+            }
+        }));
+        const ContextIdManager = require.requireActual('../contextId.js').ContextIdManager;
+        const cm = new ContextIdManager();
+        const success = jest.fn();
+        return cm.addDefinition('foo').then(() => {
+            success();
+            throw new Error('Promise was resolved');
+        }).catch(() => {
+            expect(success).not.toHaveBeenCalled();
+        });
+    });
     it('can fetch a virtual page', () => {
         jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             get() {
