@@ -5,6 +5,7 @@ import { contextIdsModel } from './models/contextIds.model.js';
 import { contextIdModel } from './models/contextId.model.js';
 import { contextMapsModel } from './models/contextMaps.model.js';
 import { contextMapModel } from './models/contextMap.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
 
 /**
  * A class to manage individual Context IDs.
@@ -114,6 +115,7 @@ export class ContextIdManager {
         this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
         this.definitionsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
         this._settings = settings;
+        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -150,7 +152,10 @@ export class ContextIdManager {
             return Promise.reject(new Error('an ID must be supplied to add a definition'));
         }
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
-        return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextIdModel));
+        return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8')
+            .catch((err) => Promise.reject(this._errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(contextIdModel));
     }
 
     /**
