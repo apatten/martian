@@ -5,6 +5,7 @@ import { modelParser } from './lib/modelParser.js';
 import { groupModel } from './models/group.model.js';
 import { groupListModel } from './models/groupList.model.js';
 import { userListModel } from './models/userList.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
 
 /**
  * A class for managing a single group of users.
@@ -22,6 +23,7 @@ export class Group {
         }
         this._id = utility.getResourceId(id);
         this._groupPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups', this._id);
+        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -29,8 +31,7 @@ export class Group {
      * @returns {Promise.<groupModel>} - A Promise that, when resolved, yields a {@link groupModel} containing the group information.
      */
     getInfo() {
-        let groupModelParser = modelParser.createParser(groupModel);
-        return this._groupPlug.get().then((r) => r.json()).then(groupModelParser);
+        return this._groupPlug.get().then((r) => r.json()).then(modelParser.createParser(groupModel));
     }
 
     /**
@@ -45,8 +46,19 @@ export class Group {
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, yields a {@link userListModel} with the users listing.
      */
     getUsers(options) {
-        let userListModelParser = modelParser.createParser(userListModel);
-        return this._groupPlug.at('users').withParams(options).get().then((r) => r.json()).then(userListModelParser);
+        return this._groupPlug.at('users').withParams(options).get().then((r) => r.json()).then(modelParser.createParser(userListModel));
+    }
+
+    /**
+     * Remove given member from a group
+     * @param {Number|String} userId - either an integer user ID, "current", or the username of the user to remove from the group.
+     */
+    removeUser(userId) {
+        return this._groupPlug.at('users', utility.getResourceId(userId, 'current'))
+            .delete()
+            .catch((err) => Promise.reject(this._errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(groupModel));
     }
 
     /**

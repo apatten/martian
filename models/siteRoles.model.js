@@ -16,12 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { userModel } from './user.model.js';
+import { permissionsModel } from './permissions.model.js';
 
-export const userListModel = [
-    { field: '@count', name: 'count', transform: 'number' },
-    { field: '@querycount', name: 'queryCount', transform: 'number' },
-    { field: '@totalcount', name: 'totalCount', transform: 'number' },
-    { field: '@href', name: 'href' },
-    { field: 'user', name: 'users', isArray: true, transform: userModel }
+export const siteRolesModel = [
+    { field: 'permissions', isArray: true, transform: permissionsModel }
 ];

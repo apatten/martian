@@ -18,12 +18,14 @@
  */
 import { pageModel } from './page.model.js';
 import { permissionsModel } from './permissions.model.js';
-export let userModel = [
+import { groupModel } from './group.model.js';
+
+export const userModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@anonymous', name: 'anonymous', transform: 'boolean' },
     { field: '@wikiid', name: 'wikiId' },
     { field: '@href', name: 'href' },
-    { field: 'date.created', name: 'dateCreated' },
+    { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'email' },
     { field: 'fullname' },
     { field: 'username' },
@@ -32,7 +34,8 @@ export let userModel = [
     { field: 'status' },
     { field: [ 'license.seat', '#text' ], name: 'seated', transform: 'boolean' },
     { field: [ 'license.seat', '@owner' ], name: 'siteOwner', transform: 'boolean' },
-    { field: 'date.lastlogin', name: 'dateLastLogin', transform: 'date' },
+    { field: 'date.lastlogin', name: 'lastLoginDate', transform: 'date' },
     { field: 'page.home', name: 'pageHome', transform: pageModel },
-    { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel }
+    { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel },
+    { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
 ];

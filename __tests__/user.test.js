@@ -138,5 +138,19 @@ describe('User API', () => {
                 expect(success).not.toHaveBeenCalled();
             });
         });
+        it('can update user information (all params)', () => {
+            return user.update({
+                active: true,
+                seated: true,
+                username: 'foo',
+                fullName: 'Mr. Foo',
+                email: 'foo@example.com',
+                language: 'en-US',
+                timeZone: '-8:00'
+            });
+        });
+        it('can update user information (status => inactive)', () => {
+            return user.update({ active: false });
+        });
     });
 });

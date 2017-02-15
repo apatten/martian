@@ -137,5 +137,8 @@ describe('Group API', () => {
         it('can delete a group', () => {
             return group.delete();
         });
+        it('can remove a user from a group', () => {
+            return group.removeUser(132);
+        });
     });
 });
