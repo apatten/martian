@@ -7,6 +7,7 @@ import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js'
 import { reportLogsModel } from './models/reportLogs.model.js';
 import { logUrlModel } from './models/logUrl.model.js';
 import { siteActivityModel } from './models/siteActivity.model.js';
+import { siteRolesModel } from './models/siteRoles.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -251,5 +252,12 @@ export class Site {
             activityPlug = activityPlug.withParam('since', sinceString);
         }
         return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
+    }
+
+    /**
+     * Retrieve list of defined roles
+     */
+    getRoles() {
+        return this.plug.at('roles').get().then((r) => r.json()).then(modelParser.createParser(siteRolesModel));
     }
 }

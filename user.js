@@ -6,6 +6,7 @@ import { modelParser } from './lib/modelParser.js';
 import { userModel } from './models/user.model.js';
 import { pageModel } from './models/page.model.js';
 import { userListModel } from './models/userList.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
 
 /**
  * A class for managing a MindTouch user.
@@ -20,6 +21,7 @@ export class User {
     constructor(id = 'current', settings = new Settings()) {
         this._id = utility.getResourceId(id, 'current');
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users', this._id);
+        this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
     /**
@@ -63,6 +65,36 @@ export class User {
             .post(requestXml, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
+    }
+
+    /**
+     * Modify the user
+     * @param {Object} options - An object that contains the user parameters to modify
+     * @param {Boolean} [options.active] - Sets the user's "status" to "active" or "inactive".
+     * @param {Boolean} [options.seated] - Sets whether or not the user is seated.
+     * @param {String} [options.username] - Sets the user's username.
+     * @param {String} [options.fullName] - Sets the user's full name (display name).
+     * @param {String} [options.email] - Sets the user's email address.
+     * @param {String} [options.language] - Sets the user's language.
+     * @param {String} [options.timeZone] - Sets the user's time zone.
+     */
+    update(options) {
+        let postData = '<user>';
+        Object.entries(options).forEach(([ key, value ]) => {
+            if(key === 'active') {
+                postData += `<status>${value === true ? 'active' : 'inactive'}</status>`;
+            } else if(key === 'seated') {
+                postData += `<license.seat>${value}</license.seat>`;
+            } else {
+                const lowerKey = key.toLowerCase();
+                postData += `<${lowerKey}>${value}</${lowerKey}>`;
+            }
+        });
+        postData += '</user>';
+        return this._plug.put(postData, utility.xmlRequestType)
+            .catch((err) => Promise.reject(this._errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(userModel));
     }
 }
 

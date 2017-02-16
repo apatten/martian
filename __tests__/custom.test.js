@@ -9,6 +9,8 @@ jest.unmock('../pageBase.js');
 jest.unmock('../lib/modelParser.js');
 jest.unmock('../contextId.js');
 jest.unmock('../file.js');
+jest.unmock('../group.js');
+jest.unmock('../user.js');
 
 describe('Special page Tests', () => {
     beforeEach(() => {
@@ -34,6 +36,22 @@ describe('Special page Tests', () => {
         const ContextIdManager = require.requireActual('../contextId.js').ContextIdManager;
         const cm = new ContextIdManager();
         return cm.getDefinitions();
+    });
+    it('can handle a rejection properly for ContextIdManager.prototype.addDefinition', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            post() {
+                return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{}' });
+            }
+        }));
+        const ContextIdManager = require.requireActual('../contextId.js').ContextIdManager;
+        const cm = new ContextIdManager();
+        const success = jest.fn();
+        return cm.addDefinition('foo').then(() => {
+            success();
+            throw new Error('Promise was resolved');
+        }).catch(() => {
+            expect(success).not.toHaveBeenCalled();
+        });
     });
     it('can fetch a virtual page', () => {
         jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
@@ -188,6 +206,38 @@ describe('Special page Tests', () => {
         const pm = new PageManager();
         const success = jest.fn();
         return pm.findPages({ tags: [ 'foo' ] }).then(() => {
+            success();
+            throw new Error('Promise was resolved');
+        }).catch(() => {
+            expect(success).not.toHaveBeenCalled();
+        });
+    });
+    it('can handle a rejection properly for Group.prototype.removeUser', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            delete() {
+                return Promise.reject({ message: 'Not Found', status: 404, responseText: '{}' });
+            }
+        }));
+        const Group = require('../group.js').Group;
+        const g = new Group(5);
+        const success = jest.fn();
+        return g.removeUser(123).then(() => {
+            success();
+            throw new Error('Promise was resolved');
+        }).catch(() => {
+            expect(success).not.toHaveBeenCalled();
+        });
+    });
+    it('can handle a rejection properly for User.prototype.update', () => {
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+            put() {
+                return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{}' });
+            }
+        }));
+        const User = require('../user.js').User;
+        const u = new User(5);
+        const success = jest.fn();
+        return u.update({ seated: false }).then(() => {
             success();
             throw new Error('Promise was resolved');
         }).catch(() => {
