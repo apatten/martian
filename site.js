@@ -218,8 +218,9 @@ export class Site {
      * @param {Array} options.constraints.tags An array of tags to only consider when returning page results.
      * @param {Array} options.constraints.namespaces An array of namespaces to limit the results by.
      * @param {Boolean} [options.verbose=true] Show verbose page xml
+     * @param {String} [options.parser='bestguess'] - The parser to use for the query. Must be one of "bestguess", "term", "filename", "lucene"
      */
-    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true } = {}) {
+    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess' } = {}) {
         if(typeof limit === 'string') {
             if(limit !== 'all') {
                 return Promise.reject(new Error('The limit for index searching must be a number or "all"'));
@@ -231,7 +232,8 @@ export class Site {
             offset,
             sortby: sortBy,
             constraint: constraintString || _buildSearchConstraints(constraints),
-            verbose
+            verbose,
+            parser
         };
         return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
     }

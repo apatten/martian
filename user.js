@@ -170,6 +170,7 @@ export class UserManager {
      * @param {String} constraints.username - Search for users name starting with supplied text
      * @param {Number} constraints.roleid - Search for users of a specific role ID.
      * @param {Number} constraints.limit - Maximum number of items to retrieve. Actual maximum is capped by site setting
+     * @param {String} constraints.format - Output format. Must be one of "autocomplete", "default" , or "verbose"
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, returns a {@link userListModel} containing the list of found users.
      */
     searchUsers(constraints) {
