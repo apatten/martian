@@ -14,8 +14,8 @@ export class ContextDefinition {
 
     /**
      * Create a ContextDefinition.
-     * @param {String} id - The ID of the context definition.
-     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     * @param {String} id The ID of the context definition.
+     * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
         if(!id) {
@@ -27,7 +27,7 @@ export class ContextDefinition {
 
     /**
      * Get the Context ID information from the API.
-     * @returns {Promise.<contextIdModel>} - A promise that, when resolved, yields a {@link contextIdModel} object.
+     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     getInfo() {
         return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextIdModel));
@@ -35,8 +35,8 @@ export class ContextDefinition {
 
     /**
      * Set or overwrite the description of the Context ID
-     * @param {String} description - The new
-     * @returns {Promise.<contextIdModel>} - A promise that, when resolved, yields a contextIdModel object.
+     * @param {String} description The new description to use for the Context ID.
+     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a contextIdModel object.
      */
     updateDescription(description = '') {
         const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
@@ -45,7 +45,7 @@ export class ContextDefinition {
 
     /**
      * Remove this Context ID from the system.
-     * @returns {Promise} - A Promise that, when resolved, indicates a successful deletion of the Context ID.
+     * @returns {Promise} A Promise that, when resolved, indicates a successful deletion of the Context ID.
      */
     delete() {
         return this.plug.delete();
@@ -59,9 +59,9 @@ export class ContextMap {
 
     /**
      * Construct a new ContextMap
-     * @param {String} language - The language of the mapping.
-     * @param {String} id - The ID of the associated {@link ContextDefinition}.
-     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     * @param {String} language The language of the mapping.
+     * @param {String} id The ID of the associated {@link ContextDefinition}.
+     * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(language, id, settings = new Settings()) {
         if(!id || !language) {
@@ -74,7 +74,7 @@ export class ContextMap {
 
     /**
      * Gets the information for the Context Mapping.
-     * @returns {Promise.<contextMapModel>} - A promise that, when resolved, yields a {@link contextMapModel} object.
+     * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     getInfo() {
         return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextMapModel));
@@ -82,8 +82,8 @@ export class ContextMap {
 
     /**
      * Sets or changes the page ID for the Context ID mapping.
-     * @param {Number} pageId - The page ID to use for the Context ID mapping.
-     * @returns {Promise.<contextMapModel>} - A promise that, when resolved, yields a {@link contextMapModel} object.
+     * @param {Number} pageId The page ID to use for the Context ID mapping.
+     * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     update(pageId) {
         if(!pageId) {
@@ -95,7 +95,7 @@ export class ContextMap {
 
     /**
      * Removes a mapping between a Context ID and an associated page.
-     * @returns {Promise} - A Promise that, when resolved, indicates a successful removal of the mapping.
+     * @returns {Promise} A Promise that, when resolved, indicates a successful removal of the mapping.
      */
     remove() {
         return this.plug.delete();
@@ -109,7 +109,7 @@ export class ContextIdManager {
 
     /**
      * Construct a new ContextIdManager.
-     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
         this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
@@ -120,7 +120,7 @@ export class ContextIdManager {
 
     /**
      * Get all of the Context ID Mappings that are defined.
-     * @returns {Promise.<contextMapsModel>} - A promise that, when resolved, yields a {@link contextMapsModel} object.
+     * @returns {Promise.<contextMapsModel>} A promise that, when resolved, yields a {@link contextMapsModel} object.
      */
     getMaps() {
         return this.mapsPlug.get().then((r) => r.json()).then(modelParser.createParser(contextMapsModel));
@@ -128,7 +128,7 @@ export class ContextIdManager {
 
     /**
      * Get all of the Context ID Definitions that are defined.
-     * @returns {Promise.<contextIdsModel>} - A promise that, when resolved, yields a {@link contextIdsModel} object.
+     * @returns {Promise.<contextIdsModel>} A promise that, when resolved, yields a {@link contextIdsModel} object.
      */
     getDefinitions() {
         return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
@@ -143,9 +143,9 @@ export class ContextIdManager {
 
     /**
      * Add a new Context ID Definition to the system.
-     * @param {String} id - The ID to use for the new definition.
-     * @param {String} [description=''] - The initial description to set for the definition.
-     * @returns {Promise.<contextIdModel>} - A promise that, when resolved, yields a {@link contextIdModel} object.
+     * @param {String} id The ID to use for the new definition.
+     * @param {String} [description=''] The initial description to set for the definition.
+     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     addDefinition(id, description = '') {
         if(!id) {
@@ -160,8 +160,8 @@ export class ContextIdManager {
 
     /**
      * Get a new {@link ContextDefinition} object for the supplied ID.
-     * @param {String} id - The ID of the Context Definition to create.
-     * @returns {ContextDefinition} - A new {@link ContextDefinition} object.
+     * @param {String} id The ID of the Context Definition to create.
+     * @returns {ContextDefinition} A new {@link ContextDefinition} object.
      */
     getDefinition(id) {
         return new ContextDefinition(id, this._settings);
@@ -169,9 +169,9 @@ export class ContextIdManager {
 
     /**
      * Get a new {@link ContextMap} object for the supplied language and ID combination.
-     * @param {String} language - The language code to use to identify the mapping.
-     * @param {String} id - The Context ID identifier to use to identify the mapping.
-     * @returns {ContextMap} - A new {@link ContextMap} object.
+     * @param {String} language The language code to use to identify the mapping.
+     * @param {String} id The Context ID identifier to use to identify the mapping.
+     * @returns {ContextMap} A new {@link ContextMap} object.
      */
     getMap(language, id) {
         return new ContextMap(language, id, this._settings);

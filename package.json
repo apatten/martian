@@ -16,7 +16,8 @@
     "test-jsdom": "jest --config jest-jsdom.json",
     "watch-jsdom": "jest --config jest-jsdom.json --watch",
     "test": "npm run test-jsdom & npm run test-node;wait",
-    "inspect": "eslint ./**/*.js"
+    "inspect": "eslint ./**/*.js",
+    "docs": "jsdoc --pedantic -d ./docs/ -R ./README.md -r *.js"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
