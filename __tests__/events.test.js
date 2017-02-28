@@ -323,6 +323,9 @@ describe('User Events', () => {
         });
     });
     describe('page history', () => {
+        it('can fetch a page history (no arguments)', () => {
+            return ue.getPageHistory();
+        });
         it('can fetch a page history (no options)', () => {
             return ue.getPageHistory('home');
         });
