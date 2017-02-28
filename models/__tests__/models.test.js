@@ -34,30 +34,24 @@ files.forEach((file) => {
 describe('Models', () => {
     describe('Property checking', () => {
         it('only has valid properties', () => {
-            const defaultProps = [ 'field', 'name', 'isArray', 'transform', 'constructTransform' ];
-            const preProcessorProps = [ 'preProcessor', 'model' ];
             const allModels = Object.values(modelMap);
-            function propsAreValid(obj, validProps) {
-                return Object.keys(obj).every((prop) => validProps.includes(prop));
-            }
-            function testEntry(entry, validProps) {
-                if(!propsAreValid(entry, validProps)) {
+            function testModelItem(modelItem, validProps) {
+                if(!Object.keys(modelItem).every((prop) => validProps.includes(prop))) {
 
                     // eslint-disable-next-line
-                    console.log(entry);
+                    console.log(modelItem);
                     throw new Error('Invalid property found');
                 }
-                if(Array.isArray(entry.transform) && !allModels.includes(entry.transform)) {
-                    entry.transform.forEach((subEntry) => testEntry(subEntry, validProps));
+                if(Array.isArray(modelItem.transform) && !allModels.includes(modelItem.transform)) {
+                    modelItem.transform.forEach((subModelItem) => testModelItem(subModelItem, validProps));
                 }
             }
-
             allModels.forEach((model) => {
                 if(!Array.isArray(model)) {
-                    testEntry(model, preProcessorProps);
+                    testModelItem(model, [ 'preProcessor', 'model' ]);
                     model = model.model;
                 }
-                model.forEach((entry) => testEntry(entry, defaultProps));
+                model.forEach((modelItem) => testModelItem(modelItem, [ 'field', 'name', 'isArray', 'transform', 'constructTransform' ]));
             });
         });
     });
@@ -266,6 +260,11 @@ describe('Models', () => {
             expect(modelParser.createParser(modelMap.siteTagsModelGet)(Mocks.siteTagsGet)).toBeDefined();
             expect(modelParser.createParser(modelMap.siteTagsModelPost)(Mocks.siteTagsPost)).toBeDefined();
             expect(modelParser.createParser(modelMap.siteTagsModelPost)('')).toBeDefined();
+        });
+    });
+    describe('WebWidgets model', () => {
+        it('can parse a web-widget list', () => {
+            expect(modelParser.createParser(modelMap.webWidgetsListModel)(Mocks.webWidgetsList)).toBeDefined();
         });
     });
     describe('Workflows model', () => {
