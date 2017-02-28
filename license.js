@@ -20,6 +20,7 @@ export class License {
      * @param {Object} [options] - Parameters that will direct the usage information that is returned.
      * @param {Date} [options.since] - Get license usage starting at this date.
      * @param {Date} [options.upTo=Date.now()] - Get license usage ending at this date.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the license usage data, or rejected with an error specifying the reason for rejection.
      */
     getUsage(options = {}) {
         const params = {};
@@ -40,6 +41,7 @@ export class License {
 
     /**
      * Retrieve license usage totals for the current license period.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogs() {
         return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(licenseUsageLogsModel));
@@ -48,6 +50,7 @@ export class License {
     /**
      * Retrieve the download URL for a license usage log.
      * @param {String} name - The name identifier for the usage log.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the log URL data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogUrl(name) {
         if(!name) {

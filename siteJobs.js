@@ -11,6 +11,7 @@ export class SiteJobs {
 
     /**
      * Create a new SiteImportExport object.
+     * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
      */
     constructor(settings = new Settings()) {
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
@@ -25,6 +26,7 @@ export class SiteJobs {
      * @param {Number} [options.pages[].id] - The ID of a page to export. Required if the path is not supplied.
      * @param {String} [options.pages[].path] - The path of a page to export. Required if the ID is not supplied.
      * @param {Boolean} [options.pages[].includeSubpages] - Idicates whether or not to export the subpages of the specified page.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleExport(options) {
         if(!options) {
@@ -84,6 +86,7 @@ export class SiteJobs {
      * @param {String} [options.email] - The email address to notify when the job completes. Required if a URL is not supplied.
      * @param {String} [options.url] - The URL to notify when the job completes. Required if an email address is not supplied.
      * @param {String} options.archiveUrl - The URL pointing to the archive to import.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleImport(options) {
         if(!options) {
@@ -119,6 +122,7 @@ export class SiteJobs {
 
     /**
      * Gets the job statuses for a site.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the jobs status info, or rejected with an error specifying the reason for rejection.
      */
     getJobsStatuses() {
         return this._plug.at('jobs', 'status').get()

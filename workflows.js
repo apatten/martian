@@ -46,6 +46,7 @@ export class WorkflowManager {
     /**
      * Send a message requesting an article be created on the site.
      * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the result of the request, or rejected with an error specifying the reason for rejection.
      */
     requestArticle(options = {}) {
         return this._plug.at('submit-article-request').post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
@@ -54,6 +55,7 @@ export class WorkflowManager {
     /**
      * Send a message that submits a support issue.
      * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the result of the request, or rejected with an error specifying the reason for rejection.
      */
     submitIssue(options = {}) {
         const workflowPath = 'submit-issue';
@@ -66,6 +68,7 @@ export class WorkflowManager {
     /**
      * Send a message to site support.
      * @param {Object} options - Parameters to send along with the request. These parameters are specific to the corresponding integration configuration on the MindTouch site.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the result of the request, or rejected with an error specifying the reason for rejection.
      */
     contactSupport(options = {}) {
         const workflowPath = 'contact-support';

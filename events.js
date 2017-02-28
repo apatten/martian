@@ -50,6 +50,7 @@ export class Events {
      * @param {Number} [options.limit=25] - The maximum number results to retrieve. Regardless of what is passed in, no more than 1000 results will be returned.
      * @param {String} [options.upTo] - The history event ID to start fetching at.
      * @param {Array} [options.include] - An array of entity details to include. Valid entries are 'page', 'user', 'group', 'file', and 'request'
+     * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the page history data, or rejected with an error specifying the reason for rejection.
      */
     getSiteDraftsHistory(options = {}) {
         const params = {};
@@ -80,6 +81,7 @@ export class Events {
      * @param {String} detailId - The GUID specifying the detail to fetch.
      * @param {Object} [options] - Information about the detail to fetch
      * @param {Array} [options.include] - An array of entity details to include. Valid entries are 'page', 'user', 'group', 'file', and 'request'
+     * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the page history data, or rejected with an error specifying the reason for rejection.
      */
     getSiteDraftsHistoryDetail(detailId, options = {}) {
         if(!detailId || typeof detailId !== 'string') {
@@ -98,7 +100,7 @@ export class Events {
 
     /**
      * Get draft history summary.
-     * @param {Number|String} [id=home] - The page ID or path.
+     * @param {Number|String} [pageId=home] - The page ID or path.
      * @param {Object} [options] - An object that directs the history fetching.
      * @param {Number} [options.limit=25] - The maximum number results to retrieve. Regardless of what is passed in, no more than 1000 results will be returned.
      * @param {String} [options.upTo] - The history event ID to start fetching at.
@@ -162,6 +164,7 @@ export class Events {
      * @param {Number} [options.limit=25] - The maximum number of results to fetch.
      * @param {String} [options.upTo] - The GUID identifier to use for paging.
      * @param {Array} [options.include] - An array of strings identifying elements to expand in the result. Valid identifiers are: 'page', 'user', 'file', and 'request'.
+     * @returns {Promise.<Object|Error>} - A Promise that will be resolved with the learning path history data, or rejected with an error specifying the reason for rejection.
      */
     getLearningPathHistory(learningPathId, options = {}) {
         if(!learningPathId || typeof learningPathId !== 'string') {
@@ -220,6 +223,7 @@ export class Events {
      * @param {Number} [options.limit=25] - The maximum number results to retrieve. Regardless of what is passed in, no more than 1000 results will be returned.
      * @param {String} [options.upTo] - The history event ID to start fetching at.
      * @param {Array} [options.include] - An array of entity details to include. Valid entries are 'page', 'user', 'group', 'file', and 'request'
+     * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the site history data, or rejected with an error specifying the reason for rejection.
      */
     getSiteHistory(options = {}) {
         const params = {};
@@ -250,6 +254,7 @@ export class Events {
      * @param {String} detailId - The GUID specifying the detail to fetch.
      * @param {Object} [options] - Information about the detail to fetch
      * @param {Array} [options.include] - An array of entity details to include. Valid entries are 'page', 'user', 'group', 'file', and 'request'
+     * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the site history detail data, or rejected with an error specifying the reason for rejection.
      */
     getSiteHistoryDetail(detailId, options = {}) {
         if(!detailId || typeof detailId !== 'string') {
@@ -270,6 +275,7 @@ export class Events {
      * Notify the system that a page was viewed by a user
      * @param {String|Number} pageId - The numeric ID or path of the page to log a view event for.
      * @param {Object} [eventData] - Specific data about the search that was performed.
+     * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved, or rejected with an error specifying the reason for rejection.
      */
     logPageView(pageId, eventData = {}) {
         return this._plug.at('page-view', utility.getResourceId(pageId, 'home')).post(JSON.stringify(eventData), utility.jsonRequestType);
@@ -277,7 +283,7 @@ export class Events {
 
     /**
      * Get page history summary.
-     * @param {Number|String} [id=home] - The page ID or path.
+     * @param {Number|String} [pageId=home] - The page ID or path.
      * @param {Object} [options] - An object that directs the history fetching.
      * @param {Number} [options.limit=25] - The maximum number results to retrieve. Regardless of what is passed in, no more than 1000 results will be returned.
      * @param {String} [options.upTo] - The history event ID to start fetching at.

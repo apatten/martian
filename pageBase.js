@@ -102,6 +102,7 @@ export class PageBase {
      * @param {String|Number} options.fromRevision - Revision number of page or a TimeUUID string that will become the new head revision.
      * @param {String} [options.abort=conflict] - The condition under which to prevent the revert operation. Must be one of 'never' or 'conflict'.
      * @param {Boolean} [options.verbose=false] - Specifies whether or not the conflicted elements will be returned in the response.
+     * @returns {Promise} - A Promise that will be resolved when the revert operation is complete, or rejected with an error specifying the reason for rejection.
      */
     revert(options) {
         if(!options) {

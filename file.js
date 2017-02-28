@@ -65,6 +65,7 @@ export class File {
      * @param {File} file - The file object to upload.
      * @param {String} filename - The filename of the new revision.
      * @param {function} progress - A function that is called to indicate upload progress before the upload is complete.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
         if(progress !== null) {
@@ -79,6 +80,7 @@ export class File {
      * @param {Object} params - The parameters that direct the API request.
      * @param {Number} params.to - The page ID of the page to move to.
      * @param {String} params.name - The name of the new, moved file.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     move(params = {}) {
         if(!params.to) {
@@ -95,7 +97,13 @@ export class File {
             .catch((err) => Promise.reject(this._errorParser(err)));
     }
 }
+
 export class FileDraft extends File {
+
+    /**
+     * @param {Number} id - The resource ID of the file.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
     constructor(id, settings = new Settings()) {
         super(id, settings);
         this._plug = this._plug.withParam('draft', 'true');
