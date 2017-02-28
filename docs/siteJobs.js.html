@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: siteJobs.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: siteJobs.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from 'mindtouch-http.js/plug.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { utility } from './lib/utility.js';
+import { apiErrorModel } from './models/apiError.model.js';
+import { siteJobModel, siteJobsModel } from './models/siteJob.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
+
+export class SiteJobs {
+
+    /**
+     * Create a new SiteImportExport object.
+     * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
+     */
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
+    }
+
+    /**
+     * Schedules a site export.
+     * @param {Object} options - Options to configure the export job.
+     * @param {String} [options.email] - The email address to notify when the job completes. Required if a URL is not supplied.
+     * @param {String} [options.url] - The URL to notify when the job completes. Required if an email address is not supplied.
+     * @param {Object[]} [options.pages] - An array of objects with information about the pages to export.
+     * @param {Number} [options.pages[].id] - The ID of a page to export. Required if the path is not supplied.
+     * @param {String} [options.pages[].path] - The path of a page to export. Required if the ID is not supplied.
+     * @param {Boolean} [options.pages[].includeSubpages] - Idicates whether or not to export the subpages of the specified page.
+     * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
+     */
+    scheduleExport(options) {
+        if(!options) {
+            return Promise.reject(new Error('The export options must be supplied'));
+        }
+        let notificationSupplied = false;
+        if('email' in options) {
+            notificationSupplied = true;
+        }
+        if('url' in options) {
+            notificationSupplied = true;
+        }
+        if(notificationSupplied === false) {
+            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        }
+        if('pages' in options) {
+            if(!Array.isArray(options.pages)) {
+                return Promise.reject('The pages option must be an array.');
+            }
+        } else {
+            return Promise.reject('One or more pages must be specified for export.');
+        }
+        const pagesElements = options.pages.reduce((acc, page) => {
+            let element = '&lt;page';
+            if(page.id) {
+                element += ` id="${page.id}"`;
+            }
+            if('includeSubpages' in page) {
+                element += ` includesubpages="${page.includeSubpages}"`;
+            }
+            element += '>';
+            if(page.path) {
+                element += `&lt;path>${page.path}&lt;/path>`;
+            }
+            element += '&lt;/page>';
+            return acc + element;
+        }, '');
+        let postData = '&lt;job>&lt;notification>';
+        if(options.email) {
+            postData += `&lt;email>${options.email}&lt;/email>`;
+        }
+        if(options.url) {
+            postData += `&lt;url>${options.url}&lt;/url>`;
+        }
+        postData += '&lt;/notification>';
+        postData += `&lt;pages>${pagesElements}&lt;/pages>`;
+        postData += '&lt;/job>';
+        return this._plug.at('jobs', 'export').post(postData, utility.xmlRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(siteJobModel));
+    }
+
+    /**
+     * Schedules a site import
+     * @param {Object} options - Options to configure the import job.
+     * @param {Boolean} [options.dryRun=false] - Perform a dry run of the import to diagnose potential content problems.
+     * @param {String} [options.email] - The email address to notify when the job completes. Required if a URL is not supplied.
+     * @param {String} [options.url] - The URL to notify when the job completes. Required if an email address is not supplied.
+     * @param {String} options.archiveUrl - The URL pointing to the archive to import.
+     * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
+     */
+    scheduleImport(options) {
+        if(!options) {
+            return Promise.reject(new Error('The export options must be supplied'));
+        }
+        let notificationSupplied = false;
+        if('email' in options) {
+            notificationSupplied = true;
+        }
+        if('url' in options) {
+            notificationSupplied = true;
+        }
+        if(notificationSupplied === false) {
+            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        }
+        if(typeof options.archiveUrl !== 'string' || options.archiveUrl === '') {
+            return Promise.reject(new Error('An archive url is required, and must be a non-empty string to perform an import.'));
+        }
+        let postData = '&lt;job>&lt;notification>';
+        if(options.email) {
+            postData += `&lt;email>${options.email}&lt;/email>`;
+        }
+        if(options.url) {
+            postData += `&lt;url>${options.url}&lt;/url>`;
+        }
+        postData += '&lt;/notification>';
+        postData += `&lt;archive>&lt;url>${options.archiveUrl}&lt;/url>&lt;/archive>`;
+        postData += '&lt;/job>';
+        return this._plug.at('jobs', 'import').withParam('dryrun', Boolean(options.dryRun)).post(postData, utility.xmlRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(siteJobModel));
+    }
+
+    /**
+     * Gets the job statuses for a site.
+     * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the jobs status info, or rejected with an error specifying the reason for rejection.
+     */
+    getJobsStatuses() {
+        return this._plug.at('jobs', 'status').get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(siteJobsModel));
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 28 2017 15:19:04 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
