@@ -17,21 +17,33 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
+import { userModel } from './user.model.js';
+
 export const pageHistoryModel = [
     { field: '@count', name: 'count', transform: 'number' },
+    { field: '@upto', name: 'upTo' },
     { field: '@since', name: 'since' },
-    { field: '@upto', name: 'upto' },
     {
         field: 'summary',
         isArray: true,
         transform: [
-            { field: '@count', name: 'count', transform: 'number' },
-            { field: '@datetime', name: 'datetime', transform: 'date' },
-            { field: '@diffable', name: 'diffable', transform: 'boolean' },
             { field: '@id', name: 'id' },
+            { field: '@datetime', name: 'datetime', transform: 'date' },
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@detailid', name: 'detailId' },
             { field: '@journaled', name: 'journaled', transform: 'boolean' },
-            { field: '@uri.detail', name: 'uriDetail' },
-            { field: 'event', transform: eventModel }
+            { field: '@diffable', name: 'diffable', transform: 'boolean' },
+            { field: '@uri.detail', name: 'detailUri' },
+            { field: '@uri.hierarchy', name: 'hierarchyUri' },
+            { field: 'event', transform: eventModel },
+            {
+                field: 'page',
+                transform: [
+                    { field: '@id', name: 'id', transform: 'number' },
+                    { field: 'path' }
+                ]
+            },
+            { field: [ 'users', 'user' ], name: 'users', isArray: true, transform: userModel }
         ]
     }
 ];

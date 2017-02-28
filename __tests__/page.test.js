@@ -237,6 +237,60 @@ describe('Page', () => {
                 expect(success).not.toHaveBeenCalled();
             });
         });
+        it('can revert a page (minimum options)', () => {
+            return page.revert({ fromRevision: 5 });
+        });
+        it('can revert a page (all options)', () => {
+            return page.revert({ fromRevision: 5, abort: 'never', verbose: true });
+        });
+        it('can revert a page (alternate options)', () => {
+            return page.revert({ fromRevision: 5, abort: 'conflict', verbose: false });
+        });
+        it('can fail while trying to revert a page (no options)', () => {
+            const success = jest.fn();
+            return page.revert().then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail while trying to revert a page (no `fromRevision`)', () => {
+            const success = jest.fn();
+            return page.revert({}).then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail while trying to revert a page (invalid `abort` type)', () => {
+            const success = jest.fn();
+            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: true }).then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail while trying to revert a page (invalid `abort` value)', () => {
+            const success = jest.fn();
+            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: 'YES' }).then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
+        it('can fail while trying to revert a page (invalid `verbose` value)', () => {
+            const success = jest.fn();
+            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', verbose: 'YES' }).then(() => {
+                success();
+                throw new Error('The promise was resolved.');
+            }).catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
+        });
     });
     describe('Page manager', () => {
         describe('functional tests', () => {

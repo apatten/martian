@@ -179,6 +179,7 @@ export class Page extends PageBase {
 
     /**
      * Delete a page
+     * @param {Boolean} [recursive=false] - Indicates whether or not the delete operation will also delete all child pages.
      * @returns {Promise.<pageDeleteModel>} - A Promise that, when resolved, yields a {@link pageDeleteModel} containing information regearding pages that were deleted.
      */
     delete(recursive = false) {
@@ -197,7 +198,10 @@ export class Page extends PageBase {
 
     /**
      * Import a MindTouch archive file as a child node of the page.
-     *
+     * @param {File} file - A File object that either represents the file to import, or contains information about the upload target.
+     * @param {Object} [options] - The file information options that is, by default populated from the `file` parameter.
+     * @param {Object} [params] - Additional API parameters to send along with the request.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the import info data, or rejected with an error specifying the reason for rejection.
      */
     importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
@@ -217,6 +221,7 @@ export class Page extends PageBase {
 
     /**
      * Generates the information so that clients can stream down the exported page(s) in mtarc format.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with data describing the exported file, or rejected with an error specifying the reason for rejection.
      */
     getExportInformation() {
         return this._plug.at('export').post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageExportModel));
@@ -249,6 +254,7 @@ export class PageManager {
      * @param {Array} [options.missingClassifications=[]] - An array of classification prefixes that must not exist on the pages.
      * @param {Date} [options.since] - Find pages last modified since this date.
      * @param {Date} [options.upTo=Date.now()] - Find pages last modified up to this date.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the results of the find request, or rejected with an error specifying the reason for rejection.
      */
     findPages(options = {}) {
         let paramFound = false;

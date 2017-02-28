@@ -49,6 +49,7 @@ export class Draft extends PageBase {
     /**
      * Update display title for a draft
      * @param {String} title - The new title for the draft
+     * @returns {Promise.<pageModel|Error>} - A Promise that will be resolved with the page data for the draft that had its title changed, or rejected with an error specifying the reason for rejection.
      */
     setTitle(title) {
         if(!title) {
@@ -91,6 +92,7 @@ export class DraftManager {
      * @param {Array} [options.tags] - An array of tags to filter the pages by.
      * @param {Number} [options.limit=10] - The maximum number of pages to return (not to exceed 1000)
      * @param {Array} [options.include] - An array of elements to include. Currently, only 'tags' is allowed.
+     * @returns {Promise.<Object|Error>} - A Promise that will be resolved with the drafts listing data, or rejected with an error specifying the reason for rejection.
      */
     getDrafts(options = {}) {
         const params = {};

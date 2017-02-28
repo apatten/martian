@@ -95,4 +95,33 @@ export class PageBase {
     getRelated(params = {}) {
         return this._plug.at('related').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(relatedPagesModel));
     }
+
+    /**
+     * Revert page to an earlier revision
+     * @param {Object} options - The options that direct the revert operation
+     * @param {String|Number} options.fromRevision - Revision number of page or a TimeUUID string that will become the new head revision.
+     * @param {String} [options.abort=conflict] - The condition under which to prevent the revert operation. Must be one of 'never' or 'conflict'.
+     * @param {Boolean} [options.verbose=false] - Specifies whether or not the conflicted elements will be returned in the response.
+     * @returns {Promise} - A Promise that will be resolved when the revert operation is complete, or rejected with an error specifying the reason for rejection.
+     */
+    revert(options) {
+        if(!options) {
+            return Promise.reject(new Error('The revert options must be specified.'));
+        }
+        if(typeof options.fromRevision !== 'string' && typeof options.fromRevision !== 'number') {
+            return Promise.reject(new Error('The fromRevision parameter must be specified, and must be a string or a number.'));
+        }
+        const params = { fromrevision: options.fromRevision };
+        if(options.abort) {
+            if(typeof options.abort !== 'string' || (options.abort !== 'never' && options.abort !== 'conflict')) {
+                return Promise.reject(new Error('The `abort` parameter must be set to "conflict" or "never".'));
+            }
+            params.abort = options.abort;
+        }
+        if('verbose' in options && options.verbose !== true && options.verbose !== false) {
+            return Promise.reject(new Error('The `verbose` parameter must be a Boolean value.'));
+        }
+        params.abort = options.abort;
+        return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
+    }
 }

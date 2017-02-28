@@ -56,6 +56,7 @@ export const eventModel = [
     { field: 'user', transform: userModel },
     { field: 'file', transform: fileModel },
     { field: 'source.file', name: 'sourceFile', transform: fileModel },
+    { field: '@move-source', name: 'moveSource', transform: 'boolean' },
     {
         field: 'data',
         transform: [

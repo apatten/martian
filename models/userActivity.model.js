@@ -17,24 +17,10 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
+
 export let userActivityModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@upto',
-        name: 'upto'
-    },
-    {
-        field: '@since',
-        name: 'since'
-    },
-    {
-        field: 'event',
-        name: 'events',
-        isArray: true,
-        transform: eventModel
-    }
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@upto', name: 'upTo' },
+    { field: '@since', name: 'since' },
+    { field: 'event', name: 'events', isArray: true, transform: eventModel }
 ];

@@ -13,9 +13,10 @@ export class SiteReports {
 
     /**
      * Get the site health report.
-     * @param {Object} [options]
+     * @param {Object} [options] - Optons to filter the results returned.
      * @param {Array} [options.analyzers] - An array of analyzers to include in the report (all analyzers included if none specified)
      * @param {Array} [options.severities] - An array of severity levels to include in the report (all error levels if none specified)
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the site health report data, or rejected with an error specifying the reason for rejection.
      */
     getSiteHealth(options = {}) {
         const params = {};

@@ -47,6 +47,7 @@ export class User {
      * @param {Array} [options.operations=[]] - An array of operations to verify.
      * @param {Boolean} [options.verbose=true] - Return verbose information on permitted pages.
      * @param {Boolean} [options.invert=false] - Return filtered instead of allowed pages. If set to `true`, forces the `verbose` parameter to `false`.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with result of the permission check, or rejected with an error specifying the reason for rejection.
      */
     checkAllowed(pageIds, options = {}) {
         if(!Array.isArray(pageIds)) {
@@ -77,6 +78,7 @@ export class User {
      * @param {String} [options.email] - Sets the user's email address.
      * @param {String} [options.language] - Sets the user's language.
      * @param {String} [options.timeZone] - Sets the user's time zone.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the updated user data, or rejected with an error specifying the reason for rejection.
      */
     update(options) {
         let postData = '<user>';
@@ -184,6 +186,7 @@ export class UserManager {
      * @param {String} options.method - Either 'GET' or 'POST' to direct the use of those forms of the API call.
      * @param {String} options.username - The username of the user to authenticate.
      * @param {String} options.password - The password of the user to authenticate.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the authentication result, or rejected with an error specifying the reason for rejection.
      */
     authenticate({ method = 'GET', username, password }) {
         const lowerMethod = method.toLowerCase();

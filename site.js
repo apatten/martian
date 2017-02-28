@@ -148,7 +148,8 @@ export class Site {
 
     /**
      * Get tags list.
-     * @param {String} [q=''] - A tag string to contrain search results to pages containing this tag.
+     * @param {String} [params] - Parameters to send along to the API.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the tags data, or rejected with an error specifying the reason for rejection.
      */
     getTags(params = {}) {
         const siteTagsModelParser = modelParser.createParser(siteTagsModelGet);
@@ -157,9 +158,10 @@ export class Site {
 
     /**
      * Post tags list for each page that each tag in contained in.
-     * @param {Object} options - Options to direct the fetching of the localized tags.
-     * @param {Array} options.add=[] - A tag array containing all the pages containing this tag where they need to be added.
-     * @param {Array} options.remove=[] - A tag array containing all the pages containing this tag where they need to be removed.
+     * @param {Object} [params] - Options to direct the fetching of the localized tags.
+     * @param {Array} [params.add] - A tag array containing all the pages containing this tag where they need to be added.
+     * @param {Array} [params.remove] - A tag array containing all the pages containing this tag where they need to be removed.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the tags data, or rejected with an error specifying the reason for rejection.
      */
     setTags(params = {}) {
         const XMLBatchData = _getBatchTagsTemplate(params);
@@ -206,7 +208,7 @@ export class Site {
 
     /**
      * Search the site index
-     * @param {Object} options
+     * @param {Object} options - The options to direct the search operation.
      * @param {String} options.q The search string
      * @param {Number|String} [options.limit=100] The maximum number of items to retrieve. Must be a positive number or 'all' to retrieve all items.
      * @param {Number} [options.offset=0] Number of items to skip. Must be a positive number or 0 to not skip any.
@@ -219,6 +221,7 @@ export class Site {
      * @param {Array} options.constraints.namespaces An array of namespaces to limit the results by.
      * @param {Boolean} [options.verbose=true] Show verbose page xml
      * @param {String} [options.parser='bestguess'] - The parser to use for the query. Must be one of "bestguess", "term", "filename", "lucene"
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the search results, or rejected with an error specifying the reason for rejection.
      */
     searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess' } = {}) {
         if(typeof limit === 'string') {
@@ -241,6 +244,7 @@ export class Site {
     /**
      * Get the activity stats for the site.
      * @param {Date} [since] Start date for report.
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the activity data, or rejected with an error specifying the reason for rejection.
      */
     getActivity(since = null) {
         let activityPlug = this.plug.at('activity');
@@ -258,6 +262,7 @@ export class Site {
 
     /**
      * Retrieve list of defined roles
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the roles info, or rejected with an error specifying the reason for rejection.
      */
     getRoles() {
         return this.plug.at('roles').get().then((r) => r.json()).then(modelParser.createParser(siteRolesModel));

@@ -17,43 +17,19 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
+
 export const userHistoryDetailModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
+    { field: '@count', name: 'count', transform: 'number' },
     {
         field: 'summary',
+        isArray: true,
         transform: [
-            {
-                field: '@id',
-                name: 'id'
-            },
-            {
-                field: '@datetime',
-                name: 'datetime',
-                transform: 'date'
-            },
-            {
-                field: '@count',
-                name: 'count',
-                transform: 'number'
-            },
-            {
-                field: '@journaled',
-                name: 'journaled',
-                transform: 'boolean'
-            },
-            {
-                field: '@diffable',
-                name: 'diffable',
-                transform: 'boolean'
-            },
-            {
-                field: 'event',
-                transform: eventModel
-            }
+            { field: '@id', name: 'id' },
+            { field: '@datetime', name: 'datetime', transform: 'date' },
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@journaled', name: 'journaled', transform: 'boolean' },
+            { field: '@diffable', name: 'diffable', transform: 'boolean' },
+            { field: 'event', transform: eventModel }
         ]
     }
 ];
