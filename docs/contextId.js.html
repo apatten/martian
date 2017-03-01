@@ -1,4 +1,32 @@
-import { Plug } from 'mindtouch-http.js/plug.js';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contextId.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contextId.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { contextIdsModel } from './models/contextIds.model.js';
@@ -27,7 +55,7 @@ export class ContextDefinition {
 
     /**
      * Get the Context ID information from the API.
-     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
+     * @returns {Promise.&lt;contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     getInfo() {
         return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextIdModel));
@@ -36,10 +64,10 @@ export class ContextDefinition {
     /**
      * Set or overwrite the description of the Context ID
      * @param {String} description The new description to use for the Context ID.
-     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a contextIdModel object.
+     * @returns {Promise.&lt;contextIdModel>} A promise that, when resolved, yields a contextIdModel object.
      */
     updateDescription(description = '') {
-        const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
+        const updateRequest = `&lt;context>&lt;id>${this.id}&lt;/id>&lt;description>${description}&lt;/description>&lt;/context>`;
         return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextIdModel));
     }
 
@@ -74,7 +102,7 @@ export class ContextMap {
 
     /**
      * Gets the information for the Context Mapping.
-     * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
+     * @returns {Promise.&lt;contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     getInfo() {
         return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextMapModel));
@@ -83,13 +111,13 @@ export class ContextMap {
     /**
      * Sets or changes the page ID for the Context ID mapping.
      * @param {Number} pageId The page ID to use for the Context ID mapping.
-     * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
+     * @returns {Promise.&lt;contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     update(pageId) {
         if(!pageId) {
             return Promise.reject(new Error('a page ID must be supplied in order to update a mapping'));
         }
-        const updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${this.language}</language></contextmap>`;
+        const updateRequest = `&lt;contextmap>&lt;id>${this.id}&lt;/id>&lt;pageid>${pageId}&lt;/pageid>&lt;language>${this.language}&lt;/language>&lt;/contextmap>`;
         return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextMapModel));
     }
 
@@ -120,7 +148,7 @@ export class ContextIdManager {
 
     /**
      * Get all of the Context ID Mappings that are defined.
-     * @returns {Promise.<contextMapsModel>} A promise that, when resolved, yields a {@link contextMapsModel} object.
+     * @returns {Promise.&lt;contextMapsModel>} A promise that, when resolved, yields a {@link contextMapsModel} object.
      */
     getMaps() {
         return this.mapsPlug.get().then((r) => r.json()).then(modelParser.createParser(contextMapsModel));
@@ -128,7 +156,7 @@ export class ContextIdManager {
 
     /**
      * Get all of the Context ID Definitions that are defined.
-     * @returns {Promise.<contextIdsModel>} A promise that, when resolved, yields a {@link contextIdsModel} object.
+     * @returns {Promise.&lt;contextIdsModel>} A promise that, when resolved, yields a {@link contextIdsModel} object.
      */
     getDefinitions() {
         return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
@@ -145,13 +173,13 @@ export class ContextIdManager {
      * Add a new Context ID Definition to the system.
      * @param {String} id The ID to use for the new definition.
      * @param {String} [description=''] The initial description to set for the definition.
-     * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
+     * @returns {Promise.&lt;contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     addDefinition(id, description = '') {
         if(!id) {
             return Promise.reject(new Error('an ID must be supplied to add a definition'));
         }
-        const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
+        const addRequest = `&lt;contexts>&lt;context>&lt;id>${id}&lt;/id>&lt;description>${description}&lt;/description>&lt;/context>&lt;/contexts>`;
         return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8')
             .catch((err) => Promise.reject(this._errorParser(err)))
             .then((r) => r.json())
@@ -177,3 +205,26 @@ export class ContextIdManager {
         return new ContextMap(language, id, this._settings);
     }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 28 2017 15:35:58 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

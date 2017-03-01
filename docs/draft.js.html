@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: draft.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: draft.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from 'mindtouch-http.js/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { PageBase } from './pageBase.js';
+import { pageModel } from './models/page.model.js';
+
+/**
+ * A class for managing a single unpublished draft page.
+ */
+export class Draft extends PageBase {
+
+    /**
+     * Construct a Draft object.
+     * @param {Number|String} [id=home] - The id of the draft to construct.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(id = 'home', settings = new Settings()) {
+        super(id);
+        this._settings = settings;
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id);
+    }
+
+    /**
+     * Deactivate the current draft and revert to the published page.
+     * @returns {Promise.&lt;pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the deactivated page.
+     */
+    deactivate() {
+        let pageModelParser = modelParser.createParser(pageModel);
+        return this._plug.at('deactivate').post().then((r) => r.json()).then(pageModelParser);
+    }
+
+    /**
+     * Publish the draft.
+     * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
+     */
+    publish() {
+        return this._plug.at('publish').post();
+    }
+
+    /**
+     * Unpublish a live page and create a draft out of it.
+     * @returns {Promise.&lt;pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the unpublished page.
+     */
+    unpublish() {
+        return this._plug.at('unpublish').post().then((r) => r.json()).then(modelParser.createParser(pageModel));
+    }
+
+    /**
+     * Update display title for a draft
+     * @param {String} title - The new title for the draft
+     * @returns {Promise.&lt;pageModel|Error>} - A Promise that will be resolved with the page data for the draft that had its title changed, or rejected with an error specifying the reason for rejection.
+     */
+    setTitle(title) {
+        if(!title) {
+            return Promise.reject(new Error('A valid title must be supplied for the draft.'));
+        }
+        return this._plug.at('title').put(title, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageModel));
+    }
+}
+
+/**
+ * A class for managing unpublished draft pages.
+ */
+export class DraftManager {
+
+    /**
+     * Create a new DraftManager.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(settings = new Settings()) {
+        this._settings = settings;
+        this._plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts');
+    }
+
+    /**
+     * Create a new draft on the site where a page does not already exist.
+     * @param {String} newPath - The path of the new draft.
+     * @returns {Promise.&lt;pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
+     */
+    createDraft(newPath) {
+        return this._plug.at(utility.getResourceId(newPath), 'create')
+            .post()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageModel));
+    }
+
+    /**
+     * Get a list of drafts filtered by options.
+     * @param {Object} [options] - The options that will filter the resulting list of drafts.
+     * @param {Number|String} [options.parentId] - Only return pages that live under this page id.
+     * @param {Array} [options.tags] - An array of tags to filter the pages by.
+     * @param {Number} [options.limit=10] - The maximum number of pages to return (not to exceed 1000)
+     * @param {Array} [options.include] - An array of elements to include. Currently, only 'tags' is allowed.
+     * @returns {Promise.&lt;Object|Error>} - A Promise that will be resolved with the drafts listing data, or rejected with an error specifying the reason for rejection.
+     */
+    getDrafts(options = {}) {
+        const params = {};
+        if(options.parentId) {
+            params.parentid = utility.getResourceId(options.parentId, 'home');
+        }
+        if(options.tags) {
+            if(!Array.isArray(options.tags)) {
+                return Promise.reject(new Error('The `tags` parameter must be an array.'));
+            }
+            params.tags = options.tags.join(',');
+        }
+        if('limit' in options) {
+            if(typeof options.limit !== 'number') {
+                return Promise.reject(new Error('The `limit` parameter must be an number.'));
+            }
+            params.limit = options.limit;
+        }
+        if(options.include) {
+            if(!Array.isArray(options.include)) {
+                return Promise.reject(new Error('The `include` parameter must be an array.'));
+            }
+            params.include = options.include.join(',');
+        }
+        return this._plug.withParams(params)
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser([ { field: [ 'pages', 'page' ], name: 'pages', isArray: true, transform: pageModel } ]));
+    }
+
+    /**
+     * Fetch a new Draft object by ID.
+     * @param {Number|String} [id=home] - The id of the draft to return.
+     * @returns {Draft} - A new {@link Draft} object.
+     */
+    getDraft(id) {
+        return new Draft(id, this._settings);
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 28 2017 15:35:58 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
