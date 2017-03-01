@@ -21,7 +21,7 @@ jest.unmock('../events.js');
 jest.unmock('../lib/utility.js');
 import { Events } from '../events.js';
 
-describe('User Events', () => {
+describe('Events', () => {
     let ue = null;
     beforeEach(() => {
         ue = new Events();
@@ -473,18 +473,18 @@ describe('User Events', () => {
             return ue.getUserHistory();
         });
         it('can get user history (all options)', () => {
-            return ue.getUserHistory({
+            return ue.getUserHistory(1, {
                 limit: 100,
                 include: [ 'user' ],
                 upTo: '1682aa2a-8165-bca3-3033-1176848a90b2'
             });
         });
         it('can get user history (upTo == Date)', () => {
-            return ue.getUserHistory({ upTo: new Date() });
+            return ue.getUserHistory('admin', { upTo: new Date() });
         });
         it('can fail fetching a user history (invalid limit)', () => {
             const success = jest.fn();
-            return ue.getUserHistory({ limit: '100' }).then(() => {
+            return ue.getUserHistory('admin', { limit: '100' }).then(() => {
                 success();
                 throw new Error('promise resolved');
             }).catch(() => {
@@ -493,7 +493,7 @@ describe('User Events', () => {
         });
         it('can fail fetching a user history (invalid include)', () => {
             const success = jest.fn();
-            return ue.getUserHistory({ include: '100' }).then(() => {
+            return ue.getUserHistory(10, { include: '100' }).then(() => {
                 success();
                 throw new Error('promise resolved');
             }).catch(() => {
@@ -502,7 +502,7 @@ describe('User Events', () => {
         });
         it('can fail fetching a user history (invalid upTo)', () => {
             const success = jest.fn();
-            return ue.getUserHistory({ upTo: 100 }).then(() => {
+            return ue.getUserHistory('current', { upTo: 100 }).then(() => {
                 success();
                 throw new Error('promise resolved');
             }).catch(() => {
