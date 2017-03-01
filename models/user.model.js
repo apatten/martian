@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model.js';
+
 import { permissionsModel } from './permissions.model.js';
 import { groupModel } from './group.model.js';
 
@@ -36,7 +36,6 @@ export const userModel = [
     { field: 'status' },
     { field: 'username' },
     { field: 'name' },
-    { field: 'page.home', name: 'pageHome', transform: pageModel },
     { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel },
     { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
 ];

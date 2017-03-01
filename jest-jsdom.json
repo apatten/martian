@@ -2,7 +2,7 @@
     "name": "mindtouch-martian",
     "coverageDirectory": "__coverage-jsdom__",
     "collectCoverage": true,
-    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/dispatchEvent.js" ],
+    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js" ],
     "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
     "testPathIgnorePatterns": [

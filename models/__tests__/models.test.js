@@ -33,14 +33,12 @@ files.forEach((file) => {
 
 describe('Models', () => {
     describe('Property checking', () => {
-        it('only has valid properties', () => {
+        it('has valid properties', () => {
             const allModels = Object.values(modelMap);
             function testModelItem(modelItem, validProps) {
-                if(!Object.keys(modelItem).every((prop) => validProps.includes(prop))) {
-
-                    // eslint-disable-next-line
-                    console.log(modelItem);
-                    throw new Error('Invalid property found');
+                const invalidProp = Object.keys(modelItem).find((prop) => !validProps.includes(prop) || typeof modelItem[prop] === 'undefined');
+                if(invalidProp) {
+                    throw new Error(`Invalid property found: '${invalidProp}'\n${JSON.stringify(modelItem)}`);
                 }
                 if(Array.isArray(modelItem.transform) && !allModels.includes(modelItem.transform)) {
                     modelItem.transform.forEach((subModelItem) => testModelItem(subModelItem, validProps));
