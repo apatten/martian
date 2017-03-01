@@ -267,7 +267,7 @@ export class Events {
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', options.detailId).withParams(params).get()
+        return this._plug.at('page-hierarchy', 'details', detailId).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -420,14 +420,14 @@ export class Events {
 
     /**
      * Get the user's history events.
+     * @param {Number|String} [userId=current] - The user's numeric ID or username.
      * @param {Object} [options] - Additional options to direct the history fetching.
-     * @param {Number|String} [options.userId=current] - The user's numeric ID or username.
      * @param {Number} [options.limit=10] - The maximum number results that we want to retrieve.
      * @param {Array} [options.include] - An array of elements you'd like to expand. If specified, valid entries are 'user', 'page', and 'request'.
      * @param {String|Date} [options.upTo] - The marker used to paginate.
      * @returns {Promise.<userHistoryModel>} - A Promise that, when resolved, yields a {@link userHistoryModel} that contains the listing of the user's events.
      */
-    getUserHistory(options = {}) {
+    getUserHistory(userId = 'current', options = {}) {
         const params = {};
         if(options.limit) {
             if(typeof options.limit !== 'number') {
@@ -451,7 +451,7 @@ export class Events {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('user-page', utility.getResourceId(options.userId, 'current')).withParams(params).get()
+        return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
