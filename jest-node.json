@@ -3,7 +3,7 @@
     "testEnvironment": "node",
     "coverageDirectory": "__coverage-node__",
     "collectCoverage": true,
-    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/dispatchEvent.js" ],
+    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/dispatchEvent.js", "!lib/propWatcher.js", "!lib/tokenHelper.js" ],
     "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
     "testPathIgnorePatterns": [
