@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: webWidgets.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: webWidgets.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from 'mindtouch-http.js/plug.js';
+import { Settings } from './lib/settings.js';
+import { utility } from './lib/utility.js';
+import { modelParser } from './lib/modelParser.js';
+import { webWidgetsModel } from './models/webWidgets.model.js';
+import { webWidgetsListModel } from './models/webWidgetsList.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
+function isValidArgValue(value) {
+    return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
+}
+function _makeXmlString(data) {
+    if(!data || typeof data !== 'object') {
+        throw new Error('Web widget data must be an object');
+    }
+    if(!Array.isArray(data.arguments) || data.arguments.some((arg) => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))) {
+        throw new Error('Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean');
+    }
+    if(!Array.isArray(data.hosts) || data.hosts.some((host) => typeof host !== 'string')) {
+        throw new Error('Web widget hosts must be an array of strings');
+    }
+    if(typeof data.name !== 'string') {
+        throw new Error('Web widget name must be a string');
+    }
+    if(typeof data.type !== 'string') {
+        throw new Error('Web widget type must be a string');
+    }
+    const argData = data.arguments.map((arg) => {
+        return `&lt;${arg.name}>${utility.escapeHTML(arg.value)}&lt;/${arg.name}>`;
+    });
+    return `
+        &lt;web-widget>
+            &lt;arguments>${argData.join('\n')}&lt;/arguments>
+            &lt;host>${utility.escapeHTML(data.hosts.join(','))}&lt;/host>
+            &lt;name>${utility.escapeHTML(data.name)}&lt;/name>
+            &lt;type>${utility.escapeHTML(data.type)}&lt;/type>
+        &lt;/web-widget>
+    `;
+}
+
+/**
+ * A class for managing web widgets.
+ */
+export class WebWidgetsManager {
+
+    /**
+     * Construct a new WebWidgetsManager.
+     * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'web-widgets');
+    }
+
+    /**
+     * Retrieve all active web widgets.
+     * @returns {Promise} A Promise, when resolved, provides a list of active web widgets.
+     */
+    getActiveWidgets() {
+        return this._plug.get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsListModel));
+    }
+
+    /**
+     * Retrieve all inactive web widgets.
+     * @returns {Promise} A Promise, when resolved, provides a list of inactive web widgets.
+     */
+    getInactiveWidgets() {
+        return this._plug.at('inactive').get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsListModel));
+    }
+
+    /**
+     * Retrieve an individual web widget.
+     * @param {Number|String} [id] The id of the web widget to retrieve.
+     * @returns {Promise} A Promise, when resolved, provides info of the retrieved web widget.
+     */
+    getWidget(id) {
+        const widgetId = utility.getResourceId(id);
+        return this._plug.at(widgetId).get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsModel));
+
+    }
+
+    /**
+     * Create a new web widget.
+     * @param {Object} [options] The data used to create a new web widget.
+     * @param {Array} [options.arguments] An array of { name, value } objects.
+     * @param {Array} [options.hosts] Hostnames to whitelist.
+     * @param {String} [options.name] The name of the web widget.
+     * @param {String} [options.type] The type of web widget.
+     * @returns {Promise} A Promise, when resolved, provides info of the newly created web widget.
+     */
+    createWidget(options) {
+        return this._plug.post(_makeXmlString(options), utility.xmlRequestType)
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsModel));
+    }
+
+    /**
+     * Delete a web widget.
+     * @param {Number|String} [id] The id of the web widget to delete.
+     * @returns {Promise} A Promise, when resolved, indicates the web widget is deleted.
+     */
+    deleteWidget(id) {
+        const widgetId = utility.getResourceId(id);
+        return this._plug.at(widgetId).delete();
+    }
+
+    /**
+     * Update a web widget.
+     * @param {Number|String} [id] The id of the web widget to update.
+     * @param {Object} [options] The data used to update the web widget.
+     * @param {Array} [options.arguments] - An array of { name, value } objects.
+     * @param {Array} [options.hosts] Hostnames to whitelist.
+     * @param {String} [options.name] The name of the web widget.
+     * @param {String} [options.type] The type of web widget.
+     * @returns {Promise} A Promise, when resolved, provides info of the updated web widget.
+     */
+    updateWidget(id, options) {
+        const widgetId = utility.getResourceId(id);
+        return this._plug.at(widgetId).put(_makeXmlString(options), utility.xmlRequestType)
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsModel));
+    }
+
+    /**
+     * Activate a web widget.
+     * @param {Number|String} [id] The id of the web widget to activate.
+     * @returns {Promise} A Promise, when resolved, provides info of the activated web widget.
+     */
+    activateWidget(id) {
+        const widgetId = utility.getResourceId(id);
+        return this._plug.at(widgetId, 'activate').put()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsModel));
+    }
+
+    /**
+     * Deactivate a web widget.
+     * @param {Number|String} [id] The id of the web widget to deactivate.
+     * @returns {Promise} A Promise, when resolved, provides info of the deactivated web widget.
+     */
+    deactivateWidget(id) {
+        const widgetId = utility.getResourceId(id);
+        return this._plug.at(widgetId, 'deactivate').put()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(webWidgetsModel));
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 01 2017 15:48:46 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
