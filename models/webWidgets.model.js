@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-export const webwidgetsModel = [
+export const webWidgetsModel = [
     { field: '@active', name: 'active', transform: 'boolean' },
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@id', name: 'id', transform: 'number' },
