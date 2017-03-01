@@ -451,7 +451,7 @@ export class Events {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('user-page', utility.getResourceId(options.userId, 'current')).withParams(params).get()
+        return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
