@@ -32,6 +32,13 @@ function dateOrStringTransformer(value) {
     return date;
 }
 
+const learningPathTransform = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: '@timestamp', transform: 'date' },
+    { field: 'name' },
+    { field: 'title' }
+];
+
 export const eventModel = [
     { field: '@cascading', name: 'cascading', transform: 'boolean' },
     { field: '@datetime', name: 'datetime', transform: 'date' },
@@ -79,7 +86,13 @@ export const eventModel = [
             { field: 'added', transform: 'number' },
             { field: 'attributes', transform: 'number' },
             { field: 'removed', transform: 'number' },
-            { field: 'structural', transform: 'number' }
+            { field: 'structural', transform: 'number' },
+            { field: 'categorychanged', transform: 'boolean' },
+            { field: 'pagesadded', transform: 'number' },
+            { field: 'pagesremoved', transform: 'number' },
+            { field: 'pagesreordered', transform: 'boolean' },
+            { field: 'summarychanged', transform: 'boolean' },
+            { field: 'titlechanged', transform: 'boolean' }
         ]
     },
     {
@@ -130,5 +143,7 @@ export const eventModel = [
         transform: [
             { field: 'name' }
         ]
-    }
+    },
+    { field: 'learningpath', name: 'learningPath', transform: learningPathTransform },
+    { field: 'root.learningpath', name: 'learningPathRoot', transform: learningPathTransform }
 ];

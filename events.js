@@ -190,7 +190,7 @@ export class Events {
             params.include = options.include.join(',');
         }
         return this._plug.at('learningpath', utility.getResourceId(learningPathId)).withParams(params).get()
-            .then((r) => r.json());
+            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
