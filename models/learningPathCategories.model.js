@@ -16,14 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { pageModel } from './page.model.js';
 
-export const learningPathModel = [
-    { field: 'title' },
-    { field: '@name', name: 'name' },
-    { field: 'summary' },
-    { field: 'pages', isArray: true, transform: pageModel },
-    { field: 'edittime', name: 'editTime' },
-    { field: 'uri.learningpath', name: 'uri' },
-    { field: 'category' }
+export const learningPathCategoriesModel = [
+    { field: [ 'categories', 'category' ], name: 'categories', isArray: true }
 ];
