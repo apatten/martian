@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: License</title>
+    <title>JSDoc: Class: LearningPathManager</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: License</h1>
+    <h1 class="page-title">Class: LearningPathManager</h1>
 
     
 
@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2>License</h2>
+        <h2>LearningPathManager</h2>
         
     
 </header>
@@ -40,14 +40,14 @@
 
     
 
-    <h4 class="name" id="License"><span class="type-signature"></span>new License<span class="signature">(settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LearningPathManager"><span class="type-signature"></span>new LearningPathManager<span class="signature">(settings)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Construct a new License object.
+    Create a new LearningPathManager
 </div>
 
 
@@ -70,8 +70,6 @@
 
         <th>Type</th>
 
-        
-        <th>Attributes</th>
         
 
         
@@ -98,20 +96,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
+            <td class="description last">The martian settings to direct the Learning Path API calls.</td>
         </tr>
 
     
@@ -152,7 +140,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="license.js.html">license.js</a>, <a href="license.js.html#line14">line 14</a>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -201,14 +189,14 @@
 
     
 
-    <h4 class="name" id="getUsage"><span class="type-signature"></span>getUsage<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id="createLearningPath"><span class="type-signature"></span>createLearningPath<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
 
 
 <div class="description">
-    Retrieve license usage totals for the current license period
+    Create a new learning path
 </div>
 
 
@@ -232,8 +220,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -246,7 +232,7 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>data</code></td>
             
 
             <td class="type">
@@ -259,20 +245,10 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Parameters that will direct the usage information that is returned.
+            <td class="description last">The data parameters for the new Learning Path.
                 <h6>Properties</h6>
                 
 
@@ -290,8 +266,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -302,13 +276,13 @@
 
         <tr>
             
-                <td class="name"><code>since</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Date</span>
+<span class="param-type">String</span>
 
 
             
@@ -317,8 +291,6 @@
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
 
@@ -327,25 +299,52 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Get license usage starting at this date.</td>
+            <td class="description last">The string ID for the new Learning Path.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>upTo</code></td>
+                <td class="name"><code>title</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Date</span>
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The title for the new Learning Path.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>summary</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
 
 
             
@@ -364,14 +363,41 @@
             
 
             
-                <td class="default">
+
+            <td class="description last">A brief description for the new Learning Path.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
                 
-                    Date.now()
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
             
 
-            <td class="description last">Get license usage ending at this date.</td>
+            
+
+            <td class="description last">The category to put the learning path in.</td>
         </tr>
 
     
@@ -419,7 +445,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="license.js.html">license.js</a>, <a href="license.js.html#line25">line 25</a>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -446,7 +472,7 @@
 
         
 <div class="param-desc">
-    - A Promise that will be resolved with the license usage data, or rejected with an error specifying the reason for rejection.
+    A Promise that, when resolved, yields a learningPathModel containing the information for the new learning path.
 </div>
 
 
@@ -457,7 +483,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Object></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -472,14 +498,14 @@
 
     
 
-    <h4 class="name" id="getUsageLogs"><span class="type-signature"></span>getUsageLogs<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id="getCategories"><span class="type-signature"></span>getCategories<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
 
 
 <div class="description">
-    Retrieve license usage totals for the current license period.
+    Get a list of all of the categories used amongst all learning paths.
 </div>
 
 
@@ -523,7 +549,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="license.js.html">license.js</a>, <a href="license.js.html#line46">line 46</a>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line200">line 200</a>
     </li></ul></dd>
     
 
@@ -550,7 +576,7 @@
 
         
 <div class="param-desc">
-    - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
+    A Promise that, when resolved, yields an object containing the list of all of the learning path categories.
 </div>
 
 
@@ -561,7 +587,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Object></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -576,14 +602,14 @@
 
     
 
-    <h4 class="name" id="getUsageLogUrl"><span class="type-signature"></span>getUsageLogUrl<span class="signature">(name)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id="getLearningPath"><span class="type-signature"></span>getLearningPath<span class="signature">(name)</span><span class="type-signature"> &rarr; {<a href="LearningPath.html">LearningPath</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Retrieve the download URL for a license usage log.
+    Get a {@see LearningPath} instance based on the name identifier
 </div>
 
 
@@ -635,7 +661,7 @@
 
             
 
-            <td class="description last">The name identifier for the usage log.</td>
+            <td class="description last">The name for the learning path object to create.</td>
         </tr>
 
     
@@ -676,7 +702,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="license.js.html">license.js</a>, <a href="license.js.html#line55">line 55</a>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line210">line 210</a>
     </li></ul></dd>
     
 
@@ -703,7 +729,7 @@
 
         
 <div class="param-desc">
-    - A Promise that will be resolved with the log URL data, or rejected with an error specifying the reason for rejection.
+    A LearningPath instance that provides API access to a single learning path.
 </div>
 
 
@@ -714,7 +740,111 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Object></span>
+<span class="param-type"><a href="LearningPath.html">LearningPath</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getLearningPaths"><span class="type-signature"></span>getLearningPaths<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Get information for all of the site learning paths.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line160">line 160</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Promise that, when resolved, yields a learningPathsModel containing the information of all of the learning paths.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
 
 
     </dd>
