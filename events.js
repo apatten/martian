@@ -2,11 +2,14 @@ import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
+import { apiErrorModel } from './models/apiError.model.js';
 import { userActivityModel } from './models/userActivity.model.js';
 import { pageHistoryModel } from './models/pageHistory.model.js';
 import { pageHistoryDetailModel } from './models/pageHistoryDetail.model.js';
 import { reportLogsModel } from './models/reportLogs.model.js';
 import { logUrlModel } from './models/logUrl.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for fetching and managing events.
@@ -452,7 +455,9 @@ export class Events {
             }
         }
         return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+            .catch((e) => Promise.reject(_errorParser(e)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
