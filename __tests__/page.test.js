@@ -90,9 +90,6 @@ describe('Page', () => {
         it('can fetch the page\'s files with supplied options', () => {
             return page.getFiles({ limit: 200 });
         });
-        it('can get the diff for a page', () => {
-            expect(() => page.getDiff()).toThrowError(Error);
-        });
         it('can get the related pages', () => {
             return page.getRelated();
         });
@@ -104,6 +101,63 @@ describe('Page', () => {
         });
         it('can get the page export information', () => {
             return page.getExportInformation();
+        });
+        it('can get the diff for a page', () => {
+            return page.getDiff({ previous: 'b5f8fd4e-d84e-11e6-8e3d-54e94a010000' });
+        });
+        it('can get the diff for a page ("all" format)', () => {
+            return page.getDiff({ previous: 'b5f8fd4e-d84e-11e6-8e3d-54e94a010000', includeVersions: true });
+        });
+        describe('getDiff failures', () => {
+            const failed = jest.fn();
+            afterEach(() => {
+                failed.mockReset();
+            });
+            it('no params', () => {
+                return page.getDiff().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid previous', () => {
+                return page.getDiff({ previous: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid revision', () => {
+                return page.getDiff({ previous: 21, revision: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid format', () => {
+                return page.getDiff({ previous: 21, format: 100 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid includeVersions', () => {
+                return page.getDiff({ previous: 21, includeVersions: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+        });
+        it('can export the page as a PDF (no params)', () => {
+            return page.exportPdf();
+        });
+        it('can export the page as a PDF (all params)', () => {
+            return page.exportPdf({ fileName: 'foo.pdf', format: 'html', stylesheet: 'foo.css', deep: true, showToc: true, dryRun: true });
+        });
+        describe('PDF export failures', () => {
+            const failed = jest.fn();
+            afterEach(() => {
+                failed.mockReset();
+            });
+            it('invalid fileName', () => {
+                return page.exportPdf({ fileName: 132 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid stylesheet', () => {
+                return page.exportPdf({ stylesheet: [ 132 ] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid format', () => {
+                return page.exportPdf({ format: 'peedeeeff' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid deep', () => {
+                return page.exportPdf({ deep: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid showToc', () => {
+                return page.exportPdf({ showToc: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid dryRun', () => {
+                return page.exportPdf({ dryRun: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
         });
     });
     describe('page rating', () => {
@@ -290,6 +344,16 @@ describe('Page', () => {
             }).catch(() => {
                 expect(success).not.toHaveBeenCalled();
             });
+        });
+        it('can set reorder the page (no params)', () => {
+            return page.setOrder();
+        });
+        it('can set reorder the page (with after ID)', () => {
+            return page.setOrder(111);
+        });
+        it('can fail setting the page order (invalid after ID)', () => {
+            const failed = jest.fn();
+            return page.setOrder('13').catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
     });
     describe('Page manager', () => {

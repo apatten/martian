@@ -6,6 +6,9 @@ class Response {
     text() {
         return Promise.resolve('');
     }
+    blob() {
+        return Promise.resolve();
+    }
     get headers() {
         return this._get_headers();
     }

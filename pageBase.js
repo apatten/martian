@@ -9,6 +9,10 @@ import { pageEditModel } from './models/pageEdit.model.js';
 import { relatedPagesModel } from './models/relatedPages.model.js';
 import { fileModel } from './models/file.model.js';
 import { pageOverviewModel } from './models/pageOverview.model.js';
+import { pageDiffModel } from './models/pageDiff.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
     if(error.status === 404 && error.responseText) {
@@ -89,8 +93,36 @@ export class PageBase {
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug.at('tags').put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
     }
-    getDiff() {
-        throw new Error('Page.getDiff() is not implemented');
+
+    /**
+     * Show changes between 2 different versions.
+     * @param {Object} [params] Parameters that direct the fetching of the page diff.
+     * @param {String|Number} params.previous Positive integer or a TimeUUID of the previous page revision to retrieve.
+     * @param {String|Number} [params.revision=head] Positive integer or a TimeUUID of the page revision to retrieve.
+     * @param {String} [params.includeVersions=false] Specifies whether the returned diff will include only the combined diff, or if the previous and current revision changes will also be included.
+     * @param {String} [params.format=html] The format of the resulting diff. Must be one of "html" or "xhtml".
+     * @returns {Promise} A Promise that, when resolved, yields a pageDiffModel containing the HTML representations of the diff.
+     */
+    getDiff({ previous, revision = 'head', includeVersions = false, format = 'html' } = {}) {
+        if(!previous) {
+            return Promise.reject(new Error('The `previous` parameter must be supplied.'));
+        }
+        if(typeof previous !== 'string' && typeof previous !== 'number') {
+            return Promise.reject(new Error('The `previous` parameter must be a number or a string.'));
+        }
+        if(typeof revision !== 'string' && typeof revision !== 'number') {
+            return Promise.reject(new Error('The revision parameter must be a number or a string.'));
+        }
+        if(typeof includeVersions !== 'boolean') {
+            return Promise.reject(new Error('The `includeRevisionis` parameter must be a Boolean value.'));
+        }
+        if(format !== 'html' && format !== 'xhtml') {
+            return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
+        }
+        return this._plug.at('diff').withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format }).get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageDiffModel));
     }
     getRelated(params = {}) {
         return this._plug.at('related').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(relatedPagesModel));
