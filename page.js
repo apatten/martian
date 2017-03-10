@@ -226,6 +226,66 @@ export class Page extends PageBase {
     getExportInformation() {
         return this._plug.at('export').post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageExportModel));
     }
+
+    /**
+     * Export the page as a PDF.
+     * @param {Object} [options] Options to direct the fetching of the PDF.
+     * @param {String} [options.filename] The filename to save the PDF as.  If not supplied, uses the page's title.
+     * @param {String} [options.format=pdf] The format to export. Must be one of "pdf" or "html".
+     * @param {String} [options.stylesheet] The name of a custom stylesheet to apply.
+     * @param {Boolean} [options.deep=false] If true, exports the page and all of its subpages.
+     * @param {Boolean} [options.showToc=false] If true, includes a table of contents in the exported document.
+     * @param {Boolean} [options.dryRun=false] If true, perform a simulated export to verify if an actual, subsequent export will be successful.
+     * @returns {Promise} A Promise that when resolved, indicates that the export has completed successfully. If dryRun was set to false, the Promise resolution will provide a Blob containing the PDF contents.
+     */
+    exportPdf({ fileName, format = 'pdf', stylesheet, deep = false, showToc = false, dryRun = false } = {}) {
+        const params = {};
+        if(fileName) {
+            if(typeof fileName !== 'string') {
+                return Promise.reject(new Error('The fileName parameter must be a non-empty string'));
+            }
+            params.filename = fileName;
+        }
+        if(stylesheet) {
+            if(typeof stylesheet !== 'string') {
+                return Promise.reject(new Error('The stylesheet parameter must be a non-empty string'));
+            }
+            params.stylesheet = stylesheet;
+        }
+        if(format !== 'pdf' && format !== 'html') {
+            return Promise.reject(new Error('The `format` parameter must be either "pdf" or "html".'));
+        }
+        params.format = format;
+        if(typeof deep !== 'boolean') {
+            return Promise.reject(new Error('The `deep` parameter must be a Boolean value.'));
+        }
+        params.deep = deep;
+        if(typeof showToc !== 'boolean') {
+            return Promise.reject(new Error('The `showToc` parameter must be a Boolean value.'));
+        }
+        params.showtoc = showToc;
+        if(typeof dryRun !== 'boolean') {
+            return Promise.reject(new Error('The `dryRun` parameter must be a Boolean value.'));
+        }
+        params.dryrun = dryRun;
+        const respPromise = this._plug.at('pdf').withParams(params).get();
+        if(dryRun) {
+            return respPromise;
+        }
+        return respPromise.then((r) => r.blob());
+    }
+
+    /**
+     * Set the order in which this page will occur in relation to its siblings.
+     * @param {Number} afterId The page id after which this page should be placed. Defaults to 0 to place it at the beginning.
+     * @returns {Promise} A Promise that, when resolved, indicates that the reorder operation succeeded.
+     */
+    setOrder(afterId = 0) {
+        if(typeof afterId !== 'number') {
+            return Promise.reject(new Error('The afterId must be a numeric page ID.'));
+        }
+        return this._plug.at('order').withParam('afterId', afterId).put();
+    }
 }
 
 /**
