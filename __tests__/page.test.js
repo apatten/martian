@@ -159,6 +159,63 @@ describe('Page', () => {
                 return page.exportPdf({ dryRun: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
             });
         });
+        it('can get link details (no params)', () => {
+            return page.getLinkDetails();
+        });
+        it('can get link details (all params)', () => {
+            return page.getLinkDetails({ includeSubpages: true, linkTypes: [ 'foo', 'bar' ], broken: false, redirect: true, limit: 99, offset: 98 });
+        });
+        describe('link details failures', () => {
+            const failed = jest.fn();
+            afterEach(() => {
+                failed.mockReset();
+            });
+            it('invalid includeSubpages', () => {
+                return page.getLinkDetails({ includeSubpages: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid linkTypes', () => {
+                return page.getLinkDetails({ linkTypes: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid broken', () => {
+                return page.getLinkDetails({ broken: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid redirect', () => {
+                return page.getLinkDetails({ redirect: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid limit', () => {
+                return page.getLinkDetails({ limit: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid offset', () => {
+                return page.getLinkDetails({ offset: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+        });
+        it('can get the health inspections (no parameters)', () => {
+            return page.getHealthInspections();
+        });
+        it('can get the health inspections (all parameters)', () => {
+            return page.getHealthInspections({ analyzers: [ 'foo', 'bar' ], severities: [ 'foo', 'bar' ], includeSubpages: true, limit: 400, offset: 100 });
+        });
+        describe('link details failures', () => {
+            const failed = jest.fn();
+            afterEach(() => {
+                failed.mockReset();
+            });
+            it('invalid includeSubpages', () => {
+                return page.getHealthInspections({ includeSubpages: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid analyzers', () => {
+                return page.getHealthInspections({ analyzers: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid severities', () => {
+                return page.getHealthInspections({ severities: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid limit', () => {
+                return page.getHealthInspections({ limit: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid offset', () => {
+                return page.getHealthInspections({ offset: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+        });
     });
     describe('page rating', () => {
         let page = null;

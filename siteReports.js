@@ -2,7 +2,7 @@ import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { apiErrorModel } from './models/apiError.model.js';
-import { siteHealthReportModel } from './models/siteHealthReport.model.js';
+import { healthReportModel } from './models/healthReport.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
 
@@ -35,6 +35,6 @@ export class SiteReports {
         return this._plug.at('sitehealth').withParams(params).get()
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
-            .then(modelParser.createParser(siteHealthReportModel));
+            .then(modelParser.createParser(healthReportModel));
     }
 }

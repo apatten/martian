@@ -267,4 +267,36 @@ export class Site {
     getRoles() {
         return this.plug.at('roles').get().then((r) => r.json()).then(modelParser.createParser(siteRolesModel));
     }
+
+    /**
+     * Send feedback to the site owner.
+     * @param {Object} feedbackData The data to send as the feedback.
+     * @param {String} feedbackData.comment The comment body.
+     * @param {String} [feedbackData.title] The title/subject for the feedback.
+     * @param {Object} [feedbackData.metadata] Additional data to accompany the feedback submission.
+     * @returns {Promise} A Promise that, when resolved, indicates a successful feedback submission.
+     */
+    sendFeedback({ comment, title, metadata = {} } = {}) {
+        if(typeof comment !== 'string') {
+            return Promise.reject(new Error('The `comment` parameter must be supplied, and must be a string.'));
+        }
+        let feedbackXml = '<feedback>';
+        feedbackXml += `<body>${comment}</body>`;
+        if(title) {
+            if(typeof title !== 'string') {
+                return Promise.reject(new Error('The title parameter must be a string.'));
+            }
+            feedbackXml += `<title>${title}</title>`;
+        }
+        feedbackXml += '<metadata>';
+        if(typeof metadata !== 'object') {
+            return Promise.reject(new Error('The `metadata` parameter must be an object.'));
+        }
+        Object.keys(metadata).forEach((key) => {
+            feedbackXml += `<${key}>${metadata[key].toString()}</${key}>`;
+        });
+        feedbackXml += '</metadata>';
+        feedbackXml += '</feedback>';
+        return this.plug.at('feedback').post(feedbackXml, utility.xmlRequestType);
+    }
 }

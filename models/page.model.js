@@ -18,6 +18,8 @@
  */
 import { pageRatingModel } from './pageRating.model.js';
 import { userModel } from './user.model.js';
+import { permissionsModel } from './permissions.model.js';
+
 const pageModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: 'title' },
@@ -49,6 +51,7 @@ const pageModel = [
     { field: 'date.edited', name: 'dateEdited', transform: 'date' },
     { field: [ 'revisions', '@count' ], name: 'revisionCount', transform: 'number' },
     { field: [ 'comments', '@count' ], name: 'commentCount', transform: 'number' },
+    { field: [ 'permissions', 'permissions.page' ], name: 'permissions', transform: permissionsModel },
     {
         field: 'rating',
         constructTransform(rating) {

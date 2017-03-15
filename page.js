@@ -15,6 +15,8 @@ import { pageDeleteModel } from './models/pageDelete.model.js';
 import { importArchiveModel } from './models/importArchive.model.js';
 import { pageExportModel } from './models/pageExport.model.js';
 import { pageFindModel } from './models/pageFind.model.js';
+import { pageLinkDetailsModel } from './models/pageLinkDetails.model.js';
+import { healthReportModel } from './models/healthReport.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -285,6 +287,103 @@ export class Page extends PageBase {
             return Promise.reject(new Error('The afterId must be a numeric page ID.'));
         }
         return this._plug.at('order').withParam('afterId', afterId).put();
+    }
+
+    /**
+     * Retrieve the links that are in the page.
+     * @param {Object} [options] Options to direct the fetching of the page's links.
+     * @param {Boolean} [options.includeSubpages=false] Return information about links in subpages.
+     * @param {Array} [options.linkTypes] An array of the link types to include ("broken" only if not specified).
+     * @param {Boolean} [options.broken] The broken state of the links to include.
+     * @param {Boolean} [options.redirect] The redirect state of the links to include.
+     * @param {Number} [options.limit] The maximum number of results to return.
+     * @param {Number} [options.offset] The number of items to skip.
+     * @returns {Promise} A Promise that, when resolved, returns a pageLinkDetailsModel with the list of link details that were fetched.
+     */
+    getLinkDetails({ includeSubpages = false, linkTypes = [], broken, redirect, limit = 100, offset = 0 } = {}) {
+        const params = {};
+        if(typeof includeSubpages !== 'boolean') {
+            return Promise.reject(new Error('The `includeSubpages` parameter must be a Boolean value.'));
+        }
+        params.subpages = includeSubpages;
+        if(!Array.isArray(linkTypes)) {
+            return Promise.reject(new Error('The `linkTypes` parameter must be an array.'));
+        }
+        if(linkTypes.length > 0) {
+            params.linktypes = linkTypes.join(',');
+        }
+        if(typeof broken !== 'undefined') {
+            if(typeof broken !== 'boolean') {
+                return Promise.reject(new Error('The `broken` parameter must be a Boolean value.'));
+            }
+            params.broken = broken;
+        }
+        if(typeof redirect !== 'undefined') {
+            if(typeof redirect !== 'boolean') {
+                return Promise.reject(new Error('The `redirect` parameter must be a Boolean value.'));
+            }
+            params.redirect = redirect;
+        }
+        if(typeof limit !== 'number') {
+            return Promise.reject(new Error('The `limit` parameter must be a number.'));
+        }
+        params.limit = limit;
+        if(typeof offset !== 'number') {
+            return Promise.reject(new Error('The `offset` parameter must be a number.'));
+        }
+        params.offset = offset;
+        return this._plug.at('linkdetails').withParams(params).get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageLinkDetailsModel));
+    }
+
+    /**
+     * Get a listing of health inspections for a page.
+     * @param {Object} [options] Options to direct the fetching of the health inspections.
+     * @param {Array} [options.analyzers] An array of analyzers to include in the report (all analyzers included if not specified)
+     * @param {Array} [options.severities] An array of severity levels to include in the report (all levels included if none specified)
+     * @param {Array} [options.includeSubpages] Indicates whether or not to include the subpages in the report.
+     * @param {Array} [options.limit] The maximum number of health reports to include.
+     * @param {Array} [options.offset] The number of items to skip.
+     * @returns {Promise} A Promise that, when resolved, yields a healthReportModel with the listing of health inspections for the page.
+     */
+    getHealthInspections({ analyzers, severities, includeSubpages, limit, offset } = {}) {
+        const params = {};
+        if(analyzers) {
+            if(!Array.isArray(analyzers)) {
+                return Promise.reject(new Error('The `analyzers` parameter must be an array.'));
+            }
+            params.analyzers = analyzers.join(',');
+        }
+        if(severities) {
+            if(!Array.isArray(severities)) {
+                return Promise.reject(new Error('The `severities` parameter must be an array.'));
+            }
+            params.severity = severities.join(',');
+        }
+        if(typeof includeSubpages !== 'undefined') {
+            if(typeof includeSubpages !== 'boolean') {
+                return Promise.reject(new Error('The `includeSubpages` parameter must be a boolean value.'));
+            }
+            params.subpages = includeSubpages;
+        }
+        if(limit) {
+            if(typeof limit !== 'number') {
+                return Promise.reject(new Error('The `limit` parameter must be a number.'));
+            }
+            params.limit = limit;
+        }
+        if(offset) {
+            if(typeof offset !== 'number') {
+                return Promise.reject(new Error('The `offset` parameter must be a number.'));
+            }
+            params.offset = offset;
+        }
+        return this._plug.at('health').withParams(params).get()
+            .catch((err) => _errorParser(err))
+            .then((r) => r.json())
+            .then(modelParser.createParser(healthReportModel));
     }
 }
 
