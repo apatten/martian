@@ -46,5 +46,11 @@ export const permissionsModel = [
             }
             return roleObj;
         }
+    },
+    {
+        field: 'restriction', transform: [
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: '#text', name: 'name' }
+        ]
     }
 ];

@@ -170,5 +170,31 @@ describe('Site API', () => {
                 return site.getRoles();
             });
         });
+        describe('feedback', () => {
+            it('can send feedback (comment only)', () => {
+                return site.sendFeedback({ comment: 'This site is awesome' });
+            });
+            it('can send feedback (all params)', () => {
+                return site.sendFeedback({ comment: 'foo', title: 'bar', metadata: { dog: 'cat', asparagus: 'broccoli' } });
+            });
+            it('can send feedback with non-string metadata values', () => {
+                return site.sendFeedback({ comment: 'foo', title: 'bar', metadata: { dog: 'cat', asparagus: 'broccoli', bool: true, num: 1234 } });
+            });
+            describe('feedback failures', () => {
+                const failed = jest.fn();
+                afterEach(() => {
+                    failed.mockReset();
+                });
+                it('no comment', () => {
+                    return site.sendFeedback().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+                it('invalid title', () => {
+                    return site.sendFeedback({ comment: 'foo', title: 1234 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+                it('invalid metadata', () => {
+                    return site.sendFeedback({ comment: 'foo', metadata: 'dog' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+            });
+        });
     });
 });

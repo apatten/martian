@@ -60,7 +60,9 @@ export class PageBase {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType).then((r) => r.json()).then(pageEditModelParser);
+        return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType)
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json()).then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
