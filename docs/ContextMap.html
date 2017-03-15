@@ -30,8 +30,6 @@
     
         <h2>ContextMap</h2>
         
-            <div class="class-description">A class to manage a mapping between a <a href="ContextDefinition.html"><code>ContextDefinition</code></a> and a page on a MindTouch site; taking language into account.</div>
-        
     
 </header>
 
@@ -41,21 +39,146 @@
         
 
     
-    <h2>Constructor</h2>
-    
 
-    <h4 class="name" id="ContextMap"><span class="type-signature"></span>new ContextMap<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ContextMap"><span class="type-signature"></span>new ContextMap<span class="signature">(language, id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
+<div class="description">
+    Construct a new ContextMap
+</div>
 
 
 
 
 
 
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>language</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The language of the mapping.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The ID of the associated <a href="ContextDefinition.html"><code>ContextDefinition</code></a>.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Settings.html">Settings</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -91,7 +214,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contextId.js.html">contextId.js</a>, <a href="contextId.js.html#line58">line 58</a>
+        <a href="contextId.js.html">contextId.js</a>, <a href="contextId.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -518,6 +641,8 @@
     
         <h2>ContextMap</h2>
         
+            <div class="class-description">A class to manage a mapping between a <a href="ContextDefinition.html"><code>ContextDefinition</code></a> and a page on a MindTouch site; taking language into account.</div>
+        
     
 </header>
 
@@ -527,146 +652,21 @@
         
 
     
+    <h2>Constructor</h2>
+    
 
-    <h4 class="name" id="ContextMap"><span class="type-signature"></span>new ContextMap<span class="signature">(language, id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="ContextMap"><span class="type-signature"></span>new ContextMap<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
-<div class="description">
-    Construct a new ContextMap
-</div>
 
 
 
 
 
 
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>language</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The language of the mapping.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The ID of the associated <a href="ContextDefinition.html"><code>ContextDefinition</code></a>.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>settings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Settings.html">Settings</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -702,7 +702,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contextId.js.html">contextId.js</a>, <a href="contextId.js.html#line66">line 66</a>
+        <a href="contextId.js.html">contextId.js</a>, <a href="contextId.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
