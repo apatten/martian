@@ -3,7 +3,7 @@
   "version": "1.19.0",
   "description": "Core JavaScript API for MindTouch",
   "license": "Apache-2.0",
-  "main": false,
+  "main": "dist/index.js",
   "format": "esm",
   "registry": "npm",
   "repository": {
@@ -27,7 +27,9 @@
     "eslint-config-mindtouch": "1.0.0",
     "jest-cli": "19.0.2",
     "jsdoc": "^3.4.3",
-    "release-script": "^1.0.2"
+    "release-script": "^1.0.2",
+    "rollup": "^0.41.6",
+    "rollup-plugin-node-resolve": "^2.0.0"
   },
   "author": "MindTouch",
   "bugs": {
