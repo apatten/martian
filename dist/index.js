@@ -2,528 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const uriParser = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+:))?(?:\/\/)?(?:([^:@\/]*)(?::([^:@\/]*))?@)?(\[[0-9a-fA-F.]+\]|[^:\/?#]*)(?::(\d+|(?=:)))?((?:[^?#](?![^?#\/]*\.(?:[?#]|$)))*\/?)?[^?#\/]*(?:(\?[^#]*))?(?:(#.*))?/;
-function _parseUri(str) {
-    var parserKeys = [ 'href', 'protocol', 'username', 'password', 'hostname', 'port', 'pathname', 'search', 'hash' ];
-    var m = uriParser.exec(str);
-    var parts = {};
-    parserKeys.forEach(function(key, i) {
-        parts[key] = m[i];
-    });
-    return parts;
-}
-function _searchStringToParams(search) {
-    let params = [];
-    let queryEntries = search.split('&');
-    queryEntries.forEach((entry) => {
-        let kvp = entry.split('=');
-        params.push([ kvp[0], kvp[1] ]);
-    });
-    return params;
-}
-class UriSearchParams {
-    constructor(searchString) {
-        this.params = [];
-        if(searchString && searchString !== '') {
-            if(searchString[0] === '?') {
-                searchString = searchString.slice(1);
-            }
-            this.params = _searchStringToParams(searchString);
-        }
-    }
-    append(name, value) {
-        this.params.push([ name, value ]);
-    }
-    delete(name) {
-        let newParams = [];
-        this.params.forEach((pair) => {
-            if(pair[0] !== name) {
-                newParams.push(pair);
-            }
-        });
-        this.params = newParams;
-    }
-    get(name) {
-        let found = null;
-        for(let i = 0; i < this.params.length; i++) {
-            if(this.params[i][0] === name) {
-                found = this.params[i][1];
-                break;
-            }
-        }
-        return found;
-    }
-    getAll(name) {
-        let found = [];
-        this.params.forEach((param) => {
-            if(param[0] === name) {
-                found.push(param[1]);
-            }
-        });
-        return found;
-    }
-    has(name) {
-        let found = false;
-        for(let i = 0; i < this.params.length; i++) {
-            if(this.params[i][0] === name) {
-                found = true;
-                break;
-            }
-        }
-        return found;
-    }
-    set(name, value) {
-        let found = false;
-        let result = [];
-        this.params.forEach((pair) => {
-            if(pair[0] === name && !found) {
-                pair[1] = value;
-                result.push(pair);
-                found = true;
-            } else if(pair[0] !== name) {
-                result.push(pair);
-            }
-        });
-        this.params = result;
-    }
-    get entries() {
-        return this.params;
-    }
-    get count() {
-        return this.params.length;
-    }
-    toString() {
-        return this.params.reduce((previous, current, index) => {
-            return `${previous}${index === 0 ? '' : '&'}${current[0]}=${current[1]}`;
-        }, '');
-    }
-}
-class UriParser {
-    constructor(urlString = '') {
-        if(typeof urlString !== 'string') {
-            throw new TypeError('Failed to construct \'URL\': The supplied URL must be a string');
-        }
-        let parts = _parseUri(urlString);
-        let protocolExists = typeof parts.protocol !== 'undefined' && parts.protocol !== '';
-        let hostExists = typeof parts.hostname !== 'undefined' && parts.hostname !== '';
-        if((protocolExists && !hostExists) || (!protocolExists && hostExists)) {
-            throw new TypeError('Failed to construct \'URL\': Protocol and hostname must be supplied together');
-        }
-        if(!protocolExists && !hostExists) {
-            this.hostless = true;
-        }
-        this.parts = parts;
-        this.params = new UriSearchParams(this.parts.search);
-    }
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-    // Properties that come directly from the regex
-    get protocol() {
-        return this.parts.protocol.toLowerCase();
-    }
-    set protocol(val) {
-        this.parts.protocol = val;
-    }
-    get hostname() {
-        return this.parts.hostname;
-    }
-    set hostname(val) {
-        this.parts.hostname = val;
-    }
-    get port() {
-        return this.parts.port || '';
-    }
-    set port(val) {
-        this.parts.port = val;
-    }
-    get pathname() {
-        return this.parts.pathname || '/';
-    }
-    set pathname(val) {
-        this.parts.pathname = val;
-    }
-    get search() {
-        return this.params.entries.length === 0 ? '' : `?${this.params.toString()}`;
-    }
-    set search(val) {
-        this.parts.search = val;
-        this.params = new UriSearchParams(val);
-    }
-    get hash() {
-        return this.parts.hash || '';
-    }
-    set hash(val) {
-        this.parts.hash = val;
-    }
-    get username() {
-        return this.parts.username || '';
-    }
-    set username(val) {
-        this.parts.username = val;
-    }
-    get password() {
-        return this.parts.password || '';
-    }
-    set password(val) {
-        this.parts.password = val;
-    }
-
-    // Properties computed from various regex parts
-    get href() {
-        return this.toString();
-    }
-    set href(val) {
-        this.parts = _parseUri(val);
-        this.search = this.parts.search;
-    }
-    get host() {
-        let host = this.hostname.toLowerCase();
-        if(this.port) {
-            host = `${host}:${this.port}`;
-        }
-        return host;
-    }
-    set host(val) {
-        let hostParts = val.split(':');
-        this.hostname = hostParts[0];
-        if(hostParts.length > 1) {
-            this.port = hostParts[1];
-        } else {
-            this.port = '';
-        }
-    }
-    get origin() {
-        return `${this.protocol}//${this.host}`;
-    }
-    get searchParams() {
-        return this.params;
-    }
-    set searchParams(val) {
-        this.params = val;
-        this.parts.search = `?${val.toString()}`;
-    }
-    toString() {
-        var hrefString = '';
-        if(!this.hostless) {
-            hrefString = `${this.protocol}//`;
-            if(this.username && this.username !== '') {
-                hrefString = `${hrefString}${this.username}`;
-                if(this.password && this.password !== '') {
-                    hrefString = `${hrefString}:${this.password}`;
-                }
-                hrefString = `${hrefString}@`;
-            }
-        }
-        hrefString = `${hrefString}${this.host}${this.pathname}`;
-        if(this.search && this.search !== '') {
-            hrefString = `${hrefString}${this.search}`;
-        }
-        if(this.hash && this.hash !== '') {
-            hrefString = `${hrefString}${this.hash}`;
-        }
-        return hrefString;
-    }
-}
-
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-class Uri {
-    constructor(url = '') {
-        this.parsedUrl = new UriParser(url);
-    }
-    get protocol() {
-        return this.parsedUrl.protocol;
-    }
-    set protocol(protocol) {
-        this.parsedUrl.protocol = protocol;
-    }
-    get hostname() {
-        return this.parsedUrl.hostname;
-    }
-    set hostname(hostname) {
-        this.parsedUrl.hostname = hostname;
-    }
-    get origin() {
-        return this.parsedUrl.origin;
-    }
-    get path() {
-        return this.parsedUrl.pathname;
-    }
-    get search() {
-        return this.parsedUrl.params.count === 0 ? '' : `?${this.parsedUrl.params.toString()}`;
-    }
-    get hash() {
-        return this.parsedUrl.hash;
-    }
-    getQueryParam(key) {
-        return this.parsedUrl.searchParams.get(key);
-    }
-    removeQueryParam(key) {
-        this.parsedUrl.searchParams.delete(key);
-    }
-    addQueryParam(key, value) {
-        const paramVal = value === null || typeof value === 'undefined' ? '' : encodeURIComponent(value);
-        this.parsedUrl.searchParams.append(key, paramVal);
-    }
-    addQueryParams(queryMap) {
-        Object.keys(queryMap).forEach((key) => {
-            this.addQueryParam(key, queryMap[key]);
-        });
-    }
-    setQueryParam(key, value) {
-        this.removeQueryParam(key);
-        this.addQueryParam(key, value);
-    }
-    setQueryParams(queryMap) {
-        Object.keys(queryMap).forEach((key) => {
-            this.setQueryParam(key, queryMap[key]);
-        });
-    }
-    addSegments(...segments) {
-        let path = '';
-        segments.forEach((segment) => {
-            if(Array.isArray(segment)) {
-                segment.forEach((arraySegment) => {
-                    if(arraySegment[0] === '/') {
-                        arraySegment = arraySegment.slice(1);
-                    }
-                    path = `${path}/${arraySegment}`;
-                });
-            } else {
-                if(segment[0] === '/') {
-                    segment = segment.slice(1);
-                }
-                path = `${path}/${segment}`;
-            }
-        });
-        let pathName = this.parsedUrl.pathname;
-        if(pathName === '/') {
-            pathName = '';
-        }
-        this.parsedUrl.pathname = `${pathName}${path}`;
-    }
-    toString() {
-        return this.parsedUrl.toString();
-    }
-}
-
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function _handleHttpError(response) {
-    return new Promise((resolve, reject) => {
-
-        // Throw for all non-2xx status codes, except for 304
-        if(!response.ok && response.status !== 304) {
-            response.text().then((text) => {
-                reject({
-                    message: response.statusText,
-                    status: response.status,
-                    responseText: text
-                });
-            });
-        } else {
-            resolve(response);
-        }
-    });
-}
-function _readCookies(request) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.getCookieString(request.url).then((cookieString) => {
-            if(cookieString !== '') {
-                request.headers.set('Cookie', cookieString);
-            }
-        }).then(() => request);
-    }
-    return Promise.resolve(request);
-}
-function _handleCookies(response) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.storeCookies(response.url, response.headers.getAll('Set-Cookie')).then(() => response);
-    }
-    return Promise.resolve(response);
-}
-function _doFetch({ method, headers, body = null }) {
-    let requestHeaders = new Headers(headers);
-    let requestData = { method: method, headers: requestHeaders, credentials: 'include' };
-    if(body !== null) {
-        requestData.body = body;
-    }
-    let request = new Request(this._url.toString(), requestData);
-    return _readCookies.call(this, request).then(fetch).then(_handleHttpError).then(_handleCookies.bind(this));
-}
-class Plug {
-    constructor(url = '/', { uriParts = {}, headers = {}, timeout = null, beforeRequest = (params) => params, cookieManager = null } = {}) {
-
-        // Initialize the url for this instance
-        this._url = new Uri(url);
-        if('segments' in uriParts) {
-            this._url.addSegments(uriParts.segments);
-        }
-        if('query' in uriParts) {
-            this._url.addQueryParams(uriParts.query);
-        }
-        if('excludeQuery' in uriParts) {
-            this._url.removeQueryParam(uriParts.excludeQuery);
-        }
-
-        this._beforeRequest = beforeRequest;
-        this._timeout = timeout;
-        this._headers = headers;
-        this._cookieManager = cookieManager;
-    }
-    get url() {
-        return this._url.toString();
-    }
-    get headers() {
-        return new Headers(this._headers);
-    }
-    at(...segments) {
-        var values = [];
-        segments.forEach((segment) => {
-            values.push(segment.toString());
-        });
-        return new this.constructor(this._url.toString(), {
-            headers: this._headers,
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            uriParts: { segments: values },
-            cookieManager: this._cookieManager
-        });
-    }
-    withParam(key, value) {
-        let params = {};
-        params[key] = value;
-        return new this.constructor(this._url.toString(), {
-            headers: this._headers,
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            uriParts: { query: params },
-            cookieManager: this._cookieManager
-        });
-    }
-    withParams(values = {}) {
-        return new this.constructor(this._url.toString(), {
-            headers: this._headers,
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            uriParts: { query: values },
-            cookieManager: this._cookieManager
-        });
-    }
-    withoutParam(key) {
-        return new this.constructor(this._url.toString(), {
-            headers: this._headers,
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            uriParts: { excludeQuery: key },
-            cookieManager: this._cookieManager
-        });
-    }
-    withHeader(key, value) {
-        let newHeaders = Object.assign({}, this._headers);
-        newHeaders[key] = value;
-        return new this.constructor(this._url.toString(), {
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            headers: newHeaders,
-            cookieManager: this._cookieManager
-        });
-    }
-    withHeaders(values) {
-        let newHeaders = Object.assign({}, this._headers);
-        Object.keys(values).forEach((key) => {
-            newHeaders[key] = values[key];
-        });
-        return new this.constructor(this._url.toString(), {
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            headers: newHeaders,
-            cookieManager: this._cookieManager
-        });
-    }
-    withoutHeader(key) {
-        let newHeaders = Object.assign({}, this._headers);
-        delete newHeaders[key];
-        return new this.constructor(this._url.toString(), {
-            timeout: this._timeout,
-            beforeRequest: this._beforeRequest,
-            headers: newHeaders,
-            cookieManager: this._cookieManager
-        });
-    }
-    get(method = 'GET') {
-        let params = this._beforeRequest({ method: method, headers: Object.assign({}, this._headers) });
-        return _doFetch.call(this, params);
-    }
-    post(body, mime, method = 'POST') {
-        if(mime) {
-            this._headers['Content-Type'] = mime;
-        }
-        let params = this._beforeRequest({ method: method, body: body, headers: Object.assign({}, this._headers) });
-        return _doFetch.call(this, params);
-    }
-    put(body, mime) {
-        return this.post(body, mime, 'PUT');
-    }
-    head() {
-        return this.get('HEAD');
-    }
-    options() {
-        return this.get('OPTIONS');
-    }
-    delete() {
-        return this.post(null, null, 'DELETE');
-    }
-}
+var mindtouchHttp_js_uri_js = require('mindtouch-http.js/uri.js');
+var crypto = _interopDefault(require('crypto'));
+var mindtouchHttp_js_plug_js = require('mindtouch-http.js/plug.js');
+var mindtouchHttp_js_progressPlug_js = require('mindtouch-http.js/progressPlug.js');
 
 /**
  * Martian - Core JavaScript API for MindTouch
@@ -625,8 +109,8 @@ class Settings {
         this._queryParams = _cloneKVPs(queryParams);
         this._headers = _cloneKVPs(headers);
         if(this._origin !== null) {
-            const originUri = new Uri(this._origin);
-            const hostUri = new Uri(this._host);
+            const originUri = new mindtouchHttp_js_uri_js.Uri(this._origin);
+            const hostUri = new mindtouchHttp_js_uri_js.Uri(this._host);
             if(originUri.origin === hostUri.origin) {
                 this._headers['X-Deki-Requested-With'] = 'XMLHttpRequest';
             }
@@ -677,6 +161,18 @@ class Settings {
     }
 }
 
+let tokenHelper = {
+    createHelper(key, secret) {
+        return () => {
+            let hmac = crypto.createHmac('sha256', secret);
+            let epoch = Math.floor(Date.now() / 1000);
+            hmac.update(`${key}${epoch}`);
+            let hash = hmac.digest('hex');
+            return `${key}_${epoch}_${hash}`;
+        };
+    }
+};
+
 /**
  * A class for validating HTTP requests to the MindTouch site API.
  */
@@ -687,7 +183,7 @@ class Api {
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki');
     }
 
     /**
@@ -1284,7 +780,7 @@ class ContextDefinition {
             throw new Error('an ID must be supplied to create a new ContextDefinition');
         }
         this.id = id;
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts', id);
+        this.plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts', id);
     }
 
     /**
@@ -1331,7 +827,7 @@ class ContextMap {
         }
         this.id = id;
         this.language = language;
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
+        this.plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
     }
 
     /**
@@ -1374,8 +870,8 @@ class ContextIdManager {
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
-        this.definitionsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
+        this.mapsPlug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
+        this.definitionsPlug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
         this._settings = settings;
         this._errorParser = modelParser.createParser(apiErrorModel);
     }
@@ -1542,75 +1038,6 @@ const utility = {
         return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
     }
 };
-
-function _doXhr({ xhr, body, progressInfo }) {
-    return new Promise((resolve, reject) => {
-        xhr.onreadystatechange = () => {
-            if(xhr.readyState === 4) {
-                const status = xhr.status;
-                if(status >= 200 && status <= 300) {
-                    progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
-                    resolve(xhr);
-                } else {
-                    reject({
-                        message: xhr.statusText,
-                        status: xhr.status,
-                        responseText: xhr.responseText
-                    });
-                }
-            }
-        };
-        xhr.onerror = () => {
-            reject(new Error('An error occurred while initiating the file upload'));
-        };
-        xhr.send(body);
-    });
-}
-function _readCookies$1(request) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.getCookieString(this.url).then((cookieString) => {
-            if(cookieString !== '') {
-                request.xhr.setRequestHeader('Cookie', cookieString);
-            }
-        }).then(() => request);
-    }
-    return Promise.resolve(request);
-}
-function _handleCookies$1(xhr) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.storeCookies(this.url, xhr.getResponseHeader('Set-Cookie')).then(() => xhr);
-    }
-    return Promise.resolve(xhr);
-}
-function _doRequest({ method, headers, body = null, progressInfo }) {
-    const xhr = new XMLHttpRequest();  // eslint-disable-line no-undef
-    xhr.open(method, this.url, true);
-    xhr.upload.onprogress = (e) => {
-        progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
-    };
-    for(const [ header, val ] of Object.entries(headers)) {
-        xhr.setRequestHeader(header, val);
-    }
-    const request = { xhr: xhr, body: body, progressInfo: progressInfo };
-    progressInfo.callback({ loaded: 0, total: progressInfo.size });
-    return _readCookies$1.call(this, request).then(_doXhr).then(_handleCookies$1.bind(this));
-}
-class ProgressPlug extends Plug {
-    constructor(url, params) {
-        super(url, params);
-    }
-    post(body, mime, method = 'POST', progressInfo = { size: 0, callback: () => {} }) {
-        if(mime) {
-            this._headers['Content-Type'] = mime;
-        }
-        let params = this._beforeRequest({ method: method, body: body, headers: Object.assign({}, this._headers) });
-        params.progressInfo = progressInfo;
-        return _doRequest.call(this, params);
-    }
-    put(body, mime, progressInfo) {
-        return this.post(body, mime, 'PUT', progressInfo);
-    }
-}
 
 /**
  * Martian - Core JavaScript API for MindTouch
@@ -1991,7 +1418,7 @@ class PageBase {
     }
     attachFile(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
         if(progress !== null) {
-            const progressPlug = new ProgressPlug(this._plug.url, this._settings.plugConfig);
+            const progressPlug = new mindtouchHttp_js_progressPlug_js.ProgressPlug(this._plug.url, this._settings.plugConfig);
             const progressInfo = { callback: progress, size };
             return progressPlug.at('files', encodeURIComponent(encodeURIComponent(name))).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
         }
@@ -2094,7 +1521,7 @@ class Draft extends PageBase {
     constructor(id = 'home', settings = new Settings()) {
         super(id);
         this._settings = settings;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id);
     }
 
     /**
@@ -2146,7 +1573,7 @@ class DraftManager {
      */
     constructor(settings = new Settings()) {
         this._settings = settings;
-        this._plug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'drafts');
     }
 
     /**
@@ -2286,7 +1713,7 @@ class DraftFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
     }
 }
 
@@ -2477,7 +1904,7 @@ class DraftProperty extends PagePropertyBase {
      */
     constructor(id, settings = new Settings()) {
         super(id);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id, 'properties');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._id, 'properties');
     }
 }
 
@@ -2787,7 +2214,7 @@ class Events {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'events');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'events');
     }
 
     /**
@@ -3295,8 +2722,8 @@ class File {
     constructor(id, settings = new Settings()) {
         this._id = id;
         this._settings = settings;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
-        this._progressPlug = new ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
+        this._progressPlug = new mindtouchHttp_js_progressPlug_js.ProgressPlug(settings.host, settings.plugConfig).at('@api', 'deki', 'files', id);
         this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
@@ -3453,7 +2880,7 @@ class Group {
             throw new Error('A group ID must be supplied');
         }
         this._id = utility.getResourceId(id);
-        this._groupPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups', this._id);
+        this._groupPlug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups', this._id);
         this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
@@ -3510,7 +2937,7 @@ class GroupManager {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups');
+        this.plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'groups');
         this.settings = settings;
     }
 
@@ -3657,7 +3084,7 @@ class LearningPath {
      */
     constructor(name, settings = new Settings()) {
         this._name = name;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths', `=${name}`);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths', `=${name}`);
     }
 
     /**
@@ -3791,7 +3218,7 @@ class LearningPathManager {
      */
     constructor(settings = new Settings()) {
         this.settings = settings;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'learningpaths');
     }
 
     /**
@@ -3930,7 +3357,7 @@ class License {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'license');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'license');
     }
 
     /**
@@ -4326,7 +3753,7 @@ class Page extends PageBase {
     constructor(id = 'home', settings = new Settings()) {
         super(id);
         this._settings = settings;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id);
     }
 
     /**
@@ -4422,7 +3849,7 @@ class Page extends PageBase {
         // Double-URL-encode the path and add '=' to the beginning.  This makes
         //  it a proper page ID to be used in a URI segment.
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
-        let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
+        let contentsPlug = new mindtouchHttp_js_plug_js.Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
         return contentsPlug.get().then((r) => r.json()).then(pageContentsModelParser);
     }
@@ -4500,7 +3927,7 @@ class Page extends PageBase {
     importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
         if(progress !== null) {
-            const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+            const progressPlug = new mindtouchHttp_js_progressPlug_js.ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
             const progressInfo = { callback: progress, size: size };
             return progressPlug.at('import').withParams(apiParams).put(file, type, progressInfo)
                 .then((r) => JSON.parse(r.responseText))
@@ -4684,7 +4111,7 @@ class Page extends PageBase {
  */
 class PageManager {
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages');
     }
 
     /**
@@ -4771,7 +4198,7 @@ class PageFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
     }
 }
 
@@ -4787,7 +4214,7 @@ class PageProperty extends PagePropertyBase {
      */
     constructor(id = 'home', settings = new Settings()) {
         super(id);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id, 'properties');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._id, 'properties');
     }
 
     /**
@@ -5057,7 +4484,7 @@ class Site {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
+        this.plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
     }
 
     /**
@@ -5312,7 +4739,7 @@ class SiteJobs {
      * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
     }
 
     /**
@@ -5434,7 +4861,7 @@ const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 class SiteReports {
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'reports');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'reports');
     }
 
     /**
@@ -5519,7 +4946,7 @@ class User {
      */
     constructor(id = 'current', settings = new Settings()) {
         this._id = utility.getResourceId(id, 'current');
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users', this._id);
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users', this._id);
         this._errorParser = modelParser.createParser(apiErrorModel);
     }
 
@@ -5610,7 +5037,7 @@ class UserManager {
      */
     constructor(settings = new Settings()) {
         this._settings = settings;
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'users');
     }
 
     /**
@@ -5812,7 +5239,7 @@ class WebWidgetsManager {
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'web-widgets');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'web-widgets');
     }
 
     /**
@@ -5955,7 +5382,7 @@ class WorkflowManager {
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'workflow');
+        this._plug = new mindtouchHttp_js_plug_js.Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'workflow');
     }
 
     /**
@@ -6020,6 +5447,8 @@ class WorkflowManager {
     }
 }
 
+exports.Settings = Settings;
+exports.TokenHelper = tokenHelper;
 exports.Api = Api;
 exports.ContextDefinition = ContextDefinition;
 exports.ContextMap = ContextMap;
