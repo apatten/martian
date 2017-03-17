@@ -16,7 +16,7 @@
     "test-jsdom": "jest --config jest-jsdom.json",
     "watch-jsdom": "jest --config jest-jsdom.json --watch",
     "test": "npm run test-jsdom & npm run test-node;wait",
-    "inspect": "eslint ./**/*.js",
+    "inspect": "eslint *.js __mocks__/**/*.js __tests__/**/*.js lib/**/*.js models/**/*.js",
     "docs": "jsdoc -c .jsdoc.json",
     "bundle": "rollup --config .rollup.config.js"
   },
