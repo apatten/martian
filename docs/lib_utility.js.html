@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/utility.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/utility.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const _htmlEscapeChars = {
+
+    // '¢': 'cent',
+    // '£': 'pound',
+    // '¥': 'yen',
+    // '€': 'euro',
+    // '©': 'copy',
+    // '®': 'reg', Removed due to Dream unable to encode properly
+    '&lt;': 'lt',
+    '>': 'gt',
+    '"': 'quot',
+    '&amp;': 'amp',
+    '\'': '#39'
+};
+const _regexString = new RegExp(`${Object.keys(_htmlEscapeChars).reduce((prev, key) => `${prev}${key}`, '[')}]`, 'g');
+
+export const utility = {
+    xmlRequestType: 'application/xml; charset=utf-8',
+    textRequestType: 'text/plain; charset=utf-8',
+    jsonRequestType: 'application/json; charset=utf-8',
+    escapeHTML(unescaped = '') {
+        return unescaped.replace(_regexString, (m) => '&amp;' + _htmlEscapeChars[m] + ';');
+    },
+    searchEscape(query) {
+        let result = query.toString();
+        let charArr = [ '\\', '+', '-', '&amp;', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':' ];
+        charArr.forEach((c) => {
+            let regex = new RegExp('\\' + c, 'g');
+            result = result.replace(regex, '\\' + c);
+        });
+        return result;
+    },
+    getResourceId(id, defaultId) {
+        if(!id &amp;&amp; !defaultId) {
+            throw new Error('Unable to resolve the input ID to an API resource ID');
+        }
+        let resourceId = defaultId;
+        if(typeof id === 'string' &amp;&amp; id !== defaultId) {
+            resourceId = `=${encodeURIComponent(encodeURIComponent(id))}`;
+        } else if(id) {
+            resourceId = id;
+        }
+        return resourceId;
+    },
+    getNormalizedUserActivityToken(token) {
+        let resourceId = null;
+        if(typeof token === 'string') {
+            if(token.includes(':')) {
+                resourceId = token;
+            } else {
+                resourceId = `=${encodeURIComponent(encodeURIComponent(token))}`;
+            }
+        } else if(typeof token === 'number') {
+            resourceId = token;
+        } else {
+            throw new Error('The user activity token must be a string or number');
+        }
+        return resourceId;
+    },
+    getFilenameId(filename) {
+        if(typeof filename !== 'string') {
+            throw new Error('The filename must be a string');
+        }
+        let encodedName = encodeURIComponent(encodeURIComponent(filename));
+        if(!filename.includes('.')) {
+
+            // File name has no dot (or the dot is at the first position).
+            // Assume that means it doesn't have an extension.
+            encodedName = `=${encodedName}`;
+        }
+        return encodedName;
+    },
+    getApiDateString(date) {
+        const dateParts = {
+            year: date.getFullYear(),
+            month: `0${date.getMonth() + 1}`.slice(-2),
+            day: `0${date.getDate()}`.slice(-2),
+            hours: `0${date.getHours()}`.slice(-2),
+            minutes: `0${date.getMinutes()}`.slice(-2),
+            seconds: `0${date.getSeconds()}`.slice(-2)
+        };
+        return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
+    }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager.html">LearningPathManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_htmlEscapeChars">_htmlEscapeChars</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
