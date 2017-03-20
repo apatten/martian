@@ -1,6 +1,10 @@
+import resolve from 'rollup-plugin-node-resolve';
+
 export default {
     entry: './main.js',
-    format: 'cjs',
-    dest: 'dist/index.js',
-    external: [ 'mindtouch-http.js/plug.js', 'mindtouch-http.js/progressPlug.js', 'mindtouch-http.js/uri.js', 'crypto' ]
+    targets: [
+        { dest: 'dist/index.js', format: 'cjs' }
+    ],
+    plugins: [ resolve() ],
+    external: [ 'crypto' ]
 };
