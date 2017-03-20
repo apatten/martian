@@ -7,19 +7,15 @@ notifications:
 
       # engineering-webdevs
       - secure: "ESAmi/DF/Fat+9++jGU22KqnM/bkCn1NWRvybbiqrbA1gbaTWGzC60SjrP6Gps1mpMKyGoss/9gAEXjRdz65X37s48hOEbbZ30X8V1aAoIaPE6ChcIn8voUtdoe3YnhFS9rhccJxEEobMwRUtOnInTJocSiK0ffqlRsupJR+fuVJgFscS4h3JdfcOqYKm6cQpcpqh1hkk7cDctrBqhjjsYNOw4VJpp2ndQzFhy07VTxF1vGLT6MddV3tST6LsRpWT3ol0ratcg5v2Z8AnhW3DnWliw12iw21gx0/75+G2uTtMgFsv0orBa56hVX0yT62F1Sr6d597QadIURtRPWLLHQBuvX1gvDHKXKyWEGMxHCk8v6ExL2q0M4p7Zy3G+qHm2kCyDJoryXXmBUPDDRddpft6U467uUy9tY3HJxFLG4zNqUov+4aG465czfOhuw31euEgZe5fPSCaAUCHQknmCGydo21MldcF2DND6VKj5FaaBVKPaMKuiDOTn3du27loKQpdkQsZs5yoXfmXLKTIn5W/CueNoJTwyMzXuNSAZ/pJnjwyKiLpTaynL/Ua7QhuoTQDAXkh5JE14Zh1BhDAvP/1BuWflGubr5SRhZAT21uwPD/L5bCC9ukpXybQxy6b3dvv6Uhd00LhVjhbmBSfD1MG/eK3G4ru20ZCUfjRn0="
-cache:
-  directories:
-    - $HOME/.npm
 
-before_install:
-  - npm -g install npm@3
+cache: yarn
 
-install:
-  - npm install
+# Since we have yarn.lock, package.json, and node >= v4, the `install` step is implied
 
 script:
-  - npm run inspect
-  - npm run test
+  - yarn inspect
+  - yarn test-jsdom
+  - yarn test-node
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -52,6 +52,7 @@ export class Group {
     /**
      * Remove given member from a group
      * @param {Number|String} userId - either an integer user ID, "current", or the username of the user to remove from the group.
+     * @returns {Promise} A Promise that, when resolved, yields a groupModel containing information about the group that the user was removed from.
      */
     removeUser(userId) {
         return this._groupPlug.at('users', utility.getResourceId(userId, 'current'))
@@ -63,6 +64,7 @@ export class Group {
 
     /**
      * Remove the group from the site
+     * @returns {Promise} A Promise that, when resolved, indicates the group was deleted successfully.
      */
     delete() {
         return this._groupPlug.delete();
