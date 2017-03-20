@@ -3,8 +3,7 @@
   "version": "1.20.0-beta.0",
   "description": "Core JavaScript API for MindTouch",
   "license": "Apache-2.0",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
   "format": "esm",
   "registry": "npm",
   "repository": {
