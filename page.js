@@ -17,6 +17,7 @@ import { pageExportModel } from './models/pageExport.model.js';
 import { pageFindModel } from './models/pageFind.model.js';
 import { pageLinkDetailsModel } from './models/pageLinkDetails.model.js';
 import { healthReportModel } from './models/healthReport.model.js';
+import { templateListModel } from './models/templateList.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -381,7 +382,7 @@ export class Page extends PageBase {
             params.offset = offset;
         }
         return this._plug.at('health').withParams(params).get()
-            .catch((err) => _errorParser(err))
+            .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -463,5 +464,24 @@ export class PageManager {
             .then((r) => r.json())
             .catch((err) => Promise.reject(_errorParser(err)))
             .then(modelParser.createParser(pageFindModel));
+    }
+
+    /**
+     * Get the templates that may be used to create new pages or insert content.
+     * @param {Object} [options] Options to direct the templates that are returned.
+     * @param {String} [options.type=page] The type of the templates to retrun. Must be one of either "page" or "content".
+     * @param {Boolean} [options.includeDescription=true] Whether or not to include the template descriptions.
+     * @returns {Promise} A Promise that, when resolved returns a listing of the available templates.
+     */
+    getTemplates({ type = 'page', includeDescription = true } = {}) {
+        if(typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
+            return Promise.reject(new Error('The `type` parameter must be set to either "page" or "content".'));
+        }
+        if(typeof includeDescription !== 'boolean') {
+            return Promise.reject(new Error('The `includeDescription` parameter must be a Boolean value'));
+        }
+        return this._plug.at('templates').withParams({ type, includeDescription }).get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(templateListModel));
     }
 }
