@@ -490,6 +490,24 @@ describe('Page', () => {
                     expect(success).not.toHaveBeenCalled();
                 });
             });
+            it('can get template pages (no params)', () => {
+                return pm.getTemplates();
+            });
+            it('can get template pages (all params)', () => {
+                return pm.getTemplates({ type: 'content', includeDescription: false });
+            });
+            describe('get templates failures', () => {
+                const failed = jest.fn();
+                afterEach(() => {
+                    failed.mockReset();
+                });
+                it('invalid `type`', () => {
+                    return pm.getTemplates({ type: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+                it('invalid `includeDescription`', () => {
+                    return pm.getTemplates({ includeDescription: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+            });
         });
     });
 });
