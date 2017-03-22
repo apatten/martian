@@ -4551,6 +4551,39 @@ const healthReportModel = [
     }
 ];
 
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const templateListModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    {
+        field: 'template',
+        name: 'templates',
+        isArray: true,
+        transform: [
+            { field: 'description' },
+            { field: 'id', transform: 'number' },
+            { field: 'path' },
+            { field: 'title' }
+        ]
+    }
+];
+
 const _errorParser$2 = modelParser.createParser(apiErrorModel);
 
 /**
@@ -4913,7 +4946,7 @@ class Page extends PageBase {
             params.offset = offset;
         }
         return this._plug.at('health').withParams(params).get()
-            .catch((err) => _errorParser$2(err))
+            .catch((err) => Promise.reject(_errorParser$2(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -4995,6 +5028,25 @@ class PageManager {
             .then((r) => r.json())
             .catch((err) => Promise.reject(_errorParser$2(err)))
             .then(modelParser.createParser(pageFindModel));
+    }
+
+    /**
+     * Get the templates that may be used to create new pages or insert content.
+     * @param {Object} [options] Options to direct the templates that are returned.
+     * @param {String} [options.type=page] The type of the templates to retrun. Must be one of either "page" or "content".
+     * @param {Boolean} [options.includeDescription=true] Whether or not to include the template descriptions.
+     * @returns {Promise} A Promise that, when resolved returns a listing of the available templates.
+     */
+    getTemplates({ type = 'page', includeDescription = true } = {}) {
+        if(typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
+            return Promise.reject(new Error('The `type` parameter must be set to either "page" or "content".'));
+        }
+        if(typeof includeDescription !== 'boolean') {
+            return Promise.reject(new Error('The `includeDescription` parameter must be a Boolean value'));
+        }
+        return this._plug.at('templates').withParams({ type, includeDescription }).get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(templateListModel));
     }
 }
 
@@ -5435,7 +5487,7 @@ class Site {
      * @param {String} [options.parser='bestguess'] - The parser to use for the query. Must be one of "bestguess", "term", "filename", "lucene"
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search results, or rejected with an error specifying the reason for rejection.
      */
-    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess' } = {}) {
+    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess', format = 'xml' } = {}) {
         if(typeof limit === 'string') {
             if(limit !== 'all') {
                 return Promise.reject(new Error('The limit for index searching must be a number or "all"'));
@@ -5448,7 +5500,8 @@ class Site {
             sortby: sortBy,
             constraint: constraintString || _buildSearchConstraints(constraints),
             verbose,
-            parser
+            parser,
+            format
         };
         return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
     }
