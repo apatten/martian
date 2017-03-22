@@ -13,6 +13,7 @@ import { License } from './license.js';
 import { Page, PageManager } from './page.js';
 import { PageFile } from './pageFile.js';
 import { PageProperty } from './pageProperty.js';
+import { PageSecurity } from './pageSecurity.js';
 import { Site } from './site.js';
 import { SiteJobs } from './siteJobs.js';
 import { SiteReports } from './siteReports.js';
@@ -35,6 +36,7 @@ export {
     Page, PageManager,
     PageFile,
     PageProperty,
+    PageSecurity,
     Site,
     SiteJobs,
     SiteReports,
