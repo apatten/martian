@@ -3,3 +3,4 @@ __coverage-*__/
 .idea
 .DS_Store
 npm-debug.log
+launch.json
