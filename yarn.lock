@@ -1993,9 +1993,9 @@ mime-types@^2.1.12, mime-types@~2.1.7:
   dependencies:
     mime-db "~1.26.0"
 
-"mindtouch-http.js@https://github.com/MindTouch/mindtouch-http.js#2.0.1":
-  version "2.0.1"
-  resolved "https://github.com/MindTouch/mindtouch-http.js#3d6ec70ddc028d198665dda9a4a338b0bb5cefa6"
+"mindtouch-http.js@https://github.com/MindTouch/mindtouch-http.js#2.1.0":
+  version "2.1.0"
+  resolved "https://github.com/MindTouch/mindtouch-http.js#fca49facccffe6c7b8030f50ae1e0d20db0f0d78"
 
 minimatch@^3.0.2, minimatch@^3.0.3:
   version "3.0.3"
