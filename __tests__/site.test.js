@@ -42,10 +42,29 @@ describe('Site API', () => {
             it('can fetch a translated string with language supplied', () => {
                 return site.getResourceString({ key: 'Test.Resource.key', lang: 'en-us' });
             });
-            it('can fail if no resource key is supplied', () => {
-                return site.getResourceString().then((r) => {
-                    expect(r).not.toBeDefined();
-                }).catch(() => {});
+            it('can fetch a batch of resource strings (min params)', () => {
+                return site.getResourceStrings({ keys: [] });
+            });
+            it('can fetch a batch of resource strings (all params)', () => {
+                return site.getResourceStrings({ keys: [ 'foo.bar.baz' ], lang: 'en-us' });
+            });
+            describe('resource string fetching failures', () => {
+                const failed = jest.fn();
+                afterEach(() => {
+                    failed.mockReset();
+                });
+                it('can fail if no resource key is supplied', () => {
+                    return site.getResourceString().catch(failed).then(() => expect(failed).toBeDefined());
+                });
+                it('can fail batch fetching (no parameters)', () => {
+                    return site.getResourceStrings().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+                it('can fail batch fetching (invalid keys)', () => {
+                    return site.getResourceStrings({ keys: '' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+                it('can fail batch fetching (invalid lang)', () => {
+                    return site.getResourceStrings({ keys: [], lang: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
             });
         });
         describe('search operations', () => {
