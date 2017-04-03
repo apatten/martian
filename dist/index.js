@@ -5585,6 +5585,38 @@ const siteRolesModel = [
     { field: 'permissions', isArray: true, transform: permissionsModel }
 ];
 
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2017 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const localizationsModel = [
+    { field: '@lang', name: 'lang' },
+    {
+        field: 'localization',
+        name: 'localizations',
+        isArray: true,
+        transform: [
+            { field: '@resource', name: 'resource' },
+            { field: '@missing', name: 'missing', transform: 'boolean' },
+            { field: '#text', name: 'text' }
+        ]
+    }
+];
+
 function _buildSearchConstraints(params) {
     let constraints = [];
     if('path' in params) {
@@ -5696,6 +5728,27 @@ class Site {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get().then((r) => r.text());
+    }
+
+    /**
+     * Fetch a batch of translated resource strings.
+     * @param {Object} options Options to direct the fetching of the translated strings.
+     * @param {Array} options.keys An array of resource keys to fetch the translations for.
+     * @param {String} [options.lang] Optional language code to use for resource localization.
+     * @returns {Promise} A promise that, when resolved, yields a localizationsModel containing the requested translations.
+     */
+    getResourceStrings({ keys, lang } = {}) {
+        if(!keys || !Array.isArray(keys)) {
+            return Promise.reject(new Error('The keys parameter must be supplied, and it must be an array.'));
+        }
+        const params = { resources: keys.join(',') };
+        if(lang) {
+            if(typeof lang !== 'string') {
+                return Promise.reject(new Error('The lang parameter must be a string'));
+            }
+            params.lang = lang;
+        }
+        return this.plug.at('localizations').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(localizationsModel));
     }
 
     /**
