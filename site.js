@@ -8,6 +8,7 @@ import { reportLogsModel } from './models/reportLogs.model.js';
 import { logUrlModel } from './models/logUrl.model.js';
 import { siteActivityModel } from './models/siteActivity.model.js';
 import { siteRolesModel } from './models/siteRoles.model.js';
+import { localizationsModel } from './models/localizations.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
@@ -120,6 +121,27 @@ export class Site {
             locPlug = locPlug.withParam('lang', options.lang);
         }
         return locPlug.get().then((r) => r.text());
+    }
+
+    /**
+     * Fetch a batch of translated resource strings.
+     * @param {Object} options Options to direct the fetching of the translated strings.
+     * @param {Array} options.keys An array of resource keys to fetch the translations for.
+     * @param {String} [options.lang] Optional language code to use for resource localization.
+     * @returns {Promise} A promise that, when resolved, yields a localizationsModel containing the requested translations.
+     */
+    getResourceStrings({ keys, lang } = {}) {
+        if(!keys || !Array.isArray(keys)) {
+            return Promise.reject(new Error('The keys parameter must be supplied, and it must be an array.'));
+        }
+        const params = { resources: keys.join(',') };
+        if(lang) {
+            if(typeof lang !== 'string') {
+                return Promise.reject(new Error('The lang parameter must be a string'));
+            }
+            params.lang = lang;
+        }
+        return this.plug.at('localizations').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(localizationsModel));
     }
 
     /**
