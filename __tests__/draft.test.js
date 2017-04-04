@@ -33,6 +33,21 @@ describe('Draft', () => {
         it('can create a new draft from nothing', () => {
             return dm.createDraft('new/draft/path');
         });
+        it('can create a new draft with params', () => {
+            return dm.createDraft('new/draft/path', { redirects: 0, deleteRedirects: false });
+        });
+        describe('createDraft failures', () => {
+            const failed = jest.fn();
+            afterEach(() => {
+                failed.mockReset();
+            });
+            it('invalid redirects', () => {
+                return dm.createDraft('new/draft/path', { redirects: 'no' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('invalid deleteRedirects', () => {
+                return dm.createDraft('new/draft/path', { deleteRedirects: 'no' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
+        });
         it('can get a Draft object by id', () => {
             expect(dm.getDraft(123)).toBeDefined();
         });
