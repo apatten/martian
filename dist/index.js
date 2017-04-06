@@ -2297,7 +2297,7 @@ const pageDiffModel = [
     { field: 'after' }
 ];
 
-const _errorParser = modelParser.createParser(apiErrorModel);
+const _errorParser$1 = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
     if(error.status === 404 && error.responseText) {
@@ -2346,7 +2346,7 @@ class PageBase {
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
         return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType)
-            .catch((err) => Promise.reject(_errorParser(err)))
+            .catch((err) => Promise.reject(_errorParser$1(err)))
             .then((r) => r.json()).then(pageEditModelParser);
     }
     getFiles(params = {}) {
@@ -2407,7 +2407,7 @@ class PageBase {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
         }
         return this._plug.at('diff').withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format }).get()
-            .catch((err) => Promise.reject(_errorParser(err)))
+            .catch((err) => Promise.reject(_errorParser$1(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageDiffModel));
     }
@@ -2444,6 +2444,8 @@ class PageBase {
         return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
     }
 }
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
@@ -2518,11 +2520,23 @@ class DraftManager {
      * @param {String} newPath - The path of the new draft.
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
-    createDraft(newPath) {
-        return this._plug.at(utility.getResourceId(newPath), 'create')
-            .post()
-            .then((r) => r.json())
-            .then(modelParser.createParser(pageModel));
+    createDraft(newPath, options = {}) {
+        const params = {};
+        if('redirects' in options) {
+            if(typeof options.redirects !== 'number') {
+                return Promise.reject(new Error('The redirects option must be a number.'));
+            }
+            params.redirects = options.redirects;
+        }
+        if('deleteRedirects' in options) {
+            if(typeof options.deleteRedirects !== 'boolean') {
+                return Promise.reject(new Error('The deleteredirects option must be a boolean.'));
+            }
+            params.deleteRedirects = options.deleteRedirects;
+        }
+        return this._plug.at(utility.getResourceId(newPath), 'create').withParams(params).post()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json()).then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -3139,7 +3153,7 @@ let logUrlModel = [
     { field: 'url' }
 ];
 
-const _errorParser$1 = modelParser.createParser(apiErrorModel);
+const _errorParser$2 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for fetching and managing events.
@@ -3585,7 +3599,7 @@ class Events {
             }
         }
         return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
-            .catch((e) => Promise.reject(_errorParser$1(e)))
+            .catch((e) => Promise.reject(_errorParser$2(e)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -4710,7 +4724,7 @@ const templateListModel = [
     }
 ];
 
-const _errorParser$2 = modelParser.createParser(apiErrorModel);
+const _errorParser$3 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
@@ -4853,7 +4867,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$2(err)));
+            .catch((err) => Promise.reject(_errorParser$3(err)));
     }
 
     /**
@@ -4867,7 +4881,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$2(err)));
+            .catch((err) => Promise.reject(_errorParser$3(err)));
     }
 
     /**
@@ -5024,7 +5038,7 @@ class Page extends PageBase {
         }
         params.offset = offset;
         return this._plug.at('linkdetails').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$2(err)))
+            .catch((err) => Promise.reject(_errorParser$3(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
@@ -5072,7 +5086,7 @@ class Page extends PageBase {
             params.offset = offset;
         }
         return this._plug.at('health').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$2(err)))
+            .catch((err) => Promise.reject(_errorParser$3(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -5152,7 +5166,7 @@ class PageManager {
             .withParams(params)
             .get()
             .then((r) => r.json())
-            .catch((err) => Promise.reject(_errorParser$2(err)))
+            .catch((err) => Promise.reject(_errorParser$3(err)))
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -5961,7 +5975,7 @@ const siteJobsModel = [
     { field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }
 ];
 
-const _errorParser$3 = modelParser.createParser(apiErrorModel);
+const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 class SiteJobs {
 
@@ -6082,13 +6096,13 @@ class SiteJobs {
      */
     getJobsStatuses() {
         return this._plug.at('jobs', 'status').get()
-            .catch((err) => Promise.reject(_errorParser$3(err)))
+            .catch((err) => Promise.reject(_errorParser$4(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }
 
-const _errorParser$4 = modelParser.createParser(apiErrorModel);
+const _errorParser$5 = modelParser.createParser(apiErrorModel);
 
 class SiteReports {
     constructor(settings = new Settings()) {
@@ -6117,7 +6131,7 @@ class SiteReports {
             params.severity = options.severities.join(',');
         }
         return this._plug.at('sitehealth').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
+            .catch((err) => Promise.reject(_errorParser$5(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -6427,7 +6441,7 @@ const webWidgetsListModel = [
     { field: 'web-widget', name: 'webWidgets', isArray: true, transform: webWidgetsModel }
 ];
 
-const _errorParser$5 = modelParser.createParser(apiErrorModel);
+const _errorParser$6 = modelParser.createParser(apiErrorModel);
 function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
@@ -6479,7 +6493,7 @@ class WebWidgetsManager {
      */
     getActiveWidgets() {
         return this._plug.get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6490,7 +6504,7 @@ class WebWidgetsManager {
      */
     getInactiveWidgets() {
         return this._plug.at('inactive').get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6503,7 +6517,7 @@ class WebWidgetsManager {
     getWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId).get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
 
@@ -6520,7 +6534,7 @@ class WebWidgetsManager {
      */
     createWidget(options) {
         return this._plug.post(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6548,7 +6562,7 @@ class WebWidgetsManager {
     updateWidget(id, options) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId).put(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6561,7 +6575,7 @@ class WebWidgetsManager {
     activateWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId, 'activate').put()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6574,7 +6588,7 @@ class WebWidgetsManager {
     deactivateWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId, 'deactivate').put()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }

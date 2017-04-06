@@ -31,7 +31,10 @@ import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { PageBase } from './pageBase.js';
+import { apiErrorModel } from './models/apiError.model.js';
 import { pageModel } from './models/page.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
@@ -106,11 +109,23 @@ export class DraftManager {
      * @param {String} newPath - The path of the new draft.
      * @returns {Promise.&lt;pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
-    createDraft(newPath) {
-        return this._plug.at(utility.getResourceId(newPath), 'create')
-            .post()
-            .then((r) => r.json())
-            .then(modelParser.createParser(pageModel));
+    createDraft(newPath, options = {}) {
+        const params = {};
+        if('redirects' in options) {
+            if(typeof options.redirects !== 'number') {
+                return Promise.reject(new Error('The redirects option must be a number.'));
+            }
+            params.redirects = options.redirects;
+        }
+        if('deleteRedirects' in options) {
+            if(typeof options.deleteRedirects !== 'boolean') {
+                return Promise.reject(new Error('The deleteredirects option must be a boolean.'));
+            }
+            params.deleteRedirects = options.deleteRedirects;
+        }
+        return this._plug.at(utility.getResourceId(newPath), 'create').withParams(params).post()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json()).then(modelParser.createParser(pageModel));
     }
 
     /**
