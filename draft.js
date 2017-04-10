@@ -83,11 +83,11 @@ export class DraftManager {
      */
     createDraft(newPath, options = {}) {
         const params = {};
-        if('redirects' in options) {
-            if(typeof options.redirects !== 'number') {
-                return Promise.reject(new Error('The redirects option must be a number.'));
+        if('redirect' in options) {
+            if(typeof options.redirect !== 'number') {
+                return Promise.reject(new Error('The redirect option must be a number.'));
             }
-            params.redirects = options.redirects;
+            params.redirect = options.redirect;
         }
         if('deleteRedirects' in options) {
             if(typeof options.deleteRedirects !== 'boolean') {
