@@ -2,7 +2,7 @@ import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { platform } from './lib/platform.js';
-import { valid, optional, all, one, equals, bool, string, number, array } from './lib/validation.js';
+import { valid, optional, one, equals, bool, string, number, array } from './lib/validation.js';
 import { modelParser } from './lib/modelParser.js';
 import { userModel } from './models/user.model.js';
 import { pageModel } from './models/page.model.js';
