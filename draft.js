@@ -79,15 +79,18 @@ export class DraftManager {
     /**
      * Create a new draft on the site where a page does not already exist.
      * @param {String} newPath - The path of the new draft.
+     * @param {Object} [options] - the options that will be used to create the draft
+     * @param {Number} [options.redirect] - 0 or 1 to tell whether to follow redirects
+     * @param {Boolean} [options.deleteRedirects] - A boolean value that allows the deletion of redirects
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
     createDraft(newPath, options = {}) {
         const params = {};
-        if('redirects' in options) {
-            if(typeof options.redirects !== 'number') {
-                return Promise.reject(new Error('The redirects option must be a number.'));
+        if('redirect' in options) {
+            if(typeof options.redirect !== 'number') {
+                return Promise.reject(new Error('The redirect option must be a number.'));
             }
-            params.redirects = options.redirects;
+            params.redirect = options.redirect;
         }
         if('deleteRedirects' in options) {
             if(typeof options.deleteRedirects !== 'boolean') {
