@@ -4,7 +4,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!main.js" ],
     "automock": true,
-    "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
+    "unmockedModulePathPatterns": [ "<rootDir>/models/", "<rootDir>/lib/validation.js" ],
     "testPathIgnorePatterns": [
         "<rootDir>/node_modules/",
         "<rootDir>/models/__tests__/mock/"

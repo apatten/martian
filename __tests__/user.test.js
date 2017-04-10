@@ -34,14 +34,22 @@ describe('User API', () => {
     });
     describe('static operations', () => {
         let userManager = null;
+        const failed = jest.fn();
         beforeEach(() => {
             userManager = new UserManager();
+        });
+        afterEach(() => {
+            userManager = null;
+            failed.mockReset();
         });
         it('can fetch the current user', () => {
             return userManager.getCurrentUser();
         });
         it('can fetch the current user with excluded elements array', () => {
-            return userManager.getCurrentUser({ excludes: [ 'groups', 'properties' ] });
+            return userManager.getCurrentUser({ exclude: [ 'groups', 'properties' ] });
+        });
+        it('can fail if the `exclude` parameter is not an array', () => {
+            return userManager.getCurrentUser({ exclude: 'groups' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
         it('can fetch the current user activity token', () => {
             return userManager.getCurrentUserActivityToken();
@@ -93,11 +101,13 @@ describe('User API', () => {
     });
     describe('instance operations', () => {
         let user = null;
+        const failed = jest.fn();
         beforeEach(() => {
             user = new User(123);
         });
         afterEach(() => {
             user = null;
+            failed.mockReset();
         });
         it('can construct a User without the manager', () => {
             let user1 = new User();
@@ -109,7 +119,10 @@ describe('User API', () => {
             return user.getInfo();
         });
         it('can get the info for a user with excluded elements array', () => {
-            return user.getInfo({ excludes: [ 'groups', 'properties' ] });
+            return user.getInfo({ exclude: [ 'groups', 'properties' ] });
+        });
+        it('can fail if exclude is not an array', () => {
+            return user.getInfo({ exclude: 'group,properties' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
         it('can check permissions for a user', () => {
             return user.checkAllowed([ 20 ], { mask: 256, operations: [ 'UPDATE' ] });
@@ -121,22 +134,10 @@ describe('User API', () => {
             return user.checkAllowed([ 20 ]);
         });
         it('can fail if page IDs is not an array while checking user permissions', () => {
-            const success = jest.fn();
-            return user.checkAllowed(20, { mask: 256 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return user.checkAllowed(20, { mask: 256 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
         it('can fail if `operations` is not an array while checking user permissions', () => {
-            const success = jest.fn();
-            return user.checkAllowed([ 20 ], { operations: 256 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return user.checkAllowed([ 20 ], { operations: 256 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
         it('can update user information (all params)', () => {
             return user.update({
@@ -151,6 +152,9 @@ describe('User API', () => {
         });
         it('can update user information (status => inactive)', () => {
             return user.update({ active: false });
+        });
+        it('can fail if the user information is invalid', () => {
+            return user.update({ username: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
     });
 });

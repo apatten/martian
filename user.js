@@ -2,6 +2,7 @@ import { Plug } from 'mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { platform } from './lib/platform.js';
+import { valid, optional, all, one, equals, bool, string, number, array } from './lib/validation.js';
 import { modelParser } from './lib/modelParser.js';
 import { userModel } from './models/user.model.js';
 import { pageModel } from './models/page.model.js';
@@ -26,17 +27,18 @@ export class User {
 
     /**
      * Get the user information.
-     * @param {Object} params - The various params that provide context to the request
-     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
+     * @param {Object} options - The various options that provide context to the request
+     * @param {Array} options.exclude - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo({ excludes = [] } = {}) {
-        let userModelParser = modelParser.createParser(userModel);
-        let plug = this._plug;
-        if(Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+    getInfo({ exclude = [] } = {}) {
+        const errors = valid.value(exclude, array());
+        if(errors.length > 0) {
+            return Promise.reject(new Error(errors.join(', ')));
         }
-        return plug.get().then((r) => r.json()).then(userModelParser);
+        return this._plug.withParam('exclude', exclude.join(',')).get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(userModel));
     }
 
     /**
@@ -50,20 +52,25 @@ export class User {
      * @returns {Promise.<Object>} - A Promise that will be resolved with result of the permission check, or rejected with an error specifying the reason for rejection.
      */
     checkAllowed(pageIds, options = {}) {
-        if(!Array.isArray(pageIds)) {
-            return Promise.reject(new Error('Invalid value supplied for the `pageIds` array.'));
+        const pageIdsErrors = valid.value(pageIds, array());
+        if(pageIdsErrors.length > 0) {
+            return Promise.reject(new Error(pageIdsErrors.join(', ')));
+        }
+        const optionsErrors = valid.object(options,
+            optional('mask', number()),
+            optional('operations', array()),
+            optional('verbose', bool()),
+            optional('invert', bool())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         if(options.operations) {
-            if(!Array.isArray(options.operations)) {
-                return Promise.reject(new Error('Invalid value supplied for the `options.operations` array.'));
-            }
             options.operations = options.operations.join(',');
         }
         let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
         requestXml = `<pages>${requestXml}</pages>`;
-        return this._plug.at('allowed')
-            .withParams(options)
-            .post(requestXml, utility.xmlRequestType)
+        return this._plug.at('allowed').withParams(options).post(requestXml, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
     }
@@ -81,6 +88,18 @@ export class User {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated user data, or rejected with an error specifying the reason for rejection.
      */
     update(options) {
+        const optionsErrors = valid.object(options,
+            optional('active', bool()),
+            optional('seated', bool()),
+            optional('username', string()),
+            optional('fullName', string()),
+            optional('email', string()),
+            optional('language', string()),
+            optional('timeZone', string())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
+        }
         let postData = '<user>';
         Object.entries(options).forEach(([ key, value ]) => {
             if(key === 'active') {
@@ -117,16 +136,16 @@ export class UserManager {
     /**
      * Get the currently signed-in user.
      * @param {Object} params - The various params that provide context to the request
-     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
+     * @param {Array} params.exclude - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
-    getCurrentUser({ excludes = [] } = {}) {
-        let userModelParser = modelParser.createParser(userModel);
-        let plug = this._plug;
-        if(Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+    getCurrentUser({ exclude = [] } = {}) {
+        const errors = valid.value(exclude, array());
+        if(errors.length > 0) {
+            return Promise.reject(new Error(errors.join(', ')));
         }
-        return plug.at('current').get().then((r) => r.json()).then(userModelParser);
+        return this._plug.at('current').withParam('exclude', exclude.join(',')).get()
+            .then((r) => r.json()).then(modelParser.createParser(userModel));
     }
 
     /**
@@ -190,7 +209,8 @@ export class UserManager {
      */
     authenticate({ method = 'GET', username, password }) {
         const lowerMethod = method.toLowerCase();
-        if(lowerMethod !== 'get' && lowerMethod !== 'post') {
+        const errors = valid.value(lowerMethod, one(equals('get'), equals('post')));
+        if(errors.length > 0) {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
         const encodedAuth = platform.base64.encode(`${username}:${password}`);
