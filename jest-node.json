@@ -5,7 +5,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/tokenHelper.js", "!main.js" ],
     "automock": true,
-    "unmockedModulePathPatterns": [ "<rootDir>/models/" ],
+    "unmockedModulePathPatterns": [ "<rootDir>/models/", "<rootDir>/lib/validation.js" ],
     "testPathIgnorePatterns": [
         "<rootDir>/node_modules/",
         "<rootDir>/models/__tests__/mock/"
