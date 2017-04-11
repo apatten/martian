@@ -1,0 +1,15 @@
+__coverage-*__/
+__mocks__/
+__tests__/
+docs/
+.vscode/
+.babelrc
+.eslintignore
+.eslintrc
+.idea
+.jsdoc.json
+.makerelease
+.rollup.config.js
+.travis.yml
+jest-jsdom.json
+jest-node.json
