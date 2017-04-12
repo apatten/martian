@@ -1,0 +1,47 @@
+{
+    "@count":"3",
+    "page":[
+        {
+            "@id":"353",
+            "@guid":"20e3c47986dc42dfaf7b4268c82e0383",
+            "@draft.state":"inactive",
+            "@href":"https://aaronm-elm.mindtouch.be/@api/deki/pages/353?redirects=0",
+            "@deleted":"true",
+            "date.created":"Fri, 10 Mar 2017 16:15:05 GMT",
+            "date.deleted":"Wed, 12 Apr 2017 21:16:45 GMT",
+            "language":"en-US",
+            "namespace":"main",
+            "path":{"@seo":"true","#text":"Category_3"},
+            "title":"Category 3",
+            "uri.ui":"https://aaronm-elm.mindtouch.be/Category_3"
+        },
+        {
+            "@id":"354",
+            "@guid":"73311798ba8345b88eb45d02f1e81ba8",
+            "@draft.state":"inactive",
+            "@href":"https://aaronm-elm.mindtouch.be/@api/deki/pages/354?redirects=0",
+            "@deleted":"true",
+            "date.created":"Fri, 10 Mar 2017 19:38:50 GMT",
+            "date.deleted":"Wed, 12 Apr 2017 21:16:45 GMT",
+            "language":"en-US",
+            "namespace":"main",
+            "path":{"@seo":"true","#text":"Category_3/Guide_3.1"},
+            "title":"Guide 3.1",
+            "uri.ui":"https://aaronm-elm.mindtouch.be/Category_3/Guide_3.1"
+        },
+        {
+            "@id":"355",
+            "@guid":"415298fd91d1426695b49f3c37823333",
+            "@draft.state":"inactive",
+            "@href":"https://aaronm-elm.mindtouch.be/@api/deki/pages/355?redirects=0",
+            "@deleted":"true",
+            "date.created":"Fri, 10 Mar 2017 19:40:27 GMT",
+            "date.deleted":"Wed, 12 Apr 2017 21:16:45 GMT",
+            "language":"en-US",
+            "namespace":"main",
+            "path":{"@seo":"true","#text":"Category_3/Guide_3.1/Tester"},
+            "title":"Tester",
+            "uri.ui":"https://aaronm-elm.mindtouch.be/Category_3/Guide_3.1/Tester"
+        }
+    ]
+}

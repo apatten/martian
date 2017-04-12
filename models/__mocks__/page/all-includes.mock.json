@@ -1,0 +1,1039 @@
+{
+  "@id": "351",
+  "@guid": "3bcdc640e63147bc8846dd902a92d104",
+  "@draft.state": "active",
+  "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351?redirects=0",
+  "@deleted": "false",
+  "@unpublish": "true",
+  "@revision": "3",
+  "aliases": {
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/aliases"
+  },
+  "article": "topic",
+  "comments": {
+    "@count": "0",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/comments"
+  },
+  "content": {
+    "@type": "text/html",
+    "@title": "Page Title",
+    "body": [
+      "\n\n<div id=\"blank-article\"><div class=\"banner green\"><span id=\"This_page_has_not_been_published_yet\"></span><h2>This page has not been published yet</h2><p>If you feel you have reached this page in error, please let us know by filling out the form below.</p></div><div class=\"mt-bs-feedback\"><label class=\"mt-bs-feedback-description\" for=\"mt-bs-feedback-comment\">Provide feedback or comments here</label><textarea id=\"mt-bs-feedback-comment\"></textarea><button class=\"ui-button ui-button-primary btn blue mt-disabled\" type=\"submit\">Submit</button><div class=\"mt-bs-feedback-status\">&nbsp;</div></div><script type=\"text/javascript\">/*<![CDATA[*/$(function() {\n    'use strict';\n    var button = $('.mt-bs-feedback button[type=submit]');\n    var submitted = false;\n    function submitFeedback() {\n\n        // the regular feedback form may be included also. Use whichever is visible.\n        var comment = $('.mt-bs-feedback').find('textarea:visible').val();\n        var siteApi = new Deki.Site();\n        if(submitted) {\n            return;\n        }\n        button.addClass('mt-disabled');\n        submitted = true;\n        siteApi.sendFeedback({\n            comment: comment,\n            metadata: { context: 'generic' }\n        }, function(resp) {\n            if (resp.success) {\n                $('#mt-bs-feedback-comment').val('');\n                $('.mt-bs-feedback-status').delay(1600).fadeOut(1600).text(\"Your feedback has been submitted. Thank you.\");\n            } else {\n                $('.mt-bs-feedback-status').delay(1600).fadeOut(1600).text(\"An error occurred while submitting your feedback.  Please try again.\");\n            }\n        });\n    }\n    $('#mt-bs-feedback-comment').on('keyup', function(e) {\n        if(!submitted && $(e.currentTarget).val().trim() !== '') {\n            button.removeClass('mt-disabled');\n            if(e.which === 13) {\n                submitFeedback();\n            }\n        } else {\n            button.addClass('mt-disabled');\n        }\n    });\n    $('.mt-bs-feedback button[type=submit]').click(function(e) {\n        e.preventDefault();\n        if(!submitted && !$(e.currentTarget).hasClass('mt-disabled')) {\n            submitFeedback();\n        }\n    });\n});/*]]>*/</script></div>\n",
+      {
+        "@target": "toc",
+        "#text": "<ol><li><a href=\"#This_page_has_not_been_published_yet\" rel=\"internal\">This page has not been published yet</a></li></ol>"
+      },
+      {
+        "@target": "overview",
+        "#text": "Hello!@!"
+      },
+      {
+        "@target": "scripts",
+        "pre": {
+          "@class": "script",
+          "#text": "\ntemplate('Custom/Views/BlankArticle/Community');\n"
+        }
+      }
+    ],
+    "head": "<style type=\"text/css\">/*<![CDATA[*/#page-top #pageToc {\n    display: none;\n}\n#mt-toc-container {\n    display: none !important;\n}/*]]>*/</style>"
+  },
+  "contents": {
+    "@type": "application/vnd.deki1410+xml",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/contents",
+    "@etag": "fcbcd2c6ce60126ce5bc13da1b4faa68"
+  },
+  "contents.alt": {
+    "@type": "application/pdf",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/pdf/Page%2bTitle.pdf"
+  },
+  "date.created": "Fri, 24 Feb 2017 20:52:18 GMT",
+  "date.edited": "Wed, 12 Apr 2017 18:01:19 GMT",
+  "date.modified": "Wed, 12 Apr 2017 20:00:27 GMT",
+  "description": "4 words added, 55 words removed",
+  "draft": {
+    "@id": "351",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351",
+    "@state": "active",
+    "@publish": "true",
+    "@deactivate": "true",
+    "@revision": "4",
+    "contents": {
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/contents"
+    },
+    "date.edited": "Wed, 29 Mar 2017 22:30:16 GMT",
+    "date.modified": "Wed, 29 Mar 2017 22:30:16 GMT",
+    "files": {
+      "@count": "3",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/files?redirects=0",
+      "file": [
+        {
+          "@id": "20",
+          "@revision": "1",
+          "@res-id": "182",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/info?draft=true",
+          "@res-is-head": "true",
+          "@res-is-deleted": "false",
+          "@res-rev-is-deleted": "false",
+          "@res-contents-id": "579",
+          "contents": {
+            "@type": "image/gif",
+            "@size": "3171053",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/1763905162232357521.gif?draft=true"
+          },
+          "date.created": "Wed, 12 Apr 2017 20:31:14 GMT",
+          "description": "",
+          "filename": "1763905162232357521.gif",
+          "revisions": {
+            "@count": "1",
+            "@totalcount": "1",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/revisions?draft=true"
+          }
+        },
+        {
+          "@id": "18",
+          "@revision": "1",
+          "@res-id": "184",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/info?draft=true",
+          "@res-is-head": "true",
+          "@res-is-deleted": "false",
+          "@res-rev-is-deleted": "false",
+          "@res-contents-id": "581",
+          "contents": {
+            "@type": "image/jpeg",
+            "@size": "43924",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/download.jpg?draft=true"
+          },
+          "date.created": "Wed, 12 Apr 2017 20:31:14 GMT",
+          "description": "",
+          "filename": "download.jpg",
+          "revisions": {
+            "@count": "1",
+            "@totalcount": "1",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/revisions?draft=true"
+          }
+        },
+        {
+          "@id": "19",
+          "@revision": "1",
+          "@res-id": "183",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/info?draft=true",
+          "@res-is-head": "true",
+          "@res-is-deleted": "false",
+          "@res-rev-is-deleted": "false",
+          "@res-contents-id": "580",
+          "contents": {
+            "@type": "image/gif",
+            "@size": "386303",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/giphy.gif?draft=true"
+          },
+          "date.created": "Wed, 12 Apr 2017 20:31:14 GMT",
+          "description": "",
+          "filename": "giphy.gif",
+          "revisions": {
+            "@count": "1",
+            "@totalcount": "1",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/revisions?draft=true"
+          }
+        }
+      ]
+    },
+    "page.parent": {
+      "@id": "317",
+      "@guid": "87c014650b80403184c274dce4a5aa5f",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/317?redirects=0",
+      "@deleted": "false",
+      "article": "topic-category",
+      "date.created": "Fri, 06 Jan 2017 16:44:43 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "page.parent": {
+        "@id": "1",
+        "@guid": "00000000000000000000000000000000",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+        "@deleted": "false",
+        "article": "topic-category",
+        "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+          "@seo": "true",
+          "@type": "fixed",
+          "#text": ""
+        },
+        "title": "Home",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/"
+      },
+      "path": {
+        "@seo": "true",
+        "#text": "Category_2"
+      },
+      "title": "Category 2",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2"
+    },
+    "path": {
+      "@seo": "true",
+      "#text": "Category_2/Page_Title"
+    },
+    "properties": {
+      "@count": "3",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties",
+      "property": [
+        {
+          "@revision": "1",
+          "@resid": "185",
+          "@name": "mindtouch.page#overview",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/mindtouch.page%2523overview/info",
+          "@etag": "185.r1_ts2017-04-12T20:31:14Z",
+          "@resource-is-deleted": "false",
+          "@resource-rev-is-deleted": "false",
+          "change-description": "creating draft from live page",
+          "contents": {
+            "@type": "text/plain; charset=utf-8",
+            "@size": "8",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/mindtouch.page%2523overview",
+            "#text": "Hello!@!"
+          },
+          "date.modified": "Wed, 12 Apr 2017 20:31:14 GMT",
+          "user.modified": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          }
+        },
+        {
+          "@revision": "10",
+          "@resid": "122",
+          "@name": "mindtouch#idf.guideTabs",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/mindtouch%2523idf.guideTabs/info",
+          "@etag": "122.r10_ts2017-04-12T20:31:14Z",
+          "@resource-is-deleted": "false",
+          "@resource-rev-is-deleted": "false",
+          "change-description": "creating draft from live page",
+          "contents": {
+            "@type": "text/plain; charset=utf-8",
+            "@size": "566",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/mindtouch%2523idf.guideTabs",
+            "#text": "[{\"guid\":\"9d778348-c30b-3ccd-121f-021d9c3f9ca0\",\"templatePath\":\"MindTouch/IDF3/Views/Article_directory\",\"templateTitle\":\"Article directory\"},{\"guid\":\"864d5600-7a0d-bca5-575a-1b3e349945cb\",\"templatePath\":\"MindTouch/IDF3/Views/Tag_directory\",\"templateTitle\":\"Tag directory\"},{\"guid\":\"2fc6fad2-1484-ce21-2129-c085eeaca44a\",\"templatePath\":\"MindTouch/IDF3/Views/Classification\",\"templateTitle\":\"Classification\"},{\"templateKey\":\"Path\",\"templateTitle\":\"Path\",\"templatePath\":\"MindTouch/IDF3/Views/Path\",\"showEditControls\":true,\"guid\":\"5ca06e78-07d7-606d-eee6-3f736f1144e4\"}]"
+          },
+          "date.modified": "Wed, 12 Apr 2017 20:31:14 GMT",
+          "user.modified": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          }
+        },
+        {
+          "@revision": "11",
+          "@resid": "121",
+          "@name": "urn:custom.mindtouch.com#_editedby",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/urn%253Acustom.mindtouch.com%2523_editedby/info",
+          "@etag": "121.r11_ts2017-04-12T20:38:05Z",
+          "@resource-is-deleted": "false",
+          "@resource-rev-is-deleted": "false",
+          "change-description": "",
+          "contents": {
+            "@type": "text/plain; charset=utf-8",
+            "@size": "2",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/properties/urn%253Acustom.mindtouch.com%2523_editedby",
+            "#text": "[]"
+          },
+          "date.modified": "Wed, 12 Apr 2017 20:38:05 GMT",
+          "user.modified": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          }
+        }
+      ]
+    },
+    "tags": {
+      "@count": "1",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/351/tags",
+      "tag": {
+        "@value": "article:topic",
+        "@id": "5",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/5",
+        "title": "article:topic",
+        "type": "text",
+        "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=article:topic"
+      }
+    },
+    "timeuuid": "48304c00-14cf-11e7-808c-68ac4e96e644",
+    "title": "Page Title",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title?mt-draft=true",
+    "user.author": {
+      "@anonymous": "false",
+      "@id": "1",
+      "@wikiid": "site_18",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+      "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+      "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+      "email": "aaronm@mindtouch.com",
+      "fullname": "",
+      "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+      "license.seat": {
+        "@owner": "true",
+        "#text": "true"
+      },
+      "nick": "admin",
+      "password": {
+        "@exists": "true"
+      },
+      "status": "active",
+      "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+      "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+      "username": "admin"
+    },
+    "user.createdby": {
+      "@anonymous": "false",
+      "@id": "1",
+      "@wikiid": "site_18",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+      "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+      "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+      "email": "aaronm@mindtouch.com",
+      "fullname": "",
+      "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+      "license.seat": {
+        "@owner": "true",
+        "#text": "true"
+      },
+      "nick": "admin",
+      "password": {
+        "@exists": "true"
+      },
+      "status": "active",
+      "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+      "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+      "username": "admin"
+    }
+  },
+  "files": {
+    "@count": "3",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/files?redirects=0",
+    "file": [
+      {
+        "@id": "20",
+        "@revision": "2",
+        "@res-id": "180",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/info",
+        "@res-is-head": "true",
+        "@res-is-deleted": "false",
+        "@res-rev-is-deleted": "false",
+        "@res-contents-id": "577",
+        "contents": {
+          "@type": "image/gif",
+          "@size": "3171053",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/1763905162232357521.gif"
+        },
+        "date.created": "Wed, 12 Apr 2017 18:03:54 GMT",
+        "description": "",
+        "filename": "1763905162232357521.gif",
+        "revisions": {
+          "@count": "1",
+          "@totalcount": "2",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/20/revisions"
+        },
+        "user.createdby": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      },
+      {
+        "@id": "18",
+        "@revision": "1",
+        "@res-id": "178",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/info",
+        "@res-is-head": "true",
+        "@res-is-deleted": "false",
+        "@res-rev-is-deleted": "false",
+        "@res-contents-id": "575",
+        "contents": {
+          "@type": "image/jpeg",
+          "@size": "43924",
+          "@width": "308",
+          "@height": "640",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/download.jpg"
+        },
+        "contents.preview": [
+          {
+            "@rel": "thumb",
+            "@type": "image/jpeg",
+            "@maxwidth": "160",
+            "@maxheight": "160",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/download.jpg?size=thumb"
+          },
+          {
+            "@rel": "webview",
+            "@type": "image/jpeg",
+            "@maxwidth": "550",
+            "@maxheight": "550",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/download.jpg?size=webview"
+          }
+        ],
+        "date.created": "Wed, 12 Apr 2017 18:01:44 GMT",
+        "description": "",
+        "filename": "download.jpg",
+        "revisions": {
+          "@count": "1",
+          "@totalcount": "1",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/18/revisions"
+        },
+        "user.createdby": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      },
+      {
+        "@id": "19",
+        "@revision": "1",
+        "@res-id": "179",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/info",
+        "@res-is-head": "true",
+        "@res-is-deleted": "false",
+        "@res-rev-is-deleted": "false",
+        "@res-contents-id": "576",
+        "contents": {
+          "@type": "image/gif",
+          "@size": "386303",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/giphy.gif"
+        },
+        "date.created": "Wed, 12 Apr 2017 18:01:45 GMT",
+        "description": "",
+        "filename": "giphy.gif",
+        "revisions": {
+          "@count": "1",
+          "@totalcount": "1",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/19/revisions"
+        },
+        "user.createdby": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      }
+    ]
+  },
+  "inbound": {
+    "@count": "0"
+  },
+  "language": "en-US",
+  "language.effective": "en-US",
+  "metrics": {
+    "metric.charcount": "161",
+    "metric.views": "31"
+  },
+  "namespace": "main",
+  "outbound": {
+    "@count": "0"
+  },
+  "page.next": {
+    "@id": "298",
+    "@guid": "d6e3b38bb5c34e46bba54c632fb0a3d7",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/298?redirects=0",
+    "@deleted": "false",
+    "date.created": "Tue, 20 Dec 2016 21:31:57 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "#text": "Category_1"
+    },
+    "title": "Category 1",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1"
+  },
+  "page.parent": {
+    "@id": "317",
+    "@guid": "87c014650b80403184c274dce4a5aa5f",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/317?redirects=0",
+    "@deleted": "false",
+    "article": "topic-category",
+    "date.created": "Fri, 06 Jan 2017 16:44:43 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "page.parent": {
+      "@id": "1",
+      "@guid": "00000000000000000000000000000000",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+      "@deleted": "false",
+      "article": "topic-category",
+      "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "@type": "fixed",
+        "#text": ""
+      },
+      "title": "Home",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/"
+    },
+    "path": {
+      "@seo": "true",
+      "#text": "Category_2"
+    },
+    "title": "Category 2",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2"
+  },
+  "page.previous": {
+    "@id": "373",
+    "@guid": "7892d51ee59441ecb595600cb56a5d83",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/373?redirects=0",
+    "@deleted": "false",
+    "date.created": "Mon, 13 Mar 2017 18:27:17 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "#text": "Category_2/Guide_2/Topic_Derp"
+    },
+    "title": "Topic Derp",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_Derp"
+  },
+  "page.redirectedfrom": "",
+  "path": {
+    "@seo": "true",
+    "#text": "Category_2/Page_Title"
+  },
+  "properties": {
+    "@count": "3",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties",
+    "property": [
+      {
+        "@revision": "1",
+        "@resid": "181",
+        "@name": "mindtouch.page#overview",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/mindtouch.page%2523overview/info",
+        "@etag": "181.r1_ts2017-04-12T20:21:08Z",
+        "@resource-is-deleted": "false",
+        "@resource-rev-is-deleted": "false",
+        "change-description": "page overview",
+        "contents": {
+          "@type": "text/plain; charset=utf-8",
+          "@size": "8",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/mindtouch.page%2523overview",
+          "#text": "Hello!@!"
+        },
+        "date.modified": "Wed, 12 Apr 2017 20:21:08 GMT",
+        "user.modified": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      },
+      {
+        "@revision": "2",
+        "@resid": "124",
+        "@name": "urn:custom.mindtouch.com#_editedby",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/urn%253Acustom.mindtouch.com%2523_editedby/info",
+        "@etag": "124.r2_ts2017-04-12T18:01:19Z",
+        "@resource-is-deleted": "false",
+        "@resource-rev-is-deleted": "false",
+        "change-description": "draft publish",
+        "contents": {
+          "@type": "text/plain; charset=utf-8",
+          "@size": "2",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/urn%253Acustom.mindtouch.com%2523_editedby",
+          "#text": "[]"
+        },
+        "date.modified": "Wed, 12 Apr 2017 18:01:19 GMT",
+        "user.modified": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      },
+      {
+        "@revision": "2",
+        "@resid": "123",
+        "@name": "mindtouch#idf.guideTabs",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/mindtouch%2523idf.guideTabs/info",
+        "@etag": "123.r2_ts2017-04-12T18:01:19Z",
+        "@resource-is-deleted": "false",
+        "@resource-rev-is-deleted": "false",
+        "change-description": "draft publish",
+        "contents": {
+          "@type": "text/plain; charset=utf-8",
+          "@size": "566",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/properties/mindtouch%2523idf.guideTabs",
+          "#text": "[{\"guid\":\"9d778348-c30b-3ccd-121f-021d9c3f9ca0\",\"templatePath\":\"MindTouch/IDF3/Views/Article_directory\",\"templateTitle\":\"Article directory\"},{\"guid\":\"864d5600-7a0d-bca5-575a-1b3e349945cb\",\"templatePath\":\"MindTouch/IDF3/Views/Tag_directory\",\"templateTitle\":\"Tag directory\"},{\"guid\":\"2fc6fad2-1484-ce21-2129-c085eeaca44a\",\"templatePath\":\"MindTouch/IDF3/Views/Classification\",\"templateTitle\":\"Classification\"},{\"templateKey\":\"Path\",\"templateTitle\":\"Path\",\"templatePath\":\"MindTouch/IDF3/Views/Path\",\"showEditControls\":true,\"guid\":\"5ca06e78-07d7-606d-eee6-3f736f1144e4\"}]"
+        },
+        "date.modified": "Wed, 12 Apr 2017 18:01:19 GMT",
+        "user.modified": {
+          "@anonymous": "false",
+          "@id": "1",
+          "@wikiid": "site_18",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+          "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+          "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+          "email": "aaronm@mindtouch.com",
+          "fullname": "",
+          "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+          "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+          },
+          "nick": "admin",
+          "password": {
+            "@exists": "true"
+          },
+          "status": "active",
+          "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+          "username": "admin"
+        }
+      }
+    ]
+  },
+  "rating": {
+    "@score": "",
+    "@count": "0",
+    "@seated.score": "",
+    "@seated.count": "0",
+    "@unseated.score": "",
+    "@unseated.count": "0",
+    "@anonymous.score": "",
+    "@anonymous.count": "0"
+  },
+  "related": {
+    "@count": "4",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/related",
+    "page": [
+      {
+        "@id": "318",
+        "@guid": "05e9210cdd1c489086832e63d6f4d9e6",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/318?redirects=0",
+        "@deleted": "false",
+        "article": "topic-guide",
+        "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+          "@seo": "true",
+          "#text": "Category_2/Guide_2"
+        },
+        "title": "Guide 2",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2"
+      },
+      {
+        "@id": "319",
+        "@guid": "b6f4f49eb52c432e94ecb1267d30e295",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/319?redirects=0",
+        "@deleted": "false",
+        "article": "topic",
+        "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+          "@seo": "true",
+          "#text": "Category_2/Guide_2/Topic_1"
+        },
+        "title": "Topic 1",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_1"
+      },
+      {
+        "@id": "322",
+        "@guid": "cadfabf4023a477db12a7a2e29d60632",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+        "@deleted": "false",
+        "article": "topic",
+        "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+          "@seo": "true",
+          "#text": "Category_2/Guide_2/Topic_2.3"
+        },
+        "title": "Topic 2.3",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+      },
+      {
+        "@id": "330",
+        "@guid": "bdd003b79b864c2594b1319264341072",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330?redirects=0",
+        "@deleted": "false",
+        "article": "reference",
+        "date.created": "Wed, 11 Jan 2017 22:38:45 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+          "@seo": "true",
+          "#text": "Category_2/Guide_2/Topic_2.2"
+        },
+        "title": "Topic 2.2",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+      }
+    ]
+  },
+  "revisions": {
+    "@count": "3",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/revisions"
+  },
+  "revisions.archive": {
+    "@count": "0",
+    "@deprecated": "true",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/archive/pages/=Category_2%252FPage_Title/revisions"
+  },
+  "security": {
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/security",
+    "grants": {
+      "grant": [
+        {
+          "date.modified": "Wed, 12 Apr 2017 20:00:27 GMT",
+          "permissions": {
+            "operations": {
+              "@mask": "18446744073709551615",
+              "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+            },
+            "role": {
+              "@id": "5",
+              "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/5",
+              "#text": "Admin"
+            }
+          },
+          "user": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          },
+          "user.modifiedby": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          }
+        },
+        {
+          "date.modified": "Wed, 12 Apr 2017 20:00:27 GMT",
+          "permissions": {
+            "operations": {
+              "@mask": "114751",
+              "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+            },
+            "role": {
+              "@id": "3",
+              "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/3",
+              "#text": "Contributor"
+            }
+          },
+          "user": {
+            "@anonymous": "false",
+            "@id": "3",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/3",
+            "date.created": "Mon, 23 Jan 2017 17:40:47 GMT",
+            "date.lastlogin": "Tue, 21 Feb 2017 22:51:08 GMT",
+            "email": "editor@example.com",
+            "fullname": "Mr. Editor",
+            "hash.email": "3ec564d1f50ebaa304b1393eb7241f76",
+            "license.seat": "true",
+            "nick": "editor",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "username": "editor"
+          },
+          "user.modifiedby": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+            "email": "aaronm@mindtouch.com",
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+              "@owner": "true",
+              "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+              "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+          }
+        }
+      ]
+    },
+    "permissions.effective": {
+      "operations": {
+        "@mask": "18446744073709551615",
+        "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+      }
+    },
+    "permissions.page": {
+      "operations": {
+        "@mask": "15",
+        "#text": "LOGIN,BROWSE,READ,SUBSCRIBE"
+      },
+      "restriction": {
+        "@id": "2",
+        "#text": "Semi-Public"
+      }
+    },
+    "permissions.revoked": ""
+  },
+  "subpages": {
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/subpages"
+  },
+  "summary": "",
+  "tags": {
+    "@count": "1",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351/tags",
+    "tag": {
+      "@value": "article:topic",
+      "@id": "5",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/5",
+      "title": "article:topic",
+      "type": "text",
+      "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=article:topic"
+    }
+  },
+  "timeuuid": "ac1c3f80-1fba-11e7-807f-53cc41e806e3",
+  "title": "Page Title",
+  "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title",
+  "user.author": {
+    "@anonymous": "false",
+    "@id": "1",
+    "@wikiid": "site_18",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+    "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+    "email": "aaronm@mindtouch.com",
+    "fullname": "",
+    "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+    "license.seat": {
+      "@owner": "true",
+      "#text": "true"
+    },
+    "nick": "admin",
+    "password": {
+      "@exists": "true"
+    },
+    "status": "active",
+    "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+    "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+    "username": "admin"
+  },
+  "user.createdby": {
+    "@anonymous": "false",
+    "@id": "1",
+    "@wikiid": "site_18",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+    "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+    "email": "aaronm@mindtouch.com",
+    "fullname": "",
+    "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+    "license.seat": {
+      "@owner": "true",
+      "#text": "true"
+    },
+    "nick": "admin",
+    "password": {
+      "@exists": "true"
+    },
+    "status": "active",
+    "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+    "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+    "username": "admin"
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "@id": "5257",
+    "article": "article:topic-guide",
+    "namespace": "MAIN",
+    "path": "Category_1/Page_Title",
+    "permissions": {
+    "permissions.page": {
+        "operations": {
+        "@mask": "18446744073709551615",
+        "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+        },
+        "restriction": {
+        "@id": "1",
+        "#text": "Public"
+        }
+    }
+    },
+    "title": "Page Title",
+    "uri.ui": "https://aaron-stage.mindtouch.us/Category_1/Page_Title"
+}

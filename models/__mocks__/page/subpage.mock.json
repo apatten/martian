@@ -1,0 +1,19 @@
+{
+    "@id": "317",
+    "@guid": "87c014650b80403184c274dce4a5aa5f",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/317?redirects=0",
+    "@deleted": "false",
+    "@terminal": "false",
+    "@subpages": "true",
+    "article": "topic-category",
+    "date.created": "Fri, 06 Jan 2017 16:44:43 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+    "@seo": "true",
+    "#text": "Category_2"
+    },
+    "title": "Category 2",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2"
+}

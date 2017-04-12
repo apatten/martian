@@ -1,0 +1,20 @@
+{
+  "@status": "success",
+  "page": {
+    "@id": "322",
+    "@guid": "cadfabf4023a477db12a7a2e29d60632",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+    "@deleted": "false",
+    "@revision": "15",
+    "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "#text": "Category_2/Guide_2/Topic_2.3"
+    },
+    "title": "Topic 2.3",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+  }
+}

@@ -17,27 +17,11 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let pageEditModel = [
-    {
-        field: '@status',
-        name: 'status'
-    },
-    {
-        field: 'page',
-        transform: pageModel
-    },
-    {
-        field: 'draft',
-        transform: pageModel
-    },
-    {
-        field: 'page.base',
-        name: 'pageBase',
-        transform: pageModel
-    },
-    {
-        field: 'page.overwritten',
-        name: 'pageOverwritten',
-        transform: pageModel
-    }
+
+export const pageEditModel = [
+    { field: '@status', name: 'status' },
+    { field: 'page', transform: pageModel },
+    { field: 'draft', transform: pageModel },
+    { field: 'page.base', name: 'pageBase', transform: pageModel },
+    { field: 'page.overwritten', name: 'pageOverwritten', transform: pageModel }
 ];
