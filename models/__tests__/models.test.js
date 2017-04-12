@@ -16,22 +16,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-env jasmine, jest */
-jest.unmock('../../lib/modelParser.js');
-import { Mocks } from './mock/mocks.js';
-import { modelParser } from '../../lib/modelParser.js';
 
+/* eslint-env jasmine, jest */
 const fs = require('fs');
-const files = fs.readdirSync('./models');
-let modelMap = {};
-files.forEach((file) => {
-    if(file.endsWith('.model.js')) {
-        const module = require.requireActual(`../${file}`);
-        modelMap = Object.assign(modelMap, module);
+const modelParser = require.requireActual('../../lib/modelParser.js').modelParser;
+
+const modelsData = fs.readdirSync('./models').reduce((modelsArr, filename) => {
+    if(filename.endsWith('.model.js')) {
+        const keyName = filename.replace('.model.js', '');
+        const mockDir = `./models/__mocks__/${keyName}`;
+        const models = Object.values(require.requireActual(`../${filename}`));
+        const mocks = fs.readdirSync(mockDir).reduce((modelMocks, mockFilename) => {
+            if(mockFilename.endsWith('.mock.json')) {
+                const mockObj = JSON.parse(fs.readFileSync(`${mockDir}/mockFilename`, { encoding: 'utf8' }));
+                modelMocks.push(mockObj);
+            }
+            return modelMocks;
+        }, []);
+        modelsArr.push({ models, mocks });
     }
-});
+    return modelsArr;
+}, []);
 
 describe('Models', () => {
+    describe('Property checking', () => {
+        it('has valid properties', () => {
+            const modelValues = modelsData.reduce((collection, { models }) => collection.concat(models), []);
+            function testModelItem(modelItem, validProps) {
+                const invalidProp = Object.keys(modelItem).find((prop) => !validProps.includes(prop) || typeof modelItem[prop] === 'undefined');
+                if(invalidProp) {
+                    throw new Error(`Invalid property found: '${invalidProp}'\n${JSON.stringify(modelItem)}`);
+                }
+                if(Array.isArray(modelItem.transform) && !modelValues.includes(modelItem.transform)) {
+                    modelItem.transform.forEach((subModelItem) => testModelItem(subModelItem, validProps));
+                }
+            }
+            modelValues.forEach((model) => {
+                if(!Array.isArray(model)) {
+                    testModelItem(model, [ 'preProcessor', 'model' ]);
+                    model = model.model;
+                }
+                model.forEach((modelItem) => testModelItem(modelItem, [ 'field', 'name', 'isArray', 'transform', 'constructTransform' ]));
+            });
+        });
+        it('can parse mock data', () => {
+            modelsData.forEach(({ models, mocks }) => {
+                models.forEach((model) => {
+                    model = 'model' in model ? model.model : model;
+                    const fieldNames = model.map((fieldObj) => {
+                        let fieldName = Array.isArray(fieldObj.field) ? fieldObj.field[0] : fieldObj.field;
+                        if(fieldObj.hasOwnProperty('name')) {
+                            fieldName = fieldObj.name;
+                        }
+                        return fieldName;
+                    });
+                    mocks.forEach((mock) => {
+                        const parsedData = modelParser.createParser(model)(mock);
+                        expect(parsedData).toBeDefined();
+                        Object.keys(parsedData).forEach((key) => {
+                            const keyIndex = fieldNames.indexOf(key);
+                            if(keyIndex !== -1) {
+                                fieldNames.splice(keyIndex, 1);
+                            }
+                        });
+                    });
+                    if(fieldNames.length) {
+
+                        // eslint-disable-next-line
+                        console.warn(`Untested model fields:\n${fieldNames.join(', ')}`);
+                    }
+                });
+            });
+        });
+    });
+});
+
+/*describe('Models', () => {
     describe('Property checking', () => {
         it('has valid properties', () => {
             const allModels = Object.values(modelMap);
@@ -270,4 +330,4 @@ describe('Models', () => {
             expect(modelParser.createParser(modelMap.workflowsModel)(Mocks.workflows)).toBeDefined();
         });
     });
-});
+});*/
