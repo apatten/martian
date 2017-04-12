@@ -84,7 +84,7 @@ describe('Models', () => {
                         return names;
                     }, []);
                     mocks.forEach((mock) => {
-                        const parsedData = modelParser.createParser(model)(mock);
+                        let parsedData = modelParser.createParser(model)(mock);
                         expect(parsedData).toBeDefined();
                         Object.keys(parsedData).forEach(function removeFieldName(key) {
                             const keyIndex = fieldNames.indexOf(key);
@@ -92,7 +92,12 @@ describe('Models', () => {
                                 fieldNames.splice(keyIndex, 1);
                             }
                             if(parsedData[key] && typeof parsedData[key] === 'object') {
-                                Object.keys(parsedData[key]).forEach(removeFieldName);
+                                if(Array.isArray(parsedData[key])) {
+                                    parsedData = parsedData[key][0];
+                                } else {
+                                    parsedData = parsedData[key];
+                                }
+                                Object.keys(parsedData).forEach(removeFieldName);
                             }
                         });
                     });
@@ -107,7 +112,7 @@ describe('Models', () => {
     });
 });
 
-/*describe('Models', () => {
+/* describe('Models', () => {
     describe('Property checking', () => {
         it('has valid properties', () => {
             const allModels = Object.values(modelMap);

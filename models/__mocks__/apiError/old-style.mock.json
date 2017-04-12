@@ -1,0 +1,6 @@
+{
+  "message": "Cannot parse feature argument 'body'",
+  "status": "400",
+  "title": "Bad Request",
+  "uri": "https://aaronm-elm.mindtouch.be/@api/deki/pages/355/tags?dream.out.format=json"
+}
