@@ -84,22 +84,22 @@ describe('Models', () => {
                         return names;
                     }, []);
                     mocks.forEach((mock) => {
-                        let parsedData = modelParser.createParser(model)(mock);
+                        const parsedData = modelParser.createParser(model)(mock);
                         expect(parsedData).toBeDefined();
-                        Object.keys(parsedData).forEach(function removeFieldName(key) {
-                            const keyIndex = fieldNames.indexOf(key);
-                            if(keyIndex !== -1) {
-                                fieldNames.splice(keyIndex, 1);
+                        (function removeFieldNames(obj) {
+                            if(Array.isArray(obj)) {
+                                obj = obj[0];
                             }
-                            if(parsedData[key] && typeof parsedData[key] === 'object') {
-                                if(Array.isArray(parsedData[key])) {
-                                    parsedData = parsedData[key][0];
-                                } else {
-                                    parsedData = parsedData[key];
-                                }
-                                Object.keys(parsedData).forEach(removeFieldName);
+                            if(obj && typeof obj === 'object') {
+                                Object.keys(obj).forEach((key) => {
+                                    const keyIndex = fieldNames.indexOf(key);
+                                    if(keyIndex !== -1) {
+                                        fieldNames.splice(keyIndex, 1);
+                                    }
+                                    removeFieldNames(obj[key]);
+                                });
                             }
-                        });
+                        })(parsedData);
                     });
                     if(fieldNames.length) {
 
