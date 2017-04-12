@@ -1,0 +1,69 @@
+{
+  "@name": "pathy",
+  "@editable": "true",
+  "@revision": "2",
+  "category": "pmpf",
+  "edittime": "20170302165525",
+  "pages": [
+    {
+      "@id": "301",
+      "@guid": "a2c1df7722dc4ac396c24ba03d8ba4bb",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/301?redirects=0",
+      "@deleted": "false",
+      "article": "topic",
+      "date.created": "Wed, 21 Dec 2016 15:45:39 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "overview": "",
+      "path": {
+        "@seo": "true",
+        "#text": "Category_1/Guide_1/Topic_1"
+      },
+      "title": "Topic 1",
+      "uri.learningpath": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Topic_1?mt-learningpath=pathy",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Topic_1"
+    },
+    {
+      "@id": "330",
+      "@guid": "bdd003b79b864c2594b1319264341072",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330?redirects=0",
+      "@deleted": "false",
+      "article": "reference",
+      "date.created": "Wed, 11 Jan 2017 22:38:45 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "overview": "",
+      "path": {
+        "@seo": "true",
+        "#text": "Category_2/Guide_2/Topic_2.2"
+      },
+      "title": "Topic 2.2",
+      "uri.learningpath": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2?mt-learningpath=pathy",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+    },
+    {
+      "@id": "322",
+      "@guid": "cadfabf4023a477db12a7a2e29d60632",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+      "@deleted": "false",
+      "article": "topic",
+      "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "overview": "Don't forget to read this very important topic!",
+      "path": {
+        "@seo": "true",
+        "#text": "Category_2/Guide_2/Topic_2.3"
+      },
+      "title": "Topic 2.3",
+      "uri.learningpath": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3?mt-learningpath=pathy",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+    }
+  ],
+  "summary": "This is the path that is the best path ever",
+  "title": "Pathy McPathFace",
+  "uri.learningpath": "https://aaronm-elm.mindtouch.be/@lp/pathy"
+}
