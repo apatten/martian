@@ -1,0 +1,15 @@
+{
+    "@count":"1",
+    "page":{
+        "@id":"301","@guid":"a2c1df7722dc4ac396c24ba03d8ba4bb",
+        "@draft.state":"inactive",
+        "@href":"https://aaronm-elm.mindtouch.be/@api/deki/pages/301?redirects=0",
+        "@deleted":"false",
+        "date.created":"Wed, 21 Dec 2016 15:45:39 GMT",
+        "language":"en-US",
+        "namespace":"main",
+        "path":{"@seo":"true","#text":"Category_1/Guide_1/Topic_One"},
+        "title":"Topic One",
+        "uri.ui":"https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Topic_One"
+    }
+}

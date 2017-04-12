@@ -1,0 +1,145 @@
+{
+  "count": "3",
+  "pages": {
+    "links": [
+      {
+        "@sequence": "1",
+        "@isredirect": "False",
+        "@isbroken": "True",
+        "class": "",
+        "href": "/Category",
+        "rel": "",
+        "text": "Link",
+        "type": "InternalPage"
+      },
+      {
+        "@sequence": "2",
+        "@isbroken": "False",
+        "class": "",
+        "destination": {
+          "file": {
+            "@id": "86",
+            "@revision": "1",
+            "@res-id": "3726",
+            "@href": "https://aaron-stage.mindtouch.us/@api/deki/files/86/info",
+            "@res-is-head": "true",
+            "@res-is-deleted": "false",
+            "@res-rev-is-deleted": "false",
+            "@res-contents-id": "8677",
+            "contents": {
+              "@type": "image/jpeg",
+              "@size": "11981",
+              "@width": "250",
+              "@height": "187",
+              "@href": "https://aaron-stage.mindtouch.us/@api/deki/files/86/download.jpg"
+            },
+            "contents.preview": [
+              {
+                "@rel": "thumb",
+                "@type": "image/jpeg",
+                "@maxwidth": "160",
+                "@maxheight": "160",
+                "@href": "https://aaron-stage.mindtouch.us/@api/deki/files/86/download.jpg?size=thumb"
+              },
+              {
+                "@rel": "webview",
+                "@type": "image/jpeg",
+                "@maxwidth": "550",
+                "@maxheight": "550",
+                "@href": "https://aaron-stage.mindtouch.us/@api/deki/files/86/download.jpg?size=webview"
+              }
+            ],
+            "date.created": "Wed, 12 Apr 2017 22:25:03 GMT",
+            "description": "",
+            "filename": "download.jpg",
+            "revisions": {
+              "@count": "1",
+              "@totalcount": "1",
+              "@href": "https://aaron-stage.mindtouch.us/@api/deki/files/86/revisions"
+            },
+            "user.createdby": {
+              "@anonymous": "false",
+              "@id": "1",
+              "@wikiid": "site_3518",
+              "@href": "https://aaron-stage.mindtouch.us/@api/deki/users/1",
+              "date.created": "Fri, 17 Aug 2012 15:57:07 GMT",
+              "date.lastlogin": "Tue, 04 Apr 2017 19:27:02 GMT",
+              "email": "aaronm@mindtouch.us",
+              "fullname": "",
+              "hash.email": "16b13528f1d99a5e1dfc3e1156884165",
+              "license.seat": {
+                "@owner": "true",
+                "#text": "true"
+              },
+              "nick": "admin",
+              "password": {
+                "@exists": "true"
+              },
+              "status": "active",
+              "uri.avatar": "https://gravatar.com/avatar/16b13528f1d99a5e1dfc3e1156884165.png?d=mm",
+              "uri.gravatar": "https://gravatar.com/avatar/16b13528f1d99a5e1dfc3e1156884165.png?d=mm",
+              "username": "admin"
+            }
+          }
+        },
+        "href": "/@api/deki/files/86/download.jpg",
+        "rel": "",
+        "text": "download.jpg",
+        "type": "InternalFile"
+      },
+      {
+        "@sequence": "0",
+        "@isredirect": "False",
+        "@isbroken": "False",
+        "class": "",
+        "destination": {
+          "page": {
+            "@id": "27",
+            "article": "article:topic-category",
+            "namespace": "MAIN",
+            "path": "",
+            "permissions": {
+              "permissions.page": {
+                "operations": {
+                  "@mask": "18446744073709551615",
+                  "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+                },
+                "restriction": {
+                  "@id": "1",
+                  "#text": "Public"
+                }
+              }
+            },
+            "title": "Home",
+            "uri.ui": "https://aaron-stage.mindtouch.us/"
+          }
+        },
+        "href": "/",
+        "rel": "",
+        "text": "<span>Link</span>",
+        "type": "InternalPage"
+      }
+    ],
+    "page": {
+      "@id": "5257",
+      "article": "article:topic-guide",
+      "namespace": "MAIN",
+      "path": "Category_1/Page_Title",
+      "permissions": {
+        "permissions.page": {
+          "operations": {
+            "@mask": "18446744073709551615",
+            "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+          },
+          "restriction": {
+            "@id": "1",
+            "#text": "Public"
+          }
+        }
+      },
+      "title": "Page Title",
+      "uri.ui": "https://aaron-stage.mindtouch.us/Category_1/Page_Title"
+    }
+  },
+  "querycount": "3"
+}

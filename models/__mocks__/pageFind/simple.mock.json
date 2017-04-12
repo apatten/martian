@@ -1,0 +1,128 @@
+{
+  "@count": "3",
+  "@totalcount": "3",
+  "page": [
+    {
+      "@id": "299",
+      "@guid": "d54576b4e2eb4735a064060d5eef65e2",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/299?redirects=0",
+      "@deleted": "false",
+      "date.created": "Tue, 20 Dec 2016 21:38:32 GMT",
+      "date.modified": "Tue, 21 Mar 2017 16:44:25 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Category_1/Guide_1"
+      },
+      "restriction": "Public",
+      "tags": {
+        "@count": "7",
+        "tag": [
+          {
+            "@value": "article:topic-guide",
+            "title": "article:topic-guide",
+            "type": "text"
+          },
+          {
+            "@value": "custom:foo",
+            "title": "custom:foo",
+            "type": "text"
+          },
+          {
+            "@value": "ddd",
+            "title": "ddd",
+            "type": "text"
+          },
+          {
+            "@value": "foo",
+            "title": "foo",
+            "type": "text"
+          },
+          {
+            "@value": "jhgfjkhg",
+            "title": "jhgfjkhg",
+            "type": "text"
+          },
+          {
+            "@value": "pppp",
+            "title": "pppp",
+            "type": "text"
+          },
+          {
+            "@value": "xcz",
+            "title": "xcz",
+            "type": "text"
+          }
+        ]
+      },
+      "title": "Guide 1",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1"
+    },
+    {
+      "@id": "318",
+      "@guid": "05e9210cdd1c489086832e63d6f4d9e6",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/318?redirects=0",
+      "@deleted": "false",
+      "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+      "date.modified": "Mon, 13 Mar 2017 22:19:21 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Category_2/Guide_2"
+      },
+      "restriction": "Public",
+      "tags": {
+        "@count": "3",
+        "tag": [
+          {
+            "@value": "article:topic-guide",
+            "title": "article:topic-guide",
+            "type": "text"
+          },
+          {
+            "@value": "bar",
+            "title": "bar",
+            "type": "text"
+          },
+          {
+            "@value": "baz",
+            "title": "baz",
+            "type": "text"
+          }
+        ]
+      },
+      "title": "Guide 2",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2"
+    },
+    {
+      "@id": "449",
+      "@guid": "3029139f64924b68aea095ff451438ae",
+      "@draft.state": "inactive",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/449?redirects=0",
+      "@deleted": "false",
+      "date.created": "Wed, 15 Mar 2017 21:22:56 GMT",
+      "date.modified": "Wed, 15 Mar 2017 21:22:56 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Acme_Jetpack_User_Guide"
+      },
+      "restriction": "Public",
+      "tags": {
+        "@count": "1",
+        "tag": {
+          "@value": "article:topic-guide",
+          "title": "article:topic-guide",
+          "type": "text"
+        }
+      },
+      "title": "Acme Jetpack User Guide",
+      "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "@count": "1",
+  "event": {
+    "@id": "2427d2e8-1884-11e7-a812-cb75b711b819",
+    "@datetime": "Mon, 03 Apr 2017 15:42:27 GMT",
+    "@type": "page.content:update",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "change-comment": "",
+    "diff": {
+      "@isreparsing": "false",
+      "added": "4",
+      "attributes": "0",
+      "removed": "0",
+      "structural": "0"
+    },
+    "page": {
+      "@id": "322",
+      "@revision": "0",
+      "path": "Category_2/Guide_2/Topic_2.3"
+    },
+    "request": {
+      "@id": "2427d2e8-1884-11e7-a812-25554e9db7b6"
+    },
+    "revision": "14"
+  }
+}
