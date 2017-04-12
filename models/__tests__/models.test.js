@@ -21,37 +21,41 @@
 const fs = require('fs');
 const modelParser = require.requireActual('../../lib/modelParser.js').modelParser;
 
-const modelsData = fs.readdirSync('./models').reduce((modelsArr, filename) => {
+const modelsData = fs.readdirSync('./models').reduce((modelsObj, filename) => {
     if(filename.endsWith('.model.js')) {
         const keyName = filename.replace('.model.js', '');
         const mockDir = `./models/__mocks__/${keyName}`;
         const models = Object.values(require.requireActual(`../${filename}`));
         const mocks = fs.readdirSync(mockDir).reduce((modelMocks, mockFilename) => {
             if(mockFilename.endsWith('.mock.json')) {
-                const mockObj = JSON.parse(fs.readFileSync(`${mockDir}/mockFilename`, { encoding: 'utf8' }));
+                const mockObj = JSON.parse(fs.readFileSync(`${mockDir}/${mockFilename}`, { encoding: 'utf8' }));
                 modelMocks.push(mockObj);
             }
             return modelMocks;
         }, []);
-        modelsArr.push({ models, mocks });
+        modelsObj[keyName] = { models, mocks };
     }
-    return modelsArr;
-}, []);
+    return modelsObj;
+}, {});
+const allModels = Object.values(modelsData).reduce((collection, { models }) => collection.concat(models), []);
 
 describe('Models', () => {
     describe('Property checking', () => {
         it('has valid properties', () => {
-            const modelValues = modelsData.reduce((collection, { models }) => collection.concat(models), []);
             function testModelItem(modelItem, validProps) {
                 const invalidProp = Object.keys(modelItem).find((prop) => !validProps.includes(prop) || typeof modelItem[prop] === 'undefined');
                 if(invalidProp) {
                     throw new Error(`Invalid property found: '${invalidProp}'\n${JSON.stringify(modelItem)}`);
                 }
-                if(Array.isArray(modelItem.transform) && !modelValues.includes(modelItem.transform)) {
-                    modelItem.transform.forEach((subModelItem) => testModelItem(subModelItem, validProps));
+                if(modelItem.transform && !allModels.includes(modelItem.transform)) {
+                    if(Array.isArray(modelItem.transform)) {
+                        modelItem.transform.forEach((subModelItem) => testModelItem(subModelItem, validProps));
+                    } else if(Array.isArray(modelItem.transform.model)) {
+                        modelItem.transform.model.forEach((subModelItem) => testModelItem(subModelItem, validProps));
+                    }
                 }
             }
-            modelValues.forEach((model) => {
+            allModels.forEach((model) => {
                 if(!Array.isArray(model)) {
                     testModelItem(model, [ 'preProcessor', 'model' ]);
                     model = model.model;
@@ -60,30 +64,42 @@ describe('Models', () => {
             });
         });
         it('can parse mock data', () => {
-            modelsData.forEach(({ models, mocks }) => {
+            Object.keys(modelsData).forEach((modelName) => {
+                const { models, mocks } = modelsData[modelName];
                 models.forEach((model) => {
                     model = 'model' in model ? model.model : model;
-                    const fieldNames = model.map((fieldObj) => {
+                    const fieldNames = model.reduce(function getFieldNames(names, fieldObj) {
                         let fieldName = Array.isArray(fieldObj.field) ? fieldObj.field[0] : fieldObj.field;
                         if(fieldObj.hasOwnProperty('name')) {
                             fieldName = fieldObj.name;
                         }
-                        return fieldName;
-                    });
+                        names.push(fieldName);
+                        if(fieldObj.transform && !allModels.includes(fieldObj.transform)) {
+                            if(Array.isArray(fieldObj.transform)) {
+                                names = fieldObj.transform.reduce(getFieldNames, names);
+                            } else if(Array.isArray(fieldObj.transform.model)) {
+                                names = fieldObj.transform.model.reduce(getFieldNames, names);
+                            }
+                        }
+                        return names;
+                    }, []);
                     mocks.forEach((mock) => {
                         const parsedData = modelParser.createParser(model)(mock);
                         expect(parsedData).toBeDefined();
-                        Object.keys(parsedData).forEach((key) => {
+                        Object.keys(parsedData).forEach(function removeFieldName(key) {
                             const keyIndex = fieldNames.indexOf(key);
                             if(keyIndex !== -1) {
                                 fieldNames.splice(keyIndex, 1);
+                            }
+                            if(parsedData[key] && typeof parsedData[key] === 'object') {
+                                Object.keys(parsedData[key]).forEach(removeFieldName);
                             }
                         });
                     });
                     if(fieldNames.length) {
 
                         // eslint-disable-next-line
-                        console.warn(`Untested model fields:\n${fieldNames.join(', ')}`);
+                        console.warn(`Untested ${modelName} fields:\n${fieldNames.join(', ')}`);
                     }
                 });
             });
