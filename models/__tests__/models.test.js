@@ -67,8 +67,8 @@ describe('Models', () => {
             Object.keys(modelsData).forEach((modelName) => {
                 const { models, mocks } = modelsData[modelName];
                 models.forEach((model) => {
-                    model = 'model' in model ? model.model : model;
-                    const fieldNames = model.reduce(function getFieldNames(names, fieldObj) {
+                    const modelArr = 'model' in model ? model.model : model;
+                    const fieldNames = modelArr.reduce(function getFieldNames(names, fieldObj) {
                         let fieldName = Array.isArray(fieldObj.field) ? fieldObj.field[0] : fieldObj.field;
                         if(fieldObj.hasOwnProperty('name')) {
                             fieldName = fieldObj.name;
@@ -86,17 +86,18 @@ describe('Models', () => {
                     mocks.forEach((mock) => {
                         const parsedData = modelParser.createParser(model)(mock);
                         expect(parsedData).toBeDefined();
-                        (function removeFieldNames(obj) {
-                            if(Array.isArray(obj)) {
-                                obj = obj[0];
+                        (function removeFieldNames(obj, currentKey = '') {
+                            const keyIndex = fieldNames.indexOf(currentKey);
+                            if(keyIndex !== -1) {
+                                fieldNames.splice(keyIndex, 1);
                             }
-                            if(obj && typeof obj === 'object') {
-                                Object.keys(obj).forEach((key) => {
-                                    const keyIndex = fieldNames.indexOf(key);
-                                    if(keyIndex !== -1) {
-                                        fieldNames.splice(keyIndex, 1);
-                                    }
-                                    removeFieldNames(obj[key]);
+                            if(Array.isArray(obj)) {
+                                obj.forEach((subObj) => {
+                                    removeFieldNames(subObj);
+                                });
+                            } else if(obj && typeof obj === 'object') {
+                                Object.entries(obj).forEach(([ key, value ]) => {
+                                    removeFieldNames(value, key);
                                 });
                             }
                         })(parsedData);
