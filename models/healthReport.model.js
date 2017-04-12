@@ -30,7 +30,8 @@ export const healthReportModel = [
                 field: 'page',
                 transform: [
                     { field: '@uri', name: 'uri' },
-                    { field: '@id', name: 'id', transform: 'number' }
+                    { field: '@id', name: 'id', transform: 'number' },
+                    { field: 'article' }
                 ]
             }
         ]

@@ -1,0 +1,14 @@
+{
+  "count": "1",
+  "inspections": {
+    "@severity": "Error",
+    "@type": "Structure",
+    "message": "Topic under Category",
+    "page": {
+      "@uri": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title",
+      "@id": "351",
+      "article": "topic"
+    }
+  },
+  "querycount": "1"
+}

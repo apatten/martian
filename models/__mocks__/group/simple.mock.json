@@ -1,0 +1,24 @@
+{
+  "@id": "1",
+  "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/1",
+  "groupname": "cool",
+  "permissions.group": {
+    "operations": {
+      "@mask": "114751",
+      "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+    },
+    "role": {
+      "@id": "3",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/3",
+      "#text": "Contributor"
+    }
+  },
+  "service.authentication": {
+    "@id": "1",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/services/1"
+  },
+  "users": {
+    "@count": "17",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/1/users"
+  }
+}
