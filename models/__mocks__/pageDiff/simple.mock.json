@@ -1,0 +1,6 @@
+{
+    "@type":"application/x.deki-text",
+    "after":"<p>...</p>\n\n<pre class=\"script\">\ntemplate('MindTouch/Controls/JsonResources', {\n    id: '<ins>mt-resources-</ins>abcdefg',\n    keys: [ 'Article.Attach.attachnew.button', 'Article.Attach.attachnew.current' ]\n});</pre>\n",
+    "before":"<p>...</p>\n",
+    "combined":"<p>...</p>\n\n<pre class=\"script\">\ntemplate('MindTouch/Controls/JsonResources', {\n    id: '<ins>mt-resources-</ins>abcdefg',\n    keys: [ 'Article.Attach.attachnew.button', 'Article.Attach.attachnew.current' ]\n});</pre>\n"
+}

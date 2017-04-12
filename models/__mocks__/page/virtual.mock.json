@@ -1,0 +1,44 @@
+{
+  "@id": "0",
+  "@guid": "00000000000000000000000000000000",
+  "@virtual": "true",
+  "@draft.state": "inactive",
+  "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/0?redirects=0",
+  "@deleted": "false",
+  "date.created": "Thu, 01 Jan 1970 00:00:00 GMT",
+  "language": "en-US",
+  "namespace": "main",
+  "page.parent": {
+    "@id": "1",
+    "@guid": "00000000000000000000000000000000",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+    "@deleted": "false",
+    "article": "topic-category",
+    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "@type": "fixed",
+      "#text": ""
+    },
+    "title": "Home",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/"
+  },
+  "path": {
+    "@seo": "true",
+    "#text": "No"
+  },
+  "security": {
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/0/security",
+    "permissions.effective": {
+      "operations": {
+        "@mask": "18446744073709551615",
+        "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+      }
+    }
+  },
+  "title": "No",
+  "uri.ui": "https://aaronm-elm.mindtouch.be/No"
+}

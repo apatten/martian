@@ -1,0 +1,15 @@
+{
+  "@draft": "true",
+  "@type": "text/html",
+  "@title": "Page Title",
+  "@unsafe": "true",
+  "body": [
+    "\n\n\n",
+    {
+      "@target": "toc",
+      "#text": "<em>No headers</em>"
+    }
+  ],
+  "head": "<meta name=\"description\" content=\"Hell yeah\" />",
+  "tail": "<script type=\"text/javascript\">/*<![CDATA[*/$(function(){var f=\"FOO\";});/*]]>*/</script>"
+}
