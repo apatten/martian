@@ -1,0 +1,9703 @@
+{
+  "@count": "277",
+  "@date.start": "20170318000000",
+  "@date.expiration": "20171219000000",
+  "@anually-licensed-help-requests": "20000000",
+  "totals": [
+    {
+      "@date": "20171219",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18710"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "36345"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "18820"
+          },
+          {
+            "@name": "f1",
+            "@count": "21345"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8965"
+          },
+          {
+            "@name": "invalid",
+            "@count": "36095"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171218",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "49580"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "22510"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "40310"
+          },
+          {
+            "@name": "f1",
+            "@count": "32780"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "6945"
+          },
+          {
+            "@name": "invalid",
+            "@count": "18000"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171217",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "5550"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45465"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "11930"
+          },
+          {
+            "@name": "f1",
+            "@count": "33285"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "40750"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23875"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171216",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10240"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "11775"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49665"
+          },
+          {
+            "@name": "f1",
+            "@count": "32930"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8295"
+          },
+          {
+            "@name": "invalid",
+            "@count": "25315"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171215",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "43165"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10970"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "18620"
+          },
+          {
+            "@name": "f1",
+            "@count": "43610"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28950"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24350"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171214",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "28720"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "39510"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29525"
+          },
+          {
+            "@name": "f1",
+            "@count": "35170"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26540"
+          },
+          {
+            "@name": "invalid",
+            "@count": "9550"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171213",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1861"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "352"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "247"
+          },
+          {
+            "@name": "f1",
+            "@count": "1821"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1602"
+          },
+          {
+            "@name": "invalid",
+            "@count": "353"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171212",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1683"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "979"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "433"
+          },
+          {
+            "@name": "f1",
+            "@count": "397"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1993"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1280"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171211",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1194"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1230"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1403"
+          },
+          {
+            "@name": "f1",
+            "@count": "1572"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "888"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1830"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171210",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1729"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "860"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "905"
+          },
+          {
+            "@name": "f1",
+            "@count": "714"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "511"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1557"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171209",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1804"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "502"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "892"
+          },
+          {
+            "@name": "f1",
+            "@count": "995"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1057"
+          },
+          {
+            "@name": "invalid",
+            "@count": "768"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171208",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "419"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1811"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "307"
+          },
+          {
+            "@name": "f1",
+            "@count": "525"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "860"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1188"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171207",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1782"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1159"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1544"
+          },
+          {
+            "@name": "f1",
+            "@count": "1047"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "992"
+          },
+          {
+            "@name": "invalid",
+            "@count": "415"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171206",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "441"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "750"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1312"
+          },
+          {
+            "@name": "f1",
+            "@count": "1549"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1460"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1680"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171205",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1944"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "638"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "369"
+          },
+          {
+            "@name": "f1",
+            "@count": "1626"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "873"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1074"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171204",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "678"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "974"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "237"
+          },
+          {
+            "@name": "f1",
+            "@count": "1384"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1313"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1968"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171203",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1826"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1040"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1877"
+          },
+          {
+            "@name": "f1",
+            "@count": "434"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1830"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1228"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171202",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "779"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1694"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "647"
+          },
+          {
+            "@name": "f1",
+            "@count": "832"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "468"
+          },
+          {
+            "@name": "invalid",
+            "@count": "507"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171201",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "487"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "276"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "683"
+          },
+          {
+            "@name": "f1",
+            "@count": "990"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "532"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1899"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171130",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1687"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "219"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "223"
+          },
+          {
+            "@name": "f1",
+            "@count": "884"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1608"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1842"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171129",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "246"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "723"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "832"
+          },
+          {
+            "@name": "f1",
+            "@count": "1440"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "882"
+          },
+          {
+            "@name": "invalid",
+            "@count": "297"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171128",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1792"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "576"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "946"
+          },
+          {
+            "@name": "f1",
+            "@count": "1279"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "492"
+          },
+          {
+            "@name": "invalid",
+            "@count": "430"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171127",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1540"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1877"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1391"
+          },
+          {
+            "@name": "f1",
+            "@count": "1148"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1699"
+          },
+          {
+            "@name": "invalid",
+            "@count": "925"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171126",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1322"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "921"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1723"
+          },
+          {
+            "@name": "f1",
+            "@count": "920"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1598"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1967"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171125",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "414"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1052"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1615"
+          },
+          {
+            "@name": "f1",
+            "@count": "1106"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "545"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1311"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171124",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "320"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "530"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1159"
+          },
+          {
+            "@name": "f1",
+            "@count": "1371"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1105"
+          },
+          {
+            "@name": "invalid",
+            "@count": "773"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171123",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "842"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1576"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "800"
+          },
+          {
+            "@name": "f1",
+            "@count": "1591"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1228"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1971"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171122",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "997"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "246"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "301"
+          },
+          {
+            "@name": "f1",
+            "@count": "747"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "952"
+          },
+          {
+            "@name": "invalid",
+            "@count": "210"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171121",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1125"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1028"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1457"
+          },
+          {
+            "@name": "f1",
+            "@count": "1728"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "372"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1302"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171120",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1895"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1129"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1411"
+          },
+          {
+            "@name": "f1",
+            "@count": "1525"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1673"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1206"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171119",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1967"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1861"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1290"
+          },
+          {
+            "@name": "f1",
+            "@count": "1290"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "476"
+          },
+          {
+            "@name": "invalid",
+            "@count": "593"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171118",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "624"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1698"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "451"
+          },
+          {
+            "@name": "f1",
+            "@count": "824"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1754"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1642"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171117",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "650"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1564"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1926"
+          },
+          {
+            "@name": "f1",
+            "@count": "1493"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1097"
+          },
+          {
+            "@name": "invalid",
+            "@count": "780"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171116",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "578"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1397"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1499"
+          },
+          {
+            "@name": "f1",
+            "@count": "513"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1172"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1626"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171115",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1620"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1891"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1014"
+          },
+          {
+            "@name": "f1",
+            "@count": "1530"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "471"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1410"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171114",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "401"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "913"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "371"
+          },
+          {
+            "@name": "f1",
+            "@count": "1678"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1535"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1093"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171113",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1539"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1697"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "373"
+          },
+          {
+            "@name": "f1",
+            "@count": "1330"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1407"
+          },
+          {
+            "@name": "invalid",
+            "@count": "923"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171112",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1342"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1274"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1139"
+          },
+          {
+            "@name": "f1",
+            "@count": "1793"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1194"
+          },
+          {
+            "@name": "invalid",
+            "@count": "624"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171111",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "659"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1729"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "619"
+          },
+          {
+            "@name": "f1",
+            "@count": "1874"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1920"
+          },
+          {
+            "@name": "invalid",
+            "@count": "909"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171110",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1539"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "946"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "213"
+          },
+          {
+            "@name": "f1",
+            "@count": "1816"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "291"
+          },
+          {
+            "@name": "invalid",
+            "@count": "339"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171109",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1029"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "697"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1249"
+          },
+          {
+            "@name": "f1",
+            "@count": "1096"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "916"
+          },
+          {
+            "@name": "invalid",
+            "@count": "798"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171108",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1357"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1445"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "402"
+          },
+          {
+            "@name": "f1",
+            "@count": "1556"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "509"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1589"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171107",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1271"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1847"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "652"
+          },
+          {
+            "@name": "f1",
+            "@count": "712"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "572"
+          },
+          {
+            "@name": "invalid",
+            "@count": "997"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171106",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1708"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1591"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "328"
+          },
+          {
+            "@name": "f1",
+            "@count": "1300"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1908"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1634"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171105",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1810"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1730"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1267"
+          },
+          {
+            "@name": "f1",
+            "@count": "892"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "539"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1450"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171104",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1254"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "681"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "328"
+          },
+          {
+            "@name": "f1",
+            "@count": "679"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "770"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1742"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171103",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1786"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "746"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1427"
+          },
+          {
+            "@name": "f1",
+            "@count": "903"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "215"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1794"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171102",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1030"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1047"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1324"
+          },
+          {
+            "@name": "f1",
+            "@count": "1730"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "639"
+          },
+          {
+            "@name": "invalid",
+            "@count": "788"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171101",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1639"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "959"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1559"
+          },
+          {
+            "@name": "f1",
+            "@count": "1346"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "821"
+          },
+          {
+            "@name": "invalid",
+            "@count": "807"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171031",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1177"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "784"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "891"
+          },
+          {
+            "@name": "f1",
+            "@count": "703"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1344"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1157"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171030",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "349"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1264"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "345"
+          },
+          {
+            "@name": "f1",
+            "@count": "1340"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "636"
+          },
+          {
+            "@name": "invalid",
+            "@count": "784"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171029",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1577"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "842"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1319"
+          },
+          {
+            "@name": "f1",
+            "@count": "212"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1757"
+          },
+          {
+            "@name": "invalid",
+            "@count": "596"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171028",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "937"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1273"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "458"
+          },
+          {
+            "@name": "f1",
+            "@count": "1085"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "419"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1268"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171027",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "433"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1473"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1477"
+          },
+          {
+            "@name": "f1",
+            "@count": "688"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "714"
+          },
+          {
+            "@name": "invalid",
+            "@count": "701"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171026",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1821"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1704"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1076"
+          },
+          {
+            "@name": "f1",
+            "@count": "348"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "585"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1400"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171025",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "758"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1885"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1971"
+          },
+          {
+            "@name": "f1",
+            "@count": "953"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1068"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1106"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171024",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1933"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1646"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "431"
+          },
+          {
+            "@name": "f1",
+            "@count": "873"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "262"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1289"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171023",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1448"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1839"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "746"
+          },
+          {
+            "@name": "f1",
+            "@count": "642"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "511"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1116"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171022",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "933"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1945"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1609"
+          },
+          {
+            "@name": "f1",
+            "@count": "1903"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1043"
+          },
+          {
+            "@name": "invalid",
+            "@count": "254"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171021",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "217"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1759"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "629"
+          },
+          {
+            "@name": "f1",
+            "@count": "570"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "431"
+          },
+          {
+            "@name": "invalid",
+            "@count": "320"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171020",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1516"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "407"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1128"
+          },
+          {
+            "@name": "f1",
+            "@count": "1205"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "436"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1809"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171019",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1716"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1631"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1139"
+          },
+          {
+            "@name": "f1",
+            "@count": "1152"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1213"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1483"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171018",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1377"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1302"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "809"
+          },
+          {
+            "@name": "f1",
+            "@count": "732"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "461"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1842"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171017",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "274"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1708"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1958"
+          },
+          {
+            "@name": "f1",
+            "@count": "1902"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1607"
+          },
+          {
+            "@name": "invalid",
+            "@count": "450"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171016",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1091"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1312"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "436"
+          },
+          {
+            "@name": "f1",
+            "@count": "785"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "737"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1687"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171015",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "799"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1185"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "716"
+          },
+          {
+            "@name": "f1",
+            "@count": "1439"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "591"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1073"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171014",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "572"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "693"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "893"
+          },
+          {
+            "@name": "f1",
+            "@count": "586"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "258"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171013",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1847"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "354"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1591"
+          },
+          {
+            "@name": "f1",
+            "@count": "1934"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1366"
+          },
+          {
+            "@name": "invalid",
+            "@count": "891"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171012",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "545"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "346"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1443"
+          },
+          {
+            "@name": "f1",
+            "@count": "1031"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1306"
+          },
+          {
+            "@name": "invalid",
+            "@count": "454"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171011",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1647"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1020"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1263"
+          },
+          {
+            "@name": "f1",
+            "@count": "808"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "502"
+          },
+          {
+            "@name": "invalid",
+            "@count": "233"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171010",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "217"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1754"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1844"
+          },
+          {
+            "@name": "f1",
+            "@count": "1061"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1637"
+          },
+          {
+            "@name": "invalid",
+            "@count": "610"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171009",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1236"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "506"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "987"
+          },
+          {
+            "@name": "f1",
+            "@count": "806"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1989"
+          },
+          {
+            "@name": "invalid",
+            "@count": "969"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171008",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "740"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1916"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1935"
+          },
+          {
+            "@name": "f1",
+            "@count": "1255"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1271"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1517"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171007",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1921"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "460"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1195"
+          },
+          {
+            "@name": "f1",
+            "@count": "755"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1441"
+          },
+          {
+            "@name": "invalid",
+            "@count": "354"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171006",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "246"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1874"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "409"
+          },
+          {
+            "@name": "f1",
+            "@count": "1627"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1379"
+          },
+          {
+            "@name": "invalid",
+            "@count": "644"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171005",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1299"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "706"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1904"
+          },
+          {
+            "@name": "f1",
+            "@count": "1365"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1974"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1359"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171004",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1409"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1965"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "288"
+          },
+          {
+            "@name": "f1",
+            "@count": "1288"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1152"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1783"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171003",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "902"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1033"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1475"
+          },
+          {
+            "@name": "f1",
+            "@count": "1353"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "329"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1540"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171002",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "647"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "823"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1968"
+          },
+          {
+            "@name": "f1",
+            "@count": "1602"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "739"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1856"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20171001",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1119"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1237"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "844"
+          },
+          {
+            "@name": "f1",
+            "@count": "1047"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "575"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1922"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170930",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1595"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "996"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "347"
+          },
+          {
+            "@name": "f1",
+            "@count": "892"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1802"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1325"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170929",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1269"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1116"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1111"
+          },
+          {
+            "@name": "f1",
+            "@count": "1719"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "341"
+          },
+          {
+            "@name": "invalid",
+            "@count": "215"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170928",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1863"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "674"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "677"
+          },
+          {
+            "@name": "f1",
+            "@count": "561"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1392"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1889"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170927",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "922"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1570"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "952"
+          },
+          {
+            "@name": "f1",
+            "@count": "975"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1441"
+          },
+          {
+            "@name": "invalid",
+            "@count": "891"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170926",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1398"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "211"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1381"
+          },
+          {
+            "@name": "f1",
+            "@count": "1243"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "476"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1446"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170925",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1684"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "245"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1178"
+          },
+          {
+            "@name": "f1",
+            "@count": "1015"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "457"
+          },
+          {
+            "@name": "invalid",
+            "@count": "521"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170924",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1394"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1481"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "244"
+          },
+          {
+            "@name": "f1",
+            "@count": "1051"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1111"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1380"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170923",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1598"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "916"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1049"
+          },
+          {
+            "@name": "f1",
+            "@count": "1938"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1868"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1400"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170922",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "481"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "444"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1369"
+          },
+          {
+            "@name": "f1",
+            "@count": "259"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1967"
+          },
+          {
+            "@name": "invalid",
+            "@count": "500"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170921",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1812"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1102"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "273"
+          },
+          {
+            "@name": "f1",
+            "@count": "1197"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "806"
+          },
+          {
+            "@name": "invalid",
+            "@count": "773"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170920",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1968"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1258"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1119"
+          },
+          {
+            "@name": "f1",
+            "@count": "1739"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "932"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1313"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170919",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "612"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "980"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "862"
+          },
+          {
+            "@name": "f1",
+            "@count": "1673"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "334"
+          },
+          {
+            "@name": "invalid",
+            "@count": "912"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170918",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1630"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "645"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1548"
+          },
+          {
+            "@name": "f1",
+            "@count": "1253"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1793"
+          },
+          {
+            "@name": "invalid",
+            "@count": "291"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170917",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1209"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1559"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "556"
+          },
+          {
+            "@name": "f1",
+            "@count": "444"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "705"
+          },
+          {
+            "@name": "invalid",
+            "@count": "1471"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170916",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1785"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "313"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1727"
+          },
+          {
+            "@name": "f1",
+            "@count": "870"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1301"
+          },
+          {
+            "@name": "invalid",
+            "@count": "804"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170915",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "1154"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "1312"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "1142"
+          },
+          {
+            "@name": "f1",
+            "@count": "741"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "1826"
+          },
+          {
+            "@name": "invalid",
+            "@count": "257"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170914",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "28660"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "49245"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38855"
+          },
+          {
+            "@name": "f1",
+            "@count": "35245"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26945"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23995"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170913",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "20945"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "17210"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "16770"
+          },
+          {
+            "@name": "f1",
+            "@count": "21590"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "43820"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15345"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170912",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38505"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44320"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "47480"
+          },
+          {
+            "@name": "f1",
+            "@count": "31370"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44020"
+          },
+          {
+            "@name": "invalid",
+            "@count": "47130"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170911",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27775"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44990"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "46995"
+          },
+          {
+            "@name": "f1",
+            "@count": "22150"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "22550"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28775"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170910",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "45570"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46450"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31900"
+          },
+          {
+            "@name": "f1",
+            "@count": "12775"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "20560"
+          },
+          {
+            "@name": "invalid",
+            "@count": "11665"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170909",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12345"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9965"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35830"
+          },
+          {
+            "@name": "f1",
+            "@count": "19840"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "39160"
+          },
+          {
+            "@name": "invalid",
+            "@count": "19050"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170908",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11605"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "33000"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37695"
+          },
+          {
+            "@name": "f1",
+            "@count": "33880"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12620"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34280"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170907",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "16775"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25380"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49865"
+          },
+          {
+            "@name": "f1",
+            "@count": "17340"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28995"
+          },
+          {
+            "@name": "invalid",
+            "@count": "17100"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170906",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36635"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "48365"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "42625"
+          },
+          {
+            "@name": "f1",
+            "@count": "25880"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5620"
+          },
+          {
+            "@name": "invalid",
+            "@count": "33330"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170905",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "19090"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35105"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "19525"
+          },
+          {
+            "@name": "f1",
+            "@count": "33550"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "6995"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14495"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170904",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "46090"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46480"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33690"
+          },
+          {
+            "@name": "f1",
+            "@count": "10600"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35730"
+          },
+          {
+            "@name": "invalid",
+            "@count": "8645"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170903",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11660"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "40765"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "14705"
+          },
+          {
+            "@name": "f1",
+            "@count": "30655"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "45495"
+          },
+          {
+            "@name": "invalid",
+            "@count": "38375"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170902",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "20870"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "48105"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31645"
+          },
+          {
+            "@name": "f1",
+            "@count": "36645"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13880"
+          },
+          {
+            "@name": "invalid",
+            "@count": "20400"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170901",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "30000"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "48990"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "16420"
+          },
+          {
+            "@name": "f1",
+            "@count": "16655"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8145"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15100"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170831",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "15565"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "17635"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "8220"
+          },
+          {
+            "@name": "f1",
+            "@count": "45825"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9820"
+          },
+          {
+            "@name": "invalid",
+            "@count": "41035"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170830",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "13660"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "31325"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49280"
+          },
+          {
+            "@name": "f1",
+            "@count": "28495"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "32385"
+          },
+          {
+            "@name": "invalid",
+            "@count": "21310"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170829",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12025"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46580"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "27440"
+          },
+          {
+            "@name": "f1",
+            "@count": "9000"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "16090"
+          },
+          {
+            "@name": "invalid",
+            "@count": "43425"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170828",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "15020"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "8015"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "16915"
+          },
+          {
+            "@name": "f1",
+            "@count": "16190"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "45965"
+          },
+          {
+            "@name": "invalid",
+            "@count": "48060"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170827",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "30930"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "47445"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49865"
+          },
+          {
+            "@name": "f1",
+            "@count": "15655"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "40825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22310"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170826",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24975"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46915"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49025"
+          },
+          {
+            "@name": "f1",
+            "@count": "42755"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5225"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45370"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170825",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44765"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44785"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "28720"
+          },
+          {
+            "@name": "f1",
+            "@count": "10515"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "41390"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34105"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170824",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14295"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10675"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "8955"
+          },
+          {
+            "@name": "f1",
+            "@count": "39815"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "17845"
+          },
+          {
+            "@name": "invalid",
+            "@count": "32790"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170823",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14650"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "22475"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "12030"
+          },
+          {
+            "@name": "f1",
+            "@count": "28125"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12020"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29870"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170822",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10390"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "16650"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29930"
+          },
+          {
+            "@name": "f1",
+            "@count": "49585"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14595"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170821",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36845"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44610"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "11290"
+          },
+          {
+            "@name": "f1",
+            "@count": "41685"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26990"
+          },
+          {
+            "@name": "invalid",
+            "@count": "37380"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170820",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36395"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "17130"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33870"
+          },
+          {
+            "@name": "f1",
+            "@count": "25745"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "15905"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15985"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170819",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31145"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34460"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "25785"
+          },
+          {
+            "@name": "f1",
+            "@count": "6360"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "14715"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22050"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170818",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "47030"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "47740"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "48040"
+          },
+          {
+            "@name": "f1",
+            "@count": "27670"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "16925"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10860"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170817",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38605"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26860"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "8740"
+          },
+          {
+            "@name": "f1",
+            "@count": "36625"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12505"
+          },
+          {
+            "@name": "invalid",
+            "@count": "31270"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170816",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "20530"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14935"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "27565"
+          },
+          {
+            "@name": "f1",
+            "@count": "22535"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "18570"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28635"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170815",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12035"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "38440"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "45680"
+          },
+          {
+            "@name": "f1",
+            "@count": "14880"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30535"
+          },
+          {
+            "@name": "invalid",
+            "@count": "35085"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170814",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "45150"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "20885"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "9395"
+          },
+          {
+            "@name": "f1",
+            "@count": "45625"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "6730"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12690"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170813",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48280"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "19535"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "28225"
+          },
+          {
+            "@name": "f1",
+            "@count": "6355"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "24530"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14135"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170812",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "17150"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43500"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "26770"
+          },
+          {
+            "@name": "f1",
+            "@count": "34030"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "25825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14415"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170811",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27010"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "36830"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33440"
+          },
+          {
+            "@name": "f1",
+            "@count": "11055"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "31870"
+          },
+          {
+            "@name": "invalid",
+            "@count": "32080"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170810",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "30090"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35605"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "15495"
+          },
+          {
+            "@name": "f1",
+            "@count": "12995"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "36585"
+          },
+          {
+            "@name": "invalid",
+            "@count": "35545"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170809",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "49100"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45315"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37085"
+          },
+          {
+            "@name": "f1",
+            "@count": "29075"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "49365"
+          },
+          {
+            "@name": "invalid",
+            "@count": "25255"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170808",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10890"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23865"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "18705"
+          },
+          {
+            "@name": "f1",
+            "@count": "34515"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "18100"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15380"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170807",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "20990"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35615"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "8080"
+          },
+          {
+            "@name": "f1",
+            "@count": "43665"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "14245"
+          },
+          {
+            "@name": "invalid",
+            "@count": "48970"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170806",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "46435"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14155"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35140"
+          },
+          {
+            "@name": "f1",
+            "@count": "29640"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30400"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22535"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170805",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44965"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45045"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "11010"
+          },
+          {
+            "@name": "f1",
+            "@count": "12620"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "31560"
+          },
+          {
+            "@name": "invalid",
+            "@count": "32240"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170804",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "49050"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "22500"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "5325"
+          },
+          {
+            "@name": "f1",
+            "@count": "40525"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44750"
+          },
+          {
+            "@name": "invalid",
+            "@count": "16985"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170803",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "37165"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "37470"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "6565"
+          },
+          {
+            "@name": "f1",
+            "@count": "22260"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "23570"
+          },
+          {
+            "@name": "invalid",
+            "@count": "20230"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170802",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "16470"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "7175"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38295"
+          },
+          {
+            "@name": "f1",
+            "@count": "26840"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27125"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12150"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170801",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "43230"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "15000"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "24985"
+          },
+          {
+            "@name": "f1",
+            "@count": "35640"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8045"
+          },
+          {
+            "@name": "invalid",
+            "@count": "36105"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170731",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "35840"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10250"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "44310"
+          },
+          {
+            "@name": "f1",
+            "@count": "36535"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12730"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49425"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170730",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "41130"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10660"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "41670"
+          },
+          {
+            "@name": "f1",
+            "@count": "29570"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "17560"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12460"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170729",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12455"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "40835"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29770"
+          },
+          {
+            "@name": "f1",
+            "@count": "7475"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13975"
+          },
+          {
+            "@name": "invalid",
+            "@count": "9290"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170728",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44795"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "11130"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29065"
+          },
+          {
+            "@name": "f1",
+            "@count": "16245"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27790"
+          },
+          {
+            "@name": "invalid",
+            "@count": "21425"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170727",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31585"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "42870"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "20085"
+          },
+          {
+            "@name": "f1",
+            "@count": "22695"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "37900"
+          },
+          {
+            "@name": "invalid",
+            "@count": "39280"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170726",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "47075"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23570"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "44815"
+          },
+          {
+            "@name": "f1",
+            "@count": "7210"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "7825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "40720"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170725",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "39945"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14300"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38690"
+          },
+          {
+            "@name": "f1",
+            "@count": "18370"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26365"
+          },
+          {
+            "@name": "invalid",
+            "@count": "16935"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170724",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18425"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "29360"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "16120"
+          },
+          {
+            "@name": "f1",
+            "@count": "8715"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5020"
+          },
+          {
+            "@name": "invalid",
+            "@count": "40540"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170723",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "32695"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26200"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "26365"
+          },
+          {
+            "@name": "f1",
+            "@count": "5120"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9675"
+          },
+          {
+            "@name": "invalid",
+            "@count": "13315"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170722",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12465"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "27810"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "48475"
+          },
+          {
+            "@name": "f1",
+            "@count": "47675"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13730"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30660"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170721",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24030"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "20675"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "20115"
+          },
+          {
+            "@name": "f1",
+            "@count": "30985"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "36820"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29820"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170720",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44555"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "41690"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "15790"
+          },
+          {
+            "@name": "f1",
+            "@count": "41670"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30490"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23580"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170719",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11250"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34445"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "41905"
+          },
+          {
+            "@name": "f1",
+            "@count": "35260"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44240"
+          },
+          {
+            "@name": "invalid",
+            "@count": "21165"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170718",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "40545"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "37800"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "47515"
+          },
+          {
+            "@name": "f1",
+            "@count": "11935"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9960"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30065"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170717",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "49555"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "6905"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "25790"
+          },
+          {
+            "@name": "f1",
+            "@count": "47380"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "32415"
+          },
+          {
+            "@name": "invalid",
+            "@count": "17190"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170716",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "5975"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25305"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "34535"
+          },
+          {
+            "@name": "f1",
+            "@count": "32620"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "46385"
+          },
+          {
+            "@name": "invalid",
+            "@count": "5740"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170715",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14620"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "32930"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33780"
+          },
+          {
+            "@name": "f1",
+            "@count": "40570"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28340"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10330"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170714",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "33135"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "21080"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "17310"
+          },
+          {
+            "@name": "f1",
+            "@count": "9235"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "15220"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30215"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170713",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "25195"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "8785"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "48420"
+          },
+          {
+            "@name": "f1",
+            "@count": "14705"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5970"
+          },
+          {
+            "@name": "invalid",
+            "@count": "33260"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170712",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48300"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44865"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "36315"
+          },
+          {
+            "@name": "f1",
+            "@count": "46445"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12750"
+          },
+          {
+            "@name": "invalid",
+            "@count": "8570"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170711",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "32265"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43455"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21885"
+          },
+          {
+            "@name": "f1",
+            "@count": "13630"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "39660"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28340"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170710",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38680"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26015"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "18520"
+          },
+          {
+            "@name": "f1",
+            "@count": "19440"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "24950"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23565"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170709",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "47510"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "42875"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "15510"
+          },
+          {
+            "@name": "f1",
+            "@count": "8260"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "24930"
+          },
+          {
+            "@name": "invalid",
+            "@count": "38965"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170708",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48355"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10270"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "25720"
+          },
+          {
+            "@name": "f1",
+            "@count": "14680"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "10650"
+          },
+          {
+            "@name": "invalid",
+            "@count": "35875"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170707",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "33940"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "15455"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "6185"
+          },
+          {
+            "@name": "f1",
+            "@count": "35070"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26755"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22865"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170706",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "47370"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9485"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29540"
+          },
+          {
+            "@name": "f1",
+            "@count": "25855"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "48210"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28145"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170705",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24340"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "8715"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "40110"
+          },
+          {
+            "@name": "f1",
+            "@count": "13580"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35485"
+          },
+          {
+            "@name": "invalid",
+            "@count": "43645"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170704",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18465"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "22965"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "32575"
+          },
+          {
+            "@name": "f1",
+            "@count": "34910"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "43715"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45920"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170703",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "29935"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25175"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "24595"
+          },
+          {
+            "@name": "f1",
+            "@count": "10125"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13060"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49485"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170702",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "19315"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34530"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "7280"
+          },
+          {
+            "@name": "f1",
+            "@count": "14005"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "32055"
+          },
+          {
+            "@name": "invalid",
+            "@count": "11805"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170701",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "34595"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "7375"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "15360"
+          },
+          {
+            "@name": "f1",
+            "@count": "38420"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "41530"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28795"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170630",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27785"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "12240"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "7745"
+          },
+          {
+            "@name": "f1",
+            "@count": "49870"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "14145"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30085"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170629",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "15395"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23570"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21490"
+          },
+          {
+            "@name": "f1",
+            "@count": "24965"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "20405"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22950"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170628",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24460"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "7780"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "13870"
+          },
+          {
+            "@name": "f1",
+            "@count": "11355"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "25245"
+          },
+          {
+            "@name": "invalid",
+            "@count": "36220"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170627",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42910"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "42720"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "5945"
+          },
+          {
+            "@name": "f1",
+            "@count": "26000"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35385"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12735"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170626",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "8590"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "38685"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31535"
+          },
+          {
+            "@name": "f1",
+            "@count": "45885"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "17220"
+          },
+          {
+            "@name": "invalid",
+            "@count": "27090"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170625",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42930"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10520"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21130"
+          },
+          {
+            "@name": "f1",
+            "@count": "18180"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "48705"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34960"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170624",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31535"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "7820"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "17860"
+          },
+          {
+            "@name": "f1",
+            "@count": "5970"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "42210"
+          },
+          {
+            "@name": "invalid",
+            "@count": "38805"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170623",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10530"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9980"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "36095"
+          },
+          {
+            "@name": "f1",
+            "@count": "35650"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "45495"
+          },
+          {
+            "@name": "invalid",
+            "@count": "20260"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170622",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48265"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "19500"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "23380"
+          },
+          {
+            "@name": "f1",
+            "@count": "34465"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "34320"
+          },
+          {
+            "@name": "invalid",
+            "@count": "16135"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170621",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "25420"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14070"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38680"
+          },
+          {
+            "@name": "f1",
+            "@count": "40685"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "32910"
+          },
+          {
+            "@name": "invalid",
+            "@count": "43920"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170620",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24540"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44960"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "40230"
+          },
+          {
+            "@name": "f1",
+            "@count": "25940"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27935"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28260"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170619",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38435"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "16985"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "22490"
+          },
+          {
+            "@name": "f1",
+            "@count": "23510"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5720"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10560"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170618",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27190"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43190"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "19920"
+          },
+          {
+            "@name": "f1",
+            "@count": "10810"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "21805"
+          },
+          {
+            "@name": "invalid",
+            "@count": "16290"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170617",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "29375"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "33855"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "24150"
+          },
+          {
+            "@name": "f1",
+            "@count": "36760"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "22055"
+          },
+          {
+            "@name": "invalid",
+            "@count": "42270"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170616",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "33165"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "31465"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21855"
+          },
+          {
+            "@name": "f1",
+            "@count": "23740"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "37140"
+          },
+          {
+            "@name": "invalid",
+            "@count": "46950"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170615",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "49030"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26330"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "34665"
+          },
+          {
+            "@name": "f1",
+            "@count": "17265"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "19400"
+          },
+          {
+            "@name": "invalid",
+            "@count": "32000"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170614",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "25455"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "15790"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "8150"
+          },
+          {
+            "@name": "f1",
+            "@count": "27920"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "24870"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49120"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170613",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "22415"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "6265"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "20330"
+          },
+          {
+            "@name": "f1",
+            "@count": "17630"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "15785"
+          },
+          {
+            "@name": "invalid",
+            "@count": "20605"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170612",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44160"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46210"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "20685"
+          },
+          {
+            "@name": "f1",
+            "@count": "39715"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9240"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15775"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170611",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36805"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14365"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "39350"
+          },
+          {
+            "@name": "f1",
+            "@count": "46400"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "38730"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12930"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170610",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "16355"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "36860"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38100"
+          },
+          {
+            "@name": "f1",
+            "@count": "40930"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "6985"
+          },
+          {
+            "@name": "invalid",
+            "@count": "13715"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170609",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "39820"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "8980"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "30700"
+          },
+          {
+            "@name": "f1",
+            "@count": "49970"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "18020"
+          },
+          {
+            "@name": "invalid",
+            "@count": "31625"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170608",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "19090"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "38100"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "32080"
+          },
+          {
+            "@name": "f1",
+            "@count": "23570"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "31420"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12955"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170607",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27865"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43205"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "32455"
+          },
+          {
+            "@name": "f1",
+            "@count": "48500"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "33810"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22515"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170606",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "17265"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23840"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "43890"
+          },
+          {
+            "@name": "f1",
+            "@count": "9225"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35980"
+          },
+          {
+            "@name": "invalid",
+            "@count": "37130"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170605",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "15765"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "47690"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35880"
+          },
+          {
+            "@name": "f1",
+            "@count": "38960"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "37220"
+          },
+          {
+            "@name": "invalid",
+            "@count": "6160"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170604",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24835"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34575"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35150"
+          },
+          {
+            "@name": "f1",
+            "@count": "38655"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13810"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49500"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170603",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44715"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "49145"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "26845"
+          },
+          {
+            "@name": "f1",
+            "@count": "21510"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "34620"
+          },
+          {
+            "@name": "invalid",
+            "@count": "26620"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170602",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18590"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "6665"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "47560"
+          },
+          {
+            "@name": "f1",
+            "@count": "49500"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "10620"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30700"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170601",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "25825"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26575"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "40430"
+          },
+          {
+            "@name": "f1",
+            "@count": "26825"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "43290"
+          },
+          {
+            "@name": "invalid",
+            "@count": "47240"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170531",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42635"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46915"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "26590"
+          },
+          {
+            "@name": "f1",
+            "@count": "12735"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30770"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24975"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170530",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "9610"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "15325"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49275"
+          },
+          {
+            "@name": "f1",
+            "@count": "45015"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "14625"
+          },
+          {
+            "@name": "invalid",
+            "@count": "40940"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170529",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42705"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "37705"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "45745"
+          },
+          {
+            "@name": "f1",
+            "@count": "9635"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44095"
+          },
+          {
+            "@name": "invalid",
+            "@count": "25425"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170528",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "45670"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25745"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29205"
+          },
+          {
+            "@name": "f1",
+            "@count": "28620"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "34050"
+          },
+          {
+            "@name": "invalid",
+            "@count": "7700"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170527",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10425"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "24665"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29905"
+          },
+          {
+            "@name": "f1",
+            "@count": "41835"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "16485"
+          },
+          {
+            "@name": "invalid",
+            "@count": "37360"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170526",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "29590"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45510"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "14080"
+          },
+          {
+            "@name": "f1",
+            "@count": "6520"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "37210"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24115"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170525",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "8780"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "29245"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "24210"
+          },
+          {
+            "@name": "f1",
+            "@count": "30290"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "47370"
+          },
+          {
+            "@name": "invalid",
+            "@count": "40460"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170524",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "30290"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10895"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "36860"
+          },
+          {
+            "@name": "f1",
+            "@count": "16050"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5370"
+          },
+          {
+            "@name": "invalid",
+            "@count": "42800"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170523",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18415"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "14045"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "45940"
+          },
+          {
+            "@name": "f1",
+            "@count": "22880"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "42750"
+          },
+          {
+            "@name": "invalid",
+            "@count": "5730"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170522",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48435"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "27645"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "48195"
+          },
+          {
+            "@name": "f1",
+            "@count": "34555"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "49225"
+          },
+          {
+            "@name": "invalid",
+            "@count": "6720"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170521",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "40620"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23960"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37815"
+          },
+          {
+            "@name": "f1",
+            "@count": "39920"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "46840"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28820"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170520",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48760"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "49645"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "10365"
+          },
+          {
+            "@name": "f1",
+            "@count": "12510"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "34475"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29570"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170519",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "43630"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "38495"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "30340"
+          },
+          {
+            "@name": "f1",
+            "@count": "32485"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30345"
+          },
+          {
+            "@name": "invalid",
+            "@count": "41610"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170518",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "9225"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "28430"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "20660"
+          },
+          {
+            "@name": "f1",
+            "@count": "7105"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "11325"
+          },
+          {
+            "@name": "invalid",
+            "@count": "8625"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170517",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "35430"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26745"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31090"
+          },
+          {
+            "@name": "f1",
+            "@count": "35970"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "23760"
+          },
+          {
+            "@name": "invalid",
+            "@count": "17405"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170516",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36760"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43560"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21905"
+          },
+          {
+            "@name": "f1",
+            "@count": "41000"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28960"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14150"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170515",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38385"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "49555"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "19680"
+          },
+          {
+            "@name": "f1",
+            "@count": "9595"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "21230"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10635"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170514",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "16155"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43190"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35290"
+          },
+          {
+            "@name": "f1",
+            "@count": "28185"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27475"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34075"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170513",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "13615"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "19705"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "43710"
+          },
+          {
+            "@name": "f1",
+            "@count": "35985"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "45280"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29530"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170512",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14965"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "27160"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "45555"
+          },
+          {
+            "@name": "f1",
+            "@count": "35225"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28380"
+          },
+          {
+            "@name": "invalid",
+            "@count": "12525"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170511",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "9245"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9050"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "41585"
+          },
+          {
+            "@name": "f1",
+            "@count": "45630"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "22760"
+          },
+          {
+            "@name": "invalid",
+            "@count": "18440"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170510",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "16685"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "32845"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "12015"
+          },
+          {
+            "@name": "f1",
+            "@count": "38960"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "11315"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28925"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170509",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14420"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25625"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "14635"
+          },
+          {
+            "@name": "f1",
+            "@count": "21295"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30785"
+          },
+          {
+            "@name": "invalid",
+            "@count": "47940"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170508",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11975"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44040"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49410"
+          },
+          {
+            "@name": "f1",
+            "@count": "28005"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "21455"
+          },
+          {
+            "@name": "invalid",
+            "@count": "30985"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170507",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "39195"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "48850"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "19925"
+          },
+          {
+            "@name": "f1",
+            "@count": "40645"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "42000"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28345"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170506",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "38520"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "28225"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "7535"
+          },
+          {
+            "@name": "f1",
+            "@count": "30650"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "31260"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45405"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170505",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "14485"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45465"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "9170"
+          },
+          {
+            "@name": "f1",
+            "@count": "34450"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28115"
+          },
+          {
+            "@name": "invalid",
+            "@count": "25790"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170504",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42710"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "6750"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "14335"
+          },
+          {
+            "@name": "f1",
+            "@count": "34475"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28380"
+          },
+          {
+            "@name": "invalid",
+            "@count": "13030"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170503",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "17805"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35710"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "30635"
+          },
+          {
+            "@name": "f1",
+            "@count": "16900"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "35755"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29895"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170502",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "34700"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26820"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21425"
+          },
+          {
+            "@name": "f1",
+            "@count": "32245"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "13910"
+          },
+          {
+            "@name": "invalid",
+            "@count": "11780"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170501",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "17295"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "19705"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "46995"
+          },
+          {
+            "@name": "f1",
+            "@count": "49030"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30675"
+          },
+          {
+            "@name": "invalid",
+            "@count": "20860"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170430",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10105"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35400"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "46190"
+          },
+          {
+            "@name": "f1",
+            "@count": "43595"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "33650"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23755"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170429",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "10945"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45395"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "34790"
+          },
+          {
+            "@name": "f1",
+            "@count": "6160"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "7805"
+          },
+          {
+            "@name": "invalid",
+            "@count": "37610"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170428",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31100"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "13320"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "11505"
+          },
+          {
+            "@name": "f1",
+            "@count": "9295"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "43055"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10620"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170427",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27255"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45605"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49410"
+          },
+          {
+            "@name": "f1",
+            "@count": "36370"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "30810"
+          },
+          {
+            "@name": "invalid",
+            "@count": "35515"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170426",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "39065"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "36190"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "22065"
+          },
+          {
+            "@name": "f1",
+            "@count": "34065"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "21190"
+          },
+          {
+            "@name": "invalid",
+            "@count": "10675"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170425",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "7910"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "11980"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "40100"
+          },
+          {
+            "@name": "f1",
+            "@count": "9485"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "21350"
+          },
+          {
+            "@name": "invalid",
+            "@count": "27500"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170424",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "40010"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "7390"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "47420"
+          },
+          {
+            "@name": "f1",
+            "@count": "13015"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "25500"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24315"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170423",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "13190"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "11445"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37925"
+          },
+          {
+            "@name": "f1",
+            "@count": "47975"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "42970"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34115"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170422",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "48770"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "37615"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "26535"
+          },
+          {
+            "@name": "f1",
+            "@count": "33590"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27840"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34360"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170421",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "39885"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "18345"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "17910"
+          },
+          {
+            "@name": "f1",
+            "@count": "23665"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "26150"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45205"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170420",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "8410"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "21695"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "35275"
+          },
+          {
+            "@name": "f1",
+            "@count": "15995"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44055"
+          },
+          {
+            "@name": "invalid",
+            "@count": "8365"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170419",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11300"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "27765"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "38660"
+          },
+          {
+            "@name": "f1",
+            "@count": "41830"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "43240"
+          },
+          {
+            "@name": "invalid",
+            "@count": "19025"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170418",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "29195"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34350"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31575"
+          },
+          {
+            "@name": "f1",
+            "@count": "20695"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "48865"
+          },
+          {
+            "@name": "invalid",
+            "@count": "48795"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170417",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "9855"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "25560"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37430"
+          },
+          {
+            "@name": "f1",
+            "@count": "24600"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "27375"
+          },
+          {
+            "@name": "invalid",
+            "@count": "6980"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170416",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "22980"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "16120"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "23515"
+          },
+          {
+            "@name": "f1",
+            "@count": "27655"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "5265"
+          },
+          {
+            "@name": "invalid",
+            "@count": "38190"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170415",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "44225"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "33340"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "11810"
+          },
+          {
+            "@name": "f1",
+            "@count": "49700"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8665"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28675"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170414",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "27145"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46285"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49960"
+          },
+          {
+            "@name": "f1",
+            "@count": "47830"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9675"
+          },
+          {
+            "@name": "invalid",
+            "@count": "39770"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170413",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "12220"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "15300"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "21780"
+          },
+          {
+            "@name": "f1",
+            "@count": "45825"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "45485"
+          },
+          {
+            "@name": "invalid",
+            "@count": "36205"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170412",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "41000"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "26805"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "47340"
+          },
+          {
+            "@name": "f1",
+            "@count": "20375"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28550"
+          },
+          {
+            "@name": "invalid",
+            "@count": "13400"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170411",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "21395"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "21580"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "5765"
+          },
+          {
+            "@name": "f1",
+            "@count": "21200"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "49650"
+          },
+          {
+            "@name": "invalid",
+            "@count": "15225"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170410",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "25595"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "39955"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "28035"
+          },
+          {
+            "@name": "f1",
+            "@count": "5460"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "29330"
+          },
+          {
+            "@name": "invalid",
+            "@count": "11260"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170409",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "30175"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34150"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "29100"
+          },
+          {
+            "@name": "f1",
+            "@count": "39870"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "25600"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45980"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170408",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "40940"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10130"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "34830"
+          },
+          {
+            "@name": "f1",
+            "@count": "43775"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "23565"
+          },
+          {
+            "@name": "invalid",
+            "@count": "7195"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170407",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "32325"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "37085"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33915"
+          },
+          {
+            "@name": "f1",
+            "@count": "25865"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28150"
+          },
+          {
+            "@name": "invalid",
+            "@count": "23750"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170406",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "33805"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "47845"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "45680"
+          },
+          {
+            "@name": "f1",
+            "@count": "33845"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12825"
+          },
+          {
+            "@name": "invalid",
+            "@count": "22265"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170405",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "36155"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "32410"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "5030"
+          },
+          {
+            "@name": "f1",
+            "@count": "45620"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "44900"
+          },
+          {
+            "@name": "invalid",
+            "@count": "6250"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170404",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "9075"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "23525"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "19580"
+          },
+          {
+            "@name": "f1",
+            "@count": "27815"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "23295"
+          },
+          {
+            "@name": "invalid",
+            "@count": "42050"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170403",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "47670"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "44930"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "37645"
+          },
+          {
+            "@name": "f1",
+            "@count": "12360"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "11250"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24920"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170402",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "5430"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "10170"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "22450"
+          },
+          {
+            "@name": "f1",
+            "@count": "35810"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "42640"
+          },
+          {
+            "@name": "invalid",
+            "@count": "17080"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170401",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "35580"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "45670"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "42515"
+          },
+          {
+            "@name": "f1",
+            "@count": "33410"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "29785"
+          },
+          {
+            "@name": "invalid",
+            "@count": "25625"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170331",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "11965"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "46335"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "14790"
+          },
+          {
+            "@name": "f1",
+            "@count": "23270"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "40915"
+          },
+          {
+            "@name": "invalid",
+            "@count": "44755"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170330",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "17495"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "35355"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "10860"
+          },
+          {
+            "@name": "f1",
+            "@count": "23995"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "12365"
+          },
+          {
+            "@name": "invalid",
+            "@count": "28585"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170329",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "22895"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "27470"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "46490"
+          },
+          {
+            "@name": "f1",
+            "@count": "13730"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "19425"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49780"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170328",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31260"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "13705"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "28605"
+          },
+          {
+            "@name": "f1",
+            "@count": "19795"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "18600"
+          },
+          {
+            "@name": "invalid",
+            "@count": "26325"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170327",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "5685"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "36595"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "24210"
+          },
+          {
+            "@name": "f1",
+            "@count": "12395"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "36605"
+          },
+          {
+            "@name": "invalid",
+            "@count": "45945"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170326",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "42520"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "12395"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "27595"
+          },
+          {
+            "@name": "f1",
+            "@count": "41190"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "19520"
+          },
+          {
+            "@name": "invalid",
+            "@count": "14940"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170325",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "8660"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "34005"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "33690"
+          },
+          {
+            "@name": "f1",
+            "@count": "37510"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "33625"
+          },
+          {
+            "@name": "invalid",
+            "@count": "44165"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170324",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "24965"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "6245"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "31755"
+          },
+          {
+            "@name": "f1",
+            "@count": "43325"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "48680"
+          },
+          {
+            "@name": "invalid",
+            "@count": "29035"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170323",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "8070"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9060"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "43350"
+          },
+          {
+            "@name": "f1",
+            "@count": "22310"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "33025"
+          },
+          {
+            "@name": "invalid",
+            "@count": "9790"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170322",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "37530"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "12040"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "17435"
+          },
+          {
+            "@name": "f1",
+            "@count": "44580"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "28765"
+          },
+          {
+            "@name": "invalid",
+            "@count": "34565"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170321",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "22865"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "43415"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "48035"
+          },
+          {
+            "@name": "f1",
+            "@count": "32330"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "29835"
+          },
+          {
+            "@name": "invalid",
+            "@count": "46185"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170320",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "20795"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "9540"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "18525"
+          },
+          {
+            "@name": "f1",
+            "@count": "22495"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "8840"
+          },
+          {
+            "@name": "invalid",
+            "@count": "49655"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170319",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "31015"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "29520"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49360"
+          },
+          {
+            "@name": "f1",
+            "@count": "6130"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "33365"
+          },
+          {
+            "@name": "invalid",
+            "@count": "24610"
+          }
+        ]
+      }
+    },
+    {
+      "@date": "20170318",
+      "custom": {
+        "origin": [
+          {
+            "@name": "customprod1",
+            "@count": "18125"
+          },
+          {
+            "@name": "customprod2",
+            "@count": "31175"
+          }
+        ]
+      },
+      "mt-requests": {
+        "origin": [
+          {
+            "@name": "web",
+            "@count": "49050"
+          },
+          {
+            "@name": "f1",
+            "@count": "8585"
+          },
+          {
+            "@name": "unspecified",
+            "@count": "9475"
+          },
+          {
+            "@name": "invalid",
+            "@count": "39365"
+          }
+        ]
+      }
+    }
+  ]
+}
