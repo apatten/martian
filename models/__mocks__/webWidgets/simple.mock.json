@@ -1,0 +1,20 @@
+{
+  "@id": "17",
+  "@type": "user_activity",
+  "@date": "Mon, 30 Jan 2017 04:37:43 GMT",
+  "@active": "true",
+  "arguments": {
+    "height": "",
+    "input-hint": "",
+    "user-activity-id": "",
+    "width": ""
+  },
+  "code": {
+    "@id": "09910a12c1b139dd90c848dca3b2a4a83f1a8ea426b0f410756547ccb4f75cd7",
+    "@format": "base64",
+    "#text": "PCEtLSBCZWdpbiBjaTEgLS0+DQo8IS0tIEdlbmVyYXRlZCBvbiBbMS8zMC8yMDE3IDQ6Mzc6NDMgQU1dIGJ5IE1pbmRUb3VjaCB2LjE3LjIuMi40MCAtLT4NCjxzY3JpcHQgYXN5bmM9ImFzeW5jIiBzcmM9Imh0dHBzOi8vamgtcy1yZXNwb25zaXZlLm1pbmR0b3VjaC51cy9AZW1iZWQvMDk5MTBhMTJjMWIxMzlkZDkwYzg0OGRjYTNiMmE0YTgzZjFhOGVhNDI2YjBmNDEwNzU2NTQ3Y2NiNGY3NWNkNy5qcyI+PC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9Im1pbmR0b3VjaC9lbWJlZCIgaWQ9Im1pbmR0b3VjaC1lbWJlZC0wOTkxMGExMmMxYjEzOWRkOTBjODQ4ZGNhM2IyYTRhODNmMWE4ZWE0MjZiMGY0MTA3NTY1NDdjY2I0Zjc1Y2Q3Ij48L3NjcmlwdD4NCjwhLS0gRW5kIGNpMSAtLT4="
+  },
+  "host": "apps.zdusercontent.com",
+  "name": "ci1",
+  "token": "8704ce540fc7ea758c53cedd056d7f47a8f6b183ab576c0dcbc38b4867a4e41a"
+}

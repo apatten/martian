@@ -1,0 +1,41 @@
+{
+  "@count": "6",
+  "template": [
+    {
+      "description": "This template is a collection of guides used for a product, persona, or activity.",
+      "id": "245",
+      "path": "Template:MindTouch/IDF3/Pages/Category",
+      "title": "Category"
+    },
+    {
+      "description": "Guide pages are the primary place for organizing topic, how-to, and reference articles specific to this Category.\n",
+      "id": "246",
+      "path": "Template:MindTouch/IDF3/Pages/Guide",
+      "title": "Guide"
+    },
+    {
+      "description": "Answers a specific question about how something works or how to solve a specific problem.",
+      "id": "247",
+      "path": "Template:MindTouch/IDF3/Pages/How-To",
+      "title": "How-To"
+    },
+    {
+      "description": "",
+      "id": "684",
+      "path": "Template:MindTouch/IDF3/Pages/Portfolio",
+      "title": "Portfolio"
+    },
+    {
+      "description": "Used to explain functions, definitions, or settings about a feature in the product.",
+      "id": "248",
+      "path": "Template:MindTouch/IDF3/Pages/Reference",
+      "title": "Reference"
+    },
+    {
+      "description": "This is a subcategory within a guide, similar to a chapter of a book.",
+      "id": "249",
+      "path": "Template:MindTouch/IDF3/Pages/Topic",
+      "title": "Topic"
+    }
+  ]
+}
