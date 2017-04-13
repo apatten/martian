@@ -18,12 +18,14 @@
  */
 export const apiErrorModel = {
     preProcessor(data) {
-        try {
-            data.errorInfo = JSON.parse(data.responseText);
-        } catch(e) {
-            data.errorText = data.responseText;
+        if('responseText' in data) {
+            try {
+                data.errorInfo = JSON.parse(data.responseText);
+            } catch(e) {
+                data.errorText = data.responseText;
+            }
+            delete data.responseText;
         }
-        delete data.responseText;
         return data;
     },
     model: [
