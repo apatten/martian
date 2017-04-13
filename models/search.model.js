@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
+
 export const searchModel = [
     { field: '@ranking', name: 'ranking' },
     { field: '@queryid', name: 'queryId', transform: 'number' },

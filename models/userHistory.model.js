@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { eventModel } from './event.model.js';
+
 export const userHistoryModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@upto', name: 'upTo' },

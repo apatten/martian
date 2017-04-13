@@ -29,7 +29,7 @@ export const pageSecurityModel = [
             { field: 'date.modified', name: 'dateModified', transform: 'date' },
             { field: 'permissions', transform: permissionsModel },
             { field: 'user', transform: userModel },
-            { field: 'user.modifiedBy', name: 'userModifiedBy', transform: userModel }
+            { field: 'user.modifiedby', name: 'userModifiedBy', transform: userModel }
         ]
     },
     { field: 'permissions.effective', name: 'effectivePermissions', transform: permissionsModel },

@@ -18,7 +18,7 @@
  */
 import { eventModel } from './event.model.js';
 
-export let userActivityModel = [
+export const userActivityModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@upto', name: 'upTo' },
     { field: '@since', name: 'since' },
