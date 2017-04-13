@@ -1,0 +1,24 @@
+{
+    "@id": "6d3a28c8-0817-11e7-8868-650cdd2a5944",
+    "@datetime": "Mon, 13 Mar 2017 18:03:56 GMT",
+    "@type": "page:create",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "create-reason": "new-content",
+    "diff": {
+        "@isreparsing": "false",
+        "added": "0",
+        "attributes": "0",
+        "removed": "0",
+        "structural": "0"
+    },
+    "page": {
+        "@id": "371",
+        "@revision": "0",
+        "path": "Category_2/Guide_2/New_Page_From_LINK_PICKER"
+    },
+    "request": {
+        "@id": "6d3a28c8-0817-11e7-8868-9b2a3c7f56e4"
+    }
+}
