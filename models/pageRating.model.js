@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export let pageRatingModel = [
+export const pageRatingModel = [
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@seated.count', name: 'seatedCount', transform: 'number' },

@@ -1,0 +1,79 @@
+{
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330/security",
+    "grants": {
+        "grant": {
+            "date.modified": "Thu, 13 Apr 2017 17:46:21 GMT",
+            "permissions": {
+                "operations": {
+                    "@mask": "116031",
+                    "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+                },
+                "role": {
+                    "@id": "4",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/4",
+                    "#text": "Manager"
+                }
+            },
+            "user": {
+                "@anonymous": "false",
+                "@id": "3",
+                "@wikiid": "site_18",
+                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/3",
+                "date.created": "Mon, 23 Jan 2017 17:40:47 GMT",
+                "date.lastlogin": "Tue, 21 Feb 2017 22:51:08 GMT",
+                "email": "editor@example.com",
+                "fullname": "Mr. Editor",
+                "hash.email": "3ec564d1f50ebaa304b1393eb7241f76",
+                "license.seat": "true",
+                "nick": "editor",
+                "password": {
+                    "@exists": "true"
+                },
+                "status": "active",
+                "uri.avatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "uri.gravatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+                "username": "editor"
+            },
+            "user.modifiedby": {
+                "@anonymous": "false",
+                "@id": "1",
+                "@wikiid": "site_18",
+                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+                "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+                "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+                "email": "aaronm@mindtouch.com",
+                "fullname": "",
+                "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+                "license.seat": {
+                    "@owner": "true",
+                    "#text": "true"
+                },
+                "nick": "admin",
+                "password": {
+                    "@exists": "true"
+                },
+                "status": "active",
+                "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                "username": "admin"
+            }
+        }
+    },
+    "permissions.effective": {
+        "operations": {
+            "@mask": "18446744073709551615",
+            "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+        }
+    },
+    "permissions.page": {
+        "operations": {
+            "@mask": "15",
+            "#text": "LOGIN,BROWSE,READ,SUBSCRIBE"
+        },
+        "restriction": {
+            "@id": "2",
+            "#text": "Semi-Public"
+        }
+    },
+    "permissions.revoked": ""
+}

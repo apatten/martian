@@ -1,0 +1,18 @@
+{
+    "@score": "0",
+    "@count": "1",
+    "@date": "Tue, 31 Jan 2017 22:01:04 GMT",
+    "@seated.score": "0",
+    "@seated.count": "1",
+    "@unseated.score": "0",
+    "@unseated.count": "0",
+    "@anonymous.score": "0",
+    "@anonymous.count": "0",
+    "user.ratedby": {
+        "@id": "1",
+        "@score": "0",
+        "@date": "Tue, 31 Jan 2017 21:51:20 GMT",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+        "@seated": "true"
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/ratings",
+    "@count": "2",
+    "page": [
+        {
+            "@id": "301",
+            "@guid": "a2c1df7722dc4ac396c24ba03d8ba4bb",
+            "@draft.state": "active",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/301?redirects=0",
+            "@deleted": "false",
+            "date.created": "Wed, 21 Dec 2016 15:45:39 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Category_1/Guide_1/Topic_One"
+            },
+            "rating": {
+                "@score": "0",
+                "@count": "1",
+                "@date": "Tue, 31 Jan 2017 22:01:04 GMT",
+                "@seated.score": "0",
+                "@seated.count": "1",
+                "@unseated.score": "0",
+                "@unseated.count": "0",
+                "@anonymous.score": "0",
+                "@anonymous.count": "0",
+                "user.ratedby": {
+                    "@id": "1",
+                    "@score": "0",
+                    "@date": "Tue, 31 Jan 2017 21:51:20 GMT",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+                    "@seated": "true"
+                }
+            },
+            "title": "Topic One",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Topic_One"
+        },
+        {
+            "@id": "330",
+            "@guid": "bdd003b79b864c2594b1319264341072",
+            "@draft.state": "inactive",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330?redirects=0",
+            "@deleted": "false",
+            "date.created": "Wed, 11 Jan 2017 22:38:45 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Category_2/Guide_2/Topic_2.2"
+            },
+            "rating": {
+                "@score": "0",
+                "@count": "1",
+                "@date": "Mon, 23 Jan 2017 17:49:10 GMT",
+                "@seated.score": "0",
+                "@seated.count": "1",
+                "@unseated.score": "0",
+                "@unseated.count": "0",
+                "@anonymous.score": "0",
+                "@anonymous.count": "0",
+                "user.ratedby": {
+                    "@id": "1",
+                    "@score": "0",
+                    "@date": "Mon, 23 Jan 2017 17:49:09 GMT",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+                    "@seated": "true"
+                }
+            },
+            "title": "Topic 2.2",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+        }
+    ]
+}

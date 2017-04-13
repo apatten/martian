@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { groupModel } from './group.model.js';
+
 export const groupListModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@querycount', name: 'queryCount', transform: 'number' },

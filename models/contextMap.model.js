@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
+
 export const contextMapModel = [
     { field: '@default', name: 'default', transform: 'boolean' },
     { field: '@exists', name: 'exists', transform: 'boolean' },
