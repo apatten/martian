@@ -1,0 +1,21 @@
+{
+    "@id": "97e2689a-2097-11e7-9aa8-25f001a0b8a2",
+    "@datetime": "Thu, 13 Apr 2017 22:21:51 GMT",
+    "@type": "page:reorder",
+    "@language": "en-US",
+    "@journaled": "false",
+    "@version": "3",
+    "afternode.page": {
+        "@id": "449",
+        "@revision": "0",
+        "path": "Acme_Jetpack_User_Guide"
+    },
+    "page": {
+        "@id": "298",
+        "@revision": "0",
+        "path": "Category_1"
+    },
+    "request": {
+        "@id": "97e2689a-2097-11e7-9aa8-5a5794c2ebda"
+    }
+}

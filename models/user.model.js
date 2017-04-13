@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { permissionsModel } from './permissions.model.js';
 import { groupModel } from './group.model.js';
 
@@ -35,7 +34,6 @@ export const userModel = [
     { field: [ 'password', '@exists' ], name: 'passwordExists', transform: 'boolean' },
     { field: 'status' },
     { field: 'username' },
-    { field: 'name' },
     { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel },
     { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
 ];

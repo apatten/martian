@@ -1,0 +1,1094 @@
+{
+    "@count": "31",
+    "@upto": "f3a6146c-2090-11e7-ac54-e148ffffffff",
+    "@since": "6bfb50d6-156e-11e7-9690-1d9f3e000000",
+    "summary": [
+        {
+            "@id": "4e94613a-2082-11e7-baa1-1916d0010000",
+            "@datetime": "Thu, 13 Apr 2017 19:49:29 GMT",
+            "@count": "1",
+            "@detailid": "d4a6a05a-9b9d-cb92-ac05-e763bb4f8e21",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/d4a6a05a-9b9d-cb92-ac05-e763bb4f8e21",
+            "event": {
+                "@id": "4e94613a-2082-11e7-baa1-2409ba2f67f2",
+                "@datetime": "Thu, 13 Apr 2017 19:49:29 GMT",
+                "@type": "draft:publish",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "6232",
+                    "attributes": "3",
+                    "removed": "147",
+                    "structural": "182"
+                },
+                "page": {
+                    "@id": "464",
+                    "@revision": "0",
+                    "path": "Acme_Jetpack_User_Guide/005_-_Safety_Features"
+                },
+                "request": {
+                    "@id": "4e94613a-2082-11e7-baa1-e7fb10741916"
+                }
+            },
+            "page": {
+                "@id": "464"
+            }
+        },
+        {
+            "@id": "1df1afac-207c-11e7-acef-e59d73010000",
+            "@datetime": "Thu, 13 Apr 2017 19:05:10 GMT",
+            "@count": "2",
+            "@detailid": "1de4ea7b-1286-b693-3f66-0005fc9b990b",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/1de4ea7b-1286-b693-3f66-0005fc9b990b",
+            "event": {
+                "@id": "1df1afac-207c-11e7-acef-933e67172ac1",
+                "@datetime": "Thu, 13 Apr 2017 19:05:10 GMT",
+                "@type": "page.grant:create",
+                "@language": "en-US",
+                "@journaled": "false",
+                "@version": "3",
+                "@cascading": "false",
+                "grant": {
+                    "id": "0",
+                    "role": {
+                        "@id": "5"
+                    },
+                    "type": "USER",
+                    "user": {
+                        "@id": "7"
+                    }
+                },
+                "page": {
+                    "@id": "371",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/New_Page_From_LINK_PICKER"
+                },
+                "request": {
+                    "@id": "1df1afac-207c-11e7-acef-9d3ebe5fe59d"
+                },
+                "root.page": {
+                    "@id": "371",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/New_Page_From_LINK_PICKER"
+                }
+            },
+            "page": {
+                "@id": "371"
+            }
+        },
+        {
+            "@id": "44889112-2072-11e7-92d1-95994a010000",
+            "@datetime": "Thu, 13 Apr 2017 17:54:40 GMT",
+            "@count": "2",
+            "@detailid": "7b087e21-973b-fa4e-3a50-363c1042ad62",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/7b087e21-973b-fa4e-3a50-363c1042ad62",
+            "event": {
+                "@id": "44889112-2072-11e7-92d1-564c8956d422",
+                "@datetime": "Thu, 13 Apr 2017 17:54:40 GMT",
+                "@type": "page.grant:create",
+                "@language": "en-US",
+                "@journaled": "false",
+                "@version": "3",
+                "@cascading": "false",
+                "grant": {
+                    "group": {
+                        "@id": "17"
+                    },
+                    "id": "0",
+                    "role": {
+                        "@id": "2"
+                    },
+                    "type": "GROUP"
+                },
+                "page": {
+                    "@id": "330",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/Topic_2.2"
+                },
+                "request": {
+                    "@id": "44889112-2072-11e7-92d1-052f801e9599"
+                },
+                "root.page": {
+                    "@id": "330",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/Topic_2.2"
+                }
+            },
+            "page": {
+                "@id": "330"
+            }
+        },
+        {
+            "@id": "1363b2da-1fd0-11e7-9af2-fbac2d010000",
+            "@datetime": "Wed, 12 Apr 2017 22:33:39 GMT",
+            "@count": "1",
+            "@detailid": "2e3bfdeb-dd62-3f19-2453-04f6e58c89aa",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/2e3bfdeb-dd62-3f19-2453-04f6e58c89aa",
+            "event": {
+                "@id": "1363b2da-1fd0-11e7-9af2-00e9ead2843a",
+                "@datetime": "Wed, 12 Apr 2017 22:33:39 GMT",
+                "@type": "page:move",
+                "@language": "en-US",
+                "@journaled": "false",
+                "@version": "3",
+                "@cascading": "true",
+                "page": {
+                    "@id": "301",
+                    "@revision": "0",
+                    "path": "Category_1/Guide_1/Topic_One"
+                },
+                "request": {
+                    "@id": "1363b2da-1fd0-11e7-9af2-aa3b1790fbac"
+                },
+                "root.page": {
+                    "@id": "301",
+                    "@revision": "0",
+                    "path": "Category_1/Guide_1/Topic_1"
+                },
+                "source.page": {
+                    "@id": "301",
+                    "@revision": "0",
+                    "path": "Category_1/Guide_1/Topic_1"
+                }
+            },
+            "page": {
+                "@id": "301"
+            }
+        },
+        {
+            "@id": "f2c718f2-1fcd-11e7-b258-047a42010000",
+            "@datetime": "Wed, 12 Apr 2017 22:18:25 GMT",
+            "@count": "5",
+            "@detailid": "0340db5b-b699-0e25-554d-c5c2b26b0f96",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/0340db5b-b699-0e25-554d-c5c2b26b0f96",
+            "event": {
+                "@id": "f2c718f2-1fcd-11e7-b258-86b845a73659",
+                "@datetime": "Wed, 12 Apr 2017 22:18:25 GMT",
+                "@type": "draft:publish",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "1",
+                    "attributes": "2",
+                    "removed": "0",
+                    "structural": "4"
+                },
+                "page": {
+                    "@id": "322",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/Topic_2.3"
+                },
+                "request": {
+                    "@id": "f2c718f2-1fcd-11e7-b258-fb0bd88e047a"
+                }
+            },
+            "page": {
+                "@id": "322"
+            }
+        },
+        {
+            "@id": "55193494-1fc5-11e7-9474-955061010000",
+            "@datetime": "Wed, 12 Apr 2017 21:16:45 GMT",
+            "@count": "1",
+            "@detailid": "8319bb40-56a7-2cb1-1b30-d1671aeb4557",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/8319bb40-56a7-2cb1-1b30-d1671aeb4557",
+            "event": {
+                "@id": "55193494-1fc5-11e7-9474-fb713fc817a2",
+                "@datetime": "Wed, 12 Apr 2017 21:16:45 GMT",
+                "@type": "page:delete",
+                "@language": "en-US",
+                "@journaled": "false",
+                "@version": "3",
+                "@cascading": "true",
+                "page": {
+                    "@id": "353",
+                    "@revision": "0",
+                    "path": "Category_3"
+                },
+                "request": {
+                    "@id": "55193494-1fc5-11e7-9474-b674569f9550"
+                },
+                "root.page": {
+                    "@id": "353",
+                    "@revision": "0",
+                    "path": "Category_3"
+                }
+            },
+            "page": {
+                "@id": "353"
+            }
+        },
+        {
+            "@id": "d1addcba-1fc2-11e7-ba1c-8f535f010000",
+            "@datetime": "Wed, 12 Apr 2017 20:58:46 GMT",
+            "@count": "9",
+            "@detailid": "067ba9f2-0653-5239-853b-c2b142126e95",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/067ba9f2-0653-5239-853b-c2b142126e95",
+            "event": {
+                "@id": "d1addcba-1fc2-11e7-ba1c-35e91297d505",
+                "@datetime": "Wed, 12 Apr 2017 20:58:46 GMT",
+                "@type": "draft:publish",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "24",
+                    "attributes": "0",
+                    "removed": "10",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "351",
+                    "@revision": "0",
+                    "path": "Category_2/Page_Title"
+                },
+                "request": {
+                    "@id": "d1addcba-1fc2-11e7-ba1c-c75b412b8f53"
+                }
+            },
+            "page": {
+                "@id": "351"
+            }
+        },
+        {
+            "@id": "394a2b9e-1956-11e7-9e6b-684261010000",
+            "@datetime": "Tue, 04 Apr 2017 16:46:17 GMT",
+            "@count": "1",
+            "@detailid": "f737981d-8801-80fa-f77d-65e3a587850f",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/f737981d-8801-80fa-f77d-65e3a587850f",
+            "event": {
+                "@id": "394a2b9e-1956-11e7-9e6b-c0e5262947ea",
+                "@datetime": "Tue, 04 Apr 2017 16:46:17 GMT",
+                "@type": "page:reorder",
+                "@language": "en-US",
+                "@journaled": "false",
+                "@version": "3",
+                "afternode.page": {
+                    "@id": "449",
+                    "@revision": "0",
+                    "path": "Acme_Jetpack_User_Guide"
+                },
+                "page": {
+                    "@id": "353",
+                    "@revision": "0",
+                    "path": "Category_3"
+                },
+                "request": {
+                    "@id": "394a2b9e-1956-11e7-9e6b-338f6f476842"
+                }
+            },
+            "page": {
+                "@id": "353"
+            }
+        },
+        {
+            "@id": "53a764f0-18ae-11e7-b0a4-e170a2000000",
+            "@datetime": "Mon, 03 Apr 2017 20:44:26 GMT",
+            "@count": "2",
+            "@detailid": "576bd018-143d-e2c6-592c-91f9d9c6785c",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/576bd018-143d-e2c6-592c-91f9d9c6785c",
+            "event": {
+                "@id": "53a764f0-18ae-11e7-b0a4-c3dd456cbed4",
+                "@datetime": "Mon, 03 Apr 2017 20:44:26 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "0",
+                    "attributes": "0",
+                    "removed": "187",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "162",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/ContentID/Definitions"
+                },
+                "request": {
+                    "@id": "53a764f0-18ae-11e7-b0a4-bb6b0847e170"
+                },
+                "revision": "5"
+            },
+            "page": {
+                "@id": "162"
+            }
+        },
+        {
+            "@id": "538cd630-18ae-11e7-b016-4d8aa1000000",
+            "@datetime": "Mon, 03 Apr 2017 20:44:26 GMT",
+            "@count": "1",
+            "@detailid": "9a7bf03a-ba48-ffaf-b3e4-4b64aec72493",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/9a7bf03a-ba48-ffaf-b3e4-4b64aec72493",
+            "event": {
+                "@id": "538cd630-18ae-11e7-b016-46a0ea3e47be",
+                "@datetime": "Mon, 03 Apr 2017 20:44:26 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "45",
+                    "attributes": "0",
+                    "removed": "5",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "161",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/ContentID/Associations"
+                },
+                "request": {
+                    "@id": "538cd630-18ae-11e7-b016-f70962b64d8a"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "161"
+            }
+        },
+        {
+            "@id": "09885208-188b-11e7-8892-f100b3000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:49 GMT",
+            "@count": "1",
+            "@detailid": "619eace6-a043-25b5-d007-0d928feab53f",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/619eace6-a043-25b5-d007-0d928feab53f",
+            "event": {
+                "@id": "09885208-188b-11e7-8892-dabb6a892a3c",
+                "@datetime": "Mon, 03 Apr 2017 16:31:49 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "578",
+                    "attributes": "1",
+                    "removed": "150",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "179",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/SearchResults"
+                },
+                "request": {
+                    "@id": "09885208-188b-11e7-8892-3ae5967ff100"
+                },
+                "revision": "4"
+            },
+            "page": {
+                "@id": "179"
+            }
+        },
+        {
+            "@id": "09628974-188b-11e7-b4c9-25e9b2000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:49 GMT",
+            "@count": "1",
+            "@detailid": "9d493c06-50e5-b71c-d4d1-6fdcd0971045",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/9d493c06-50e5-b71c-d4d1-6fdcd0971045",
+            "event": {
+                "@id": "09628974-188b-11e7-b4c9-b5ff4f7458bd",
+                "@datetime": "Mon, 03 Apr 2017 16:31:49 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "477",
+                    "attributes": "1",
+                    "removed": "265",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "178",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/SearchFilter"
+                },
+                "request": {
+                    "@id": "09628974-188b-11e7-b4c9-ee76e19025e9"
+                },
+                "revision": "4"
+            },
+            "page": {
+                "@id": "178"
+            }
+        },
+        {
+            "@id": "072b9ccc-188b-11e7-8cdc-e45f9d000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:45 GMT",
+            "@count": "1",
+            "@detailid": "cd16f0b6-0551-915e-f89d-9aad64fd330c",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/cd16f0b6-0551-915e-f89d-9aad64fd330c",
+            "event": {
+                "@id": "072b9ccc-188b-11e7-8cdc-7a66cac0ba19",
+                "@datetime": "Mon, 03 Apr 2017 16:31:45 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "16",
+                    "attributes": "0",
+                    "removed": "19",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "157",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/AdvancedSearchForm"
+                },
+                "request": {
+                    "@id": "072b9ccc-188b-11e7-8cdc-b638b918e45f"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "157"
+            }
+        },
+        {
+            "@id": "02fa6138-188b-11e7-b8a1-0c4474000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:38 GMT",
+            "@count": "1",
+            "@detailid": "e3d5faad-7a09-5127-cfd7-e73c04d041e8",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/e3d5faad-7a09-5127-cfd7-e73c04d041e8",
+            "event": {
+                "@id": "02fa6138-188b-11e7-b8a1-9f898d0dcf05",
+                "@datetime": "Mon, 03 Apr 2017 16:31:38 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "2",
+                    "attributes": "0",
+                    "removed": "11",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "116",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/SearchResultList"
+                },
+                "request": {
+                    "@id": "02fa6138-188b-11e7-b8a1-e69f36260c44"
+                },
+                "revision": "4"
+            },
+            "page": {
+                "@id": "116"
+            }
+        },
+        {
+            "@id": "02a86216-188b-11e7-96a2-bfcf71000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:38 GMT",
+            "@count": "1",
+            "@detailid": "c85c9624-5701-d41b-73d1-b11f1376b948",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/c85c9624-5701-d41b-73d1-b11f1376b948",
+            "event": {
+                "@id": "02a86216-188b-11e7-96a2-00b75ef99d99",
+                "@datetime": "Mon, 03 Apr 2017 16:31:38 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "514",
+                    "attributes": "1",
+                    "removed": "75",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "113",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/PrintCartWidget"
+                },
+                "request": {
+                    "@id": "02a86216-188b-11e7-96a2-dca6e605bfcf"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "113"
+            }
+        },
+        {
+            "@id": "018528e2-188b-11e7-a268-cd7c66000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:36 GMT",
+            "@count": "1",
+            "@detailid": "e6af7b45-d237-d984-4363-df201373bc80",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/e6af7b45-d237-d984-4363-df201373bc80",
+            "event": {
+                "@id": "018528e2-188b-11e7-a268-b13e9aff0485",
+                "@datetime": "Mon, 03 Apr 2017 16:31:36 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "279",
+                    "attributes": "1",
+                    "removed": "43",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "102",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/InteractiveMap"
+                },
+                "request": {
+                    "@id": "018528e2-188b-11e7-a268-b4c86eaecd7c"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "102"
+            }
+        },
+        {
+            "@id": "00e74e24-188b-11e7-a48e-947760000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:35 GMT",
+            "@count": "1",
+            "@detailid": "52fde71f-bdfa-e705-e2d2-a59d981eafd4",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/52fde71f-bdfa-e705-e2d2-a59d981eafd4",
+            "event": {
+                "@id": "00e74e24-188b-11e7-a48e-93b228315111",
+                "@datetime": "Mon, 03 Apr 2017 16:31:35 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "295",
+                    "attributes": "1",
+                    "removed": "92",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "96",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/FeedbackForm"
+                },
+                "request": {
+                    "@id": "00e74e24-188b-11e7-a48e-2186389a9477"
+                },
+                "revision": "10"
+            },
+            "page": {
+                "@id": "96"
+            }
+        },
+        {
+            "@id": "fd37bb56-188a-11e7-96fb-37db3f000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:29 GMT",
+            "@count": "1",
+            "@detailid": "b962ca48-6b85-a2ed-d2ad-df5c65b35733",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/b962ca48-6b85-a2ed-d2ad-df5c65b35733",
+            "event": {
+                "@id": "fd37bb56-188a-11e7-96fb-765b5a0dcbb1",
+                "@datetime": "Mon, 03 Apr 2017 16:31:29 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "11",
+                    "attributes": "0",
+                    "removed": "44",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "63",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/CommentTemplate"
+                },
+                "request": {
+                    "@id": "fd37bb56-188a-11e7-96fb-88db912d37db"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "63"
+            }
+        },
+        {
+            "@id": "fcd8738a-188a-11e7-8ab3-907a3e000000",
+            "@datetime": "Mon, 03 Apr 2017 16:31:28 GMT",
+            "@count": "1",
+            "@detailid": "1bc37f37-ee54-6611-4f4b-e892773b2d2d",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/1bc37f37-ee54-6611-4f4b-e892773b2d2d",
+            "event": {
+                "@id": "fcd8738a-188a-11e7-8ab3-2366f34b0ee1",
+                "@datetime": "Mon, 03 Apr 2017 16:31:28 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "1643",
+                    "attributes": "1",
+                    "removed": "181",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "62",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/CommentForm"
+                },
+                "request": {
+                    "@id": "fcd8738a-188a-11e7-8ab3-cf5a361d907a"
+                },
+                "revision": "5"
+            },
+            "page": {
+                "@id": "62"
+            }
+        },
+        {
+            "@id": "2427d2e8-1884-11e7-a812-b7b642010000",
+            "@datetime": "Mon, 03 Apr 2017 15:42:27 GMT",
+            "@count": "2",
+            "@detailid": "593e8bd9-41ec-6e73-1f9d-b37addcfc400",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/593e8bd9-41ec-6e73-1f9d-b37addcfc400",
+            "event": {
+                "@id": "2427d2e8-1884-11e7-a812-cb75b711b819",
+                "@datetime": "Mon, 03 Apr 2017 15:42:27 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "4",
+                    "attributes": "0",
+                    "removed": "0",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "322",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/Topic_2.3"
+                },
+                "request": {
+                    "@id": "2427d2e8-1884-11e7-a812-25554e9db7b6"
+                },
+                "revision": "14"
+            },
+            "page": {
+                "@id": "322"
+            }
+        },
+        {
+            "@id": "0bfe7960-1884-11e7-a0b9-55ebdf010000",
+            "@datetime": "Mon, 03 Apr 2017 15:41:47 GMT",
+            "@count": "1",
+            "@detailid": "3322d46e-e9ba-3409-cf02-3229d6252b4c",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/3322d46e-e9ba-3409-cf02-3229d6252b4c",
+            "event": {
+                "@id": "0bfe7960-1884-11e7-a0b9-50edfcbeaf4a",
+                "@datetime": "Mon, 03 Apr 2017 15:41:47 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "1",
+                    "attributes": "0",
+                    "removed": "1",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "479",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/JsonResources"
+                },
+                "request": {
+                    "@id": "0bfe7960-1884-11e7-a0b9-bd3cbca055eb"
+                },
+                "revision": "4"
+            },
+            "page": {
+                "@id": "479"
+            }
+        },
+        {
+            "@id": "f224bf74-1665-11e7-b4ff-01a342010000",
+            "@datetime": "Fri, 31 Mar 2017 23:01:16 GMT",
+            "@count": "9",
+            "@detailid": "e4cb678b-206c-a1b8-f9ac-0e9bcfbd024d",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/e4cb678b-206c-a1b8-f9ac-0e9bcfbd024d",
+            "event": {
+                "@id": "f224bf74-1665-11e7-b4ff-25386c49bcbc",
+                "@datetime": "Fri, 31 Mar 2017 23:01:16 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "1",
+                    "attributes": "0",
+                    "removed": "1",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "322",
+                    "@revision": "0",
+                    "path": "Category_2/Guide_2/Topic_2.3"
+                },
+                "request": {
+                    "@id": "f224bf74-1665-11e7-b4ff-d844060d01a3"
+                },
+                "revision": "12"
+            },
+            "page": {
+                "@id": "322"
+            }
+        },
+        {
+            "@id": "9e239b98-1665-11e7-98db-e81fdf010000",
+            "@datetime": "Fri, 31 Mar 2017 22:58:55 GMT",
+            "@count": "3",
+            "@detailid": "09279d1e-0bf0-a376-d262-1250c6a7a709",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/09279d1e-0bf0-a376-d262-1250c6a7a709",
+            "event": {
+                "@id": "9e239b98-1665-11e7-98db-b1b27b3d58ab",
+                "@datetime": "Fri, 31 Mar 2017 22:58:55 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "16",
+                    "attributes": "0",
+                    "removed": "3",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "479",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/JsonResources"
+                },
+                "request": {
+                    "@id": "9e239b98-1665-11e7-98db-eab14b4de81f"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "479"
+            }
+        },
+        {
+            "@id": "3c1c59ce-1662-11e7-8e99-c4ebb3000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:42 GMT",
+            "@count": "1",
+            "@detailid": "c4050acf-fb56-89d0-c6eb-ba770705e488",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/c4050acf-fb56-89d0-c6eb-ba770705e488",
+            "event": {
+                "@id": "3c1c59ce-1662-11e7-8e99-c1e3300c8d22",
+                "@datetime": "Fri, 31 Mar 2017 22:34:42 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "1",
+                    "attributes": "0",
+                    "removed": "1",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "179",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/SearchResults"
+                },
+                "request": {
+                    "@id": "3c1c59ce-1662-11e7-8e99-2b9222eac4eb"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "179"
+            }
+        },
+        {
+            "@id": "3c012578-1662-11e7-b865-1287b2000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:42 GMT",
+            "@count": "1",
+            "@detailid": "28133492-f680-229d-34be-bbd14a7e4437",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/28133492-f680-229d-34be-bbd14a7e4437",
+            "event": {
+                "@id": "3c012578-1662-11e7-b865-dffd15930e84",
+                "@datetime": "Fri, 31 Mar 2017 22:34:42 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "212",
+                    "attributes": "1",
+                    "removed": "455",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "178",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Views/SearchFilter"
+                },
+                "request": {
+                    "@id": "3c012578-1662-11e7-b865-e2539d7e1287"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "178"
+            }
+        },
+        {
+            "@id": "3790e0dc-1662-11e7-9c20-eb1871000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:35 GMT",
+            "@count": "1",
+            "@detailid": "5a99a4d9-64fe-f439-0a47-479ff55ef772",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/5a99a4d9-64fe-f439-0a47-479ff55ef772",
+            "event": {
+                "@id": "3790e0dc-1662-11e7-9c20-b2a974c69372",
+                "@datetime": "Fri, 31 Mar 2017 22:34:35 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "75",
+                    "attributes": "1",
+                    "removed": "514",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "113",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/PrintCartWidget"
+                },
+                "request": {
+                    "@id": "3790e0dc-1662-11e7-9c20-bdcc19cdeb18"
+                },
+                "revision": "2"
+            },
+            "page": {
+                "@id": "113"
+            }
+        },
+        {
+            "@id": "36dbc5ee-1662-11e7-ae05-e1ac66000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:34 GMT",
+            "@count": "1",
+            "@detailid": "fd2a232b-5c14-a1dd-9b03-5ea8ddf986c7",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/fd2a232b-5c14-a1dd-9b03-5ea8ddf986c7",
+            "event": {
+                "@id": "36dbc5ee-1662-11e7-ae05-b2acc38a1993",
+                "@datetime": "Fri, 31 Mar 2017 22:34:34 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "43",
+                    "attributes": "1",
+                    "removed": "279",
+                    "structural": "2"
+                },
+                "page": {
+                    "@id": "102",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/InteractiveMap"
+                },
+                "request": {
+                    "@id": "36dbc5ee-1662-11e7-ae05-9491d872e1ac"
+                },
+                "revision": "2"
+            },
+            "page": {
+                "@id": "102"
+            }
+        },
+        {
+            "@id": "344bc388-1662-11e7-8803-62633f000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:29 GMT",
+            "@count": "1",
+            "@detailid": "aae0472b-4f21-e5aa-53df-fb599b1b0943",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/aae0472b-4f21-e5aa-53df-fb599b1b0943",
+            "event": {
+                "@id": "344bc388-1662-11e7-8803-9c328e5a0cb3",
+                "@datetime": "Fri, 31 Mar 2017 22:34:29 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "44",
+                    "attributes": "0",
+                    "removed": "11",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "63",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/CommentTemplate"
+                },
+                "request": {
+                    "@id": "344bc388-1662-11e7-8803-4d39c02b6263"
+                },
+                "revision": "2"
+            },
+            "page": {
+                "@id": "63"
+            }
+        },
+        {
+            "@id": "34311812-1662-11e7-9258-62c03e000000",
+            "@datetime": "Fri, 31 Mar 2017 22:34:29 GMT",
+            "@count": "1",
+            "@detailid": "be5b5fb2-b77d-9af1-1d1a-e0132b277c04",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/be5b5fb2-b77d-9af1-1d1a-e0132b277c04",
+            "event": {
+                "@id": "34311812-1662-11e7-9258-2ea50f9aac15",
+                "@datetime": "Fri, 31 Mar 2017 22:34:29 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "159",
+                    "attributes": "0",
+                    "removed": "426",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "62",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/CommentForm"
+                },
+                "request": {
+                    "@id": "34311812-1662-11e7-9258-7d6fff2b62c0"
+                },
+                "revision": "4"
+            },
+            "page": {
+                "@id": "62"
+            }
+        },
+        {
+            "@id": "3200c610-1661-11e7-9006-32d2de010000",
+            "@datetime": "Fri, 31 Mar 2017 22:27:16 GMT",
+            "@count": "1",
+            "@detailid": "fbb8c1e7-6560-8c19-274f-fa3dd4546ebf",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/fbb8c1e7-6560-8c19-274f-fa3dd4546ebf",
+            "event": {
+                "@id": "3200c610-1661-11e7-9006-6b7e942f29e1",
+                "@datetime": "Fri, 31 Mar 2017 22:27:16 GMT",
+                "@type": "page:create",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "create-reason": "new-content",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "0",
+                    "attributes": "0",
+                    "removed": "0",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "478",
+                    "@revision": "0",
+                    "path": "Special:SiteAnalysis/LinkManager"
+                },
+                "request": {
+                    "@id": "3200c610-1661-11e7-9006-6486ac5932d2"
+                }
+            },
+            "page": {
+                "@id": "478"
+            }
+        },
+        {
+            "@id": "6bfb50d6-156e-11e7-9690-1d9f3e000000",
+            "@datetime": "Thu, 30 Mar 2017 17:29:26 GMT",
+            "@count": "2",
+            "@detailid": "dea5fe37-25ea-0db7-2c00-a395ba3ca684",
+            "@uri.detail": "https://aaronm-elm.mindtouch.be/@api/deki/events/user-page/1/dea5fe37-25ea-0db7-2c00-a395ba3ca684",
+            "event": {
+                "@id": "6bfb50d6-156e-11e7-9690-a78ca4cde357",
+                "@datetime": "Thu, 30 Mar 2017 17:29:26 GMT",
+                "@type": "page.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "48",
+                    "attributes": "0",
+                    "removed": "6",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "62",
+                    "@revision": "0",
+                    "path": "Template:MindTouch/Controls/CommentForm"
+                },
+                "request": {
+                    "@id": "6bfb50d6-156e-11e7-9690-8e4233ce1d9f"
+                },
+                "revision": "3"
+            },
+            "page": {
+                "@id": "62"
+            }
+        }
+    ]
+}

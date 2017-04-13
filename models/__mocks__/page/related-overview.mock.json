@@ -1,0 +1,18 @@
+{
+    "@id": "318",
+    "@guid": "05e9210cdd1c489086832e63d6f4d9e6",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/318?redirects=0",
+    "@deleted": "false",
+    "article": "topic-guide",
+    "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "overview": "",
+    "path": {
+        "@seo": "true",
+        "#text": "Category_2/Guide_2"
+    },
+    "title": "Guide 2",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2"
+}
