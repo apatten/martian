@@ -17,7 +17,8 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let subpagesModel = [
+
+export const subpagesModel = [
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },

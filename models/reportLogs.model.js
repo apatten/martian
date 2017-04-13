@@ -23,9 +23,9 @@ export const reportLogsModel = [
         isArray: true,
         transform: [
             { field: '@complete', name: 'complete', transform: 'boolean' },
-            { field: 'modified', name: 'modified', transform: 'date' },
-            { field: 'month', name: 'month', transform: 'date' },
-            { field: 'name', name: 'name' }
+            { field: 'modified', transform: 'date' },
+            { field: 'month' },
+            { field: 'name' }
         ]
     }
 ];

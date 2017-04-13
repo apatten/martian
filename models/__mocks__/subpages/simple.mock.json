@@ -1,0 +1,119 @@
+{
+  "@totalcount": "6",
+  "@count": "6",
+  "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/344/subpages",
+  "page.subpage": [
+    {
+      "@id": "345",
+      "@guid": "bdec57111ae348739b2c885aaa62294b",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/345?redirects=0",
+      "@deleted": "false",
+      "@terminal": "false",
+      "@subpages": "false",
+      "date.created": "Tue, 20 Oct 2015 20:02:05 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Attachments"
+      },
+      "title": "Attachments",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Attachments"
+    },
+    {
+      "@id": "346",
+      "@guid": "7fa8cbb63ee841e7b82c1eb9c353c6dd",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/346?redirects=0",
+      "@deleted": "false",
+      "@terminal": "false",
+      "@subpages": "true",
+      "article": "topic-portfolio",
+      "date.created": "Tue, 20 Oct 2015 20:02:09 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Filtered_Result_Page"
+      },
+      "title": "Filtered Result Page",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Filtered_Result_Page"
+    },
+    {
+      "@id": "349",
+      "@guid": "a47022f9ba3742d9a543d55e120b78e8",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/349?redirects=0",
+      "@deleted": "false",
+      "@terminal": "false",
+      "@subpages": "true",
+      "article": "topic-category",
+      "date.created": "Tue, 20 Oct 2015 20:02:10 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Permission_Pages"
+      },
+      "title": "Permission Pages",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Permission_Pages"
+    },
+    {
+      "@id": "366",
+      "@guid": "51e6cc428833429d9712db06dbd6abcd",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/366?redirects=0",
+      "@deleted": "false",
+      "@terminal": "false",
+      "@subpages": "true",
+      "article": "topic-category",
+      "date.created": "Tue, 20 Oct 2015 20:02:24 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Recommended_Results"
+      },
+      "title": "Recommended Results",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Recommended_Results"
+    },
+    {
+      "@id": "382",
+      "@guid": "7bb9ccf617714873b60b70dd11bc11ac",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/382?redirects=0",
+      "@deleted": "false",
+      "@terminal": "false",
+      "@subpages": "true",
+      "article": "topic-category",
+      "date.created": "Tue, 20 Oct 2015 20:02:53 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Stemming//Whitespace//Stop_Words"
+      },
+      "title": "Stemming/Whitespace/Stop Words",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Stemming%2F%2FWhitespace%2F%2FStop_Words"
+    },
+    {
+      "@id": "385",
+      "@guid": "e001a076111944cf8104c690dab2551a",
+      "@draft.state": "inactive",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/385?redirects=0",
+      "@deleted": "false",
+      "@terminal": "true",
+      "@subpages": "false",
+      "date.created": "Tue, 20 Oct 2015 20:02:53 GMT",
+      "language": "en-US",
+      "namespace": "main",
+      "path": {
+        "@seo": "true",
+        "#text": "Indexed/Tag_Search"
+      },
+      "title": "Tag Search",
+      "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Tag_Search"
+    }
+  ]
+}

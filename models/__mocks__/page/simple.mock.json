@@ -1,0 +1,17 @@
+{
+  "@id": "351",
+  "@guid": "3bcdc640e63147bc8846dd902a92d104",
+  "@draft.state": "inactive",
+  "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351?redirects=0",
+  "@deleted": "false",
+  "@revision": "3",
+  "date.created": "Fri, 24 Feb 2017 20:52:18 GMT",
+  "language": "en-US",
+  "namespace": "main",
+  "path": {
+    "@seo": "true",
+    "#text": "Category_2/Page_Title"
+  },
+  "title": "Page Title",
+  "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title"
+}

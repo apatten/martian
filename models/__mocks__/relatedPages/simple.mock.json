@@ -1,0 +1,73 @@
+{
+    "@count": "4",
+    "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/1/related",
+    "page": [
+        {
+            "@id": "286",
+            "@guid": "6ea3c81b5413490cbd6cb3986555fc40",
+            "@draft.state": "inactive",
+            "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/286?redirects=0",
+            "@deleted": "false",
+            "article": "topic-guide",
+            "date.created": "Mon, 05 Oct 2015 20:06:37 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Move"
+            },
+            "title": "Move",
+            "uri.ui": "https://jh-s-responsive.mindtouch.us/Move"
+        },
+        {
+            "@id": "291",
+            "@guid": "0d5cadbb15df40e2998ba7b909c2026e",
+            "@draft.state": "inactive",
+            "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/291?redirects=0",
+            "@deleted": "false",
+            "article": "topic-guide",
+            "date.created": "Mon, 19 Oct 2015 16:59:34 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "1"
+            },
+            "title": "1",
+            "uri.ui": "https://jh-s-responsive.mindtouch.us/1"
+        },
+        {
+            "@id": "293",
+            "@guid": "07341212482c4703b1da2507f7110d60",
+            "@draft.state": "active",
+            "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/293?redirects=0",
+            "@deleted": "false",
+            "date.created": "Mon, 19 Oct 2015 19:02:58 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "gnfdnfg"
+            },
+            "title": "gnfdnfg",
+            "uri.ui": "https://jh-s-responsive.mindtouch.us/gnfdnfg"
+        },
+        {
+            "@id": "301",
+            "@guid": "15b7b76f665642ee97dd44c218f5348c",
+            "@draft.state": "active",
+            "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/pages/301?redirects=0",
+            "@deleted": "false",
+            "article": "topic-guide",
+            "date.created": "Tue, 20 Oct 2015 20:00:18 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Contact_Support"
+            },
+            "title": "Contact Support",
+            "uri.ui": "https://jh-s-responsive.mindtouch.us/Contact_Support"
+        }
+    ]
+}

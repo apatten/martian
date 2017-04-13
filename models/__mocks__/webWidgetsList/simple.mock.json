@@ -1,0 +1,99 @@
+{
+  "@count": "4",
+  "web-widget": [
+    {
+      "@id": "17",
+      "@type": "user_activity",
+      "@date": "Mon, 30 Jan 2017 04:37:43 GMT",
+      "@active": "true",
+      "arguments": {
+        "height": "",
+        "input-hint": "",
+        "user-activity-id": "",
+        "width": ""
+      },
+      "code": {
+        "@id": "09910a12c1b139dd90c848dca3b2a4a83f1a8ea426b0f410756547ccb4f75cd7",
+        "@format": "base64",
+        "#text": "PCEtLSBCZWdpbiBjaTEgLS0+DQo8IS0tIEdlbmVyYXRlZCBvbiBbMS8zMC8yMDE3IDQ6Mzc6NDMgQU1dIGJ5IE1pbmRUb3VjaCB2LjE3LjIuMi40MCAtLT4NCjxzY3JpcHQgYXN5bmM9ImFzeW5jIiBzcmM9Imh0dHBzOi8vamgtcy1yZXNwb25zaXZlLm1pbmR0b3VjaC51cy9AZW1iZWQvMDk5MTBhMTJjMWIxMzlkZDkwYzg0OGRjYTNiMmE0YTgzZjFhOGVhNDI2YjBmNDEwNzU2NTQ3Y2NiNGY3NWNkNy5qcyI+PC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9Im1pbmR0b3VjaC9lbWJlZCIgaWQ9Im1pbmR0b3VjaC1lbWJlZC0wOTkxMGExMmMxYjEzOWRkOTBjODQ4ZGNhM2IyYTRhODNmMWE4ZWE0MjZiMGY0MTA3NTY1NDdjY2I0Zjc1Y2Q3Ij48L3NjcmlwdD4NCjwhLS0gRW5kIGNpMSAtLT4="
+      },
+      "host": "apps.zdusercontent.com",
+      "name": "ci1",
+      "token": "8704ce540fc7ea758c53cedd056d7f47a8f6b183ab576c0dcbc38b4867a4e41a"
+    },
+    {
+      "@id": "18",
+      "@type": "search",
+      "@date": "Mon, 30 Jan 2017 04:38:14 GMT",
+      "@active": "true",
+      "arguments": {
+        "faceting": "false",
+        "height": "",
+        "input-hint": "",
+        "path": "",
+        "recommendations": "true",
+        "search-query": "",
+        "width": ""
+      },
+      "code": {
+        "@id": "945c732b33f5dfa90ac2f687004f733e7d603bc12f64a841197961497c024f1e",
+        "@format": "base64",
+        "#text": "PCEtLSBCZWdpbiBzaXAxZmRkLCBUeXBlID0gc2VhcmNoIC0tPg0KPCEtLSBHZW5lcmF0ZWQgb24gWzEvMzAvMjAxNyA0OjM4OjE0IEFNXSBieSBNaW5kVG91Y2gsIExhc3QgVXBkYXRlZCBbMi8yOC8yMDE3IDY6MDA6NDUgUE1dIGJ5IE1pbmRUb3VjaCB2LjE3LjMuMi42MiAtLT4NCjxzY3JpcHQgYXN5bmM9ImFzeW5jIiBzcmM9Imh0dHBzOi8vamgtcy1yZXNwb25zaXZlLm1pbmR0b3VjaC51cy9AZW1iZWQvOTQ1YzczMmIzM2Y1ZGZhOTBhYzJmNjg3MDA0ZjczM2U3ZDYwM2JjMTJmNjRhODQxMTk3OTYxNDk3YzAyNGYxZS5qcyI+PC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9Im1pbmR0b3VjaC9lbWJlZCIgaWQ9Im1pbmR0b3VjaC1lbWJlZC05NDVjNzMyYjMzZjVkZmE5MGFjMmY2ODcwMDRmNzMzZTdkNjAzYmMxMmY2NGE4NDExOTc5NjE0OTdjMDI0ZjFlIj48L3NjcmlwdD4NCjwhLS0gRW5kIHNpcDFmZGQgLS0+"
+      },
+      "host": "apps.zdusercontent.com,localhost",
+      "name": "sip1fdd",
+      "token": "6a4a76465dc02d34c0e24a0a5ada5f74b17dc8f7d220bfdf2b8c693a17b7f636"
+    },
+    {
+      "@id": "19",
+      "@type": "login",
+      "@date": "Mon, 30 Jan 2017 04:38:31 GMT",
+      "@active": "true",
+      "arguments": {
+        "authenticated-user-label": "",
+        "sign-in-label": ""
+      },
+      "code": {
+        "@id": "da22925d78e5a8a6ea217a4e38ac3a768b73f7010a115fdb8cec1a5b45f0e48e",
+        "@format": "base64",
+        "#text": "PCEtLSBCZWdpbiBzaTEgLS0+DQo8IS0tIEdlbmVyYXRlZCBvbiBbMS8zMC8yMDE3IDQ6Mzg6MzEgQU1dIGJ5IE1pbmRUb3VjaCB2LjE3LjIuMi40MCAtLT4NCjxzY3JpcHQgYXN5bmM9ImFzeW5jIiBzcmM9Imh0dHBzOi8vamgtcy1yZXNwb25zaXZlLm1pbmR0b3VjaC51cy9AZW1iZWQvZGEyMjkyNWQ3OGU1YThhNmVhMjE3YTRlMzhhYzNhNzY4YjczZjcwMTBhMTE1ZmRiOGNlYzFhNWI0NWYwZTQ4ZS5qcyI+PC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9Im1pbmR0b3VjaC9lbWJlZCIgaWQ9Im1pbmR0b3VjaC1lbWJlZC1kYTIyOTI1ZDc4ZTVhOGE2ZWEyMTdhNGUzOGFjM2E3NjhiNzNmNzAxMGExMTVmZGI4Y2VjMWE1YjQ1ZjBlNDhlIj48L3NjcmlwdD4NCjwhLS0gRW5kIHNpMSAtLT4="
+      },
+      "host": "apps.zdusercontent.com",
+      "name": "si1",
+      "token": "b56f7a6a84f37943602b5c514235643bd993bf068d1bc34891a34bb69cbe860c"
+    },
+    {
+      "@id": "20",
+      "@type": "f1-button",
+      "@date": "Tue, 31 Jan 2017 20:44:45 GMT",
+      "@active": "true",
+      "arguments": {
+        "back-button-label": "",
+        "back-button-title": "",
+        "back-button-visible": "true",
+        "forward-button-label": "",
+        "forward-button-title": "",
+        "forward-button-visible": "true",
+        "help-button-label": "",
+        "help-button-path": "",
+        "home-button-label": "",
+        "home-button-title": "",
+        "home-button-visible": "true",
+        "open-button-label": "",
+        "open-button-title": "",
+        "open-button-visible": "true",
+        "search-hint": "",
+        "search-path": "All_Pages",
+        "search-visible": "true"
+      },
+      "code": {
+        "@id": "be24fd10cfd4ebac90579bdec5e9089bf9c45a92efc6485255fdd54980df29bc",
+        "@format": "base64",
+        "#text": "PCEtLSBCZWdpbiBjaGIgLS0+DQo8IS0tIEdlbmVyYXRlZCBvbiBbMS8zMS8yMDE3IDg6NDQ6NDUgUE1dIGJ5IE1pbmRUb3VjaCB2LjE3LjIuMi40NCAtLT4NCjxzY3JpcHQgYXN5bmM9ImFzeW5jIiBzcmM9Imh0dHBzOi8vamgtcy1yZXNwb25zaXZlLm1pbmR0b3VjaC51cy9AZW1iZWQvYmUyNGZkMTBjZmQ0ZWJhYzkwNTc5YmRlYzVlOTA4OWJmOWM0NWE5MmVmYzY0ODUyNTVmZGQ1NDk4MGRmMjliYy5qcyI+PC9zY3JpcHQ+DQo8c2NyaXB0IHR5cGU9Im1pbmR0b3VjaC9lbWJlZCIgaWQ9Im1pbmR0b3VjaC1lbWJlZC1iZTI0ZmQxMGNmZDRlYmFjOTA1NzliZGVjNWU5MDg5YmY5YzQ1YTkyZWZjNjQ4NTI1NWZkZDU0OTgwZGYyOWJjIj48L3NjcmlwdD4NCjwhLS0gRW5kIGNoYiAtLT4="
+      },
+      "host": "localhost",
+      "name": "chb",
+      "token": "efcd153fb6170d46668f320dfdd7cb4aedb4b827112c4a17069d0ab05d284741"
+    }
+  ]
+}

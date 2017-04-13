@@ -97,7 +97,7 @@ export class Events {
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', options.detailId).withParams(params).get()
+        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -428,7 +428,7 @@ export class Events {
      * @param {Number} [options.limit=10] - The maximum number results that we want to retrieve.
      * @param {Array} [options.include] - An array of elements you'd like to expand. If specified, valid entries are 'user', 'page', and 'request'.
      * @param {String|Date} [options.upTo] - The marker used to paginate.
-     * @returns {Promise.<userHistoryModel>} - A Promise that, when resolved, yields a {@link userHistoryModel} that contains the listing of the user's events.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the user's events.
      */
     getUserHistory(userId = 'current', options = {}) {
         const params = {};
@@ -465,7 +465,7 @@ export class Events {
      * @param {String} detailId - The detail ID of the event.
      * @param {Object} [options] - Information to direct the detail to fetch.
      * @param {Array} [options.include] - An array of strings identifying elements to expand in the result. Valid identifiers are: 'page', 'user', 'file', and 'request'.
-     * @returns {Promise.<userHistoryDetailModel>} - A Promise that, when resolved, yields a {@link userHistoryDetailModel} that contains the event information.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the event information.
      */
     getUserHistoryDetail(detailId, options = {}) {
         if(!detailId) {

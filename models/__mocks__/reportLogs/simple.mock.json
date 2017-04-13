@@ -1,0 +1,58 @@
+{
+  "log":[
+    {
+      "@complete":"false",
+      "modified":"Wed, 12 Apr 2017 09:04:44 GMT",
+      "month":"2017-04",
+      "name":"helprequests-2017-04-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Sun, 09 Apr 2017 03:06:39 GMT",
+      "month":"2017-03",
+      "name":"helprequests-2017-03-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Sun, 26 Mar 2017 03:05:52 GMT",
+      "month":"2017-02",
+      "name":"helprequests-2017-02-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Sun, 26 Feb 2017 03:07:35 GMT",
+      "month":"2017-01",
+      "name":"helprequests-2017-01-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Sun, 29 Jan 2017 03:05:34 GMT",
+      "month":"2016-12",
+      "name":"helprequests-2016-12-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Tue, 20 Dec 2016 09:07:59 GMT",
+      "month":"2016-11",
+      "name":"helprequests-2016-11-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Tue, 29 Nov 2016 09:07:07 GMT",
+      "month":"2016-10",
+      "name":"helprequests-2016-10-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Tue, 25 Oct 2016 09:10:19 GMT",
+      "month":"2016-09",
+      "name":"helprequests-2016-09-000.gz"
+    },
+    {
+      "@complete":"true",
+      "modified":"Tue, 27 Sep 2016 09:07:11 GMT",
+      "month":"2016-08",
+      "name":"helprequests-2016-08-000.gz"
+    }
+  ]
+}

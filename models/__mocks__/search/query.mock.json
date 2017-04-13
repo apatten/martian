@@ -1,0 +1,496 @@
+{
+    "@ranking": "adaptive",
+    "@queryid": "2369",
+    "@querycount": "28",
+    "@count.recommendations": "0",
+    "@count": "25",
+    "parsedQuery": "+(content:(test) title:(test)^10 path.title:(test)^4 description:(test)^3 tag:(test)^2 filename:(test)^10 filetitle:(test) keywords:(test)^10 ) +type:(wiki document image binary) -namespace:\"template_talk\" -namespace:\"help\" -namespace:\"help_talk\"",
+    "result": [
+        {
+            "author": "admin",
+            "content": "hdfgfghdfghfghd",
+            "date.modified": "Tue, 16 Feb 2016 21:42:14 GMT",
+            "id": "426",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test",
+                "rating": "",
+                "title": "Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test"
+            },
+            "preview": "hdfgfghdfghfghd",
+            "rank": "1",
+            "tag": "hgfhdhfg",
+            "title": "Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=426&rank=1&type=page&position=1"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Wed, 29 Jun 2016 17:58:23 GMT",
+            "id": "904",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "bmpIsNotASupportedImageType-test",
+                "rating": "",
+                "title": "bmpIsNotASupportedImageType-test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/bmpIsNotASupportedImageType-test"
+            },
+            "preview": "",
+            "rank": "0.962962962962963",
+            "title": "bmpIsNotASupportedImageType-test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/bmpIsNotASupportedImageType-test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=904&rank=0.962962962962963&type=page&position=2"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Wed, 29 Jun 2016 17:59:02 GMT",
+            "id": "905",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "image-draft-search-test",
+                "rating": "",
+                "title": "image-draft-search-test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/image-draft-search-test"
+            },
+            "preview": "",
+            "rank": "0.925925925925926",
+            "title": "image-draft-search-test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/image-draft-search-test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=905&rank=0.925925925925926&type=page&position=3"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Wed, 29 Jun 2016 18:00:47 GMT",
+            "id": "908",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "upload-image-test",
+                "rating": "",
+                "title": "upload-image-test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/upload-image-test"
+            },
+            "preview": "",
+            "rank": "0.888888888888889",
+            "title": "upload-image-test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/upload-image-test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=908&rank=0.888888888888889&type=page&position=4"
+        },
+        {
+            "author": "admin",
+            "content": "Page summary filler text",
+            "date.modified": "Fri, 11 Dec 2015 01:20:46 GMT",
+            "id": "555",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Page-Summary-Test",
+                "rating": "",
+                "title": "Page-Summary-Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Page-Summary-Test"
+            },
+            "preview": "Page summary filler text",
+            "rank": "0.851851851851852",
+            "title": "Page-Summary-Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Page-Summary-Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=555&rank=0.851851851851852&type=page&position=5"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Fri, 11 Dec 2015 01:20:36 GMT",
+            "id": "552",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Custom-Classification-Test",
+                "rating": "",
+                "title": "Custom-Classification-Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Custom-Classification-Test"
+            },
+            "preview": "",
+            "rank": "0.814814814814815",
+            "tag": "music:rock",
+            "title": "Custom-Classification-Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Custom-Classification-Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=552&rank=0.814814814814815&type=page&position=6"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Fri, 11 Dec 2015 01:20:49 GMT",
+            "id": "556",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Add-Remove-Tags-Test",
+                "rating": "",
+                "title": "Add-Remove-Tags-Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Add-Remove-Tags-Test"
+            },
+            "preview": "",
+            "rank": "0.777777777777778",
+            "title": "Add-Remove-Tags-Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Add-Remove-Tags-Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=556&rank=0.777777777777778&type=page&position=7"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Wed, 29 Jun 2016 18:00:28 GMT",
+            "id": "907",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "insert-image-test",
+                "rating": "",
+                "title": "insert-image-test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/insert-image-test"
+            },
+            "preview": "",
+            "rank": "0.740740740740741",
+            "title": "insert-image-test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/insert-image-test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=907&rank=0.740740740740741&type=page&position=8"
+        },
+        {
+            "author": "admin",
+            "content": "gdfsgfdsgdfs",
+            "date.modified": "Thu, 18 Feb 2016 17:39:22 GMT",
+            "id": "75",
+            "mime": "application/octet-stream",
+            "page": {
+                "path": "Guide_Tab_Testing/Blank_Page",
+                "rating": "",
+                "title": "Blank Page",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Guide_Tab_Testing/Blank_Page"
+            },
+            "preview": "gdfsgfdsgdfs",
+            "rank": "0.703703703703704",
+            "title": "test.txt",
+            "type": "file",
+            "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/75/test.txt",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=336&rank=0.703703703703704&type=file&position=9&typeid=75"
+        },
+        {
+            "author": "admin",
+            "content": "Test content.﻿",
+            "date.modified": "Thu, 31 Dec 2015 18:05:18 GMT",
+            "id": "606",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "DS2_Test",
+                "rating": "",
+                "title": "DS2 Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/DS2_Test"
+            },
+            "preview": "Test content.﻿",
+            "rank": "0.666666666666667",
+            "title": "DS2 Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/DS2_Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=606&rank=0.666666666666667&type=page&position=10"
+        },
+        {
+            "author": "admin",
+            "date.modified": "Tue, 20 Oct 2015 20:02:04 GMT",
+            "id": "343",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Image_Testing",
+                "rating": "",
+                "title": "Image Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Image_Testing"
+            },
+            "preview": "",
+            "rank": "0.62962962962963",
+            "title": "Image Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Image_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=343&rank=0.62962962962963&type=page&position=11"
+        },
+        {
+            "author": "admin",
+            "content": "command test2",
+            "date.modified": "Mon, 30 Nov 2015 20:37:10 GMT",
+            "id": "329",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Editor_Testing",
+                "rating": "",
+                "title": "Editor Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Editor_Testing"
+            },
+            "preview": "command test2",
+            "rank": "0.592592592592593",
+            "title": "Editor Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Editor_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=329&rank=0.592592592592593&type=page&position=12"
+        },
+        {
+            "author": "admin",
+            "content": "This category is about... Here are some interesting things about...",
+            "date.modified": "Tue, 20 Oct 2015 20:02:00 GMT",
+            "id": "331",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Guide_Navigation_Testing",
+                "rating": "",
+                "title": "Guide Navigation Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Guide_Navigation_Testing"
+            },
+            "preview": "This category is about... Here are some interesting things about...",
+            "rank": "0.555555555555556",
+            "tag": "article:topic-category",
+            "title": "Guide Navigation Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Guide_Navigation_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=331&rank=0.555555555555556&type=page&position=13"
+        },
+        {
+            "author": "admin",
+            "content": "This category is about... Here are some interesting things about...",
+            "date.modified": "Tue, 20 Oct 2015 20:02:54 GMT",
+            "id": "387",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Page_Hierarchy_Testing",
+                "rating": "",
+                "title": "Page Hierarchy Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Page_Hierarchy_Testing"
+            },
+            "preview": "This category is about... Here are some interesting things about...",
+            "rank": "0.518518518518518",
+            "tag": "article:topic-category",
+            "title": "Page Hierarchy Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Page_Hierarchy_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=387&rank=0.518518518518518&type=page&position=14"
+        },
+        {
+            "author": "admin",
+            "content": "This category is about... Here are some interesting things about...",
+            "date.modified": "Tue, 20 Oct 2015 20:01:58 GMT",
+            "id": "328",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Draft_Attribute_Testing",
+                "rating": "",
+                "title": "Draft Attribute Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Draft_Attribute_Testing"
+            },
+            "preview": "This category is about... Here are some interesting things about...",
+            "rank": "0.481481481481481",
+            "tag": "article:topic-category",
+            "title": "Draft Attribute Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Draft_Attribute_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=328&rank=0.481481481481481&type=page&position=15"
+        },
+        {
+            "author": "admin",
+            "content": "This guide provides an overview of product features and related technologies. In addition, it contains recommendations on best practices, tutorials for getting started, and troubleshooting information for common situations. Here are some interesting things about...",
+            "date.modified": "Tue, 20 Oct 2015 20:02:01 GMT",
+            "id": "335",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Guide_Tab_Testing",
+                "rating": "",
+                "title": "Guide Tab Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Guide_Tab_Testing"
+            },
+            "preview": "This guide provides an overview of product features and related technologies. In addition, it contains recommendations on best practices, tutorials for getting started, and troubleshooting information for common situations. Here are some interesting things about...",
+            "rank": "0.444444444444444",
+            "tag": "article:topic-guide",
+            "title": "Guide Tab Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Guide_Tab_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=335&rank=0.444444444444444&type=page&position=16"
+        },
+        {
+            "author": "admin",
+            "content": "This guide provides an overview of product features and related technologies. In addition, it contains recommendations on best practices, tutorials for getting started, and troubleshooting information for common situations. Here are some interesting things about...",
+            "date.modified": "Fri, 11 Dec 2015 01:19:47 GMT",
+            "id": "550",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "New_Guide_Test",
+                "rating": "",
+                "title": "New Guide Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/New_Guide_Test"
+            },
+            "preview": "This guide provides an overview of product features and related technologies. In addition, it contains recommendations on best practices, tutorials for getting started, and troubleshooting information for common situations. Here are some interesting things about...",
+            "rank": "0.407407407407407",
+            "tag": "article:topic-guide",
+            "title": "New Guide Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/New_Guide_Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=550&rank=0.407407407407407&type=page&position=17"
+        },
+        {
+            "author": "admin",
+            "content": "This category is about... Here are some interesting things about...",
+            "date.modified": "Tue, 20 Oct 2015 20:02:53 GMT",
+            "id": "386",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Page_Attribute_Testing",
+                "rating": "",
+                "title": "Page Attribute Testing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Page_Attribute_Testing"
+            },
+            "preview": "This category is about... Here are some interesting things about...",
+            "rank": "0.37037037037037",
+            "tag": "article:topic-category",
+            "title": "Page Attribute Testing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Page_Attribute_Testing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=386&rank=0.37037037037037&type=page&position=18"
+        },
+        {
+            "author": "admin",
+            "content": "This portfolio is about... Here are some interesting things about...",
+            "date.modified": "Thu, 21 Jan 2016 23:58:44 GMT",
+            "id": "685",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "New_Portfolio_Test",
+                "rating": "",
+                "title": "New Portfolio Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/New_Portfolio_Test"
+            },
+            "preview": "This portfolio is about... Here are some interesting things about...",
+            "rank": "0.333333333333333",
+            "tag": "article:topic-portfolio",
+            "title": "New Portfolio Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/New_Portfolio_Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=685&rank=0.333333333333333&type=page&position=19"
+        },
+        {
+            "author": "admin",
+            "content": "This category is about... Here are some interesting things about...",
+            "date.modified": "Fri, 11 Dec 2015 01:19:36 GMT",
+            "id": "549",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "New_Category_Test",
+                "rating": "",
+                "title": "New Category Test",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/New_Category_Test"
+            },
+            "preview": "This category is about... Here are some interesting things about...",
+            "rank": "0.296296296296296",
+            "tag": "article:topic-category",
+            "title": "New Category Test",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/New_Category_Test",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=549&rank=0.296296296296296&type=page&position=20"
+        },
+        {
+            "author": "admin",
+            "content": "test",
+            "date.modified": "Tue, 07 Jun 2016 16:43:53 GMT",
+            "id": "885",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "title1",
+                "rating": "",
+                "title": "title1",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/title1"
+            },
+            "preview": "test",
+            "rank": "0.259259259259259",
+            "title": "title1",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/title1",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=885&rank=0.259259259259259&type=page&position=21"
+        },
+        {
+            "author": "admin",
+            "content": "function log(param) { var test = \"test\"; console.log(test + \" a \" + param); }",
+            "date.modified": "Wed, 20 Jan 2016 22:58:22 GMT",
+            "id": "671",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "preFormatEditor",
+                "rating": "",
+                "title": "preFormatEditor",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/preFormatEditor"
+            },
+            "preview": "function log(param) { var test = \"test\"; console.log(test + \" a \" + param); }",
+            "rank": "0.222222222222222",
+            "title": "preFormatEditor",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/preFormatEditor",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=671&rank=0.222222222222222&type=page&position=22"
+        },
+        {
+            "author": "admin",
+            "content": "draft publish test",
+            "date.modified": "Fri, 22 Jan 2016 00:22:20 GMT",
+            "id": "688",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Draft_Publish",
+                "rating": "",
+                "title": "Draft_Publish",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Draft_Publish"
+            },
+            "preview": "draft publish test",
+            "rank": "0.185185185185185",
+            "title": "Draft_Publish",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Draft_Publish",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=688&rank=0.185185185185185&type=page&position=23"
+        },
+        {
+            "author": "admin",
+            "content": "Social media sharing test",
+            "date.modified": "Fri, 11 Dec 2015 01:07:46 GMT",
+            "id": "513",
+            "mime": "application/vnd.deki1410+xml",
+            "page": {
+                "path": "Social_Sharing",
+                "rating": "",
+                "title": "Social_Sharing",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/Social_Sharing"
+            },
+            "preview": "Social media sharing test",
+            "rank": "0.148148148148148",
+            "title": "Social_Sharing",
+            "type": "page",
+            "uri": "https://jh-s-responsive.mindtouch.us/Social_Sharing",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=513&rank=0.148148148148148&type=page&position=24"
+        },
+        {
+            "author": "admin",
+            "content": "test",
+            "date.modified": "Thu, 11 Feb 2016 19:16:35 GMT",
+            "id": "63",
+            "mime": "text/plain; charset=UTF-8",
+            "page": {
+                "path": "1/NEWTITLE",
+                "rating": "",
+                "title": "NEWTITLE",
+                "uri.ui": "https://jh-s-responsive.mindtouch.us/1/NEWTITLE"
+            },
+            "preview": "test",
+            "rank": "0.111111111111111",
+            "title": "test1.txt",
+            "type": "file",
+            "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/63/test1.txt",
+            "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2369?pageid=732&rank=0.111111111111111&type=file&position=25&typeid=63"
+        }
+    ],
+    "summary": {
+        "@path": "All_Pages",
+        "results": {
+            "@path": "all_pages/category_page",
+            "@count": "1",
+            "@title": "Category Page"
+        }
+    }
+}

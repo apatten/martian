@@ -48,7 +48,6 @@ export const eventModel = [
     { field: 'change-comment', name: 'changeComment' },
     { field: 'previous.restriction-id', name: 'previousRestrictionId', transform: 'number' },
     { field: 'restriction-id', name: 'restrictionId', transform: 'number' },
-    { field: 'legacy-commit', name: 'legacyComment' },
     { field: 'root.page', name: 'rootPage', transform: pageModel },
     { field: '@type', name: 'type' },
     { field: '@version', name: 'version', transform: 'number' },

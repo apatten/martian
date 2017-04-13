@@ -1,0 +1,143 @@
+{
+    "@id": "592f9086-d435-11e6-86d0-02227ebef7c7",
+    "@datetime": "Fri, 06 Jan 2017 17:27:07 GMT",
+    "@type": "page:copy",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "@cascading": "false",
+    "diff": {
+        "added": "130",
+        "attributes": "0",
+        "removed": "0",
+        "structural": "0"
+    },
+    "page": {
+        "@revision": "0",
+        "@id": "322",
+        "@guid": "cadfabf4023a477db12a7a2e29d60632",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+        "@deleted": "false",
+        "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+        "@seo": "true",
+        "@type": "custom",
+        "#text": "Category_2/Guide_2/Topic_2.3"
+        },
+        "path.original": "Category_2/Guide_2/Topic_2",
+        "title": "Topic_2.1",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+    },
+    "request": {
+        "@id": "592f9086-d435-11e6-86d0-46f2195f680c",
+        "@seq": "1",
+        "@count": "4",
+        "headers": {
+        "header": [
+            {
+            "@name": "user-agent",
+            "#text": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2970.0 Safari/537.36"
+            },
+            {
+            "@name": "x-deki-public-api-proxy",
+            "#text": "true"
+            }
+        ]
+        },
+        "ip": "172.18.0.1",
+        "parameters": {
+        "param": [
+            {
+            "@name": "origin",
+            "#text": "mt-web"
+            },
+            {
+            "@name": "to",
+            "#text": "Category_2/Guide_2/Topic_2"
+            },
+            {
+            "@name": "title",
+            "#text": "Topic 2"
+            },
+            {
+            "@name": "tags",
+            "#text": "true"
+            },
+            {
+            "@name": "abort",
+            "#text": "exists"
+            },
+            {
+            "@name": "recursive",
+            "#text": "false"
+            }
+        ]
+        },
+        "session-id": "21b106c4-e808-4b2f-b05b-ee4d4aee26df",
+        "signature": "POST:pages/*/copy",
+        "user": {
+        "@anonymous": "false",
+        "@id": "1",
+        "@wikiid": "site_18",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+        "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+        "date.lastlogin": "Wed, 05 Apr 2017 17:39:38 GMT",
+        "email": "aaronm@mindtouch.com",
+        "fullname": "",
+        "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+        "license.seat": {
+            "@owner": "true",
+            "#text": "true"
+        },
+        "nick": "admin",
+        "password": {
+            "@exists": "true"
+        },
+        "status": "active",
+        "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+        "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+        "username": "admin"
+        }
+    },
+    "root.page": {
+        "@revision": "0",
+        "@id": "322",
+        "@guid": "cadfabf4023a477db12a7a2e29d60632",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+        "@deleted": "false",
+        "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+        "@seo": "true",
+        "@type": "custom",
+        "#text": "Category_2/Guide_2/Topic_2.3"
+        },
+        "path.original": "Category_2/Guide_2/Topic_2",
+        "title": "Topic_2.1",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+    },
+    "source.page": {
+        "@revision": "0",
+        "@id": "320",
+        "@guid": "dda0a9ddc17842e8884502eaed74fe0a",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/320?redirects=0",
+        "@deleted": "true",
+        "date.created": "Fri, 06 Jan 2017 17:09:37 GMT",
+        "date.deleted": "Wed, 11 Jan 2017 19:22:04 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+        "@seo": "true",
+        "#text": "Category_2/Guide_2/Topic_2.2"
+        },
+        "path.original": "Category_2/Guide_2/Topic_2.2",
+        "title": "Topic 2.2",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+    }
+}

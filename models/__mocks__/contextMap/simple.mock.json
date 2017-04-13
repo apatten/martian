@@ -1,0 +1,29 @@
+{
+  "@default": "false",
+  "@exists": "true",
+  "description": "Default context mapping",
+  "id": "DEFAULT",
+  "language": "en-us",
+  "page": {
+    "@id": "1",
+    "@guid": "00000000000000000000000000000000",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+    "@deleted": "false",
+    "@exists": "true",
+    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+      "@seo": "true",
+      "@type": "fixed",
+      "#text": ""
+    },
+    "title": "Home",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/"
+  },
+  "pageid": {
+    "@page-status": "included",
+    "#text": "1"
+  }
+}

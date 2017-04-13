@@ -17,16 +17,8 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let pageMoveModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+
+export const pageMoveModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];

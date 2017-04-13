@@ -1,0 +1,10 @@
+{
+  "data": {
+    "missing": {
+      "tag": "article:howto"
+    }
+  },
+  "exception": "MindTouch.Deki.Exceptions.TagsOrClassificationsNotFound",
+  "message": "Could not find tags or classification prefix.",
+  "resource": "System.API.Error.tags-and-classifications-not-found"
+}

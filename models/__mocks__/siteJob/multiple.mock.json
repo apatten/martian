@@ -1,0 +1,36 @@
+{
+  "job":{
+    "@id":"bdae865f-faf5-4f21-833d-f8f39d7005f9",
+    "@type":"EXPORT",
+    "@status":"COMPLETED",
+    "data":{
+      "archive":"https://durck3hv14u39.cloudfront.net/export/site_6823-export-20170412234054.200.zip?Expires=1492645255&Signature=R6KhJX~i28ZYM2m1xBb8vYP5-g-WJs~hJ5FRsDcjTwUzh7N5vcRLcoPsbh6xWcrKqo9YmMsemN8jyR8HMFPCexRXVaosrTQG9mOOzKV1A4jHNDNvquNj0w~ZMRfgQIsOYoykpwYEBiWq3On9UHLFoHzGC~uFhj4tr5iqK4FwByB3j9Xf-bGFE5NPu14mezPlPQaL5BQy3vdWWW7Oo4r93ADRKgf0lk7rO8tUfwmQYXiXcCLEqQhZfWTO0GtJrH2-6D7xra3I3WOkI3poEWgdUhrLekDY7KbJtpGaH5A8Pb7-Z0domltMttasTzzS9o6Z7bG9y4lku07o7YBgQMYGeg__&Key-Pair-Id=APKAJ3E6BM64FEIPDEUQ",
+      "csv":"https://durck3hv14u39.cloudfront.net/export/site_6823-export-20170412234055.551-log.csv?Expires=1492645255&Signature=V3FY08rksJLJYVfDJcqLcQAFdCp4KHgRpjO702NxkdpCYb7ODHwd0pA3KhwDgHDrMEupK~93jcqfiapiCcKf20p00OyUBP4DCk1VmgdPq6g2~8DVtZS4bJAOCXrz5Rs86RI~CKV6keD6rfJdAcMeeRlZBm9h4scCfx5FKXhSbp2Hm0ebwwT0QzSCwKza2sy8uJGSOUXDpFyfkSOfCb2Pwjba16y7xCVSaZlXtZrPLxlusgvPjAFwqiN5VXUALsPazIP3DwaMONunik9d1H6gdAn~lRDPKB1L7pX-lFQt7mxS76BMOtWL2KArDW1d6x6pANfmJrKlxNoI~1bUgI8bnA__&Key-Pair-Id=APKAJ3E6BM64FEIPDEUQ"
+    },
+    "lastmodified":"Wed, 12 Apr 2017 23:40:56 GMT",
+    "submitted":"Wed, 12 Apr 2017 23:40:41 GMT",
+    "user":{
+      "@anonymous":"false",
+      "@id":"1",
+      "@wikiid":"site_6823",
+      "@href":"https://jh-s-responsive.mindtouch.us/@api/deki/users/1",
+      "date.created":"Mon, 05 Oct 2015 18:44:27 GMT",
+      "date.lastlogin":"Thu, 30 Mar 2017 21:02:34 GMT",
+      "email":"jeremyh@mindtouch.com",
+      "fullname":"",
+      "hash.email":"95e11fdec86b9635717abf7fb006dcb1",
+      "license.seat":{
+        "@owner":"true",
+        "#text":"true"
+      },
+      "nick":"admin",
+      "password":{
+        "@exists":"true"
+      },
+      "status":"active",
+      "uri.avatar":"https://gravatar.com/avatar/95e11fdec86b9635717abf7fb006dcb1.png?d=mm",
+      "uri.gravatar":"https://gravatar.com/avatar/95e11fdec86b9635717abf7fb006dcb1.png?d=mm",
+      "username":"admin"
+    }
+  }
+}

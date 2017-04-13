@@ -18,6 +18,7 @@
  */
 import { userModel } from './user.model.js';
 import { pageModel } from './page.model.js';
+
 export const fileModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@revision', name: 'revision', transform: 'number' },

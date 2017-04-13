@@ -1,0 +1,23 @@
+{
+    "@id": "b1832b0c-ed4f-11e6-8c6b-67c94f0a4689",
+    "@datetime": "Tue, 07 Feb 2017 16:08:41 GMT",
+    "@type": "draft:publish",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "diff": {
+        "@isreparsing": "false",
+        "added": "0",
+        "attributes": "0",
+        "removed": "0",
+        "structural": "0"
+    },
+    "page": {
+        "@id": "5208",
+        "@revision": "0",
+        "path": "My_Category/My_Guide"
+    },
+    "request": {
+        "@id": "b1832b0c-ed4f-11e6-8c6b-791d9e199d96"
+    }
+}

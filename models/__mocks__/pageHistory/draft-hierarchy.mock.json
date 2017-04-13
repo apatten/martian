@@ -1,0 +1,124 @@
+{
+    "@count": "3",
+    "@upto": "2ca61040-206a-11e7-8050-b16cffffffff",
+    "@since": "eec24e08-8f2b-11e6-888e-3a5c58140000",
+    "summary": [
+        {
+            "@id": "b1832b0c-ed4f-11e6-8c6b-9d9658140000",
+            "@datetime": "Tue, 07 Feb 2017 16:08:41 GMT",
+            "@count": "1",
+            "@detailid": "631f2de9-8983-d349-2ae8-1a9b2f8cc2b1",
+            "@uri.detail": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=My_Category%252FMy_Guide/631f2de9-8983-d349-2ae8-1a9b2f8cc2b1",
+            "@uri.hierarchy": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=My_Category%252FMy_Guide",
+            "event": {
+                "@id": "b1832b0c-ed4f-11e6-8c6b-67c94f0a4689",
+                "@datetime": "Tue, 07 Feb 2017 16:08:41 GMT",
+                "@type": "draft:publish",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "diff": {
+                    "@isreparsing": "false",
+                    "added": "0",
+                    "attributes": "0",
+                    "removed": "0",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "5208",
+                    "@revision": "0",
+                    "path": "My_Category/My_Guide"
+                },
+                "request": {
+                    "@id": "b1832b0c-ed4f-11e6-8c6b-791d9e199d96"
+                }
+            },
+            "page": {
+                "path": "My_Category/My_Guide"
+            },
+            "users": {
+                "user": {
+                    "@id": "1"
+                }
+            }
+        },
+        {
+            "@id": "911be1ac-bb3f-11e6-ac21-caba6d140000",
+            "@datetime": "Mon, 05 Dec 2016 23:07:17 GMT",
+            "@count": "3",
+            "@detailid": "b9a9be89-e2b9-122f-2319-ea6e33488ff8",
+            "@uri.detail": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=Category_Test%252FPage_Title/b9a9be89-e2b9-122f-2319-ea6e33488ff8",
+            "@uri.hierarchy": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=Category_Test%252FPage_Title",
+            "event": {
+                "@id": "911be1ac-bb3f-11e6-ac21-cd1748e0ac4a",
+                "@datetime": "Mon, 05 Dec 2016 23:07:17 GMT",
+                "@type": "draft:publish",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "diff": {
+                    "added": "69",
+                    "attributes": "4",
+                    "removed": "0",
+                    "structural": "16"
+                },
+                "page": {
+                    "@id": "5229",
+                    "@revision": "0",
+                    "path": "Category_Test/Page_Title"
+                },
+                "request": {
+                    "@id": "911be1ac-bb3f-11e6-ac21-71a9e4d5caba"
+                }
+            },
+            "page": {
+                "path": "Category_Test/Page_Title"
+            },
+            "users": {
+                "user": {
+                    "@id": "1"
+                }
+            }
+        },
+        {
+            "@id": "eec24e08-8f2b-11e6-888e-3a5c58140000",
+            "@datetime": "Mon, 10 Oct 2016 20:55:53 GMT",
+            "@count": "2",
+            "@detailid": "bcf6cbd5-6822-a991-2472-4781db1db5e1",
+            "@uri.detail": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=My_Category%252FMy_Guide/bcf6cbd5-6822-a991-2472-4781db1db5e1",
+            "@uri.hierarchy": "https://aaron-stage.mindtouch.us/@api/deki/events/draft-hierarchy/=My_Category%252FMy_Guide",
+            "event": {
+                "@id": "eec24e08-8f2b-11e6-888e-451d17dc2d1f",
+                "@datetime": "Mon, 10 Oct 2016 20:55:53 GMT",
+                "@type": "draft.content:update",
+                "@language": "en-US",
+                "@journaled": "true",
+                "@version": "3",
+                "change-comment": "",
+                "diff": {
+                    "added": "0",
+                    "attributes": "0",
+                    "removed": "0",
+                    "structural": "0"
+                },
+                "page": {
+                    "@id": "5208",
+                    "@revision": "0",
+                    "path": "My_Category/My_Guide"
+                },
+                "request": {
+                    "@id": "eec24e08-8f2b-11e6-888e-1a5814963a5c"
+                },
+                "revision": "1"
+            },
+            "page": {
+                "path": "My_Category/My_Guide"
+            },
+            "users": {
+                "user": {
+                    "@id": "8"
+                }
+            }
+        }
+    ]
+}

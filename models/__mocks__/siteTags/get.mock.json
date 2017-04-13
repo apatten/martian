@@ -1,0 +1,21 @@
+{
+  "@count": "2",
+  "tag": [
+    {
+      "@value": "'\"\\'\\\"/'/\"><script>alert('tag xss');</script>",
+      "@id": "32",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/site/tags/32",
+      "title": "'\"\\'\\\"/'/\"><script>alert('tag xss');</script>",
+      "type": "text",
+      "uri": "https://jh-s-responsive.mindtouch.us/Special:Tags?tag='%22%5C'%5C%22/'/%22%3E%3Cscript%3Ealert('tag+xss');%3C/script%3E"
+    },
+    {
+      "@value": "analytics and reporting",
+      "@id": "250",
+      "@href": "https://jh-s-responsive.mindtouch.us/@api/deki/site/tags/250",
+      "title": "analytics and reporting",
+      "type": "text",
+      "uri": "https://jh-s-responsive.mindtouch.us/Special:Tags?tag=analytics+and+reporting"
+    }
+  ]
+}

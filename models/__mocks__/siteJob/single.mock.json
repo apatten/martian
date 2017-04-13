@@ -1,0 +1,30 @@
+{  
+  "@id":"bdae865f-faf5-4f21-833d-f8f39d7005f9",
+  "@type":"EXPORT",
+  "@status":"SUBMITTED",
+  "lastmodified":"Wed, 12 Apr 2017 23:40:41 GMT",
+  "submitted":"Wed, 12 Apr 2017 23:40:41 GMT",
+  "user":{  
+    "@anonymous":"false",
+    "@id":"1",
+    "@wikiid":"site_6823",
+    "@href":"https://jh-s-responsive.mindtouch.us/@api/deki/users/1",
+    "date.created":"Mon, 05 Oct 2015 18:44:27 GMT",
+    "date.lastlogin":"Thu, 30 Mar 2017 21:02:34 GMT",
+    "email":"jeremyh@mindtouch.com",
+    "fullname":"",
+    "hash.email":"95e11fdec86b9635717abf7fb006dcb1",
+    "license.seat":{  
+      "@owner":"true",
+      "#text":"true"
+    },
+    "nick":"admin",
+    "password":{  
+      "@exists":"true"
+    },
+    "status":"active",
+    "uri.avatar":"https://gravatar.com/avatar/95e11fdec86b9635717abf7fb006dcb1.png?d=mm",
+    "uri.gravatar":"https://gravatar.com/avatar/95e11fdec86b9635717abf7fb006dcb1.png?d=mm",
+    "username":"admin"
+  }
+}

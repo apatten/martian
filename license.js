@@ -3,7 +3,7 @@ import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { licenseUsageModel } from './models/licenseUsage.model.js';
-import { licenseUsageLogsModel } from './models/licenseUsageLogs.model.js';
+import { reportLogsModel } from './models/reportLogs.model.js';
 
 export class License {
 
@@ -44,7 +44,7 @@ export class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogs() {
-        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(licenseUsageLogsModel));
+        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
     }
 
     /**

@@ -1,0 +1,46 @@
+{
+    "@count": "5",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330/tags",
+    "tag": [
+        {
+            "@value": "article:reference",
+            "@id": "4",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/4",
+            "title": "article:reference",
+            "type": "text",
+            "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=article:reference"
+        },
+        {
+            "@value": "cooltag",
+            "@id": "37",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/37",
+            "title": "cooltag",
+            "type": "text",
+            "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=cooltag"
+        },
+        {
+            "@value": "custom:baz",
+            "@id": "16",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/16",
+            "title": "custom:baz",
+            "type": "text",
+            "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=custom:baz"
+        },
+        {
+            "@value": "mytag",
+            "@id": "36",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/36",
+            "title": "mytag",
+            "type": "text",
+            "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=mytag"
+        },
+        {
+            "@value": "newtag",
+            "@id": "24",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/tags/24",
+            "title": "newtag",
+            "type": "text",
+            "uri": "https://aaronm-elm.mindtouch.be/Special:Tags?tag=newtag"
+        }
+    ]
+}

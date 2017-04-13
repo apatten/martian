@@ -1,0 +1,80 @@
+{
+  "@count": "3",
+  "@querycount": "3",
+  "@totalcount": "3",
+  "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups",
+  "group": [
+    {
+      "@id": "1",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/1",
+      "groupname": "cool",
+      "permissions.group": {
+        "operations": {
+          "@mask": "114751",
+          "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+        },
+        "role": {
+          "@id": "3",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/3",
+          "#text": "Contributor"
+        }
+      },
+      "service.authentication": {
+        "@id": "1",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/services/1"
+      },
+      "users": {
+        "@count": "17",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/1/users"
+      }
+    },
+    {
+      "@id": "16",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/16",
+      "groupname": "not cool",
+      "permissions.group": {
+        "operations": {
+          "@mask": "116031",
+          "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+        },
+        "role": {
+          "@id": "4",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/4",
+          "#text": "Manager"
+        }
+      },
+      "service.authentication": {
+        "@id": "1",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/services/1"
+      },
+      "users": {
+        "@count": "4",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/16/users"
+      }
+    },
+    {
+      "@id": "17",
+      "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/17",
+      "groupname": "moderately cool",
+      "permissions.group": {
+        "operations": {
+          "@mask": "116031",
+          "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE"
+        },
+        "role": {
+          "@id": "4",
+          "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/roles/4",
+          "#text": "Manager"
+        }
+      },
+      "service.authentication": {
+        "@id": "1",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/site/services/1"
+      },
+      "users": {
+        "@count": "14",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/groups/17/users"
+      }
+    }
+  ]
+}

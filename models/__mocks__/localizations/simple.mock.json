@@ -1,0 +1,17 @@
+{
+  "@lang": "en-US",
+  "localization": [
+    {
+      "@resource": "Article.Edit.extensions-list",
+      "#text": "Extensions list"
+    },
+    {
+      "@resource": "GUI.Editor.alert-changes-made-without-saving",
+      "#text": "You have made changes to the content without saving your changes. Are you sure you want to exit this page?"
+    },
+    {
+      "@resource": "This.does.not.exist",
+      "@missing": "true"
+    }
+  ]
+}
