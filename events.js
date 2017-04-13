@@ -97,7 +97,7 @@ export class Events {
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', options.detailId).withParams(params).get()
+        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 

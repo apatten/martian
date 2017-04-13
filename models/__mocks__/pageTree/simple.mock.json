@@ -1,0 +1,613 @@
+{
+    "page": {
+        "@id": "1",
+        "@guid": "00000000000000000000000000000000",
+        "@draft.state": "inactive",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+        "@deleted": "false",
+        "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+            "@seo": "true",
+            "@type": "fixed",
+            "#text": ""
+        },
+        "subpages": {
+            "page": [
+                {
+                    "@id": "317",
+                    "@guid": "87c014650b80403184c274dce4a5aa5f",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/317?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Fri, 06 Jan 2017 16:44:43 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Category_2"
+                    },
+                    "subpages": {
+                        "page": [
+                            {
+                                "@id": "318",
+                                "@guid": "05e9210cdd1c489086832e63d6f4d9e6",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/318?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "#text": "Category_2/Guide_2"
+                                },
+                                "subpages": {
+                                    "page": [
+                                        {
+                                            "@id": "372",
+                                            "@guid": "3b410f95cb1d42a5b33d1664b96346dd",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/372?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Mon, 13 Mar 2017 18:07:12 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/New_Page_2"
+                                            },
+                                            "subpages": "",
+                                            "title": "New Page 2",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/New_Page_2"
+                                        },
+                                        {
+                                            "@id": "371",
+                                            "@guid": "0771fc69acee43f089254e8508a12cff",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/371?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Mon, 13 Mar 2017 18:03:56 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/New_Page_From_LINK_PICKER"
+                                            },
+                                            "subpages": "",
+                                            "title": "New Page From LINK PICKER",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/New_Page_From_LINK_PICKER"
+                                        },
+                                        {
+                                            "@id": "340",
+                                            "@guid": "136f6ee2de704f2186ae0f795d87ee6b",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/340?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Fri, 27 Jan 2017 20:49:13 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/Page_Title"
+                                            },
+                                            "subpages": "",
+                                            "title": "Page Title",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Page_Title"
+                                        },
+                                        {
+                                            "@id": "319",
+                                            "@guid": "b6f4f49eb52c432e94ecb1267d30e295",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/319?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Fri, 06 Jan 2017 17:05:19 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/Topic_1"
+                                            },
+                                            "subpages": "",
+                                            "title": "Topic 1",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_1"
+                                        },
+                                        {
+                                            "@id": "330",
+                                            "@guid": "bdd003b79b864c2594b1319264341072",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 11 Jan 2017 22:38:45 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/Topic_2.2"
+                                            },
+                                            "subpages": "",
+                                            "title": "Topic 2.2",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+                                        },
+                                        {
+                                            "@id": "322",
+                                            "@guid": "cadfabf4023a477db12a7a2e29d60632",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "@type": "custom",
+                                                "#text": "Category_2/Guide_2/Topic_2.3"
+                                            },
+                                            "subpages": "",
+                                            "title": "Topic_2.1",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+                                        },
+                                        {
+                                            "@id": "373",
+                                            "@guid": "7892d51ee59441ecb595600cb56a5d83",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/373?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Mon, 13 Mar 2017 18:27:17 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Category_2/Guide_2/Topic_Derp"
+                                            },
+                                            "subpages": "",
+                                            "title": "Topic Derp",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_Derp"
+                                        }
+                                    ]
+                                },
+                                "title": "Guide 2",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2"
+                            },
+                            {
+                                "@id": "351",
+                                "@guid": "3bcdc640e63147bc8846dd902a92d104",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/351?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Fri, 24 Feb 2017 20:52:18 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "#text": "Category_2/Page_Title"
+                                },
+                                "subpages": "",
+                                "title": "Page Title",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title"
+                            }
+                        ]
+                    },
+                    "title": "Category 2",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2"
+                },
+                {
+                    "@id": "298",
+                    "@guid": "d6e3b38bb5c34e46bba54c632fb0a3d7",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/298?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 20 Dec 2016 21:31:57 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Category_1"
+                    },
+                    "subpages": {
+                        "page": {
+                            "@id": "299",
+                            "@guid": "d54576b4e2eb4735a064060d5eef65e2",
+                            "@draft.state": "inactive",
+                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/299?redirects=0",
+                            "@deleted": "false",
+                            "date.created": "Tue, 20 Dec 2016 21:38:32 GMT",
+                            "language": "en-US",
+                            "namespace": "main",
+                            "path": {
+                                "@seo": "true",
+                                "#text": "Category_1/Guide_1"
+                            },
+                            "subpages": {
+                                "page": [
+                                    {
+                                        "@id": "343",
+                                        "@guid": "105e9e34d9dd42b893b9bcb39979d97f",
+                                        "@draft.state": "inactive",
+                                        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/343?redirects=0",
+                                        "@deleted": "false",
+                                        "date.created": "Mon, 30 Jan 2017 21:58:51 GMT",
+                                        "language": "en-US",
+                                        "namespace": "main",
+                                        "path": {
+                                            "@seo": "true",
+                                            "#text": "Category_1/Guide_1/Page//Title"
+                                        },
+                                        "subpages": "",
+                                        "title": "Page/Title",
+                                        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Page%2F%2FTitle"
+                                    },
+                                    {
+                                        "@id": "301",
+                                        "@guid": "a2c1df7722dc4ac396c24ba03d8ba4bb",
+                                        "@draft.state": "active",
+                                        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/301?redirects=0",
+                                        "@deleted": "false",
+                                        "date.created": "Wed, 21 Dec 2016 15:45:39 GMT",
+                                        "language": "en-US",
+                                        "namespace": "main",
+                                        "path": {
+                                            "@seo": "true",
+                                            "#text": "Category_1/Guide_1/Topic_One"
+                                        },
+                                        "subpages": "",
+                                        "title": "Topic One",
+                                        "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1/Topic_One"
+                                    }
+                                ]
+                            },
+                            "title": "Guide 1",
+                            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1"
+                        }
+                    },
+                    "title": "Category 1",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1"
+                },
+                {
+                    "@id": "449",
+                    "@guid": "3029139f64924b68aea095ff451438ae",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/449?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 15 Mar 2017 21:22:56 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Acme_Jetpack_User_Guide"
+                    },
+                    "subpages": {
+                        "page": [
+                            {
+                                "@id": "450",
+                                "@guid": "383bfbfcd7da4fff9c69c3aba13a37e8",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/450?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Wed, 15 Mar 2017 21:22:56 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "@type": "custom",
+                                    "#text": "Acme_Jetpack_User_Guide/001-_Introduction"
+                                },
+                                "subpages": "",
+                                "title": "Introduction",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/001-_Introduction"
+                            },
+                            {
+                                "@id": "451",
+                                "@guid": "4426333ef6984d6db6edd169eac38d80",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/451?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Wed, 15 Mar 2017 21:22:57 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "@type": "custom",
+                                    "#text": "Acme_Jetpack_User_Guide/002_-_Ignition"
+                                },
+                                "subpages": {
+                                    "page": [
+                                        {
+                                            "@id": "452",
+                                            "@guid": "ca143b3a3c284792ab88f388d96c30df",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/452?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:22:58 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/002_-_Ignition/Acme_Ignition_Coils"
+                                            },
+                                            "subpages": "",
+                                            "title": "Acme Ignition Coils",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition/Acme_Ignition_Coils"
+                                        },
+                                        {
+                                            "@id": "453",
+                                            "@guid": "92db472e86ba4c00915a929411d5bc69",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/453?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:22:59 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/002_-_Ignition/Starting_your_jetpack"
+                                            },
+                                            "subpages": "",
+                                            "title": "Starting your jetpack",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition/Starting_your_jetpack"
+                                        }
+                                    ]
+                                },
+                                "title": "Ignition",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition"
+                            },
+                            {
+                                "@id": "454",
+                                "@guid": "0bfa4e90e7da445eb50f396e460def4d",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/454?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Wed, 15 Mar 2017 21:22:59 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "@type": "custom",
+                                    "#text": "Acme_Jetpack_User_Guide/003_-_Propulsion"
+                                },
+                                "subpages": {
+                                    "page": [
+                                        {
+                                            "@id": "455",
+                                            "@guid": "ba8c7bc08c25443aaa3f634b8b482884",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/455?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:00 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/003_-_Propulsion/How_to_land"
+                                            },
+                                            "subpages": "",
+                                            "title": "How to land",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/003_-_Propulsion/How_to_land"
+                                        },
+                                        {
+                                            "@id": "456",
+                                            "@guid": "76276f6cb0764fd8a4c1b6ebbacb3196",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/456?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:01 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/003_-_Propulsion/Loss_of_power"
+                                            },
+                                            "subpages": "",
+                                            "title": "Loss of power",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/003_-_Propulsion/Loss_of_power"
+                                        },
+                                        {
+                                            "@id": "457",
+                                            "@guid": "b50e38f17118410ba1f8c717bfc03b1e",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/457?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:01 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/003_-_Propulsion/Rocket_Boosters"
+                                            },
+                                            "subpages": "",
+                                            "title": "Rocket Boosters",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/003_-_Propulsion/Rocket_Boosters"
+                                        },
+                                        {
+                                            "@id": "458",
+                                            "@guid": "5cf627c027b841b99973640488908aeb",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/458?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:02 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/003_-_Propulsion/Using_your_jetpack_to_fly"
+                                            },
+                                            "subpages": "",
+                                            "title": "Using your jetpack to fly",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/003_-_Propulsion/Using_your_jetpack_to_fly"
+                                        }
+                                    ]
+                                },
+                                "title": "Propulsion",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/003_-_Propulsion"
+                            },
+                            {
+                                "@id": "459",
+                                "@guid": "d8fae95c95944caf8749f928f766a012",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/459?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Wed, 15 Mar 2017 21:23:03 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "@type": "custom",
+                                    "#text": "Acme_Jetpack_User_Guide/004_-_Navigation"
+                                },
+                                "subpages": {
+                                    "page": [
+                                        {
+                                            "@id": "460",
+                                            "@guid": "06efe7dacc464646af25f9fa956379ac",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/460?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:03 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/004_-_Navigation/Acme_Nav_API"
+                                            },
+                                            "subpages": "",
+                                            "title": "Acme Nav API",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/004_-_Navigation/Acme_Nav_API"
+                                        },
+                                        {
+                                            "@id": "461",
+                                            "@guid": "7fbd1062dda442ce8978435031ad4aed",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/461?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:04 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/004_-_Navigation/How_to_use_the_Acme_Nav"
+                                            },
+                                            "subpages": "",
+                                            "title": "How to use the Acme Nav",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/004_-_Navigation/How_to_use_the_Acme_Nav"
+                                        },
+                                        {
+                                            "@id": "462",
+                                            "@guid": "7476b2586909469d8086ecc9ca0efa05",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/462?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:04 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/004_-_Navigation/Navigation_Tutorial"
+                                            },
+                                            "subpages": "",
+                                            "title": "Navigation Tutorial",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/004_-_Navigation/Navigation_Tutorial"
+                                        },
+                                        {
+                                            "@id": "463",
+                                            "@guid": "5b001569379f4c099d977af4c820e185",
+                                            "@draft.state": "inactive",
+                                            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/463?redirects=0",
+                                            "@deleted": "false",
+                                            "date.created": "Wed, 15 Mar 2017 21:23:05 GMT",
+                                            "language": "en-US",
+                                            "namespace": "main",
+                                            "path": {
+                                                "@seo": "true",
+                                                "#text": "Acme_Jetpack_User_Guide/004_-_Navigation/Preferences"
+                                            },
+                                            "subpages": "",
+                                            "title": "Preferences",
+                                            "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/004_-_Navigation/Preferences"
+                                        }
+                                    ]
+                                },
+                                "title": "Navigation",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/004_-_Navigation"
+                            },
+                            {
+                                "@id": "464",
+                                "@guid": "95605fe15b5b443b8407f56df58c53cd",
+                                "@draft.state": "inactive",
+                                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/464?redirects=0",
+                                "@deleted": "false",
+                                "date.created": "Wed, 15 Mar 2017 21:23:06 GMT",
+                                "language": "en-US",
+                                "namespace": "main",
+                                "path": {
+                                    "@seo": "true",
+                                    "@type": "custom",
+                                    "#text": "Acme_Jetpack_User_Guide/005_-_Safety_Features"
+                                },
+                                "subpages": "",
+                                "title": "Safety Features",
+                                "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/005_-_Safety_Features"
+                            }
+                        ]
+                    },
+                    "title": "Acme Jetpack User Guide",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide"
+                },
+                {
+                    "@id": "465",
+                    "@guid": "8a6aa436f76540e2a1232cf720ba6ca4",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/465?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 15 Mar 2017 21:23:08 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "@type": "custom",
+                        "#text": "kb"
+                    },
+                    "subpages": "",
+                    "title": "Knowledge Base",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/kb"
+                },
+                {
+                    "@id": "473",
+                    "@guid": "f483df4c3e564e889e6e278f6be28eec",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/473?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 21 Mar 2017 20:42:43 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "CatMoved"
+                    },
+                    "subpages": "",
+                    "title": "CatMoved",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/CatMoved"
+                },
+                {
+                    "@id": "475",
+                    "@guid": "195f4e0ecbd44833b95da3427db8e89a",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/475?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 21 Mar 2017 20:48:57 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "CatMovedAgain"
+                    },
+                    "subpages": "",
+                    "title": "CatMovedAgain",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/CatMovedAgain"
+                }
+            ]
+        },
+        "title": "Home",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/"
+    }
+}

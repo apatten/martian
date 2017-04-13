@@ -1,0 +1,21 @@
+{
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330/security",
+    "grants": "",
+    "permissions.effective": {
+        "operations": {
+            "@mask": "18446744073709551615",
+            "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+        }
+    },
+    "permissions.page": {
+        "operations": {
+            "@mask": "18446744073709551615",
+            "#text": "LOGIN,BROWSE,READ,SUBSCRIBE,UPDATE,CREATE,DELETE,CHANGEPERMISSIONS,CONTROLPANEL,UNSAFECONTENT,USERHISTORY,DRAFT_UPDATE,DRAFT_CREATE,DRAFT_DELETE,ADMIN"
+        },
+        "restriction": {
+            "@id": "1",
+            "#text": "Public"
+        }
+    },
+    "permissions.revoked": ""
+}

@@ -1,0 +1,10 @@
+{
+    "operations": {
+        "@mask": "15",
+        "#text": "LOGIN,BROWSE,READ,SUBSCRIBE"
+    },
+    "restriction": {
+        "@id": "2",
+        "#text": "Semi-Public"
+    }
+}
