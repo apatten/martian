@@ -1,0 +1,21 @@
+{
+    "@id": "dc886bf8-2082-11e7-b8ab-cb74c4ec74b4",
+    "@datetime": "Thu, 13 Apr 2017 19:53:27 GMT",
+    "@type": "page.content:update",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "change-comment": "",
+    "diff": {
+        "@toolarge": "true"
+    },
+    "page": {
+        "@id": "5263",
+        "@revision": "0",
+        "path": "Category_1/Guide_1"
+    },
+    "request": {
+        "@id": "dc886bf8-2082-11e7-b8ab-c0edcb374577"
+    },
+    "revision": "4"
+}

@@ -1,0 +1,21 @@
+{
+    "@id": "fc614abc-2078-11e7-bc8a-2c46b7984190",
+    "@datetime": "Thu, 13 Apr 2017 18:42:46 GMT",
+    "@type": "page:view",
+    "@language": "en-US",
+    "@journaled": "false",
+    "@version": "3",
+    "data": {
+        "_uri.host": "aaron-stage.mindtouch.us",
+        "_uri.query": "",
+        "_uri.scheme": "https"
+    },
+    "page": {
+        "@id": "5257",
+        "@revision": "0",
+        "path": "Category_1/Guide_2"
+    },
+    "request": {
+        "@id": "fc614abc-2078-11e7-bc8a-55cbcef53454"
+    }
+}

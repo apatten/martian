@@ -1,0 +1,20 @@
+{
+    "@id": "0592af70-9863-11e6-b0ef-ff32b3bb34b2",
+    "@datetime": "Sat, 22 Oct 2016 14:22:54 GMT",
+    "@type": "page.property:create",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "page": {
+        "@id": "27",
+        "@revision": "0",
+        "path": ""
+    },
+    "property": {
+        "id": "3697",
+        "name": "mindtouch.page#welcomeHidden"
+    },
+    "request": {
+        "@id": "0592af70-9863-11e6-b0ef-0a2eb1a0d82e"
+    }
+}
