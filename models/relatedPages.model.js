@@ -17,20 +17,8 @@
  * limitations under the License.
  */
 import { pageModel } from './page.model.js';
-export let relatedPagesModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+export const relatedPagesModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@href', name: 'href' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
