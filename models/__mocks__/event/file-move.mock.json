@@ -1,0 +1,38 @@
+{
+    "@id": "822d9a98-207d-11e7-98da-112080e3a2c6",
+    "@datetime": "Thu, 13 Apr 2017 19:15:08 GMT",
+    "@type": "attachment:move",
+    "@language": "en-US",
+    "@journaled": "true",
+    "@version": "3",
+    "@move-source": "true",
+    "file": {
+        "@id": "88",
+        "@res-id": "3732",
+        "@revision": "2",
+        "@size": "210537",
+        "filename": "ecommerce-waiting-in-line-to-check-out.png",
+        "location": "site_3518/88/0"
+    },
+    "page": {
+        "@id": "5263",
+        "@revision": "0",
+        "path": "Category_1/Guide_1"
+    },
+    "request": {
+        "@id": "822d9a98-207d-11e7-98da-95633b22ca31"
+    },
+    "source.file": {
+        "@id": "88",
+        "@res-id": "3732",
+        "@revision": "1",
+        "@size": "210537",
+        "filename": "ecommerce-waiting-in-line-to-check-out.png",
+        "location": "site_3518/88/0"
+    },
+    "source.page": {
+        "@id": "5266",
+        "@revision": "0",
+        "path": "Category_1/Guide_2/This_is_a_page"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "@id": "7cefd3f4-de5e-11e6-b413-7d6ac60f32f5",
+    "@datetime": "Thu, 19 Jan 2017 15:46:48 GMT",
+    "@type": "page.tag:update",
+    "@language": "en-US",
+    "@journaled": "false",
+    "@version": "3",
+    "page": {
+        "@id": "5232",
+        "@revision": "0",
+        "path": "My_Category/My_Guide/Page_Title"
+    },
+    "request": {
+        "@id": "7cefd3f4-de5e-11e6-b413-b55a61c0accd"
+    },
+    "tags-added": {
+        "tag": {
+            "name": "article:reference",
+            "type": "text"
+        }
+    },
+    "tags-removed": {
+        "tag": {
+            "name": "article:topic",
+            "type": "text"
+        }
+    }
+}
