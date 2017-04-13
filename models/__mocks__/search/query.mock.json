@@ -1,0 +1,469 @@
+{
+  "@ranking": "adaptive",
+  "@queryid": "2366",
+  "@querycount": "627",
+  "@count.recommendations": "0",
+  "@count": "25",
+  "parsedQuery": "+type:(wiki document image binary) -namespace:\"template_talk\" -namespace:\"help\" -namespace:\"help_talk\"",
+  "result": [
+    {
+      "author": "admin",
+      "date.modified": "Mon, 15 Feb 2016 18:05:25 GMT",
+      "id": "64",
+      "mime": "application/json",
+      "page": {
+        "path": "1/top/1titlej&title=blah",
+        "rating": "",
+        "title": "1titlej&title=blah",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/?title=1/top/1titlej%26title%3Dblah"
+      },
+      "preview": "",
+      "rank": "1",
+      "title": "manifest.json",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/64/manifest.json",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=746&rank=1&type=file&position=1&typeid=64"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 12 Feb 2016 18:57:37 GMT",
+      "id": "62",
+      "mime": "application/json",
+      "page": {
+        "path": "1/title",
+        "rating": "",
+        "title": "title",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/1/title"
+      },
+      "preview": "",
+      "rank": "0.979591836734694",
+      "title": "manifest.json",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/62/manifest.json",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=734&rank=0.979591836734694&type=file&position=2&typeid=62"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Thu, 11 Feb 2016 18:08:03 GMT",
+      "id": "57",
+      "mime": "text/javascript",
+      "page": {
+        "path": "All_Pages/Category_Page/Guide_Page/Topic_Page_1",
+        "rating": "",
+        "title": "Topic Page 1",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/All_Pages/Category_Page/Guide_Page/Topic_Page_1"
+      },
+      "preview": "",
+      "rank": "0.959183673469388",
+      "title": "injectScript.js",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/57/injectScript.js",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=313&rank=0.959183673469388&type=file&position=3&typeid=57"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Tue, 20 Oct 2015 20:01:37 GMT",
+      "id": "6",
+      "mime": "image/jpeg",
+      "page": {
+        "path": "Anchor_Page",
+        "rating": "",
+        "title": "Anchor Page",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Anchor_Page"
+      },
+      "preview": "",
+      "rank": "0.938775510204082",
+      "title": "jpeg.jpeg",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/6/jpeg.jpeg",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=317&rank=0.938775510204082&type=file&position=4&typeid=6"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Thu, 11 Feb 2016 19:23:25 GMT",
+      "id": "58",
+      "mime": "application/json",
+      "page": {
+        "path": "1/NEWTITLE",
+        "rating": "",
+        "title": "NEWTITLE",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/1/NEWTITLE"
+      },
+      "preview": "",
+      "rank": "0.918367346938776",
+      "title": "manifest.json",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/58/manifest.json",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=732&rank=0.918367346938776&type=file&position=5&typeid=58"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 11 Dec 2015 01:18:58 GMT",
+      "id": "32",
+      "mime": "text/plain; charset=us-ascii",
+      "page": {
+        "path": "unsafeContent",
+        "rating": "",
+        "title": "unsafeContent",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/unsafeContent"
+      },
+      "preview": "",
+      "rank": "0.897959183673469",
+      "title": "TagPro.html",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/32/TagPro.html",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=548&rank=0.897959183673469&type=file&position=6&typeid=32"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Thu, 18 Feb 2016 01:13:52 GMT",
+      "id": "76",
+      "mime": "application/octet-stream",
+      "page": {
+        "path": "Contact_Support/vdfavfad",
+        "rating": "",
+        "title": "vdfavfad",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Contact_Support/vdfavfad"
+      },
+      "preview": "",
+      "rank": "0.877551020408163",
+      "title": "test1.xml",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/76/test1.xml",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=777&rank=0.877551020408163&type=file&position=7&typeid=76"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Mon, 15 Feb 2016 18:05:25 GMT",
+      "id": "65",
+      "mime": "application/octet-stream",
+      "page": {
+        "path": "1/top/1titlej&title=blah",
+        "rating": "",
+        "title": "1titlej&title=blah",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/?title=1/top/1titlej%26title%3Dblah"
+      },
+      "preview": "",
+      "rank": "0.857142857142857",
+      "title": "copy.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/65/copy.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=746&rank=0.857142857142857&type=file&position=8&typeid=65"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 12 Feb 2016 18:57:37 GMT",
+      "id": "61",
+      "mime": "application/octet-stream",
+      "page": {
+        "path": "1/title",
+        "rating": "",
+        "title": "title",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/1/title"
+      },
+      "preview": "",
+      "rank": "0.836734693877551",
+      "title": "copy.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/61/copy.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=734&rank=0.836734693877551&type=file&position=9&typeid=61"
+    },
+    {
+      "author": "admin",
+      "content": "Page_Create: 'POST', '/@api/deki/pages/={dbl_encoded_page_path}/contents?edittime=now&abort=exists', { data: '{page_content}' } PageContent_Update: 'POST', '/@api/deki/pages/{page_ID}/contents?edittime=now', { data: '{page_content}' } PageDisplayname_Update: 'POST', '/@api/deki/pages/{page_ID}/move?title={display_title}&name={path_title}' Page_Copy: 'POST', '/@api/deki/pages/{page_ID}/copy?to={encoded_new_path}&recursive={true, false}' Page_Move: 'POST', '/@api/deki/pages/{page_ID}/move?to={enc…",
+      "date.modified": "Mon, 15 Feb 2016 22:19:06 GMT",
+      "id": "67",
+      "mime": "text/plain",
+      "page": {
+        "path": "newDraft2",
+        "rating": "",
+        "title": "newTitleDraft",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/newDraft2"
+      },
+      "preview": "Page_Create: 'POST', '/@api/deki/pages/={dbl_encoded_page_path}/contents?edittime=now&abort=exists', { data: '{page_content}' } PageContent_Update: 'POST', '/@api/deki/pages/{page_ID}/contents?edittime=now', { data: '{page_content}' } PageDisplayname_Update: 'POST', '/@api/deki/pages/{page_ID}/move?title={display_title}&name={path_title}' Page_Copy: 'POST', '/@api/deki/pages/{page_ID}/copy?to={encoded_new_path}&recursive={true, false}' Page_Move: 'POST', '/@api/deki/pages/{page_ID}/move?to={enc…",
+      "rank": "0.816326530612245",
+      "title": "Events.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/67/Events.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=749&rank=0.816326530612245&type=file&position=10&typeid=67"
+    },
+    {
+      "author": "admin",
+      "content": "test",
+      "date.modified": "Thu, 11 Feb 2016 19:16:35 GMT",
+      "id": "63",
+      "mime": "text/plain; charset=UTF-8",
+      "page": {
+        "path": "1/NEWTITLE",
+        "rating": "",
+        "title": "NEWTITLE",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/1/NEWTITLE"
+      },
+      "preview": "test",
+      "rank": "0.795918367346939",
+      "title": "test1.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/63/test1.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=732&rank=0.795918367346939&type=file&position=11&typeid=63"
+    },
+    {
+      "author": "admin",
+      "content": "gdfsgfdsgdfs",
+      "date.modified": "Thu, 18 Feb 2016 17:39:22 GMT",
+      "id": "75",
+      "mime": "application/octet-stream",
+      "page": {
+        "path": "Guide_Tab_Testing/Blank_Page",
+        "rating": "",
+        "title": "Blank Page",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Guide_Tab_Testing/Blank_Page"
+      },
+      "preview": "gdfsgfdsgdfs",
+      "rank": "0.775510204081633",
+      "title": "test.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/75/test.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=336&rank=0.775510204081633&type=file&position=12&typeid=75"
+    },
+    {
+      "author": "admin",
+      "content": "Page_Create: 'POST', '/@api/deki/pages/={dbl_encoded_page_path}/contents?edittime=now&abort=exists', { data: '{page_content}' } PageContent_Update: 'POST', '/@api/deki/pages/{page_ID}/contents?edittime=now', { data: '{page_content}' } PageDisplayname_Update: 'POST', '/@api/deki/pages/{page_ID}/move?title={display_title}&name={path_title}' Page_Copy: 'POST', '/@api/deki/pages/{page_ID}/copy?to={encoded_new_path}&recursive={true, false}' Page_Move: 'POST', '/@api/deki/pages/{page_ID}/move?to={enc…",
+      "date.modified": "Fri, 19 Feb 2016 00:06:52 GMT",
+      "id": "77",
+      "mime": "text/plain",
+      "page": {
+        "path": "filetesting",
+        "rating": "",
+        "title": "filetesting",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/filetesting"
+      },
+      "preview": "Page_Create: 'POST', '/@api/deki/pages/={dbl_encoded_page_path}/contents?edittime=now&abort=exists', { data: '{page_content}' } PageContent_Update: 'POST', '/@api/deki/pages/{page_ID}/contents?edittime=now', { data: '{page_content}' } PageDisplayname_Update: 'POST', '/@api/deki/pages/{page_ID}/move?title={display_title}&name={path_title}' Page_Copy: 'POST', '/@api/deki/pages/{page_ID}/copy?to={encoded_new_path}&recursive={true, false}' Page_Move: 'POST', '/@api/deki/pages/{page_ID}/move?to={enc…",
+      "rank": "0.755102040816326",
+      "title": "Events.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/77/Events.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=778&rank=0.755102040816326&type=file&position=13&typeid=77"
+    },
+    {
+      "author": "admin",
+      "content": "----------------------------872769821602643018160370 Content-Disposition: form-data; name=\"file\"; filename=\"myfile.txt\" Content-Type: text/plain <FILE_DATA> ----------------------------872769821602643018160370--",
+      "date.modified": "Wed, 27 Jan 2016 22:54:45 GMT",
+      "id": "51",
+      "mime": "multipart/form-data; boundary=--------------------------872769821602643018160370",
+      "page": {
+        "path": "",
+        "rating": "",
+        "title": "Home",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/"
+      },
+      "preview": "----------------------------872769821602643018160370 Content-Disposition: form-data; name=\"file\"; filename=\"myfile.txt\" Content-Type: text/plain <FILE_DATA> ----------------------------872769821602643018160370--",
+      "rank": "0.73469387755102",
+      "title": "myfile.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/51/myfile.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=1&rank=0.73469387755102&type=file&position=14&typeid=51"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Thu, 05 May 2016 16:41:14 GMT",
+      "id": "79",
+      "mime": "application/octet-stream",
+      "page": {
+        "path": "revisionhistory-attachment-create",
+        "rating": "",
+        "title": "revisionhistory-attachment-create",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/revisionhistory-attachment-create"
+      },
+      "preview": "",
+      "rank": "0.714285714285714",
+      "title": "hello.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/79/hello.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=866&rank=0.714285714285714&type=file&position=15&typeid=79"
+    },
+    {
+      "author": "admin",
+      "content": "text_file_content",
+      "date.modified": "Tue, 20 Oct 2015 20:02:05 GMT",
+      "id": "18",
+      "mime": "text/plain",
+      "page": {
+        "path": "Indexed/Attachments",
+        "rating": "",
+        "title": "Attachments",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Attachments"
+      },
+      "preview": "text_file_content",
+      "rank": "0.693877551020408",
+      "title": "text_file.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/18/text_file.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=345&rank=0.693877551020408&type=file&position=16&typeid=18"
+    },
+    {
+      "author": "admin",
+      "content": "word_file_content",
+      "date.modified": "Tue, 20 Oct 2015 20:02:09 GMT",
+      "id": "19",
+      "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "page": {
+        "path": "Indexed/Attachments",
+        "rating": "",
+        "title": "Attachments",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Attachments"
+      },
+      "preview": "word_file_content",
+      "rank": "0.673469387755102",
+      "title": "word_file.docx",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/19/word_file.docx",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=345&rank=0.673469387755102&type=file&position=17&typeid=19"
+    },
+    {
+      "author": "admin",
+      "content": "pdf_file_content",
+      "date.modified": "Tue, 20 Oct 2015 20:02:05 GMT",
+      "id": "17",
+      "mime": "application/pdf",
+      "page": {
+        "path": "Indexed/Attachments",
+        "rating": "",
+        "title": "Attachments",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Indexed/Attachments"
+      },
+      "preview": "pdf_file_content",
+      "rank": "0.653061224489796",
+      "title": "pdf_file.pdf",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/17/pdf_file.pdf",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=345&rank=0.653061224489796&type=file&position=18&typeid=17"
+    },
+    {
+      "author": "admin",
+      "content": "----------------------------016107032656276738810296 Content-Disposition: form-data; name=\"file\"; filename=\"myfile.txt\" Content-Type: text/plain <FILE_DATA> ----------------------------016107032656276738810296--",
+      "date.modified": "Wed, 27 Jan 2016 22:35:54 GMT",
+      "id": "55",
+      "mime": "multipart/form-data; boundary=--------------------------016107032656276738810296",
+      "page": {
+        "path": "Blank_Page",
+        "rating": "",
+        "title": "Blank Page",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/Blank_Page"
+      },
+      "preview": "----------------------------016107032656276738810296 Content-Disposition: form-data; name=\"file\"; filename=\"myfile.txt\" Content-Type: text/plain <FILE_DATA> ----------------------------016107032656276738810296--",
+      "rank": "0.63265306122449",
+      "title": "myfile.txt",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/55/myfile.txt",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=726&rank=0.63265306122449&type=file&position=19&typeid=55"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 05 Feb 2016 20:41:01 GMT",
+      "id": "56",
+      "mime": "image/png",
+      "page": {
+        "path": "All_Pages",
+        "rating": "",
+        "title": "All Pages",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/All_Pages"
+      },
+      "preview": "",
+      "rank": "0.612244897959184",
+      "title": "mindtouch.page#thumbnail",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/56/mindtouch.page%23thumbnail",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=305&rank=0.612244897959184&type=file&position=20&typeid=56"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 11 Dec 2015 01:18:49 GMT",
+      "id": "31",
+      "mime": "image/jpeg",
+      "page": {
+        "path": "replaceAttachedFilePage",
+        "rating": "",
+        "title": "replaceAttachedFilePage",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/replaceAttachedFilePage"
+      },
+      "preview": "",
+      "rank": "0.591836734693878",
+      "title": "plainDoge.jpg",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/31/plainDoge.jpg",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=546&rank=0.591836734693878&type=file&position=21&typeid=31"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Thu, 23 Jun 2016 15:14:22 GMT",
+      "id": "80",
+      "mime": "image/png",
+      "page": {
+        "path": "tester1245",
+        "rating": "",
+        "title": "tester1245",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/tester1245"
+      },
+      "preview": "",
+      "rank": "0.571428571428571",
+      "title": "blue-colors.png",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/80/blue-colors.png",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=472&rank=0.571428571428571&type=file&position=22&typeid=80"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Tue, 26 Jan 2016 00:32:02 GMT",
+      "id": "49",
+      "mime": "image/jpeg",
+      "page": {
+        "path": "moveAndRenameFilePage",
+        "rating": "",
+        "title": "moveAndRenameFilePage",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/moveAndRenameFilePage"
+      },
+      "preview": "",
+      "rank": "0.551020408163265",
+      "title": "renamedDoge.jpg",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/49/renamedDoge.jpg",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=679&rank=0.551020408163265&type=file&position=23&typeid=49"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 10 Feb 2017 19:03:56 GMT",
+      "id": "83",
+      "mime": "image/png",
+      "page": {
+        "path": "All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test",
+        "rating": "",
+        "title": "Test",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test"
+      },
+      "preview": "",
+      "rank": "0.530612244897959",
+      "title": "2.png",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/83/2.png",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=426&rank=0.530612244897959&type=file&position=24&typeid=83"
+    },
+    {
+      "author": "admin",
+      "date.modified": "Fri, 10 Feb 2017 19:03:56 GMT",
+      "id": "84",
+      "mime": "image/png",
+      "page": {
+        "path": "All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test",
+        "rating": "",
+        "title": "Test",
+        "uri.ui": "https://jh-s-responsive.mindtouch.us/All_Pages/Category_Page/Guide_Page/Topic_Page_1/Test"
+      },
+      "preview": "",
+      "rank": "0.510204081632653",
+      "title": "3.png",
+      "type": "file",
+      "uri": "https://jh-s-responsive.mindtouch.us/@api/deki/files/84/3.png",
+      "uri.track": "https://jh-s-responsive.mindtouch.us/@api/deki/site/query/2366?pageid=426&rank=0.510204081632653&type=file&position=25&typeid=84"
+    }
+  ]
+}

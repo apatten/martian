@@ -67,45 +67,52 @@ describe('Models', () => {
             Object.keys(modelsData).forEach((modelName) => {
                 const { models, mocks } = modelsData[modelName];
                 models.forEach((model) => {
-                    const modelArr = 'model' in model ? model.model : model;
-                    const fieldNames = modelArr.reduce(function getFieldNames(names, fieldObj) {
-                        let fieldName = Array.isArray(fieldObj.field) ? fieldObj.field[0] : fieldObj.field;
-                        if(fieldObj.hasOwnProperty('name')) {
-                            fieldName = fieldObj.name;
-                        }
-                        names.push(fieldName);
-                        if(fieldObj.transform && !allModels.includes(fieldObj.transform)) {
-                            if(Array.isArray(fieldObj.transform)) {
-                                names = fieldObj.transform.reduce(getFieldNames, names);
-                            } else if(Array.isArray(fieldObj.transform.model)) {
-                                names = fieldObj.transform.model.reduce(getFieldNames, names);
+                    const modelMap = (function modelToObj(currentModel) {
+                        const modelArr = Array.isArray(currentModel) ? currentModel : currentModel.model;
+                        return modelArr.reduce((modelMapping, fieldObj) => {
+                            let fieldName = Array.isArray(fieldObj.field) ? fieldObj.field[0] : fieldObj.field;
+                            if(fieldObj.hasOwnProperty('name')) {
+                                fieldName = fieldObj.name;
                             }
-                        }
-                        return names;
-                    }, []);
+                            modelMapping[fieldName] = '';
+                            if(fieldObj.transform && typeof fieldObj.transform === 'object' && !allModels.includes(fieldObj.transform)) {
+                                modelMapping[fieldName] = modelToObj(fieldObj.transform);
+                            }
+                            return modelMapping;
+                        }, {});
+                    })(model);
                     mocks.forEach((mock) => {
                         const parsedData = modelParser.createParser(model)(mock);
                         expect(parsedData).toBeDefined();
-                        (function removeFieldNames(obj, currentKey = '') {
-                            const keyIndex = fieldNames.indexOf(currentKey);
-                            if(keyIndex !== -1) {
-                                fieldNames.splice(keyIndex, 1);
-                            }
-                            if(Array.isArray(obj)) {
-                                obj.forEach((subObj) => {
-                                    removeFieldNames(subObj);
-                                });
-                            } else if(obj && typeof obj === 'object') {
-                                Object.entries(obj).forEach(([ key, value ]) => {
-                                    removeFieldNames(value, key);
-                                });
-                            }
-                        })(parsedData);
+                        (function removeFieldNames(currentData, currentMap) {
+                            Object.keys(currentData).forEach((dataKey) => {
+                                const mapValue = currentMap[dataKey];
+                                if(mapValue === '') {
+                                    delete currentMap[dataKey];
+                                } else if(mapValue && typeof mapValue === 'object') {
+                                    const dataValue = currentData[dataKey];
+                                    if(dataValue && typeof dataValue === 'object') {
+                                        if(Array.isArray(dataValue)) {
+                                            dataValue.forEach((value) => {
+                                                if(value && typeof value === 'object') {
+                                                    removeFieldNames(value, mapValue);
+                                                }
+                                            });
+                                        } else {
+                                            removeFieldNames(dataValue, mapValue);
+                                        }
+                                    }
+                                    if(Object.keys(mapValue).length === 0) {
+                                        delete currentMap[dataKey];
+                                    }
+                                }
+                            });
+                        })(parsedData, modelMap);
                     });
-                    if(fieldNames.length) {
+                    if(Object.keys(modelMap).length) {
 
                         // eslint-disable-next-line
-                        console.warn(`Untested ${modelName} fields:\n${fieldNames.join(', ')}`);
+                        console.warn(`Untested model fields\n${modelName}: ${JSON.stringify(modelMap, null, 2)}`);
                     }
                 });
             });
