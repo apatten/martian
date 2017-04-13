@@ -1,0 +1,58 @@
+{
+    "@id": "299",
+    "@guid": "d54576b4e2eb4735a064060d5eef65e2",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/299?redirects=0",
+    "@deleted": "false",
+    "date.created": "Tue, 20 Dec 2016 21:38:32 GMT",
+    "date.modified": "Tue, 21 Mar 2017 16:44:25 GMT",
+    "language": "en-US",
+    "namespace": "main",
+    "path": {
+        "@seo": "true",
+        "#text": "Category_1/Guide_1"
+    },
+    "restriction": "Public",
+    "tags": {
+        "@count": "7",
+        "tag": [
+            {
+                "@value": "article:topic-guide",
+                "title": "article:topic-guide",
+                "type": "text"
+            },
+            {
+                "@value": "custom:foo",
+                "title": "custom:foo",
+                "type": "text"
+            },
+            {
+                "@value": "ddd",
+                "title": "ddd",
+                "type": "text"
+            },
+            {
+                "@value": "foo",
+                "title": "foo",
+                "type": "text"
+            },
+            {
+                "@value": "jhgfjkhg",
+                "title": "jhgfjkhg",
+                "type": "text"
+            },
+            {
+                "@value": "pppp",
+                "title": "pppp",
+                "type": "text"
+            },
+            {
+                "@value": "xcz",
+                "title": "xcz",
+                "type": "text"
+            }
+        ]
+    },
+    "title": "Guide 1",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1"
+}

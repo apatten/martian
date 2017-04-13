@@ -1,0 +1,113 @@
+{
+    "@status": "conflict",
+    "draft": {
+        "@id": "451",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/drafts/451",
+        "@state": "active",
+        "@publish": "true",
+        "@deactivate": "true",
+        "@revision": "5",
+        "path": {
+            "@seo": "true",
+            "@type": "custom",
+            "#text": "Acme_Jetpack_User_Guide/002_-_Ignition"
+        },
+        "title": "Ignition",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition?mt-draft=true"
+    },
+    "page.base": {
+        "@id": "451",
+        "@guid": "4426333ef6984d6db6edd169eac38d80",
+        "@draft.state": "active",
+        "@deleted": "false",
+        "@revision": "3",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/482/revisions?revision=3&redirects=0",
+        "contents": {
+            "@type": "application/vnd.deki1410+xml",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/482/contents?revision=3&redirects=0"
+        },
+        "date.created": "Wed, 15 Mar 2017 21:22:57 GMT",
+        "date.edited": "Thu, 13 Apr 2017 21:47:52 GMT",
+        "description": "",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+            "@seo": "true",
+            "@type": "custom",
+            "#text": "Acme_Jetpack_User_Guide/002_-_Ignition"
+        },
+        "timeuuid": "d80af400-2092-11e7-8034-395c650956ab",
+        "title": "Ignition",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition",
+        "user.author": {
+            "@anonymous": "false",
+            "@id": "3",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/3",
+            "date.created": "Mon, 23 Jan 2017 17:40:47 GMT",
+            "date.lastlogin": "Tue, 21 Feb 2017 22:51:08 GMT",
+            "email": "editor@example.com",
+            "fullname": "Mr. Editor",
+            "hash.email": "3ec564d1f50ebaa304b1393eb7241f76",
+            "license.seat": "true",
+            "nick": "editor",
+            "password": {
+                "@exists": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/3ec564d1f50ebaa304b1393eb7241f76.png?d=mm",
+            "username": "editor"
+        }
+    },
+    "page.overwritten": {
+        "@id": "451",
+        "@guid": "4426333ef6984d6db6edd169eac38d80",
+        "@draft.state": "active",
+        "@deleted": "false",
+        "@revision": "4",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/482/revisions?revision=4&redirects=0",
+        "contents": {
+            "@type": "application/vnd.deki1410+xml",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/482/contents?revision=4&redirects=0"
+        },
+        "date.created": "Wed, 15 Mar 2017 21:22:57 GMT",
+        "date.edited": "Thu, 13 Apr 2017 21:48:46 GMT",
+        "description": "",
+        "language": "en-US",
+        "namespace": "main",
+        "path": {
+            "@seo": "true",
+            "@type": "custom",
+            "#text": "Acme_Jetpack_User_Guide/002_-_Ignition"
+        },
+        "timeuuid": "f83ab300-2092-11e7-80f3-36719b9c16fc",
+        "title": "Ignition",
+        "uri.ui": "https://aaronm-elm.mindtouch.be/Acme_Jetpack_User_Guide/002_-_Ignition",
+        "user.author": {
+            "@anonymous": "false",
+            "@id": "1",
+            "@wikiid": "site_18",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "date.lastlogin": "Mon, 10 Apr 2017 15:32:10 GMT",
+            "email": {
+                "@hidden": "true"
+            },
+            "fullname": "",
+            "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+            "license.seat": {
+                "@owner": "true",
+                "#text": "true"
+            },
+            "nick": "admin",
+            "password": {
+                "@hidden": "true"
+            },
+            "status": "active",
+            "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+            "username": "admin"
+        }
+    }
+}
