@@ -125,7 +125,7 @@ export class Events {
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', options.detailId).withParams(params).get()
+        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -456,7 +456,7 @@ export class Events {
      * @param {Number} [options.limit=10] - The maximum number results that we want to retrieve.
      * @param {Array} [options.include] - An array of elements you'd like to expand. If specified, valid entries are 'user', 'page', and 'request'.
      * @param {String|Date} [options.upTo] - The marker used to paginate.
-     * @returns {Promise.&lt;userHistoryModel>} - A Promise that, when resolved, yields a {@link userHistoryModel} that contains the listing of the user's events.
+     * @returns {Promise.&lt;pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the user's events.
      */
     getUserHistory(userId = 'current', options = {}) {
         const params = {};
@@ -493,7 +493,7 @@ export class Events {
      * @param {String} detailId - The detail ID of the event.
      * @param {Object} [options] - Information to direct the detail to fetch.
      * @param {Array} [options.include] - An array of strings identifying elements to expand in the result. Valid identifiers are: 'page', 'user', 'file', and 'request'.
-     * @returns {Promise.&lt;userHistoryDetailModel>} - A Promise that, when resolved, yields a {@link userHistoryDetailModel} that contains the event information.
+     * @returns {Promise.&lt;pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the event information.
      */
     getUserHistoryDetail(detailId, options = {}) {
         if(!detailId) {
@@ -528,7 +528,7 @@ export class Events {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager.html">LearningPathManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_htmlEscapeChars">_htmlEscapeChars</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager.html">LearningPathManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJobs.html">SiteJobs</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_htmlEscapeChars">_htmlEscapeChars</a></li><li><a href="global.html#string">string</a></li></ul>
 </nav>
 
 <br class="clear">
