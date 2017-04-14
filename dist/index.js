@@ -1252,7 +1252,7 @@ const contextIdModel = {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageRatingModel = [
+const pageRatingModel = [
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@seated.count', name: 'seatedCount', transform: 'number' },
@@ -1385,7 +1385,6 @@ const groupModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 const userModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@anonymous', name: 'anonymous', transform: 'boolean' },
@@ -1401,7 +1400,6 @@ const userModel = [
     { field: [ 'password', '@exists' ], name: 'passwordExists', transform: 'boolean' },
     { field: 'status' },
     { field: 'username' },
-    { field: 'name' },
     { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel },
     { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
 ];
@@ -1558,12 +1556,14 @@ const contextMapsModel = [
  */
 const apiErrorModel = {
     preProcessor(data) {
-        try {
-            data.errorInfo = JSON.parse(data.responseText);
-        } catch(e) {
-            data.errorText = data.responseText;
+        if('responseText' in data) {
+            try {
+                data.errorInfo = JSON.parse(data.responseText);
+            } catch(e) {
+                data.errorText = data.responseText;
+            }
+            delete data.responseText;
         }
-        delete data.responseText;
         return data;
     },
     model: [
@@ -1995,46 +1995,26 @@ class ProgressPlug extends Plug {
  * limitations under the License.
  */
 let pageContentsModel = [
-    {
-        field: '@type',
-        name: 'type'
-    },
-    {
-        field: '@title',
-        name: 'title'
-    },
-    {
-        field: '@unsafe',
-        name: 'unsafe',
-        transform: 'boolean'
-    },
-    {
-        field: '@draft',
-        name: 'draft',
-        transform: 'boolean'
-    },
-    {
-        field: 'head'
-    },
-    {
-        field: 'tail'
-    },
+    { field: '@type', name: 'type' },
+    { field: '@title', name: 'title' },
+    { field: '@unsafe', name: 'unsafe', transform: 'boolean' },
+    { field: '@draft', name: 'draft', transform: 'boolean' },
+    { field: 'head' },
+    { field: 'tail' },
     {
         field: 'body',
         transform(body) {
-            return (Array.isArray(body)) ? body[0] : body;
+            return Array.isArray(body) ? body[0] : body;
         }
     },
     {
         field: 'body',
         name: 'targets',
         transform(body) {
-            let targets = [];
+            const targets = [];
             if(Array.isArray(body)) {
                 for(let i = 1; i < body.length; i++) {
-                    targets.push({
-                        [body[i]['@target']]: body[i]['#text']
-                    });
+                    targets.push({ [body[i]['@target']]: body[i]['#text'] });
                 }
             }
             return targets;
@@ -2141,32 +2121,12 @@ const fileModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageFilesModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@offset',
-        name: 'offset',
-        transform: 'number'
-    },
-    {
-        field: '@totalcount',
-        name: 'totalCount',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'file',
-        name: 'files',
-        isArray: true,
-        transform: fileModel
-    }
+const pageFilesModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@offset', name: 'offset', transform: 'number' },
+    { field: '@totalcount', name: 'totalCount', transform: 'number' },
+    { field: '@href', name: 'href' },
+    { field: 'file', name: 'files', isArray: true, transform: fileModel }
 ];
 
 /**
@@ -2187,29 +2147,12 @@ let pageFilesModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageEditModel = [
-    {
-        field: '@status',
-        name: 'status'
-    },
-    {
-        field: 'page',
-        transform: pageModel
-    },
-    {
-        field: 'draft',
-        transform: pageModel
-    },
-    {
-        field: 'page.base',
-        name: 'pageBase',
-        transform: pageModel
-    },
-    {
-        field: 'page.overwritten',
-        name: 'pageOverwritten',
-        transform: pageModel
-    }
+const pageEditModel = [
+    { field: '@status', name: 'status' },
+    { field: 'page', transform: pageModel },
+    { field: 'draft', transform: pageModel },
+    { field: 'page.base', name: 'pageBase', transform: pageModel },
+    { field: 'page.overwritten', name: 'pageOverwritten', transform: pageModel }
 ];
 
 /**
@@ -2230,22 +2173,10 @@ let pageEditModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let relatedPagesModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+const relatedPagesModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@href', name: 'href' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
 /**
@@ -2291,7 +2222,7 @@ const pageOverviewModel = [
  */
 const pageDiffModel = [
     { field: '@type', name: 'type' },
-    { field: '#text', name: 'combined' },
+    { field: '#text', name: 'combinedText' },
     { field: 'combined' },
     { field: 'before' },
     { field: 'after' }
@@ -2518,15 +2449,18 @@ class DraftManager {
     /**
      * Create a new draft on the site where a page does not already exist.
      * @param {String} newPath - The path of the new draft.
+     * @param {Object} [options] - the options that will be used to create the draft
+     * @param {Number} [options.redirect] - 0 or 1 to tell whether to follow redirects
+     * @param {Boolean} [options.deleteRedirects] - A boolean value that allows the deletion of redirects
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the newly-created draft.
      */
     createDraft(newPath, options = {}) {
         const params = {};
-        if('redirects' in options) {
-            if(typeof options.redirects !== 'number') {
-                return Promise.reject(new Error('The redirects option must be a number.'));
+        if('redirect' in options) {
+            if(typeof options.redirect !== 'number') {
+                return Promise.reject(new Error('The redirect option must be a number.'));
             }
-            params.redirects = options.redirects;
+            params.redirect = options.redirect;
         }
         if('deleteRedirects' in options) {
             if(typeof options.deleteRedirects !== 'boolean') {
@@ -2711,32 +2645,12 @@ const propertyContentsModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pagePropertyModel = [
-    {
-        field: '@revision',
-        name: 'revision'
-    },
-    {
-        field: '@name',
-        name: 'name'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'date.modified',
-        name: 'dateModified',
-        transform: 'date'
-    },
-    {
-        field: 'page',
-        transform: pageModel
-    },
-    {
-        field: 'contents',
-        transform: propertyContentsModel
-    }
+const pagePropertyModel = [
+    { field: '@revision', name: 'revision' },
+    { field: '@name', name: 'name' },
+    { field: '@href', name: 'href' },
+    { field: 'date.modified', name: 'dateModified', transform: 'date' },
+    { field: 'contents', transform: propertyContentsModel }
 ];
 
 /**
@@ -2757,22 +2671,10 @@ let pagePropertyModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pagePropertiesModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'property',
-        name: 'properties',
-        isArray: true,
-        transform: pagePropertyModel
-    }
+const pagePropertiesModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@href', name: 'href' },
+    { field: 'property', name: 'properties', isArray: true, transform: pagePropertyModel }
 ];
 
 class PagePropertyBase {
@@ -2904,7 +2806,6 @@ const eventModel = [
     { field: 'change-comment', name: 'changeComment' },
     { field: 'previous.restriction-id', name: 'previousRestrictionId', transform: 'number' },
     { field: 'restriction-id', name: 'restrictionId', transform: 'number' },
-    { field: 'legacy-commit', name: 'legacyComment' },
     { field: 'root.page', name: 'rootPage', transform: pageModel },
     { field: '@type', name: 'type' },
     { field: '@version', name: 'version', transform: 'number' },
@@ -3022,7 +2923,7 @@ const eventModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let userActivityModel = [
+const userActivityModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@upto', name: 'upTo' },
     { field: '@since', name: 'since' },
@@ -3124,9 +3025,9 @@ const reportLogsModel = [
         isArray: true,
         transform: [
             { field: '@complete', name: 'complete', transform: 'boolean' },
-            { field: 'modified', name: 'modified', transform: 'date' },
-            { field: 'month', name: 'month', transform: 'date' },
-            { field: 'name', name: 'name' }
+            { field: 'modified', transform: 'date' },
+            { field: 'month' },
+            { field: 'name' }
         ]
     }
 ];
@@ -3149,7 +3050,7 @@ const reportLogsModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let logUrlModel = [
+const logUrlModel = [
     { field: 'url' }
 ];
 
@@ -3241,7 +3142,7 @@ class Events {
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', options.detailId).withParams(params).get()
+        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
             .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -3572,7 +3473,7 @@ class Events {
      * @param {Number} [options.limit=10] - The maximum number results that we want to retrieve.
      * @param {Array} [options.include] - An array of elements you'd like to expand. If specified, valid entries are 'user', 'page', and 'request'.
      * @param {String|Date} [options.upTo] - The marker used to paginate.
-     * @returns {Promise.<userHistoryModel>} - A Promise that, when resolved, yields a {@link userHistoryModel} that contains the listing of the user's events.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the user's events.
      */
     getUserHistory(userId = 'current', options = {}) {
         const params = {};
@@ -3609,7 +3510,7 @@ class Events {
      * @param {String} detailId - The detail ID of the event.
      * @param {Object} [options] - Information to direct the detail to fetch.
      * @param {Array} [options.include] - An array of strings identifying elements to expand in the result. Valid identifiers are: 'page', 'user', 'file', and 'request'.
-     * @returns {Promise.<userHistoryDetailModel>} - A Promise that, when resolved, yields a {@link userHistoryDetailModel} that contains the event information.
+     * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the event information.
      */
     getUserHistoryDetail(detailId, options = {}) {
         if(!detailId) {
@@ -4271,38 +4172,6 @@ const licenseUsageModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const licenseUsageLogsModel = [
-    {
-        field: 'log',
-        name: 'logs',
-        isArray: true,
-        transform: [
-            { field: '@complete', name: 'complete', transform: 'boolean' },
-            { field: 'name' },
-            { field: 'modified', transform: 'date' },
-            { field: 'month' }
-        ]
-    }
-];
-
 class License {
 
     /**
@@ -4342,7 +4211,7 @@ class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogs() {
-        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(licenseUsageLogsModel));
+        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -4379,7 +4248,7 @@ class License {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let subpagesModel = [
+const subpagesModel = [
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
@@ -4456,18 +4325,9 @@ pageTreeModel.model.push({
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageMoveModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+const pageMoveModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
 /**
@@ -4488,22 +4348,10 @@ let pageMoveModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageRatingsModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: '@href',
-        name: 'href'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+const pageRatingsModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: '@href', name: 'href' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
 /**
@@ -4524,18 +4372,9 @@ let pageRatingsModel = [
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let pageDeleteModel = [
-    {
-        field: '@count',
-        name: 'count',
-        transform: 'number'
-    },
-    {
-        field: 'page',
-        name: 'pages',
-        isArray: true,
-        transform: pageModel
-    }
+const pageDeleteModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
 /**
@@ -4684,7 +4523,8 @@ const healthReportModel = [
                 field: 'page',
                 transform: [
                     { field: '@uri', name: 'uri' },
-                    { field: '@id', name: 'id', transform: 'number' }
+                    { field: '@id', name: 'id', transform: 'number' },
+                    { field: 'article' }
                 ]
             }
         ]
@@ -5264,7 +5104,7 @@ const pageSecurityModel = [
             { field: 'date.modified', name: 'dateModified', transform: 'date' },
             { field: 'permissions', transform: permissionsModel },
             { field: 'user', transform: userModel },
-            { field: 'user.modifiedBy', name: 'userModifiedBy', transform: userModel }
+            { field: 'user.modifiedby', name: 'userModifiedBy', transform: userModel }
         ]
     },
     { field: 'permissions.effective', name: 'effectivePermissions', transform: permissionsModel },
@@ -6180,6 +6020,83 @@ const platform = {
 /* eslint-enable no-undef */
 
 /**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function string() {
+    return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
+}
+function number() {
+    return (value) => typeof value === 'number' ? [] : [ `${value} is not a number` ];
+}
+function array() {
+    return (value) => Array.isArray(value) ? [] : [ `${value} is not an array` ];
+}
+function bool() {
+    return (value) => typeof value === 'boolean' ? [] : [ `${value} is not a Boolean value` ];
+}
+function equals(expected) {
+    return (value) => value === expected ? [] : [ `${value} does not equal ${expected}` ];
+}
+function one(...validators) {
+    return (value) => {
+        let errors = [];
+        for(let i = 0; i < validators.length; i++) {
+            const validatorErrors = validators[i](value);
+            if(validatorErrors.length === 0) {
+                errors = [];
+                break;
+            }
+            errors.push(...validatorErrors);
+        }
+        return errors;
+    };
+}
+
+
+function optional(key, validator) {
+    return (obj) => {
+        if(typeof obj[key] === 'undefined') {
+            return [];
+        }
+        if(validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+
+function validateObject(object, ...fieldValidators) {
+    return fieldValidators.reduce((acc, fv) => [ ...acc, ...fv(object) ], []);
+}
+function validateValue(value, validator) {
+    return validator(value);
+}
+
+const valid = {
+    get object() {
+        return validateObject;
+    },
+    get value() {
+        return validateValue;
+    }
+};
+
+/**
  * A class for managing a MindTouch user.
  */
 class User {
@@ -6197,17 +6114,18 @@ class User {
 
     /**
      * Get the user information.
-     * @param {Object} params - The various params that provide context to the request
-     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
+     * @param {Object} options - The various options that provide context to the request
+     * @param {Array} options.exclude - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the user information.
      */
-    getInfo({ excludes = [] } = {}) {
-        let userModelParser = modelParser.createParser(userModel);
-        let plug = this._plug;
-        if(Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+    getInfo({ exclude = [] } = {}) {
+        const errors = valid.value(exclude, array());
+        if(errors.length > 0) {
+            return Promise.reject(new Error(errors.join(', ')));
         }
-        return plug.get().then((r) => r.json()).then(userModelParser);
+        return this._plug.withParam('exclude', exclude.join(',')).get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(userModel));
     }
 
     /**
@@ -6221,20 +6139,25 @@ class User {
      * @returns {Promise.<Object>} - A Promise that will be resolved with result of the permission check, or rejected with an error specifying the reason for rejection.
      */
     checkAllowed(pageIds, options = {}) {
-        if(!Array.isArray(pageIds)) {
-            return Promise.reject(new Error('Invalid value supplied for the `pageIds` array.'));
+        const pageIdsErrors = valid.value(pageIds, array());
+        if(pageIdsErrors.length > 0) {
+            return Promise.reject(new Error(pageIdsErrors.join(', ')));
+        }
+        const optionsErrors = valid.object(options,
+            optional('mask', number()),
+            optional('operations', array()),
+            optional('verbose', bool()),
+            optional('invert', bool())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         if(options.operations) {
-            if(!Array.isArray(options.operations)) {
-                return Promise.reject(new Error('Invalid value supplied for the `options.operations` array.'));
-            }
             options.operations = options.operations.join(',');
         }
         let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
         requestXml = `<pages>${requestXml}</pages>`;
-        return this._plug.at('allowed')
-            .withParams(options)
-            .post(requestXml, utility.xmlRequestType)
+        return this._plug.at('allowed').withParams(options).post(requestXml, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
     }
@@ -6252,6 +6175,18 @@ class User {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated user data, or rejected with an error specifying the reason for rejection.
      */
     update(options) {
+        const optionsErrors = valid.object(options,
+            optional('active', bool()),
+            optional('seated', bool()),
+            optional('username', string()),
+            optional('fullName', string()),
+            optional('email', string()),
+            optional('language', string()),
+            optional('timeZone', string())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
+        }
         let postData = '<user>';
         Object.entries(options).forEach(([ key, value ]) => {
             if(key === 'active') {
@@ -6288,16 +6223,16 @@ class UserManager {
     /**
      * Get the currently signed-in user.
      * @param {Object} params - The various params that provide context to the request
-     * @param {Array} params.excludes - elements to exclude from response (ex: ['groups', 'properties'])
+     * @param {Array} params.exclude - elements to exclude from response (ex: ['groups', 'properties'])
      * @returns {Promise.<userModel>} - A Promise that, when resolved, returns a {@link userModel} containing the current user's information.
      */
-    getCurrentUser({ excludes = [] } = {}) {
-        let userModelParser = modelParser.createParser(userModel);
-        let plug = this._plug;
-        if(Array.isArray(excludes) && excludes.length) {
-            plug = plug.withParam('exclude', excludes.join());
+    getCurrentUser({ exclude = [] } = {}) {
+        const errors = valid.value(exclude, array());
+        if(errors.length > 0) {
+            return Promise.reject(new Error(errors.join(', ')));
         }
-        return plug.at('current').get().then((r) => r.json()).then(userModelParser);
+        return this._plug.at('current').withParam('exclude', exclude.join(',')).get()
+            .then((r) => r.json()).then(modelParser.createParser(userModel));
     }
 
     /**
@@ -6361,7 +6296,8 @@ class UserManager {
      */
     authenticate({ method = 'GET', username, password }) {
         const lowerMethod = method.toLowerCase();
-        if(lowerMethod !== 'get' && lowerMethod !== 'post') {
+        const errors = valid.value(lowerMethod, one(equals('get'), equals('post')));
+        if(errors.length > 0) {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
         const encodedAuth = platform.base64.encode(`${username}:${password}`);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lib/utility.js</title>
+    <title>JSDoc: Source: lib/validation.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lib/utility.js</h1>
+    <h1 class="page-title">Source: lib/validation.js</h1>
 
     
 
@@ -44,88 +44,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const _htmlEscapeChars = {
-
-    // '¢': 'cent',
-    // '£': 'pound',
-    // '¥': 'yen',
-    // '€': 'euro',
-    // '©': 'copy',
-    // '®': 'reg', Removed due to Dream unable to encode properly
-    '&lt;': 'lt',
-    '>': 'gt',
-    '"': 'quot',
-    '&amp;': 'amp',
-    '\'': '#39'
-};
-const _regexString = new RegExp(`${Object.keys(_htmlEscapeChars).reduce((prev, key) => `${prev}${key}`, '[')}]`, 'g');
-
-export const utility = {
-    xmlRequestType: 'application/xml; charset=utf-8',
-    textRequestType: 'text/plain; charset=utf-8',
-    jsonRequestType: 'application/json; charset=utf-8',
-    escapeHTML(unescaped = '') {
-        return unescaped.replace(_regexString, (m) => '&amp;' + _htmlEscapeChars[m] + ';');
-    },
-    searchEscape(query) {
-        let result = query.toString();
-        let charArr = [ '\\', '+', '-', '&amp;', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':' ];
-        charArr.forEach((c) => {
-            let regex = new RegExp('\\' + c, 'g');
-            result = result.replace(regex, '\\' + c);
-        });
-        return result;
-    },
-    getResourceId(id, defaultId) {
-        if(!id &amp;&amp; !defaultId) {
-            throw new Error('Unable to resolve the input ID to an API resource ID');
-        }
-        let resourceId = defaultId;
-        if(typeof id === 'string' &amp;&amp; id !== defaultId) {
-            resourceId = `=${encodeURIComponent(encodeURIComponent(id))}`;
-        } else if(id) {
-            resourceId = id;
-        }
-        return resourceId;
-    },
-    getNormalizedUserActivityToken(token) {
-        let resourceId = null;
-        if(typeof token === 'string') {
-            if(token.includes(':')) {
-                resourceId = token;
-            } else {
-                resourceId = `=${encodeURIComponent(encodeURIComponent(token))}`;
+export function string() {
+    return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
+}
+export function number() {
+    return (value) => typeof value === 'number' ? [] : [ `${value} is not a number` ];
+}
+export function array() {
+    return (value) => Array.isArray(value) ? [] : [ `${value} is not an array` ];
+}
+export function bool() {
+    return (value) => typeof value === 'boolean' ? [] : [ `${value} is not a Boolean value` ];
+}
+export function equals(expected) {
+    return (value) => value === expected ? [] : [ `${value} does not equal ${expected}` ];
+}
+export function one(...validators) {
+    return (value) => {
+        let errors = [];
+        for(let i = 0; i &lt; validators.length; i++) {
+            const validatorErrors = validators[i](value);
+            if(validatorErrors.length === 0) {
+                errors = [];
+                break;
             }
-        } else if(typeof token === 'number') {
-            resourceId = token;
-        } else {
-            throw new Error('The user activity token must be a string or number');
+            errors.push(...validatorErrors);
         }
-        return resourceId;
-    },
-    getFilenameId(filename) {
-        if(typeof filename !== 'string') {
-            throw new Error('The filename must be a string');
-        }
-        let encodedName = encodeURIComponent(encodeURIComponent(filename));
-        if(!filename.includes('.')) {
+        return errors;
+    };
+}
+export function all(...validators) {
+    return (value) => {
+        let errors = [];
+        validators.forEach((validator) => {
+            const valid = validator(value);
+            if(valid.length > 0) {
+                errors.push(...valid);
+            }
+        });
+        return errors;
+    };
+}
 
-            // File name has no dot (or the dot is at the first position).
-            // Assume that means it doesn't have an extension.
-            encodedName = `=${encodedName}`;
+export function optional(key, validator) {
+    return (obj) => {
+        if(typeof obj[key] === 'undefined') {
+            return [];
         }
-        return encodedName;
+        if(validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+export function required(key, validator) {
+    return (obj) => {
+        if(typeof obj[key] === 'undefined') {
+            return [ `The value of ${key} is not defined` ];
+        }
+        if(validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+export function validateObject(object, ...fieldValidators) {
+    return fieldValidators.reduce((acc, fv) => [ ...acc, ...fv(object) ], []);
+}
+export function validateValue(value, validator) {
+    return validator(value);
+}
+
+export const valid = {
+    get object() {
+        return validateObject;
     },
-    getApiDateString(date) {
-        const dateParts = {
-            year: date.getFullYear(),
-            month: `0${date.getMonth() + 1}`.slice(-2),
-            day: `0${date.getDate()}`.slice(-2),
-            hours: `0${date.getHours()}`.slice(-2),
-            minutes: `0${date.getMinutes()}`.slice(-2),
-            seconds: `0${date.getSeconds()}`.slice(-2)
-        };
-        return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
+    get value() {
+        return validateValue;
     }
 };
 </code></pre>
