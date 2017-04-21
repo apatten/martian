@@ -24,7 +24,7 @@ var crypto = _interopDefault(require('crypto'));
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const uriParser = /^(?:(?![^:@]+:[^:@/]*@)([^:/?#.]+:))?(?:\/\/)?(?:([^:@/]*)(?::([^:@/]*))?@)?(\[[0-9a-fA-F.]+]|[^:/?#]*)(?::(\d+|(?=:)))?((?:[^?#](?![^?#/]*\.(?:[?#]|$)))*\/?)?[^?#/]*(?:(\?[^#]*))?(?:(#.*))?/;
+const uriParser = /^(?:(?![^:@]+:[^:@/]*@)([^:/?#.]+:))?(?:\/\/)?(?:([^:@/]*)(?::([^:@/]*))?@)?(\[[0-9a-fA-F.]+]|[^:/?#]*)(?::(\d+|(?=:)))?((?:[^?#])*\/?)?[^?#/]*(?:(\?[^#]*))?(?:(#.*))?/;
 function _parseUri(str) {
     var parserKeys = [ 'href', 'protocol', 'username', 'password', 'hostname', 'port', 'pathname', 'search', 'hash' ];
     var m = uriParser.exec(str);
