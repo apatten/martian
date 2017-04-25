@@ -19,6 +19,7 @@
 
 /* eslint-env jasmine, jest */
 jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+    delete: () => Promise.reject(),
     get: () => Promise.reject(),
     post: () => Promise.reject(),
     put: () => Promise.reject()
@@ -55,6 +56,12 @@ describe('WebWidgets', () => {
         it('can fail creating a widget', () => {
             const success = jest.fn();
             return wwm.createWidget({ arguments: [ { name: '', value: '' } ], hosts: [], name: '', type: '' }).catch(success).then(() => {
+                expect(success).toHaveBeenCalled();
+            });
+        });
+        it('can fail deleting a widget', () => {
+            const success = jest.fn();
+            return wwm.deleteWidget(1).catch(success).then(() => {
                 expect(success).toHaveBeenCalled();
             });
         });

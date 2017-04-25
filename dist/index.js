@@ -6482,7 +6482,8 @@ class WebWidgetsManager {
      */
     deleteWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).delete();
+        return this._plug.at(widgetId).delete()
+            .catch((err) => Promise.reject(_errorParser$6(err)));
     }
 
     /**
