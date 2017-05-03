@@ -22,7 +22,8 @@ export class SiteJob {
     }
 
     /**
-     *
+     * Get the status information for the job.
+     * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     getStatus() {
         return this._plug.at('status').get()
@@ -33,7 +34,7 @@ export class SiteJob {
 
     /**
      * Cancel the site job.
-     * @returns {Promise} A promise that, when resolved, indicates the job was successfully cancelled.
+     * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     cancel() {
         return this._plug.at('cancel').post()
