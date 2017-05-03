@@ -7,14 +7,50 @@ import { siteJobModel, siteJobsModel } from './models/siteJob.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
 
-export class SiteJobs {
+export class SiteJob {
 
     /**
-     * Create a new SiteImportExport object.
+     * Create a new SiteJob
+     * @param {String} jobId The GUID job ID.
+     * @param {Settings} [settings] The martian settings that will direct the requests for this instance.
+     */
+    constructor(jobId, settings = new Settings()) {
+        if(!jobId || typeof jobId !== 'string') {
+            throw new Error('The job ID must be supplied as a GUID string.');
+        }
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'jobs', jobId);
+    }
+
+    /**
+     *
+     */
+    getStatus() {
+        return this._plug.at('status').get()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(siteJobModel));
+    }
+
+    /**
+     * Cancel the site job.
+     * @returns {Promise} A promise that, when resolved, indicates the job was successfully cancelled.
+     */
+    cancel() {
+        return this._plug.at('cancel').post()
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then((r) => r.json())
+            .then(modelParser.createParser(siteJobModel));
+    }
+}
+
+export class SiteJobManager {
+
+    /**
+     * Create a new SiteJobManager object.
      * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
      */
     constructor(settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site');
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'jobs');
     }
 
     /**
@@ -74,7 +110,7 @@ export class SiteJobs {
         postData += '</notification>';
         postData += `<pages>${pagesElements}</pages>`;
         postData += '</job>';
-        return this._plug.at('jobs', 'export').post(postData, utility.xmlRequestType)
+        return this._plug.at('export').post(postData, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -115,7 +151,7 @@ export class SiteJobs {
         postData += '</notification>';
         postData += `<archive><url>${options.archiveUrl}</url></archive>`;
         postData += '</job>';
-        return this._plug.at('jobs', 'import').withParam('dryrun', Boolean(options.dryRun)).post(postData, utility.xmlRequestType)
+        return this._plug.at('import').withParam('dryrun', Boolean(options.dryRun)).post(postData, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -125,7 +161,7 @@ export class SiteJobs {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the jobs status info, or rejected with an error specifying the reason for rejection.
      */
     getJobsStatuses() {
-        return this._plug.at('jobs', 'status').get()
+        return this._plug.at('status').get()
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobsModel));
