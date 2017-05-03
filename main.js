@@ -15,7 +15,7 @@ import { PageFile } from './pageFile.js';
 import { PageProperty } from './pageProperty.js';
 import { PageSecurity } from './pageSecurity.js';
 import { Site } from './site.js';
-import { SiteJobs } from './siteJobs.js';
+import { SiteJob, SiteJobManager } from './siteJob.js';
 import { SiteReports } from './siteReports.js';
 import { User, UserManager } from './user.js';
 import { WebWidgetsManager } from './webWidgets.js';
@@ -38,7 +38,7 @@ export {
     PageProperty,
     PageSecurity,
     Site,
-    SiteJobs,
+    SiteJob, SiteJobManager,
     SiteReports,
     User, UserManager,
     WebWidgetsManager,
