@@ -3974,18 +3974,18 @@ class LearningPath {
         if(!content.title || typeof content.title !== 'string' || content.title === '') {
             return Promise.reject('The title parameter must be supplied, and must be a non-empty string.');
         }
-        let xmlData = `<title>${content.title}</title>`;
+        let xmlData = `<title>${utility.escapeHTML(content.title)}</title>`;
         if(content.summary) {
             if(typeof content.summary !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
-            xmlData += `<summary>${content.summary}</summary>`;
+            xmlData += `<summary>${utility.escapeHTML(content.summary)}</summary>`;
         }
         if(content.category) {
             if(typeof content.category !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
-            xmlData += `<category>${content.category}</category>`;
+            xmlData += `<category>${utility.escapeHTML(content.category)}</category>`;
         }
         if(content.pageIds) {
             if(!Array.isArray(content.pageIds)) {
