@@ -78,18 +78,18 @@ export class LearningPath {
         if(!content.title || typeof content.title !== 'string' || content.title === '') {
             return Promise.reject('The title parameter must be supplied, and must be a non-empty string.');
         }
-        let xmlData = `&lt;title>${content.title}&lt;/title>`;
+        let xmlData = `&lt;title>${utility.escapeHTML(content.title)}&lt;/title>`;
         if(content.summary) {
             if(typeof content.summary !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
-            xmlData += `&lt;summary>${content.summary}&lt;/summary>`;
+            xmlData += `&lt;summary>${utility.escapeHTML(content.summary)}&lt;/summary>`;
         }
         if(content.category) {
             if(typeof content.category !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
-            xmlData += `&lt;category>${content.category}&lt;/category>`;
+            xmlData += `&lt;category>${utility.escapeHTML(content.category)}&lt;/category>`;
         }
         if(content.pageIds) {
             if(!Array.isArray(content.pageIds)) {
