@@ -24,7 +24,10 @@ const siteJobModel = [
     { field: '@status', name: 'status' },
     { field: 'lastmodified', name: 'lastModified', transform: 'date' },
     { field: 'submitted', transform: 'date' },
-    { field: 'user', transform: userModel }
+    { field: 'started', transform: 'date' },
+    { field: 'user', transform: userModel },
+    { field: 'completeditems', name: 'completedItems', transform: 'number' },
+    { field: 'totalitems', name: 'totalItems', transform: 'number' }
 ];
 const siteJobsModel = [
     { field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }
