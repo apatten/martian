@@ -163,7 +163,7 @@ describe('Page', () => {
             return page.getLinkDetails();
         });
         it('can get link details (all params)', () => {
-            return page.getLinkDetails({ includeSubpages: true, linkTypes: [ 'foo', 'bar' ], broken: false, redirect: true, limit: 99, offset: 98 });
+            return page.getLinkDetails({ includeSubpages: true, linkTypes: [ 'foo', 'bar' ], broken: false, redirect: true, limit: 99, offset: 98, q: 'baz' });
         });
         describe('link details failures', () => {
             const failed = jest.fn();
@@ -188,6 +188,9 @@ describe('Page', () => {
             it('invalid offset', () => {
                 return page.getLinkDetails({ offset: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
             });
+            it('invalid q', () => {
+                return page.getLinkDetails({ q: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            });
         });
         it('can get the health inspections (no parameters)', () => {
             return page.getHealthInspections();
@@ -195,7 +198,7 @@ describe('Page', () => {
         it('can get the health inspections (all parameters)', () => {
             return page.getHealthInspections({ analyzers: [ 'foo', 'bar' ], severities: [ 'foo', 'bar' ], includeSubpages: true, limit: 400, offset: 100 });
         });
-        describe('link details failures', () => {
+        describe('health inspections failures', () => {
             const failed = jest.fn();
             afterEach(() => {
                 failed.mockReset();

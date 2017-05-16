@@ -299,9 +299,10 @@ export class Page extends PageBase {
      * @param {Boolean} [options.redirect] The redirect state of the links to include.
      * @param {Number} [options.limit] The maximum number of results to return.
      * @param {Number} [options.offset] The number of items to skip.
+     * @param {String} [options.q] A search query string
      * @returns {Promise} A Promise that, when resolved, returns a pageLinkDetailsModel with the list of link details that were fetched.
      */
-    getLinkDetails({ includeSubpages = false, linkTypes = [], broken, redirect, limit = 100, offset = 0 } = {}) {
+    getLinkDetails({ includeSubpages = false, linkTypes = [], broken, redirect, limit = 100, offset = 0, q } = {}) {
         const params = {};
         if(typeof includeSubpages !== 'boolean') {
             return Promise.reject(new Error('The `includeSubpages` parameter must be a Boolean value.'));
@@ -333,6 +334,12 @@ export class Page extends PageBase {
             return Promise.reject(new Error('The `offset` parameter must be a number.'));
         }
         params.offset = offset;
+        if(typeof q !== 'undefined') {
+            if(typeof q !== 'string') {
+                return Promise.reject(new Error('The `q` parameter must be a string.'));
+            }
+            params.q = q;
+        }
         return this._plug.at('linkdetails').withParams(params).get()
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
