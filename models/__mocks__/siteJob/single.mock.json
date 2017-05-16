@@ -1,10 +1,13 @@
-{  
+{
   "@id":"bdae865f-faf5-4f21-833d-f8f39d7005f9",
   "@type":"EXPORT",
   "@status":"SUBMITTED",
   "lastmodified":"Wed, 12 Apr 2017 23:40:41 GMT",
   "submitted":"Wed, 12 Apr 2017 23:40:41 GMT",
-  "user":{  
+  "started":"Wed, 12 Apr 2017 23:40:41 GMT",
+  "completeditems": "20",
+  "totalitems": "100",
+  "user":{
     "@anonymous":"false",
     "@id":"1",
     "@wikiid":"site_6823",
@@ -14,12 +17,12 @@
     "email":"jeremyh@mindtouch.com",
     "fullname":"",
     "hash.email":"95e11fdec86b9635717abf7fb006dcb1",
-    "license.seat":{  
+    "license.seat":{
       "@owner":"true",
       "#text":"true"
     },
     "nick":"admin",
-    "password":{  
+    "password":{
       "@exists":"true"
     },
     "status":"active",
