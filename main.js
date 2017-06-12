@@ -14,6 +14,7 @@ import { Page, PageManager } from './page.js';
 import { PageFile } from './pageFile.js';
 import { PageProperty } from './pageProperty.js';
 import { PageSecurity } from './pageSecurity.js';
+import { PageSubscription, PageSubscriptionManager } from './pageSubscription.js';
 import { Site } from './site.js';
 import { SiteJob, SiteJobManager } from './siteJob.js';
 import { SiteReports } from './siteReports.js';
@@ -37,6 +38,7 @@ export {
     PageFile,
     PageProperty,
     PageSecurity,
+    PageSubscription, PageSubscriptionManager,
     Site,
     SiteJob, SiteJobManager,
     SiteReports,
