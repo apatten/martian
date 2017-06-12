@@ -5289,6 +5289,220 @@ class PageSecurity {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+function string() {
+    return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
+}
+function number() {
+    return (value) => typeof value === 'number' ? [] : [ `${value} is not a number` ];
+}
+function array() {
+    return (value) => Array.isArray(value) ? [] : [ `${value} is not an array` ];
+}
+function bool() {
+    return (value) => typeof value === 'boolean' ? [] : [ `${value} is not a Boolean value` ];
+}
+function equals(expected) {
+    return (value) => value === expected ? [] : [ `${value} does not equal ${expected}` ];
+}
+function one(...validators) {
+    return (value) => {
+        let errors = [];
+        for(let i = 0; i < validators.length; i++) {
+            const validatorErrors = validators[i](value);
+            if(validatorErrors.length === 0) {
+                errors = [];
+                break;
+            }
+            errors.push(...validatorErrors);
+        }
+        return errors;
+    };
+}
+function all(...validators) {
+    return (value) => {
+        let errors = [];
+        validators.forEach((validator) => {
+            const valid = validator(value);
+            if(valid.length > 0) {
+                errors.push(...valid);
+            }
+        });
+        return errors;
+    };
+}
+
+function optional(key, validator) {
+    return (obj) => {
+        if(typeof obj[key] === 'undefined') {
+            return [];
+        }
+        if(validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+function required(key, validator) {
+    return (obj) => {
+        if(typeof obj[key] === 'undefined') {
+            return [ `The value of ${key} is not defined` ];
+        }
+        if(validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+function validateObject(object, ...fieldValidators) {
+    return fieldValidators.reduce((acc, fv) => [ ...acc, ...fv(object) ], []);
+}
+function validateValue(value, validator) {
+    return validator(value);
+}
+
+const valid = {
+    get object() {
+        return validateObject;
+    },
+    get value() {
+        return validateValue;
+    }
+};
+
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const pageSubscriptionsModel = [
+    {
+        field: 'subscription.page',
+        name: 'subscriptions',
+        isArray: true,
+        transform: [
+            { field: '@id', name: 'id', transform: 'number' },
+            { field: '@depth', name: 'depth' },
+            { field: '@draft', name: 'draft', transform: 'boolean' }
+        ]
+    }
+];
+
+/**
+ * A class for managing the subscriptions of a page for the current user.
+ */
+class PageSubscription {
+
+    /**
+     * Construct a new PageSubscription object.
+     * @param {String} siteId The ID of the site.
+     * @param {Number|String} [pageId='home'] The numeric page ID or the page path.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(siteId, pageId = 'home', settings = new Settings()) {
+        const error = valid.value(siteId, string());
+        if(error.length > 0) {
+            throw new Error('The siteId parameter must be supplied, and must be a string.');
+        }
+        this._plug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'pagesubservice', 'pages', utility.getResourceId(pageId, 'home'))
+            .withParam('siteid', siteId);
+    }
+
+    /**
+     * Subscribe to the page as the current user.
+     * @param {Object} options Options to direct the subscription request.
+     * @param {String} [options.type=page] The type of the subscription. Must be either `page` or `draft`.
+     * @param {Boolean} [options.recursive=false] Indicates whether or not the subscription is for grandchildren as well.
+     * @returns {Promise} A promise that, when resolved indicates the subscription request was successful.
+     */
+    subscribe({ type = 'page', recursive = false } = {}) {
+        const optionsErrors = valid.object({ type, recursive },
+            required('type', all(string(), one(equals('page'), equals('draft')))),
+            required('recursive', bool())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
+        }
+        return this._plug.withParams({ type, depth: recursive ? 'infinity' : '0' }).post('', utility.textRequestType);
+    }
+
+    /**
+     * Remove an existing subscription for the current user.
+     * @param {Object} options Options to direct the unsubscribe request.
+     * @param {String} [options.type] The type of the subscription to unsubscribe from. Must be either `page` or `draft`.
+     * @returns {Promise} A promise that, when resolved indicates the unsubscribe request was successful.
+     */
+    unsubscribe({ type = 'page' } = {}) {
+        const error = valid.value(type, all(string(), one(equals('page'), equals('draft'))));
+        if(error.length > 0) {
+            return Promise.reject('The type parameter must be a string set to either "page" or "draft".');
+        }
+        return this._plug.withParams({ type }).delete();
+    }
+}
+
+/**
+ * A class for managing the site-wide page subscriptions for the current user.
+ */
+class PageSubscriptionManager {
+
+    /**
+     * Create a new PageSubscriptionManager
+     * @param {String} siteId The ID of the site.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(siteId, settings = new Settings()) {
+        const error = valid.value(siteId, string());
+        if(error.length > 0) {
+            throw new Error('The siteId parameter must be supplied, and must be a string.');
+        }
+        this._plug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'pagesubservice', 'subscriptions')
+            .withParam('siteid', siteId);
+    }
+
+    /**
+     * Get all of the page subscriptions for the current user.
+     * @returns {Promise} A Promise that, when resolved, yields a {@see pageSubscriptionModel} containing the listing of subscriptions.
+     */
+    getSubscriptions() {
+        return this._plug.get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageSubscriptionsModel));
+    }
+}
+
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 const searchModel = [
     { field: '@ranking', name: 'ranking' },
     { field: '@queryid', name: 'queryId', transform: 'number' },
@@ -6069,83 +6283,6 @@ const platform = {
 /* eslint-enable no-undef */
 
 /**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function string() {
-    return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
-}
-function number() {
-    return (value) => typeof value === 'number' ? [] : [ `${value} is not a number` ];
-}
-function array() {
-    return (value) => Array.isArray(value) ? [] : [ `${value} is not an array` ];
-}
-function bool() {
-    return (value) => typeof value === 'boolean' ? [] : [ `${value} is not a Boolean value` ];
-}
-function equals(expected) {
-    return (value) => value === expected ? [] : [ `${value} does not equal ${expected}` ];
-}
-function one(...validators) {
-    return (value) => {
-        let errors = [];
-        for(let i = 0; i < validators.length; i++) {
-            const validatorErrors = validators[i](value);
-            if(validatorErrors.length === 0) {
-                errors = [];
-                break;
-            }
-            errors.push(...validatorErrors);
-        }
-        return errors;
-    };
-}
-
-
-function optional(key, validator) {
-    return (obj) => {
-        if(typeof obj[key] === 'undefined') {
-            return [];
-        }
-        if(validator) {
-            return validator(obj[key]);
-        }
-        return [];
-    };
-}
-
-function validateObject(object, ...fieldValidators) {
-    return fieldValidators.reduce((acc, fv) => [ ...acc, ...fv(object) ], []);
-}
-function validateValue(value, validator) {
-    return validator(value);
-}
-
-const valid = {
-    get object() {
-        return validateObject;
-    },
-    get value() {
-        return validateValue;
-    }
-};
-
-/**
  * A class for managing a MindTouch user.
  */
 class User {
@@ -6701,6 +6838,8 @@ exports.PageManager = PageManager;
 exports.PageFile = PageFile;
 exports.PageProperty = PageProperty;
 exports.PageSecurity = PageSecurity;
+exports.PageSubscription = PageSubscription;
+exports.PageSubscriptionManager = PageSubscriptionManager;
 exports.Site = Site;
 exports.SiteJob = SiteJob;
 exports.SiteJobManager = SiteJobManager;
