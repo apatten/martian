@@ -1,0 +1,29 @@
+{
+  "subscription.page": [
+    {
+      "@id": "299",
+      "@depth": "0",
+      "@draft": "false"
+    },
+    {
+      "@id": "299",
+      "@depth": "0",
+      "@draft": "true"
+    },
+    {
+      "@id": "301",
+      "@depth": "0",
+      "@draft": "true"
+    },
+    {
+      "@id": "317",
+      "@depth": "infinity",
+      "@draft": "false"
+    },
+    {
+      "@id": "317",
+      "@depth": "infinity",
+      "@draft": "true"
+    }
+  ]
+}
