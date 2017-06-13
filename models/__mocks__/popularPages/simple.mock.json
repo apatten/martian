@@ -1,0 +1,64 @@
+{
+    "@count": "3",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/popular",
+    "page": [
+        {
+            "@id": "1",
+            "@guid": "00000000000000000000000000000000",
+            "@draft.state": "inactive",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/1?redirects=0",
+            "@deleted": "false",
+            "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+            "language": "en-US",
+            "metrics": {
+                "metric.views": "690"
+            },
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "@type": "fixed",
+                "#text": ""
+            },
+            "title": "Home",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/"
+        },
+        {
+            "@id": "299",
+            "@guid": "d54576b4e2eb4735a064060d5eef65e2",
+            "@draft.state": "inactive",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/299?redirects=0",
+            "@deleted": "false",
+            "date.created": "Tue, 20 Dec 2016 21:38:32 GMT",
+            "language": "en-US",
+            "metrics": {
+                "metric.views": "511"
+            },
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Category_1/Guide_1"
+            },
+            "title": "Guide 1",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_1/Guide_1"
+        },
+        {
+            "@id": "330",
+            "@guid": "bdd003b79b864c2594b1319264341072",
+            "@draft.state": "inactive",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/330?redirects=0",
+            "@deleted": "false",
+            "date.created": "Wed, 11 Jan 2017 22:38:45 GMT",
+            "language": "en-US",
+            "metrics": {
+                "metric.views": "253"
+            },
+            "namespace": "main",
+            "path": {
+                "@seo": "true",
+                "#text": "Category_2/Guide_2/Topic_2.2"
+            },
+            "title": "Topic 2.2",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.2"
+        }
+    ]
+}

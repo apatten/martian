@@ -4,6 +4,7 @@ import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { PageBase } from './pageBase.js';
+import { valid, required, one, equals, number } from './lib/validation.js';
 import { pageModel } from './models/page.model.js';
 import { subpagesModel } from './models/subpages.model.js';
 import { pageContentsModel } from './models/pageContents.model.js';
@@ -18,6 +19,7 @@ import { pageFindModel } from './models/pageFind.model.js';
 import { pageLinkDetailsModel } from './models/pageLinkDetails.model.js';
 import { healthReportModel } from './models/healthReport.model.js';
 import { templateListModel } from './models/templateList.model.js';
+import { popularPagesModel } from './models/popularPages.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -490,5 +492,25 @@ export class PageManager {
         return this._plug.at('templates').withParams({ type, includeDescription }).get()
             .then((r) => r.json())
             .then(modelParser.createParser(templateListModel));
+    }
+
+    /**
+     * Retrieves a list of popular pages on the site.
+     * @param {Object} [options] Options to direct the fetching of the popular pages.
+     * @param {Number|String} [options.limit=50] The number of results to return. Can be set to the string "all" to return all results.
+     * @param {Number} [options.offset=0] The number of results to skip.
+     * @returns {Promise} A Promise that, when resolved, yields a listing of popular pages.
+     */
+    getPopularPages({ limit = 50, offset = 0 } = {}) {
+        const optionsErrors = valid.object({ limit, offset },
+            required('limit', one(number(), equals('all'))),
+            required('offset', number())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(optionsErrors.join(', '));
+        }
+        return this._plug.at('popular').withParams({ limit, offset }).get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(popularPagesModel));
     }
 }
