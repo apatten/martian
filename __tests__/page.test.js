@@ -511,6 +511,21 @@ describe('Page', () => {
                     return pm.getTemplates({ includeDescription: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
                 });
             });
+            it('can get a list of popular pages (no params)', () => {
+                return pm.getPopularPages();
+            });
+            it('can get a list of popular pages (all params)', () => {
+                return pm.getPopularPages({ limit: 10, offset: 20 });
+            });
+            describe('popular pages failures', () => {
+                const failed = jest.fn();
+                afterEach(() => {
+                    failed.mockReset();
+                });
+                it('invalid options', () => {
+                    return pm.getPopularPages({ limit: 'foo', offset: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                });
+            });
         });
     });
 });
