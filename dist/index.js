@@ -4676,7 +4676,8 @@ const templateListModel = [
             { field: 'description' },
             { field: 'id', transform: 'number' },
             { field: 'path' },
-            { field: 'title' }
+            { field: 'title' },
+            { field: 'articletype', name: 'articleType' }
         ]
     }
 ];
