@@ -27,7 +27,7 @@ export const templateListModel = [
             { field: 'id', transform: 'number' },
             { field: 'path' },
             { field: 'title' },
-            { field: 'articletype' }
+            { field: 'articletype', name: 'articleType' }
         ]
     }
 ];
