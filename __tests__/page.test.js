@@ -294,6 +294,9 @@ describe('Page', () => {
         it('can set the tags (empty request)', () => {
             return page.setTags();
         });
+        it('can get recommended tags', () => {
+            return page.getRecommendedTags();
+        });
         it('can attach a file to a page (no progress)', () => {
             return page.attachFile({}, { name: 'test.jpg', type: 'image/jpg', size: 1000 });
         });

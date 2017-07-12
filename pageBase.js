@@ -10,6 +10,7 @@ import { relatedPagesModel } from './models/relatedPages.model.js';
 import { fileModel } from './models/file.model.js';
 import { pageOverviewModel } from './models/pageOverview.model.js';
 import { pageDiffModel } from './models/pageDiff.model.js';
+import { recommendedTagsModelParser } from './models/recommendedTags.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -94,6 +95,14 @@ export class PageBase {
         const XMLData = _getSaveXML(params);
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug.at('tags').put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
+    }
+
+    /**
+     * Get recommended tags for a page
+     * @returns {Promise} A Promise that, when resolved yields a list of recommended tags.
+     */
+    getRecommendedTags() {
+        return this._plug.at('tags', 'recommended').get().then((r) => r.json()).then(modelParser.createParser(recommendedTagsModelParser));
     }
 
     /**
