@@ -2230,6 +2230,36 @@ const pageDiffModel = [
     { field: 'after' }
 ];
 
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const recommendedTagsModelParser = [
+    {
+        field: 'tag',
+        name: 'tags',
+        isArray: true,
+        transform: [
+            { field: '@value', name: 'tag' }
+        ]
+    }
+];
+
 const _errorParser$1 = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
@@ -2312,6 +2342,14 @@ class PageBase {
         const XMLData = _getSaveXML(params);
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug.at('tags').put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
+    }
+
+    /**
+     * Get recommended tags for a page
+     * @returns {Promise} A Promise that, when resolved yields a list of recommended tags.
+     */
+    getRecommendedTags() {
+        return this._plug.at('tags', 'recommended').get().then((r) => r.json()).then(modelParser.createParser(recommendedTagsModelParser));
     }
 
     /**
