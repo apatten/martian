@@ -154,12 +154,6 @@ export class Page extends PageBase {
         if(!params.to) {
             return Promise.reject(new Error('The copy target location must be specified in the `to` parameter.'));
         }
-        if(params.abort && params.abort !== 'exists' && params.abort !== 'never') {
-            return Promise.reject(new Error('The `abort` parameter must be either "exists" or "never".'));
-        }
-        if(params.allow && params.allow !== 'deleteredirects') {
-            return Promise.reject('The `allow` parameter, if specified, must have a value of "deleteredirects"');
-        }
         return this._plug.at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
