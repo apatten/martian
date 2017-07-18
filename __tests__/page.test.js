@@ -345,15 +345,6 @@ describe('Page', () => {
                 expect(success).not.toHaveBeenCalled();
             });
         });
-        it('can fail if the `allow` parameter is set to an invalid value', () => {
-            const success = jest.fn();
-            return page.copy({ to: 'foo/bar', allow: 'invalid' }).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
-        });
         it('can revert a page (minimum options)', () => {
             return page.revert({ fromRevision: 5 });
         });
