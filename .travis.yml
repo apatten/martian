@@ -16,6 +16,39 @@ script:
   - yarn inspect
   - yarn test-jsdom
   - yarn test-node
+  - yarn bundle-global
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+
+  # release
+  - provider: s3
+    skip_cleanup: true
+    access_key_id:
+      secure: "igyh+9JKjZfm/2rFwRo6a5HV3sw11E0FNtZDT9XxALuaNTxq7KaWJoNZDpqbrZO/LEV+Ff9+YlPqnroD8foKu9iOO63XYxqqQTtWu3Fvxi2CTX2DcSokeG6MHXJcp08UrBnFt9qy0LDcRfmSKve/o4hw/g/QDH1Sr5ITuBpa90wUPEJ9hRagNsHKzTUWIOvOGYB3LHK5Dd7V0IO6DxNzoJ/arIF2YSQxZPby7+wJZIsN2lOLSz2w62RDW/IGUz19x6tYZMgF2vHXgSPbFX9VvFqDsYrpWSCWM4MPIumEzDSi+KYdJs+FQXahA7BghYyBQFJc17k8lu5S0p6Tvqo8cvCjv1XYlPifBZtUUVInTZ3pTQ3WjqfIEij5oJv1fqIRbrpB6hFEY7Z+OjjhSHiF7XLKC0DOzNvjj+g8uf9ifNUBTeXCBOpihlAvU/BCQW0I9sHAW8kBB10In7GRAaJUgTsF7I+ET7UEezHebidnch1wna6/n7kTbr9w8UOOMjNDG1qGhLMVYbZbbBUUiC+3GI2r+AJq38NP+Bw3U/IF/0sBPZVk5NMUtu7i7tcXYfjJgDAHco6bRrtx7hNgMfZoVx19AyViZDMhaFacqe2ImBZPVpu73BtedVihWOj7Qsp7E3FBmA6zQTNf5PlOrwE3zWyEXwirChiSIVQNq0Jpkkg="
+    secret_access_key:
+      secure: "KExzHrfsqUqvTT38qe3JHk6psK95Xh93isep3mC/eQw7n9T6iREx02gojz4Dat983lAsi/cFKsiKOl6vHqyYPJveWvwuYCqlczIXBRtGd//bwaEkm8L7HfgDf9ph9bDHcuRXTRpigh2hKCPdraTStxGAZ9DPNSmsXW8bQU0oE0PK/oKrWVHhJjxE3DSrh8I4SckuZrEQMspcNqrFVD0VyDD5Jnf+xAJAA23AItY1q0gzTX/tBJ0U0V/PPCtnNEZve2h/8BBjiud/yFtYQcoCAgleks7HE5G1mm+u8I+iXEFLFIYMx3K2GCqS/Xr+ZZ+NpnkylcZVXd//lSc8/CdnPjJUYWUFE2Hsw+7cteOQDNy3O3hHmg44EASGnmAXRCF9fOrEPFyKn7xYVbDw/YrJCQOVhtMxaxMyATvUuju4UJ6DLwfcewtyz0atLw7w1JqolB+zSpZ/xt+3vMn9k8KDJ8+yAfqL+0AHbWmFBeFfxSDWsks2JHE1XGd4XEvdR8M4inBlOeIANRib71JBepuiRVWIBZNohAjLsBvc3z0PVCIrlBIC1xDadp9TwsydXxFfjGhtpYQqoN6P5jqpy9d1QRtJ5iuvFFAQsKBju6ZaWC0cf2dH20A9b9nHn2Ie/13vlx/7DTZnSCJl+3qxU5B3jt4GpjSxl+QIQ4xkJf+7+g8="
+    bucket: mindtouch-cloudfront-ajax
+    local_dir: build
+    upload_dir: "martian/${TRAVIS_TAG}"
+    cache_control: "max-age=29030400, public"
+    on:
+      tags: true
+      repo: MindTouch/martian
+
+  # development branch
+  - provider: s3
+    skip_cleanup: true
+    access_key_id:
+      secure: "igyh+9JKjZfm/2rFwRo6a5HV3sw11E0FNtZDT9XxALuaNTxq7KaWJoNZDpqbrZO/LEV+Ff9+YlPqnroD8foKu9iOO63XYxqqQTtWu3Fvxi2CTX2DcSokeG6MHXJcp08UrBnFt9qy0LDcRfmSKve/o4hw/g/QDH1Sr5ITuBpa90wUPEJ9hRagNsHKzTUWIOvOGYB3LHK5Dd7V0IO6DxNzoJ/arIF2YSQxZPby7+wJZIsN2lOLSz2w62RDW/IGUz19x6tYZMgF2vHXgSPbFX9VvFqDsYrpWSCWM4MPIumEzDSi+KYdJs+FQXahA7BghYyBQFJc17k8lu5S0p6Tvqo8cvCjv1XYlPifBZtUUVInTZ3pTQ3WjqfIEij5oJv1fqIRbrpB6hFEY7Z+OjjhSHiF7XLKC0DOzNvjj+g8uf9ifNUBTeXCBOpihlAvU/BCQW0I9sHAW8kBB10In7GRAaJUgTsF7I+ET7UEezHebidnch1wna6/n7kTbr9w8UOOMjNDG1qGhLMVYbZbbBUUiC+3GI2r+AJq38NP+Bw3U/IF/0sBPZVk5NMUtu7i7tcXYfjJgDAHco6bRrtx7hNgMfZoVx19AyViZDMhaFacqe2ImBZPVpu73BtedVihWOj7Qsp7E3FBmA6zQTNf5PlOrwE3zWyEXwirChiSIVQNq0Jpkkg="
+    secret_access_key:
+      secure: "KExzHrfsqUqvTT38qe3JHk6psK95Xh93isep3mC/eQw7n9T6iREx02gojz4Dat983lAsi/cFKsiKOl6vHqyYPJveWvwuYCqlczIXBRtGd//bwaEkm8L7HfgDf9ph9bDHcuRXTRpigh2hKCPdraTStxGAZ9DPNSmsXW8bQU0oE0PK/oKrWVHhJjxE3DSrh8I4SckuZrEQMspcNqrFVD0VyDD5Jnf+xAJAA23AItY1q0gzTX/tBJ0U0V/PPCtnNEZve2h/8BBjiud/yFtYQcoCAgleks7HE5G1mm+u8I+iXEFLFIYMx3K2GCqS/Xr+ZZ+NpnkylcZVXd//lSc8/CdnPjJUYWUFE2Hsw+7cteOQDNy3O3hHmg44EASGnmAXRCF9fOrEPFyKn7xYVbDw/YrJCQOVhtMxaxMyATvUuju4UJ6DLwfcewtyz0atLw7w1JqolB+zSpZ/xt+3vMn9k8KDJ8+yAfqL+0AHbWmFBeFfxSDWsks2JHE1XGd4XEvdR8M4inBlOeIANRib71JBepuiRVWIBZNohAjLsBvc3z0PVCIrlBIC1xDadp9TwsydXxFfjGhtpYQqoN6P5jqpy9d1QRtJ5iuvFFAQsKBju6ZaWC0cf2dH20A9b9nHn2Ie/13vlx/7DTZnSCJl+3qxU5B3jt4GpjSxl+QIQ4xkJf+7+g8="
+    bucket: mindtouch-cloudfront-ajax
+    local_dir: build
+    upload_dir: martian/dev-master
+    on:
+      branch: master
+      condition: $TRAVIS_TAG == ''
+      repo: MindTouch/martian

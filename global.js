@@ -16,13 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const recommendedTagsModelParser = [
-    {
-        field: 'tag',
-        name: 'tags',
-        isArray: true,
-        transform: [
-            { field: '@value', name: 'tag' }
-        ]
-    }
-];
+import * as main from './main.js';
+main.Settings.default.headers = {
+    'X-Deki-Client': 'mindtouch-martian-global'
+};
+export default main;

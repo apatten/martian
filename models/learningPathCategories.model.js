@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 export const learningPathCategoriesModel = [
     { field: [ 'categories', 'category' ], name: 'categories', isArray: true }
 ];

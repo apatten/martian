@@ -18,7 +18,8 @@
     "test": "npm run test-jsdom & npm run test-node;wait",
     "inspect": "eslint *.js __mocks__/**/*.js __tests__/**/*.js lib/**/*.js models/**/*.js",
     "docs": "jsdoc -c .jsdoc.json",
-    "bundle": "rollup --config .rollup.config.js"
+    "bundle": "rollup --config .rollup.config.js",
+    "bundle-global": "rollup --config .rollup.config-global.js"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
@@ -29,7 +30,9 @@
     "jest-cli": "19.0.2",
     "jsdoc": "^3.4.3",
     "rollup": "^0.41.6",
-    "rollup-plugin-node-resolve": "^2.0.0"
+    "rollup-plugin-babel": "2.7.1",
+    "rollup-plugin-node-resolve": "2.0.0",
+    "rollup-plugin-uglify": "2.0.1"
   },
   "author": "MindTouch",
   "bugs": {

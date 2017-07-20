@@ -1,3 +1,8 @@
+import resolve from 'rollup-plugin-node-resolve';
+import uglify from 'rollup-plugin-uglify';
+import babel from 'rollup-plugin-babel';
+
+const banner = `
 /**
  * Martian - Core JavaScript API for MindTouch
  *
@@ -15,14 +20,31 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * @preserve
  */
-export const recommendedTagsModelParser = [
-    {
-        field: 'tag',
-        name: 'tags',
-        isArray: true,
-        transform: [
-            { field: '@value', name: 'tag' }
-        ]
-    }
-];
+`;
+
+export default {
+    entry: './global.js',
+    targets: [
+        {
+            dest: 'build/martian.min.js',
+            format: 'iife',
+            moduleName: 'MindTouch',
+            banner
+        }
+    ],
+    plugins: [
+        resolve(),
+        babel({
+            babelrc: false,
+            presets: [
+                [ 'es2015', { modules: false } ]
+            ],
+            plugins: [ 'external-helpers' ]
+        }),
+        uglify()
+    ],
+    external: [ 'crypto' ]
+};
