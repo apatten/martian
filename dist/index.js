@@ -4744,6 +4744,29 @@ const popularPagesModel = [
     { field: 'page', name: 'pages', isArray: 'true', transform: pageModel }
 ];
 
+/**
+ * Martian - Core JavaScript API for MindTouch
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const pageHierarchyInfoModel = [
+    { field: 'pagecount', name: 'pageCount', transform: 'number' },
+    { field: 'attachmentcount', name: 'attachmentCount', transform: 'number' }
+];
+
 const _errorParser$3 = modelParser.createParser(apiErrorModel);
 
 /**
@@ -5110,6 +5133,16 @@ class Page extends PageBase {
             .catch((err) => Promise.reject(_errorParser$3(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
+    }
+
+    /**
+     * Retrieves the count of pages and attachments within a hierarchy
+     * @returns {Promise} A Promise that, when resolved, yields the heierachy count information.
+     */
+    getHierarchyInfo() {
+        return this._plug.at('hierarchyinfo').get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageHierarchyInfoModel));
     }
 }
 
