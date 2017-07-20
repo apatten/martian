@@ -20,6 +20,7 @@ import { pageLinkDetailsModel } from './models/pageLinkDetails.model.js';
 import { healthReportModel } from './models/healthReport.model.js';
 import { templateListModel } from './models/templateList.model.js';
 import { popularPagesModel } from './models/popularPages.model.js';
+import { pageHierarchyInfoModel } from './models/pageHierarchyInfo.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -388,6 +389,16 @@ export class Page extends PageBase {
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
+    }
+
+    /**
+     * Retrieves the count of pages and attachments within a hierarchy
+     * @returns {Promise} A Promise that, when resolved, yields the heierachy count information.
+     */
+    getHierarchyInfo() {
+        return this._plug.at('hierarchyinfo').get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageHierarchyInfoModel));
     }
 }
 
