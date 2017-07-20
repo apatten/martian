@@ -44,7 +44,11 @@ export default {
             ],
             plugins: [ 'external-helpers' ]
         }),
-        uglify()
+        uglify({
+            output: {
+                comments: 'some'
+            }
+        })
     ],
     external: [ 'crypto' ]
 };
