@@ -400,6 +400,9 @@ describe('Page', () => {
             const failed = jest.fn();
             return page.setOrder('13').catch(failed).then(() => expect(failed).toHaveBeenCalled());
         });
+        it('can get hierarchy info', () => {
+            return page.getHierarchyInfo();
+        });
     });
     describe('Page manager', () => {
         describe('functional tests', () => {
