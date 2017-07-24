@@ -91,10 +91,11 @@ export class PageBase {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug.at('tags').get().then((r) => r.json()).then(pageTagsModelParser);
     }
-    setTags(params = {}) {
+    setTags(params = {}, queryParams = {}) {
         const XMLData = _getSaveXML(params);
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
-        return this._plug.at('tags').put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
+
+        return this._plug.at('tags').withParams(queryParams).put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
     }
 
     /**
