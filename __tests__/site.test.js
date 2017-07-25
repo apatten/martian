@@ -81,7 +81,7 @@ describe('Site API', () => {
                 return site.search({ q: 'search term', namespaces: 'template' });
             });
             it('can perform a search with all parameters', () => {
-                return site.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', offset: 123, limit: 10, q: 'search term', namespaces: [ 'main', 'template' ] });
+                return site.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', offset: 123, limit: 10, q: 'search term', namespaces: [ 'main', 'template' ], sessionid: 'foo' });
             });
         });
         describe('search index tests', () => {
