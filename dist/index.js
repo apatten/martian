@@ -446,24 +446,6 @@ class Uri {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 let _defaultHost = '/';
 let _defaultOrigin = null;
 let _defaultQueryParams = { 'dream.out.format': 'json' };
@@ -1039,25 +1021,6 @@ class Api {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 const modelParser = {
     to: {
         boolean(value) {
@@ -1200,46 +1163,10 @@ const modelParser = {
     }
 };
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const contextIdsModel = [
     { field: 'context', name: 'contextIds', isArray: true }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const contextIdModel = {
     preProcessor(data) {
         if(data.context) {
@@ -1253,24 +1180,6 @@ const contextIdModel = {
     ]
 };
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageRatingModel = [
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@count', name: 'count', transform: 'number' },
@@ -1297,24 +1206,6 @@ const pageRatingModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const permissionsModel = [
     {
         field: [ 'operations', '#text' ],
@@ -1354,24 +1245,6 @@ const permissionsModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const groupModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@href', name: 'href' },
@@ -1386,24 +1259,6 @@ const groupModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const userModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@anonymous', name: 'anonymous', transform: 'boolean' },
@@ -1423,24 +1278,6 @@ const userModel = [
     { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: 'title' },
@@ -1504,24 +1341,6 @@ const pageModel = [
 pageModel.push({ field: 'page.parent', name: 'pageParent', transform: pageModel });
 pageModel.push({ field: 'draft', transform: pageModel });
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const contextMapModel = [
     { field: '@default', name: 'default', transform: 'boolean' },
     { field: '@exists', name: 'exists', transform: 'boolean' },
@@ -1532,47 +1351,11 @@ const contextMapModel = [
     { field: [ 'pageid', '#text' ], transform: 'number' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const contextMapsModel = [
     { field: 'contextmap', name: 'contextMaps', isArray: true, transform: contextMapModel },
     { field: [ 'languages', 'language' ], isArray: true }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const apiErrorModel = {
     preProcessor(data) {
         if('responseText' in data) {
@@ -1774,24 +1557,6 @@ class ContextIdManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const _htmlEscapeChars = {
 
     // '¢': 'cent',
@@ -1995,24 +1760,6 @@ class ProgressPlug extends Plug {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 let pageContentsModel = [
     { field: '@type', name: 'type' },
     { field: '@title', name: 'title' },
@@ -2041,24 +1788,6 @@ let pageContentsModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageTagsModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
@@ -2077,24 +1806,6 @@ const pageTagsModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const fileModel = [
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@revision', name: 'revision', transform: 'number' },
@@ -2122,24 +1833,6 @@ const fileModel = [
     { field: 'page.parent', name: 'pageParent', transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageFilesModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@offset', name: 'offset', transform: 'number' },
@@ -2148,24 +1841,6 @@ const pageFilesModel = [
     { field: 'file', name: 'files', isArray: true, transform: fileModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageEditModel = [
     { field: '@status', name: 'status' },
     { field: 'page', transform: pageModel },
@@ -2174,71 +1849,17 @@ const pageEditModel = [
     { field: 'page.overwritten', name: 'pageOverwritten', transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const relatedPagesModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageOverviewModel = [
     { field: '#text', name: 'text' },
     { field: '@needsmigration', name: 'needsMigration', transform: 'boolean' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageDiffModel = [
     { field: '@type', name: 'type' },
     { field: '#text', name: 'combinedText' },
@@ -2246,25 +1867,6 @@ const pageDiffModel = [
     { field: 'before' },
     { field: 'after' }
 ];
-
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 const recommendedTagsModelParser = [
     {
@@ -2660,24 +2262,6 @@ class DraftFile extends PageFileBase {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const propertyContentsModel = [
     { field: '#text', name: 'text' },
     { field: '@href', name: 'href' },
@@ -2685,24 +2269,6 @@ const propertyContentsModel = [
     { field: '@size', name: 'size' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pagePropertyModel = [
     { field: '@revision', name: 'revision' },
     { field: '@name', name: 'name' },
@@ -2711,24 +2277,6 @@ const pagePropertyModel = [
     { field: 'contents', transform: propertyContentsModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pagePropertiesModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
@@ -2819,24 +2367,6 @@ class DraftProperty extends PagePropertyBase {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 function dateOrStringTransformer(value) {
     const date = new Date(value);
     const dateValue = date.getDate();
@@ -2963,24 +2493,6 @@ const eventModel = [
     { field: 'root.learningpath', name: 'learningPathRoot', transform: learningPathTransform }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const userActivityModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@upto', name: 'upTo' },
@@ -2988,24 +2500,6 @@ const userActivityModel = [
     { field: 'event', name: 'events', isArray: true, transform: eventModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageHistoryModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@upto', name: 'upTo' },
@@ -3035,47 +2529,11 @@ const pageHistoryModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageHistoryDetailModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: 'event', name: 'events', isArray: true, transform: eventModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2016 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const reportLogsModel = [
     {
         field: 'log',
@@ -3090,24 +2548,6 @@ const reportLogsModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2016 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const logUrlModel = [
     { field: 'url' }
 ];
@@ -3594,24 +3034,6 @@ class Events {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const fileRevisionsModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
@@ -3723,24 +3145,6 @@ class FileDraft extends File {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const groupListModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@querycount', name: 'queryCount', transform: 'number' },
@@ -3749,24 +3153,6 @@ const groupListModel = [
     { field: 'group', name: 'groups', isArray: true, transform: groupModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const userListModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@querycount', name: 'queryCount', transform: 'number' },
@@ -3914,24 +3300,6 @@ class GroupManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const learningPathModel = [
     { field: 'title' },
     { field: '@name', name: 'name' },
@@ -3942,46 +3310,9 @@ const learningPathModel = [
     { field: 'category' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const learningPathsModel = [
     { field: 'learningpath', name: 'learningPaths', isArray: true, transform: learningPathModel }
 ];
-
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 const learningPathCategoriesModel = [
     { field: [ 'categories', 'category' ], name: 'categories', isArray: true }
@@ -4192,24 +3523,6 @@ class LearningPathManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const helpRequestData = [
     { field: '@name', name: 'name' },
     { field: '@count', name: 'count', transform: 'number' }
@@ -4288,24 +3601,6 @@ class License {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 function string() {
     return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
 }
@@ -4386,24 +3681,6 @@ const valid = {
     }
 };
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const subpagesModel = [
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
@@ -4416,24 +3693,6 @@ const subpagesModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageTreeModel = {
     preProcessor(data) {
         if(data.page) {
@@ -4463,162 +3722,36 @@ pageTreeModel.model.push({
     }
 });
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageMoveModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageRatingsModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageDeleteModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const importArchiveModel = [
     { field: 'uri.status', name: 'statusUri' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageExportModel = [
     { field: 'uri.download', name: 'downloadUri' }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageFindModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageLinkDetailsModel = [
     { field: 'count', transform: 'number' },
     { field: 'querycount', name: 'queryCount', transform: 'number' },
@@ -4647,24 +3780,6 @@ const pageLinkDetailsModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const healthReportModel = [
     { field: 'count', transform: 'number' },
     { field: 'querycount', name: 'queryCount', transform: 'number' },
@@ -4687,24 +3802,6 @@ const healthReportModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const templateListModel = [
     { field: '@count', name: 'count', transform: 'number' },
     {
@@ -4721,48 +3818,12 @@ const templateListModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const popularPagesModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@href', name: 'href' },
     { field: 'page', name: 'pages', isArray: 'true', transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageHierarchyInfoModel = [
     { field: 'pagecount', name: 'pageCount', transform: 'number' },
     { field: 'attachmentcount', name: 'attachmentCount', transform: 'number' }
@@ -5311,24 +4372,6 @@ class PageProperty extends PagePropertyBase {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageSecurityModel = [
     { field: '@href', name: 'href' },
     {
@@ -5497,24 +4540,6 @@ class PageSecurity {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const pageSubscriptionsModel = [
     {
         field: 'subscription.page',
@@ -5613,24 +4638,6 @@ class PageSubscriptionManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const searchModel = [
     { field: '@ranking', name: 'ranking' },
     { field: '@queryid', name: 'queryId', transform: 'number' },
@@ -5685,24 +4692,6 @@ const searchModel = [
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const siteTagsModelGet = [
     { field: '@count', name: 'count', transform: 'number' },
     {
@@ -5733,24 +4722,6 @@ const siteTagsModelPost = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const siteActivityModel = [
     { field: '@type', name: 'type' },
     {
@@ -5769,46 +4740,10 @@ const siteActivityModel = [
     }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const siteRolesModel = [
     { field: 'permissions', isArray: true, transform: permissionsModel }
 ];
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2017 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const localizationsModel = [
     { field: '@lang', name: 'lang' },
     {
@@ -6141,24 +5076,6 @@ class Site {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const siteJobModel = [
     { field: '@id', name: 'id' },
     { field: '@type', name: 'type' },
@@ -6634,25 +5551,6 @@ class UserManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 const webWidgetsModel = [
     { field: '@active', name: 'active', transform: 'boolean' },
     { field: '@date', name: 'date', transform: 'date' },
@@ -6671,25 +5569,6 @@ const webWidgetsModel = [
         ]
     }
 ];
-
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 const webWidgetsListModel = [
     { field: '@count', name: 'count', transform: 'number' },
@@ -6850,24 +5729,6 @@ class WebWidgetsManager {
     }
 }
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 const workflowsModel = [
     { field: '@href', name: 'href' },
     { field: 'uri.next', name: 'uriNext' }

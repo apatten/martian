@@ -4,3 +4,4 @@ __coverage-*__/
 .DS_Store
 npm-debug.log
 .vscode/
+build/

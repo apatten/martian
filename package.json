@@ -18,18 +18,22 @@
     "test": "npm run test-jsdom & npm run test-node;wait",
     "inspect": "eslint *.js __mocks__/**/*.js __tests__/**/*.js lib/**/*.js models/**/*.js",
     "docs": "jsdoc -c .jsdoc.json",
-    "bundle": "rollup --config .rollup.config.js"
+    "bundle": "rollup --config .rollup.config.js",
+    "bundle-global": "rollup --config .rollup.config-global.js"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
     "babel-polyfill": "6.23.0",
     "babel-preset-es2015": "6.24.0",
+    "babel-preset-es2015-rollup": "3.0.0",
     "eslint": "3.18.0",
     "eslint-config-mindtouch": "1.0.0",
     "jest-cli": "19.0.2",
     "jsdoc": "^3.4.3",
     "rollup": "^0.41.6",
-    "rollup-plugin-node-resolve": "^2.0.0"
+    "rollup-plugin-babel": "2.7.1",
+    "rollup-plugin-node-resolve": "2.0.0",
+    "rollup-plugin-uglify": "2.0.1"
   },
   "author": "MindTouch",
   "bugs": {

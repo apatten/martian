@@ -3,12 +3,13 @@
     "testEnvironment": "node",
     "coverageDirectory": "__coverage-node__",
     "collectCoverage": true,
-    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/tokenHelper.js", "!main.js" ],
+    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/tokenHelper.js", "!main.js", "!global.js" ],
     "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/", "<rootDir>/lib/validation.js" ],
     "testPathIgnorePatterns": [
         "<rootDir>/node_modules/",
-        "<rootDir>/models/__tests__/mock/"
+        "<rootDir>/models/__tests__/mock/",
+        "<rootDir>/__tests__/global.test.js"
     ],
     "moduleNameMapper": {
         "mindtouch-http.js/plug.js": "<rootDir>/__mocks__/plug.js",
