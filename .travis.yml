@@ -49,6 +49,6 @@ deploy:
     local_dir: build
     upload_dir: martian/dev-master
     on:
-      branch: MTP-6330
+      branch: master
       condition: $TRAVIS_TAG == ''
       repo: MindTouch/martian
