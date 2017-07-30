@@ -6,7 +6,7 @@ const banner = `
 /**
  * Martian - Core JavaScript API for MindTouch
  *
- * Copyright (c) 2015 MindTouch Inc.
+ * Copyright (c) 2015-present, MindTouch Inc.
  * www.mindtouch.com  oss@mindtouch.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ const banner = `
  * limitations under the License.
  *
  * @preserve
+ * @note this global bundle is an *experimental* feature, no support of any kind will be provided
  */
 `;
 

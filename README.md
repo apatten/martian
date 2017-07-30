@@ -7,18 +7,27 @@ Core JavaScript API for MindTouch
 ### Support
 This Library is provided for and supported by the open source community. Supported MindTouch site owners may file bug reports via [GitHub](https://github.com/MindTouch/martian/issues), but support plans do not cover the usage of this library.
 
-### Install
+### Usage
+Martian provides a collection of JavaScript modules that can query a MindTouch site API. These modules can get or create business entities (user, page, file, etc). Martian can be installed in a Node.js environment, by using [yarn](https://yarnpkg.com).
 
-```sh
-$ jspm install mindtouch-martian
+```bash
+yarn add mindtouch-martian
 ```
 
-### Usage
-Use API objects to get business entities (user, page, file, etc)
+Martian modules can be loaded natively in a Node.js application, any ES2015 module-aware transpiling or bundling tools, or natively in web browsers that support ES2015 modules.
 
 ```javascript
-import { UserManager } from 'martian/user.js';
-const userManager = new UserManager();
+import { UserManager } from 'mindtouch-martian/user.js';
+import { Settings } from 'mindtouch-martian/lib/settings.js';
+const settings = new Settings({
+
+    // mindtouch site base URL
+    host: 'https://success.mindtouch.com',
+
+    // browser API token (https://success.mindtouch.com/Support/Extend/API_Documentation/About_the_MindTouch_API/Generate_a_browser_API_token)
+    token: '12345'
+});
+const userManager = new UserManager(settings);
 userManager.getCurrentUser().then((user) => {
     // do something with user.username, user.fullname, user.email, etc..
 });
