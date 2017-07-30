@@ -294,6 +294,12 @@ describe('Page', () => {
         it('can set the tags (empty request)', () => {
             return page.setTags();
         });
+        it('can set the tags and allow idf errors', () => {
+            return page.setTags([ 'foo', 'bar' ], { allow: 'idferrors' });
+        });
+        it('can set the tags to empty and allow idf errors', () => {
+            return page.setTags(null, { allow: 'idferrors' });
+        });
         it('can get recommended tags', () => {
             return page.getRecommendedTags();
         });

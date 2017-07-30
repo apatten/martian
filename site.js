@@ -219,10 +219,11 @@ export class Site {
      * @param {String} [q=''] - Search keywords or advanced search syntax.
      * @param {String} [path=''] - A page path to constrain the search results to items located under the specified path.
      * @param {String|Array} [namespace='main'] - A comma-separated list or array of namespaces to filter the results by. Valid namespaces: 'main', 'template', 'user'.
+     * @param {String} [sessionid=null] - An identifier to know that the query is grouped with the previous query.
      * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
      * @returns {Promise.<searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
      */
-    search({ limit = 10, offset = 0, q = '', path = '', recommendations = true, tags = '', type = '', namespaces = 'main' } = {}) {
+    search({ limit = 10, offset = 0, q = '', path = '', recommendations = true, tags = '', type = '', namespaces = 'main', sessionid = null } = {}) {
         const constraint = {};
         if(path !== '' && path !== '/') {
             constraint.path = path;
@@ -243,6 +244,9 @@ export class Site {
             constraint: _buildSearchConstraints(constraint),
             recommendations: recommendations
         };
+        if(sessionid) {
+            searchParams.sessionid = sessionid;
+        }
         return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
     }
 

@@ -21,6 +21,7 @@ import { pageModel } from './page.model.js';
 export const searchModel = [
     { field: '@ranking', name: 'ranking' },
     { field: '@queryid', name: 'queryId', transform: 'number' },
+    { field: '@sessionid', name: 'sessionId' },
     { field: '@querycount', name: 'queryCount', transform: 'number' },
     { field: '@count.recommendations', name: 'recommendationCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
