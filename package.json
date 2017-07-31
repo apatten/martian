@@ -22,14 +22,14 @@
     "bundle-global": "rollup --config .rollup.config-global.js"
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
+    "babel-jest": "^20.0.3",
     "babel-plugin-external-helpers": "6.22.0",
     "babel-preset-env": "1.6.0",
     "eslint": "3.18.0",
     "eslint-config-mindtouch": "1.0.0",
-    "jest-cli": "19.0.2",
-    "jsdoc": "3.4.3",
-    "rollup": "0.41.6",
+    "jest-cli": "^20.0.4",
+    "jsdoc": "^3.5.3",
+    "rollup": "^0.45.2",
     "rollup-plugin-babel": "2.7.1",
     "rollup-plugin-uglify": "2.0.1"
   },
