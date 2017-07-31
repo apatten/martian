@@ -1,5 +1,4 @@
 import { Settings } from './lib/settings.js';
-import { tokenHelper as TokenHelper } from './lib/tokenHelper.js';
 import { Api } from './api.js';
 import { ContextDefinition, ContextMap, ContextIdManager } from './contextId.js';
 import { Draft, DraftManager } from './draft.js';
@@ -23,7 +22,7 @@ import { WebWidgetsManager } from './webWidgets.js';
 import { WorkflowManager } from './workflows.js';
 
 export {
-    Settings, TokenHelper,
+    Settings,
     Api,
     ContextDefinition, ContextMap, ContextIdManager,
     Draft, DraftManager,

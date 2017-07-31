@@ -10,9 +10,9 @@
         "<rootDir>/models/__tests__/mock/"
     ],
     "moduleNameMapper": {
-        "mindtouch-http.js/plug.js": "<rootDir>/__mocks__/plug.js",
-        "mindtouch-http.js/progressPlug.js": "<rootDir>/__mocks__/progressPlug.js",
-        "mindtouch-http.js/uri.js": "<rootDir>/__mocks__/uri.js",
-        "mindtouch-http.js/lib/uriParser.js": "<rootDir>/__mocks__/uriParser.js"
+        "/mindtouch-http.js/plug.js": "<rootDir>/__mocks__/plug.js",
+        "/mindtouch-http.js/progressPlug.js": "<rootDir>/__mocks__/progressPlug.js",
+        "/mindtouch-http.js/uri.js": "<rootDir>/__mocks__/uri.js",
+        "/mindtouch-http.js/lib/uriParser.js": "<rootDir>/__mocks__/uriParser.js"
     }
 }
