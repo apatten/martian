@@ -47,9 +47,19 @@
 <p><a href="https://travis-ci.org/MindTouch/martian"><img src="https://travis-ci.org/MindTouch/martian.svg?branch=master" alt="travis-ci.org"></a>
 <a href="https://codecov.io/github/MindTouch/martian?branch=master"><img src="https://codecov.io/github/MindTouch/martian/coverage.svg?branch=master" alt="codecov.io"></a></p>
 <h3>Support</h3><p>This Library is provided for and supported by the open source community. Supported MindTouch site owners may file bug reports via <a href="https://github.com/MindTouch/martian/issues">GitHub</a>, but support plans do not cover the usage of this library.</p>
-<h3>Install</h3><pre class="prettyprint source lang-sh"><code>$ jspm install mindtouch-martian</code></pre><h3>Usage</h3><p>Use API objects to get business entities (user, page, file, etc)</p>
-<pre class="prettyprint source lang-javascript"><code>import { UserManager } from 'martian/user.js';
-const userManager = new UserManager();
+<h3>Usage</h3><p>Martian provides a collection of JavaScript modules that can query a MindTouch site API. These modules can get or create business entities (user, page, file, etc). Martian can be installed in a Node.js environment, by using <a href="https://yarnpkg.com">yarn</a>.</p>
+<pre class="prettyprint source lang-bash"><code>yarn add mindtouch-martian</code></pre><p>Martian modules can be loaded natively in a Node.js application, any ES2015 module-aware transpiling or bundling tools, or natively in web browsers that support ES2015 modules.</p>
+<pre class="prettyprint source lang-javascript"><code>import { UserManager } from 'mindtouch-martian/user.js';
+import { Settings } from 'mindtouch-martian/lib/settings.js';
+const settings = new Settings({
+
+    // mindtouch site base URL
+    host: 'https://success.mindtouch.com',
+
+    // browser API token (https://success.mindtouch.com/Support/Extend/API_Documentation/About_the_MindTouch_API/Generate_a_browser_API_token)
+    token: '12345'
+});
+const userManager = new UserManager(settings);
 userManager.getCurrentUser().then((user) => {
     // do something with user.username, user.fullname, user.email, etc..
 });</code></pre></article>
@@ -63,13 +73,13 @@ userManager.getCurrentUser().then((user) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager.html">LearningPathManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_htmlEscapeChars">_htmlEscapeChars</a></li><li><a href="global.html#string">string</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a>
 </footer>
 
 <script> prettyPrint(); </script>

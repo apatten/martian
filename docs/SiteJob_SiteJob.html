@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: DraftFile</title>
+    <title>JSDoc: Class: SiteJob</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: DraftFile</h1>
+    <h1 class="page-title">Class: SiteJob</h1>
 
     
 
@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>DraftFile<span class="signature">(pageId<span class="signature-attributes">opt</span>, filename, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">A class for managing a file attachment on an unpublished page.</div>
+        <h2><span class="attribs"><span class="type-signature"></span></span>SiteJob<span class="signature">(jobId, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,11 +39,9 @@
         
 
     
-    <h2>Constructor</h2>
-    
 
     
-    <h4 class="name" id="DraftFile"><span class="type-signature"></span>new DraftFile<span class="signature">(pageId<span class="signature-attributes">opt</span>, filename, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SiteJob"><span class="type-signature"></span>new SiteJob<span class="signature">(jobId, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +49,7 @@
 
 
 <div class="description">
-    Construct a new DraftFile
+    Create a new SiteJob
 </div>
 
 
@@ -81,8 +77,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -93,49 +87,7 @@
 
         <tr>
             
-                <td class="name"><code>pageId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-|
-
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    'home'
-                
-                </td>
-            
-
-            <td class="description last">The ID of the unpublished page.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>filename</code></td>
+                <td class="name"><code>jobId</code></td>
             
 
             <td class="type">
@@ -158,12 +110,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">The filename of the file to manage.</td>
+            <td class="description last">The GUID job ID.</td>
         </tr>
 
     
@@ -195,12 +143,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
+            <td class="description last">The martian settings that will direct the requests for this instance.</td>
         </tr>
 
     
@@ -241,7 +185,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="draftFile.js.html">draftFile.js</a>, <a href="draftFile.js.html#line8">line 8</a>
+        <a href="siteJob.js.html">siteJob.js</a>, <a href="siteJob.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
