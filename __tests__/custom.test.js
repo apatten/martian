@@ -1,8 +1,8 @@
 /* eslint-env jasmine, jest */
-jest.unmock('/mindtouch-http.js/plug.js');
-jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/plug.js'));
-jest.unmock('/mindtouch-http.js/progressPlug.js');
-jest.mock('/mindtouch-http.js/progressPlug.js', () => require.requireActual('../__mocks__/progressPlug.js'));
+jest.unmock('mindtouch-http.js/plug.js');
+jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/plug.js'));
+jest.unmock('mindtouch-http.js/progressPlug.js');
+jest.mock('mindtouch-http.js/progressPlug.js', () => require.requireActual('../__mocks__/progressPlug.js'));
 
 jest.unmock('../page.js');
 jest.unmock('../pageBase.js');
@@ -38,7 +38,7 @@ describe('Special page Tests', () => {
         return cm.getDefinitions();
     });
     it('can handle a rejection properly for ContextIdManager.prototype.addDefinition', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             post() {
                 return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{}' });
             }
@@ -54,7 +54,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can fetch a virtual page', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             get() {
                 return Promise.reject({ message: 'Not found', status: 404, responseText: '{"@virtual":"true"}' });
             }
@@ -64,7 +64,7 @@ describe('Special page Tests', () => {
         return p.getFullInfo().then((r) => expect(r.virtual).toBe(true));
     });
     it('can get through virtual page checking when there is another failure', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             get() {
                 return Promise.reject({ message: 'Not found', status: 404, responseText: '{"notavirtualpage":true}' });
             }
@@ -80,7 +80,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can get through virtual page checking when there is another failure (no responseText)', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             get() {
                 return Promise.reject({ message: 'Not found', status: 404, responseText: '' });
             }
@@ -96,7 +96,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can import an archive with a conflict (no progress)', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             put() {
                 return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
@@ -113,7 +113,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can import an archive with a conflict (with progress)', () => {
-        jest.mock('/mindtouch-http.js/progressPlug.js', () => {
+        jest.mock('mindtouch-http.js/progressPlug.js', () => {
             class ProgressPlug {
                 at() {
                     return new ProgressPlug();
@@ -146,7 +146,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for Page.prototype.copy', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             post() {
                 return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
@@ -163,7 +163,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for Page.prototype.move', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             post() {
                 return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
@@ -180,7 +180,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for File.prototype.move', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             post() {
                 return Promise.reject({ message: 'Conflict', status: 409, responseText: '{}' });
             }
@@ -197,7 +197,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for PageManager.prototype.findPages', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             get() {
                 return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{"exception":"MindTouch.Deki.Exceptions.FindPagesMissingConstraintsException","message":"Must specify at least one constraint","resource":"System.API.Error.finding-pages-missing-constraints"}' });
             }
@@ -213,7 +213,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for Group.prototype.removeUser', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             delete() {
                 return Promise.reject({ message: 'Not Found', status: 404, responseText: '{}' });
             }
@@ -229,7 +229,7 @@ describe('Special page Tests', () => {
         });
     });
     it('can handle a rejection properly for User.prototype.update', () => {
-        jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+        jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
             put() {
                 return Promise.reject({ message: 'Bad Request', status: 400, responseText: '{}' });
             }

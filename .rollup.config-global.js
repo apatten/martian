@@ -1,6 +1,6 @@
+import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import babel from 'rollup-plugin-babel';
-import aliasModuleName from './lib/rollup.alias-module-name.js';
 
 const banner = `
 /**
@@ -37,18 +37,19 @@ export default {
         }
     ],
     plugins: [
-        aliasModuleName({
-            '/mindtouch-http.js/': './node_modules/mindtouch-http.js/'
-        }),
+        resolve(),
         babel({
             babelrc: false,
-            plugins: [ 'external-helpers' ],
-            presets: [ [ 'env', { modules: false, targets: { uglify: true } } ] ]
+            presets: [
+                [ 'es2015', { modules: false } ]
+            ],
+            plugins: [ 'external-helpers' ]
         }),
         uglify({
             output: {
                 comments: 'some'
             }
         })
-    ]
+    ],
+    external: [ 'crypto' ]
 };
