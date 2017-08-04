@@ -21,7 +21,17 @@ export const siteTagsModelPost = [
         name: 'skippedPageIds',
         transform(value) {
             if(typeof value === 'string') {
-                return value.split(',');
+                return value.split(',').map((id) => parseInt(id, 10));
+            }
+            return [];
+        }
+    },
+    {
+        field: 'skipped-article-change-pageids',
+        name: 'skippedArticleChangePageIds',
+        transform(value) {
+            if(typeof value === 'string') {
+                return value.split(',').map((id) => parseInt(id, 10));
             }
             return [];
         }

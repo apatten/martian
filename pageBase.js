@@ -165,6 +165,7 @@ export class PageBase {
         if('verbose' in options && options.verbose !== true && options.verbose !== false) {
             return Promise.reject(new Error('The `verbose` parameter must be a Boolean value.'));
         }
+        params.allow = options.allow;
         params.abort = options.abort;
         return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
     }

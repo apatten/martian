@@ -37,8 +37,8 @@ export class Draft extends PageBase {
      * Publish the draft.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
-    publish() {
-        return this._plug.at('publish').post();
+    publish(params = {}) {
+        return this._plug.at('publish').withParams(params).post();
     }
 
     /**
