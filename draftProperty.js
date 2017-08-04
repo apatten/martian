@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from 'mindtouch-http.js/plug.js';
 import { PagePropertyBase } from './pagePropertyBase.js';
 import { Settings } from './lib/settings.js';
 
