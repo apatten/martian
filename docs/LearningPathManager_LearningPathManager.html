@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: pageFile.js</title>
+    <title>JSDoc: Class: LearningPathManager</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,38 +17,184 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: pageFile.js</h1>
+    <h1 class="page-title">Class: LearningPathManager</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import { Plug } from 'mindtouch-http.js/plug.js';
-import { PageFileBase } from './pageFileBase.js';
-import { Settings } from './lib/settings.js';
+        <h2><span class="attribs"><span class="type-signature"></span></span>LearningPathManager<span class="signature">(settings)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
 
-/**
- * A class for managing a file attachment on an published page.
- */
-export class PageFile extends PageFileBase {
+<article>
+    <div class="container-overview">
+    
+        
 
-    /**
-     * Construct a new PageFile.
-     * @param {Number|String} [pageId='home'] - The ID of the published page.
-     * @param {String} filename - The filename of the file to manage.
-     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
-     */
-    constructor(pageId, filename, settings = new Settings()) {
-        super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
-    }
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+    <h4 class="name" id="LearningPathManager"><span class="type-signature"></span>new LearningPathManager<span class="signature">(settings)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Create a new LearningPathManager
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Settings.html">Settings</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The martian settings to direct the Learning Path API calls.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="learningPath.js.html">learningPath.js</a>, <a href="learningPath.js.html#line151">line 151</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

@@ -2031,6 +2031,7 @@ class PageBase {
         if('verbose' in options && options.verbose !== true && options.verbose !== false) {
             return Promise.reject(new Error('The `verbose` parameter must be a Boolean value.'));
         }
+        params.allow = options.allow;
         params.abort = options.abort;
         return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
     }
@@ -2067,8 +2068,8 @@ class Draft extends PageBase {
      * Publish the draft.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
-    publish() {
-        return this._plug.at('publish').post();
+    publish(params = {}) {
+        return this._plug.at('publish').withParams(params).post();
     }
 
     /**
@@ -4715,7 +4716,17 @@ const siteTagsModelPost = [
         name: 'skippedPageIds',
         transform(value) {
             if(typeof value === 'string') {
-                return value.split(',');
+                return value.split(',').map((id) => parseInt(id, 10));
+            }
+            return [];
+        }
+    },
+    {
+        field: 'skipped-article-change-pageids',
+        name: 'skippedArticleChangePageIds',
+        transform(value) {
+            if(typeof value === 'string') {
+                return value.split(',').map((id) => parseInt(id, 10));
             }
             return [];
         }

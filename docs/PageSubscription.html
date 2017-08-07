@@ -28,7 +28,9 @@
 
 <header>
     
-        <h2>PageSubscription</h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>PageSubscription<span class="signature">(siteId, pageId<span class="signature-attributes">opt</span>, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">A class for managing the subscriptions of a page for the current user.</div>
         
     
 </header>
@@ -39,8 +41,12 @@
         
 
     
+    <h2>Constructor</h2>
+    
 
+    
     <h4 class="name" id="PageSubscription"><span class="type-signature"></span>new PageSubscription<span class="signature">(siteId, pageId<span class="signature-attributes">opt</span>, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -235,608 +241,6 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pageSubscription.js.html">pageSubscription.js</a>, <a href="pageSubscription.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="subscribe"><span class="type-signature"></span>subscribe<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Subscribe to the page as the current user.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Options to direct the subscription request.
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    page
-                
-                </td>
-            
-
-            <td class="description last">The type of the subscription. Must be either `page` or `draft`.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>recursive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">Indicates whether or not the subscription is for grandchildren as well.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pageSubscription.js.html">pageSubscription.js</a>, <a href="pageSubscription.js.html#line36">line 36</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A promise that, when resolved indicates the subscription request was successful.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="unsubscribe"><span class="type-signature"></span>unsubscribe<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Remove an existing subscription for the current user.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Options to direct the unsubscribe request.
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The type of the subscription to unsubscribe from. Must be either `page` or `draft`.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pageSubscription.js.html">pageSubscription.js</a>, <a href="pageSubscription.js.html#line53">line 53</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A promise that, when resolved indicates the unsubscribe request was successful.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>PageSubscription</h2>
-        
-            <div class="class-description">A class for managing the subscriptions of a page for the current user.</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="PageSubscription"><span class="type-signature"></span>new PageSubscription<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
         <a href="pageSubscription.js.html">pageSubscription.js</a>, <a href="pageSubscription.js.html#line11">line 11</a>
     </li></ul></dd>
     
@@ -863,6 +267,8 @@
 
 
 
+
+
     
     </div>
 
@@ -872,7 +278,9 @@
 
     
 
-     
+    
+
+    
 
     
 
@@ -886,7 +294,9 @@
 
     
 
+    
     <h4 class="name" id="subscribe"><span class="type-signature"></span>subscribe<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
 
@@ -1142,12 +552,16 @@
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="unsubscribe"><span class="type-signature"></span>unsubscribe<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
 
     
 
@@ -1356,6 +770,8 @@
 
 
 
+
+
         
     
 
@@ -1372,13 +788,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager.html">LearningPathManager</a></li><li><a href="License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_htmlEscapeChars">_htmlEscapeChars</a></li><li><a href="global.html#string">string</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a>
 </footer>
 
 <script> prettyPrint(); </script>
