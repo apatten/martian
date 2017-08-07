@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PageProperty</title>
+    <title>JSDoc: Class: FileDraft</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: PageProperty</h1>
+    <h1 class="page-title">Class: FileDraft</h1>
 
     
 
@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>PageProperty<span class="signature">(id<span class="signature-attributes">opt</span>, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">A class for managing the properties of a page.</div>
+        <h2><span class="attribs"><span class="type-signature"></span></span>FileDraft<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -41,20 +39,14 @@
         
 
     
-    <h2>Constructor</h2>
+
+    
+    <h4 class="name" id="FileDraft"><span class="type-signature"></span>new FileDraft<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
-    <h4 class="name" id="PageProperty"><span class="type-signature"></span>new PageProperty<span class="signature">(id<span class="signature-attributes">opt</span>, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
-
-<div class="description">
-    Construct a new PageProperty object.
-</div>
 
 
 
@@ -81,8 +73,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -100,9 +90,6 @@
             
                 
 <span class="param-type">Number</span>
-|
-
-<span class="param-type">String</span>
 
 
             
@@ -111,8 +98,6 @@
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
 
@@ -121,14 +106,8 @@
             
 
             
-                <td class="default">
-                
-                    'home'
-                
-                </td>
-            
 
-            <td class="description last">The numeric page ID or the page path.</td>
+            <td class="description last">The resource ID of the file.</td>
         </tr>
 
     
@@ -159,10 +138,6 @@
                 </td>
             
 
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
@@ -206,7 +181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pageProperty.js.html">pageProperty.js</a>, <a href="pageProperty.js.html#line8">line 8</a>
+        <a href="file.js.html">file.js</a>, <a href="file.js.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -251,222 +226,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getPropertyForChildren"><span class="type-signature"></span>getPropertyForChildren<span class="signature">(key, depth<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Get a listing of page properties for a hierarchy of pages.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>key</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">The key of the property to fetch.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>depth</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    1
-                
-                </td>
-            
-
-            <td class="description last">Between 0 and 2 levels deep in the search are allowed. If depth is 1 or 2, the names argument only can be a single property to be looked up, and no wildcards are allowed.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pageProperty.js.html">pageProperty.js</a>, <a href="pageProperty.js.html#line26">line 26</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - A Promise that, when resolved, yields the listing of the properties.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
     
 
     
