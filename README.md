@@ -15,10 +15,11 @@ yarn add mindtouch-martian
 ```
 
 Martian modules can be loaded natively in a Node.js application, any ES2015 module-aware transpiling or bundling tools, or natively in web browsers that support ES2015 modules.
+Configuration is needed to resolve module specifiers. As of 2017, browsers only support specifiers that are valid URLs. You can use a tool like [rollup-plugin-alias-module-specifiers](https://www.npmjs.com/package/rollup-plugin-alias-module-specifiers) to resolve the dependencies.
 
 ```javascript
-import { UserManager } from 'mindtouch-martian/user.js';
-import { Settings } from 'mindtouch-martian/lib/settings.js';
+import { UserManager } from '/mindtouch-martian/user.js';
+import { Settings } from '/mindtouch-martian/lib/settings.js';
 const settings = new Settings({
 
     // mindtouch site base URL

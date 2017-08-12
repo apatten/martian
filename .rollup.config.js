@@ -1,4 +1,4 @@
-import aliasModuleName from './lib/rollup.alias-module-name.js';
+import aliasModuleSpecifiers from 'rollup-plugin-alias-module-specifiers';
 
 export default {
     entry: './main.js',
@@ -6,7 +6,7 @@ export default {
         { dest: 'dist/index.js', format: 'cjs' }
     ],
     plugins: [
-        aliasModuleName({
+        aliasModuleSpecifiers({
             '/mindtouch-http.js/': './node_modules/mindtouch-http.js/'
         })
     ]

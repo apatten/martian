@@ -1,6 +1,6 @@
 import uglify from 'rollup-plugin-uglify';
 import babel from 'rollup-plugin-babel';
-import aliasModuleName from './lib/rollup.alias-module-name.js';
+import aliasModuleSpecifiers from 'rollup-plugin-alias-module-specifiers';
 
 const banner = `
 /**
@@ -37,7 +37,7 @@ export default {
         }
     ],
     plugins: [
-        aliasModuleName({
+        aliasModuleSpecifiers({
             '/mindtouch-http.js/': './node_modules/mindtouch-http.js/'
         }),
         babel({
