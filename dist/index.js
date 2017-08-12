@@ -2,10 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var crypto = _interopDefault(require('crypto'));
-
 /**
  * Martian - Core JavaScript API for MindTouch
  *
@@ -579,18 +575,6 @@ class Settings {
         return params;
     }
 }
-
-let tokenHelper = {
-    createHelper(key, secret) {
-        return () => {
-            let hmac = crypto.createHmac('sha256', secret);
-            let epoch = Math.floor(Date.now() / 1000);
-            hmac.update(`${key}${epoch}`);
-            let hash = hmac.digest('hex');
-            return `${key}_${epoch}_${hash}`;
-        };
-    }
-};
 
 /**
  * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
@@ -2066,6 +2050,7 @@ class Draft extends PageBase {
 
     /**
      * Publish the draft.
+     * @param {Object} [params] - the query params that will be used to publish the draft.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
     publish(params = {}) {
@@ -5821,7 +5806,6 @@ class WorkflowManager {
 }
 
 exports.Settings = Settings;
-exports.TokenHelper = tokenHelper;
 exports.Api = Api;
 exports.ContextDefinition = ContextDefinition;
 exports.ContextMap = ContextMap;

@@ -1,4 +1,4 @@
-import { Plug } from 'mindtouch-http.js/plug.js';
+import { Plug } from '/mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -35,6 +35,7 @@ export class Draft extends PageBase {
 
     /**
      * Publish the draft.
+     * @param {Object} [params] - the query params that will be used to publish the draft.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
     publish(params = {}) {
