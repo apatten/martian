@@ -2,7 +2,7 @@
     "name": "mindtouch-martian",
     "coverageDirectory": "__coverage-jsdom__",
     "collectCoverage": true,
-    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/rollup.alias-module-name.js", "!main.js" ],
+    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!main.js" ],
     "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/", "<rootDir>/lib/validation.js" ],
     "testPathIgnorePatterns": [
