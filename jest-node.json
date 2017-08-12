@@ -3,7 +3,7 @@
     "testEnvironment": "node",
     "coverageDirectory": "__coverage-node__",
     "collectCoverage": true,
-    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/tokenHelper.js", "!lib/rollup.alias-module-name.js", "!main.js", "!global.js" ],
+    "collectCoverageFrom": [ "*.js", "lib/*.js", "!lib/platform.js", "!lib/tokenHelper.js", "!main.js", "!global.js" ],
     "automock": true,
     "unmockedModulePathPatterns": [ "<rootDir>/models/", "<rootDir>/lib/validation.js" ],
     "testPathIgnorePatterns": [

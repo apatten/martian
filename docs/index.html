@@ -48,9 +48,10 @@
 <a href="https://codecov.io/github/MindTouch/martian?branch=master"><img src="https://codecov.io/github/MindTouch/martian/coverage.svg?branch=master" alt="codecov.io"></a></p>
 <h3>Support</h3><p>This Library is provided for and supported by the open source community. Supported MindTouch site owners may file bug reports via <a href="https://github.com/MindTouch/martian/issues">GitHub</a>, but support plans do not cover the usage of this library.</p>
 <h3>Usage</h3><p>Martian provides a collection of JavaScript modules that can query a MindTouch site API. These modules can get or create business entities (user, page, file, etc). Martian can be installed in a Node.js environment, by using <a href="https://yarnpkg.com">yarn</a>.</p>
-<pre class="prettyprint source lang-bash"><code>yarn add mindtouch-martian</code></pre><p>Martian modules can be loaded natively in a Node.js application, any ES2015 module-aware transpiling or bundling tools, or natively in web browsers that support ES2015 modules.</p>
-<pre class="prettyprint source lang-javascript"><code>import { UserManager } from 'mindtouch-martian/user.js';
-import { Settings } from 'mindtouch-martian/lib/settings.js';
+<pre class="prettyprint source lang-bash"><code>yarn add mindtouch-martian</code></pre><p>Martian modules can be loaded natively in a Node.js application, any ES2015 module-aware transpiling or bundling tools, or natively in web browsers that support ES2015 modules.
+Configuration is needed to resolve module specifiers. As of 2017, browsers only support specifiers that are valid URLs. You can use a tool like <a href="https://www.npmjs.com/package/rollup-plugin-alias-module-specifiers">rollup-plugin-alias-module-specifiers</a> to resolve the dependencies.</p>
+<pre class="prettyprint source lang-javascript"><code>import { UserManager } from '/mindtouch-martian/user.js';
+import { Settings } from '/mindtouch-martian/lib/settings.js';
 const settings = new Settings({
 
     // mindtouch site base URL
