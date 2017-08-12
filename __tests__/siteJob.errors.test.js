@@ -1,5 +1,5 @@
 /* eslint-env jasmine, jest */
-jest.mock('mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
+jest.mock('/mindtouch-http.js/plug.js', () => require.requireActual('../__mocks__/customPlug.js')({
     get: () => Promise.reject(),
     post: () => Promise.reject(),
     put: () => Promise.reject()
