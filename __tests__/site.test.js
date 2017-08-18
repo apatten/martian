@@ -99,6 +99,14 @@ describe('Site API', () => {
                 });
             });
         });
+        describe('search analytics test', () => {
+            it('can get search analytics with defaults', () => {
+                return site.getSearchAnalytics({});
+            });
+            it('can get search analytics with params', () => {
+                return site.getSearchAnalytics({ start: '20170817000000' });
+            });
+        });
         describe('site tags operations', () => {
             it('can fetch all site tags', () => {
                 return site.getTags();

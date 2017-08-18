@@ -7,6 +7,7 @@ import { siteTagsModelGet, siteTagsModelPost } from './models/siteTags.model.js'
 import { reportLogsModel } from './models/reportLogs.model.js';
 import { logUrlModel } from './models/logUrl.model.js';
 import { siteActivityModel } from './models/siteActivity.model.js';
+import { searchAnalyticsModel } from './models/searchAnalytics.model.js';
 import { siteRolesModel } from './models/siteRoles.model.js';
 import { localizationsModel } from './models/localizations.model.js';
 
@@ -266,6 +267,31 @@ export class Site {
             format
         };
         return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+    }
+
+    /**
+     * Get the analytics for search on the site
+     * @param {Object} options - The paramaters to pass through with the request
+     * @param {String} [options.start] - The start date (YYYYMMDDHHMMSS)
+     * @param {String} [options.end] - The end date (YYYYMMDDHHMMSS)
+     * @param {String} [options.queryFilters] - the stem queries you want to return results for
+     * @param {String} [options.userFilter] - The user type you want to filter by (Anonymous, Community, Pro)
+     * @param {String} [options.bucket] - The time you want to bucket results into
+     * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
+     * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
+     */
+    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null }) {
+        const searchParams = {
+            start,
+            end,
+            queryFilters,
+            userFilter,
+            bucket,
+            originFilter: origin,
+            web_widget_embed_id: webWidgetEmbedId
+        };
+        return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
     }
 
     /**

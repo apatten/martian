@@ -158,7 +158,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line82">line 82</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -333,7 +333,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line276">line 276</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -582,7 +582,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line115">line 115</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -831,7 +831,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line133">line 133</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -939,7 +939,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line294">line 294</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line320">line 320</a>
     </li></ul></dd>
     
 
@@ -967,6 +967,422 @@
         
 <div class="param-desc">
     - A Promise that will be resolved with the roles info, or rejected with an error specifying the reason for rejection.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getSearchAnalytics"><span class="type-signature"></span>getSearchAnalytics<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get the analytics for search on the site
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The paramaters to pass through with the request
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>start</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The start date (YYYYMMDDHHMMSS)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>end</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The end date (YYYYMMDDHHMMSS)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>queryFilters</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the stem queries you want to return results for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userFilter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The user type you want to filter by (Anonymous, Community, Pro)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bucket</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The time you want to bucket results into</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>origin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The source of the search query (mt-web, mt-api, etc)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>webWidgetEmbedId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">the embed id for the source web widget</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line284">line 284</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
 </div>
 
 
@@ -1047,7 +1463,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line104">line 104</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -1204,7 +1620,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line152">line 152</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -1312,7 +1728,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line96">line 96</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -1469,7 +1885,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line164">line 164</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -1638,7 +2054,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line176">line 176</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -2137,7 +2553,7 @@ This function takes a single parameter with the following options.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line208">line 208</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -2749,7 +3165,7 @@ This function takes a single parameter with the following options.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line252">line 252</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line253">line 253</a>
     </li></ul></dd>
     
 
@@ -3031,7 +3447,7 @@ This function takes a single parameter with the following options.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line306">line 306</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line332">line 332</a>
     </li></ul></dd>
     
 
@@ -3294,7 +3710,7 @@ This function takes a single parameter with the following options.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="site.js.html">site.js</a>, <a href="site.js.html#line188">line 188</a>
+        <a href="site.js.html">site.js</a>, <a href="site.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
