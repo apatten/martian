@@ -1038,11 +1038,11 @@ const modelParser = {
             if(typeof value === 'number') {
                 return value;
             }
-            if(value === '') {
+            if(typeof value !== 'string' || value === '') {
                 return null;
             }
             const intValue = Number(value);
-            if(String(intValue) !== value) {
+            if(Number.isNaN(intValue)) {
                 throw new Error('Failed converting to integer');
             }
             return intValue;
@@ -1623,6 +1623,14 @@ const utility = {
             seconds: `0${date.getSeconds()}`.slice(-2)
         };
         return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
+    },
+    cleanParams(params = {}) {
+        Object.keys(params).forEach((key) => {
+            if(params[key] === null || typeof params[key] === 'undefined' || params[key] === '') {
+                delete params[key];
+            }
+        });
+        return params;
     }
 };
 
@@ -4736,6 +4744,53 @@ const siteActivityModel = [
     }
 ];
 
+const searchAnalyticsModel = [
+    {
+        field: 'popular',
+        transform: [
+            { 
+                field: 'search',
+                isArray: true,
+                transform: [
+                    { field: 'averagePosition', transform: 'number' },
+                    { field: 'hits', transform: 'number' },
+                    { field: 'mostRecent', transform: 'date' },
+                    { field: 'query' },
+                    { field: 'results', transform: 'number' },
+                    { field: 'topresult', transform: [
+                        { field: '@type', name: 'type' },
+                        { field: '@hits', name: 'hits', transform: 'number' },
+                        { field: 'date.created', name: 'dateCreated', transform: 'date' },
+                        { field: [ 'path', '#text' ] },
+                        { field: 'title' },
+                        { field: 'filename' },
+                        { field: [ 'contents', '@href' ], name: 'fileUri' },
+                        { field: 'uri.ui', name: 'uri' }
+                    ]},
+                    { field: 'total', transform: 'number' }
+                ]
+            }
+        ]
+    },
+    {
+        field: 'volume',
+        transform: [
+            { field: 'clickTotal', transform: 'number' },
+            { field: 'clickthroughRate' },
+            { field: 'searchTotal', transform: 'number' },
+            { 
+                field: 'point',
+                isArray: true,
+                transform: [
+                    { field: 'clicks', transform: 'number' },
+                    { field: 'date', transform: 'date' },
+                    { field: 'total', transform: 'number' }
+                ]
+            }
+        ]
+    }
+];
+
 const siteRolesModel = [
     { field: 'permissions', isArray: true, transform: permissionsModel }
 ];
@@ -5010,6 +5065,31 @@ class Site {
             format
         };
         return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+    }
+
+    /**
+     * Get the analytics for search on the site
+     * @param {Object} options - The paramaters to pass through with the request
+     * @param {String} [options.start] - The start date (YYYYMMDDHHMMSS)
+     * @param {String} [options.end] - The end date (YYYYMMDDHHMMSS)
+     * @param {String} [options.queryFilters] - the stem queries you want to return results for
+     * @param {String} [options.userFilter] - The user type you want to filter by (Anonymous, Community, Pro)
+     * @param {String} [options.bucket] - The time you want to bucket results into
+     * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
+     * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
+     */
+    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null }) {
+        const searchParams = {
+            start,
+            end,
+            queryFilters,
+            userFilter,
+            bucket,
+            originFilter: origin,
+            web_widget_embed_id: webWidgetEmbedId
+        };
+        return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
     }
 
     /**
