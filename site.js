@@ -219,13 +219,13 @@ export class Site {
         }
         constraint.namespaces = namespaces;
         const searchParams = {
-            limit: limit,
-            offset: offset,
+            limit,
+            offset,
             sortBy: '-rank',
-            q: q,
+            q,
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint),
-            recommendations: recommendations
+            recommendations
         };
         if(sessionid) {
             searchParams.sessionid = sessionid;
@@ -289,7 +289,7 @@ export class Site {
             userFilter,
             bucket,
             originFilter: origin,
-            web_widget_embed_id: webWidgetEmbedId
+            web_widget_embed_id: webWidgetEmbedId // eslint-disable-line camelcase
         };
         return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
     }

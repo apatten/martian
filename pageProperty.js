@@ -27,6 +27,6 @@ export class PageProperty extends PagePropertyBase {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
         }
-        return this._plug.withParams({ depth: depth, names: key }).get().then((r) => r.json());
+        return this._plug.withParams({ depth, names: key }).get().then((r) => r.json());
     }
 }

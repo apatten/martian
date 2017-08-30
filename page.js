@@ -207,7 +207,7 @@ export class Page extends PageBase {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
         if(progress !== null) {
             const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
-            const progressInfo = { callback: progress, size: size };
+            const progressInfo = { callback: progress, size };
             return progressPlug.at('import').withParams(apiParams).put(file, type, progressInfo)
                 .then((r) => JSON.parse(r.responseText))
                 .catch((e) => Promise.reject(JSON.parse(e.responseText)))
