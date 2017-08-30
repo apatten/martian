@@ -1634,6 +1634,86 @@ const utility = {
     }
 };
 
+const developerTokenModel = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: '@type', name: 'type' },
+    { field: '@date', name: 'date', transform: 'date' },
+    { field: 'host' },
+    { field: 'key' },
+    { field: 'name' },
+    { field: 'secret' }
+];
+const developerTokensModel = [
+    { field: '@count', name: 'count', transform: 'number' },
+    { field: 'developer-token', name: 'developerTokens', isArray: true, transform: developerTokenModel }
+];
+
+const _errorParser = modelParser.createParser(apiErrorModel);
+
+/**
+ * A class for managing a site's developer tokens.
+ */
+class DeveloperTokenManager {
+
+    /**
+     * Construct a new DeveloperTokenManager object.
+     * @param {Settings} settings The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'developer-tokens');
+    }
+
+    /**
+     * Get a listing of all of the developer tokens currently defined on the site.
+     * @returns {Promise} A Promise that, when resolved, yields a developerTokensModel representing the listing of the site's developer tokens.
+     */
+    getTokens() {
+        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(developerTokensModel));
+    }
+
+    /**
+     * Add a new developer token for use with the site.
+     * @param {Object} options Options to direct the creation of the token.
+     * @param {String} name The name of the token to create.
+     * @param {String} [host] The hostname to associate with a 'browser' developer token. If omitted, a 'server' token will be created.
+     * @returns {Promise} A Promise that, when resolved, yields a developerTokenModel contiaining the information about the new token.
+     */
+    addToken({ name, host } = {}) {
+        if(!name) {
+            return Promise.reject(new Error('The name must be supplied when adding a new developer token'));
+        }
+        let requestXml = `<developer-token><name>${name}</name>`;
+        if(host) {
+            requestXml += `<host>${host}</host>`;
+        }
+        requestXml += '</developer-token>';
+        return this._plug.post(requestXml, utility.xmlRequestType).then((r) => r.json()).then(modelParser.createParser(developerTokenModel));
+    }
+}
+
+class DeveloperToken {
+
+    /**
+     * Construct a new DeveloperToken instance.
+     * @param {Number} id The numeric ID of the developer token.
+     * @param {Settings} settings The {@see Settings} used to direct the API calls.
+     */
+    constructor(id, settings = new Settings()) {
+        if(!id) {
+            throw new Error('The id must be supplied to create a new DeveloperToken instance');
+        }
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'developer-tokens', id);
+    }
+
+    /**
+     * Delete the token from the site.
+     * @returns {Promise} A Promise that, when resolved, indicates a successufl deletion of the token.
+     */
+    delete() {
+        return this._plug.delete().catch((err) => Promise.reject(_errorParser(err)));
+    }
+}
+
 /**
  * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
  *
@@ -1871,7 +1951,7 @@ const recommendedTagsModelParser = [
     }
 ];
 
-const _errorParser$1 = modelParser.createParser(apiErrorModel);
+const _errorParser$2 = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
     if(error.status === 404 && error.responseText) {
@@ -1920,7 +2000,7 @@ class PageBase {
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
         return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType)
-            .catch((err) => Promise.reject(_errorParser$1(err)))
+            .catch((err) => Promise.reject(_errorParser$2(err)))
             .then((r) => r.json()).then(pageEditModelParser);
     }
     getFiles(params = {}) {
@@ -1990,7 +2070,7 @@ class PageBase {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
         }
         return this._plug.at('diff').withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format }).get()
-            .catch((err) => Promise.reject(_errorParser$1(err)))
+            .catch((err) => Promise.reject(_errorParser$2(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageDiffModel));
     }
@@ -2029,7 +2109,7 @@ class PageBase {
     }
 }
 
-const _errorParser = modelParser.createParser(apiErrorModel);
+const _errorParser$1 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
@@ -2123,7 +2203,7 @@ class DraftManager {
             params.deleteRedirects = options.deleteRedirects;
         }
         return this._plug.at(utility.getResourceId(newPath), 'create').withParams(params).post()
-            .catch((err) => Promise.reject(_errorParser(err)))
+            .catch((err) => Promise.reject(_errorParser$1(err)))
             .then((r) => r.json()).then(modelParser.createParser(pageModel));
     }
 
@@ -2546,7 +2626,7 @@ const logUrlModel = [
     { field: 'url' }
 ];
 
-const _errorParser$2 = modelParser.createParser(apiErrorModel);
+const _errorParser$3 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for fetching and managing events.
@@ -2992,7 +3072,7 @@ class Events {
             }
         }
         return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
-            .catch((e) => Promise.reject(_errorParser$2(e)))
+            .catch((e) => Promise.reject(_errorParser$3(e)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3823,7 +3903,7 @@ const pageHierarchyInfoModel = [
     { field: 'attachmentcount', name: 'attachmentCount', transform: 'number' }
 ];
 
-const _errorParser$3 = modelParser.createParser(apiErrorModel);
+const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
@@ -3960,7 +4040,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$3(err)));
+            .catch((err) => Promise.reject(_errorParser$4(err)));
     }
 
     /**
@@ -3974,7 +4054,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$3(err)));
+            .catch((err) => Promise.reject(_errorParser$4(err)));
     }
 
     /**
@@ -4007,7 +4087,7 @@ class Page extends PageBase {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
         if(progress !== null) {
             const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
-            const progressInfo = { callback: progress, size: size };
+            const progressInfo = { callback: progress, size };
             return progressPlug.at('import').withParams(apiParams).put(file, type, progressInfo)
                 .then((r) => JSON.parse(r.responseText))
                 .catch((e) => Promise.reject(JSON.parse(e.responseText)))
@@ -4138,7 +4218,7 @@ class Page extends PageBase {
             params.q = q;
         }
         return this._plug.at('linkdetails').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$3(err)))
+            .catch((err) => Promise.reject(_errorParser$4(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
@@ -4186,7 +4266,7 @@ class Page extends PageBase {
             params.offset = offset;
         }
         return this._plug.at('health').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$3(err)))
+            .catch((err) => Promise.reject(_errorParser$4(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -4276,7 +4356,7 @@ class PageManager {
             .withParams(params)
             .get()
             .then((r) => r.json())
-            .catch((err) => Promise.reject(_errorParser$3(err)))
+            .catch((err) => Promise.reject(_errorParser$4(err)))
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -4362,7 +4442,7 @@ class PageProperty extends PagePropertyBase {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
         }
-        return this._plug.withParams({ depth: depth, names: key }).get().then((r) => r.json());
+        return this._plug.withParams({ depth, names: key }).get().then((r) => r.json());
     }
 }
 
@@ -5017,13 +5097,13 @@ class Site {
         }
         constraint.namespaces = namespaces;
         const searchParams = {
-            limit: limit,
-            offset: offset,
+            limit,
+            offset,
             sortBy: '-rank',
-            q: q,
+            q,
             summarypath: encodeURI(path),
             constraint: _buildSearchConstraints(constraint),
-            recommendations: recommendations
+            recommendations
         };
         if(sessionid) {
             searchParams.sessionid = sessionid;
@@ -5087,7 +5167,7 @@ class Site {
             userFilter,
             bucket,
             originFilter: origin,
-            web_widget_embed_id: webWidgetEmbedId
+            web_widget_embed_id: webWidgetEmbedId // eslint-disable-line camelcase
         };
         return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
     }
@@ -5167,7 +5247,7 @@ const siteJobsModel = [
     { field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }
 ];
 
-const _errorParser$4 = modelParser.createParser(apiErrorModel);
+const _errorParser$5 = modelParser.createParser(apiErrorModel);
 
 class SiteJob {
 
@@ -5189,7 +5269,7 @@ class SiteJob {
      */
     getStatus() {
         return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
+            .catch((err) => Promise.reject(_errorParser$5(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -5200,7 +5280,7 @@ class SiteJob {
      */
     cancel() {
         return this._plug.at('cancel').post()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
+            .catch((err) => Promise.reject(_errorParser$5(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -5325,13 +5405,13 @@ class SiteJobManager {
      */
     getJobsStatuses() {
         return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
+            .catch((err) => Promise.reject(_errorParser$5(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }
 
-const _errorParser$5 = modelParser.createParser(apiErrorModel);
+const _errorParser$6 = modelParser.createParser(apiErrorModel);
 
 class SiteReports {
     constructor(settings = new Settings()) {
@@ -5360,7 +5440,7 @@ class SiteReports {
             params.severity = options.severities.join(',');
         }
         return this._plug.at('sitehealth').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
+            .catch((err) => Promise.reject(_errorParser$6(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -5651,7 +5731,7 @@ const webWidgetsListModel = [
     { field: 'web-widget', name: 'webWidgets', isArray: true, transform: webWidgetsModel }
 ];
 
-const _errorParser$6 = modelParser.createParser(apiErrorModel);
+const _errorParser$7 = modelParser.createParser(apiErrorModel);
 function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
@@ -5703,7 +5783,7 @@ class WebWidgetsManager {
      */
     getActiveWidgets() {
         return this._plug.get()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -5714,7 +5794,7 @@ class WebWidgetsManager {
      */
     getInactiveWidgets() {
         return this._plug.at('inactive').get()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -5727,7 +5807,7 @@ class WebWidgetsManager {
     getWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId).get()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
 
@@ -5744,7 +5824,7 @@ class WebWidgetsManager {
      */
     createWidget(options) {
         return this._plug.post(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -5757,7 +5837,7 @@ class WebWidgetsManager {
     deleteWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId).delete()
-            .catch((err) => Promise.reject(_errorParser$6(err)));
+            .catch((err) => Promise.reject(_errorParser$7(err)));
     }
 
     /**
@@ -5773,7 +5853,7 @@ class WebWidgetsManager {
     updateWidget(id, options) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId).put(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -5786,7 +5866,7 @@ class WebWidgetsManager {
     activateWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId, 'activate').put()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -5799,7 +5879,7 @@ class WebWidgetsManager {
     deactivateWidget(id) {
         const widgetId = utility.getResourceId(id);
         return this._plug.at(widgetId, 'deactivate').put()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
+            .catch((err) => Promise.reject(_errorParser$7(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -5890,6 +5970,8 @@ exports.Api = Api;
 exports.ContextDefinition = ContextDefinition;
 exports.ContextMap = ContextMap;
 exports.ContextIdManager = ContextIdManager;
+exports.DeveloperToken = DeveloperToken;
+exports.DeveloperTokenManager = DeveloperTokenManager;
 exports.Draft = Draft;
 exports.DraftManager = DraftManager;
 exports.DraftFile = DraftFile;

@@ -1,9 +1,9 @@
 import aliasModuleSpecifiers from 'rollup-plugin-alias-module-specifiers';
 
 export default {
-    entry: './main.js',
-    targets: [
-        { dest: 'dist/index.js', format: 'cjs' }
+    input: './main.js',
+    output: [
+        { file: 'dist/index.js', format: 'cjs' }
     ],
     plugins: [
         aliasModuleSpecifiers({

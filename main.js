@@ -1,6 +1,7 @@
 import { Settings } from './lib/settings.js';
 import { Api } from './api.js';
 import { ContextDefinition, ContextMap, ContextIdManager } from './contextId.js';
+import { DeveloperToken, DeveloperTokenManager } from './developerToken.js';
 import { Draft, DraftManager } from './draft.js';
 import { DraftFile } from './draftFile.js';
 import { DraftProperty } from './draftProperty.js';
@@ -25,6 +26,7 @@ export {
     Settings,
     Api,
     ContextDefinition, ContextMap, ContextIdManager,
+    DeveloperToken, DeveloperTokenManager,
     Draft, DraftManager,
     DraftFile,
     DraftProperty,
