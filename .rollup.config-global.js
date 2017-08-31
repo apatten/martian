@@ -27,12 +27,12 @@ const banner = `
 `;
 
 export default {
-    entry: './global.js',
-    targets: [
+    input: './global.js',
+    output: [
         {
-            dest: 'build/martian.min.js',
+            file: 'build/martian.min.js',
             format: 'iife',
-            moduleName: 'MindTouch',
+            name: 'MindTouch',
             banner
         }
     ],
