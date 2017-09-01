@@ -1,0 +1,683 @@
+{
+    "clicks": {
+        "click": [
+            {
+                "averagePosition": "4.00",
+                "hits": "7",
+                "mostRecent": "Wed, 30 Aug 2017 15:59:29 GMT",
+                "page": {
+                    "@id": "324",
+                    "@guid": "46d49bec8d174b198794b202b17637cb",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/324?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 02 Aug 2017 17:11:51 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/I'm_a_Topic!/How_To_with_a_topic_for_a_parent"
+                    },
+                    "title": "How To with a topic for a parent",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/I'm_a_Topic!/How_To_with_a_topic_for_a_parent"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "1.00",
+                "hits": "6",
+                "mostRecent": "Thu, 31 Aug 2017 17:20:19 GMT",
+                "page": {
+                    "@id": "328",
+                    "@guid": "6ea273c9329a4daf9a2695c135f5016f",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/328?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Mon, 07 Aug 2017 20:56:11 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/Page_Title"
+                    },
+                    "title": "Page Title",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/Page_Title"
+                },
+                "type": "recommended"
+            },
+            {
+                "averagePosition": "2.00",
+                "hits": "6",
+                "mostRecent": "Wed, 30 Aug 2017 15:59:29 GMT",
+                "page": {
+                    "@id": "336",
+                    "@guid": "41d6bac2bc094747baa54ca3e8c761a2",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/336?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 08 Aug 2017 23:03:57 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/How_To_3"
+                    },
+                    "title": "How To 3",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/How_To_3"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "3.00",
+                "hits": "5",
+                "mostRecent": "Wed, 30 Aug 2017 15:59:29 GMT",
+                "page": {
+                    "@id": "321",
+                    "@guid": "b4cb2e2fa7254107ba4b0119f113d937",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/321?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 02 Aug 2017 17:09:26 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/I'm_a_How_To!"
+                    },
+                    "title": "I'm a How To!",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/I'm_a_How_To!"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "7.00",
+                "file": {
+                    "@id": "71",
+                    "@revision": "1",
+                    "@res-id": "200",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/files/71/info",
+                    "@res-is-head": "true",
+                    "@res-is-deleted": "false",
+                    "@res-rev-is-deleted": "false",
+                    "@res-contents-id": "403",
+                    "contents": {
+                        "@type": "image/png",
+                        "@size": "26288",
+                        "@width": "825",
+                        "@height": "203",
+                        "@href": "https://adamp-test.mindtouch.be/@api/deki/files/71/back-to-top.png"
+                    },
+                    "contents.preview": [
+                        {
+                            "@rel": "thumb",
+                            "@type": "image/png",
+                            "@maxwidth": "160",
+                            "@maxheight": "160",
+                            "@href": "https://adamp-test.mindtouch.be/@api/deki/files/71/back-to-top.png?size=thumb"
+                        },
+                        {
+                            "@rel": "webview",
+                            "@type": "image/png",
+                            "@maxwidth": "550",
+                            "@maxheight": "550",
+                            "@href": "https://adamp-test.mindtouch.be/@api/deki/files/71/back-to-top.png?size=webview"
+                        }
+                    ],
+                    "date.created": "Thu, 10 Aug 2017 16:57:24 GMT",
+                    "description": "",
+                    "filename": "back-to-top.png",
+                    "revisions": {
+                        "@count": "1",
+                        "@totalcount": "1",
+                        "@href": "https://adamp-test.mindtouch.be/@api/deki/files/71/revisions"
+                    },
+                    "user.createdby": {
+                        "@anonymous": "false",
+                        "@id": "1",
+                        "@wikiid": "site_79",
+                        "@href": "https://adamp-test.mindtouch.be/@api/deki/users/1",
+                        "date.created": "Tue, 18 Jul 2017 00:01:42 GMT",
+                        "date.lastlogin": "Tue, 29 Aug 2017 23:19:10 GMT",
+                        "email": "adamp@mindtouch.com",
+                        "fullname": "",
+                        "hash.email": "5ae7ee9491c82be0ea00fff3001f17de",
+                        "license.seat": {
+                            "@owner": "true",
+                            "#text": "true"
+                        },
+                        "nick": "admin",
+                        "password": {
+                            "@exists": "true"
+                        },
+                        "status": "active",
+                        "uri.avatar": "https://gravatar.com/avatar/5ae7ee9491c82be0ea00fff3001f17de.png?d=mm",
+                        "uri.gravatar": "https://gravatar.com/avatar/5ae7ee9491c82be0ea00fff3001f17de.png?d=mm",
+                        "username": "admin"
+                    }
+                },
+                "hits": "4",
+                "mostRecent": "Wed, 30 Aug 2017 22:37:19 GMT",
+                "type": "file"
+            },
+            {
+                "averagePosition": "5.00",
+                "hits": "4",
+                "mostRecent": "Wed, 30 Aug 2017 15:59:29 GMT",
+                "page": {
+                    "@id": "356",
+                    "@guid": "29584b41eed94d0da33f17163c7b6d32",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/356?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:07 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Trial_User_Guide_test/Trial_How-To_Page"
+                    },
+                    "title": "Trial How-To Page",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Trial_User_Guide_test/Trial_How-To_Page"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "10.00",
+                "hits": "3",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "342",
+                    "@guid": "e59acd13fdad4ddc8e61c1f43c688b37",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/342?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 09 Aug 2017 22:39:10 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/Page_Title_7"
+                    },
+                    "title": "Page Title 7",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/Page_Title_7"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "6.00",
+                "hits": "2",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "355",
+                    "@guid": "d81d802bc4294cc6a1715107e0b8d50a",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/355?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:06 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "false",
+                        "#text": "Documentation/Trial_User_Guide/Step_3:_Add_Classification_Tab_&_How-To_Article_to_the_user_Guide"
+                    },
+                    "title": "Step 3: Add Classification Tab & How-To Article to the user Guide",
+                    "uri.ui": "https://adamp-test.mindtouch.be/?title=Documentation/Trial_User_Guide/Step_3:_Add_Classification_Tab_%26_How-To_Article_to_the_user_Guide"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "9.00",
+                "hits": "2",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "339",
+                    "@guid": "980ab5fcbae344588fe1962ab819d4b7",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/339?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 09 Aug 2017 17:01:40 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/Page_Title_4"
+                    },
+                    "title": "Page Title 4",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/Page_Title_4"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "8.00",
+                "hits": "2",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "326",
+                    "@guid": "3f3e38a985734392924eca23c6081ef2",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/326?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Mon, 07 Aug 2017 19:48:58 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/I'm_a_HowTo?"
+                    },
+                    "title": "I'm a HowTo?",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/I'm_a_HowTo%3F"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "31.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "377",
+                    "@guid": "5e2fea1f2b7a4917b465276a7143cbf0",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/377?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:58:39 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_with_LESS/Advanced_LESS/Links"
+                    },
+                    "title": "Links",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_with_LESS/Advanced_LESS/Links"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "29.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "376",
+                    "@guid": "2bd1dc050b834ae1bf73edecbc00c7b5",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/376?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:58:27 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_with_LESS/Advanced_LESS/Headings"
+                    },
+                    "title": "Headings",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_with_LESS/Advanced_LESS/Headings"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "32.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "373",
+                    "@guid": "a0868bed574d45cbbe916ce37d23867b",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/373?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:58:00 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_with_LESS/Advanced_LESS/Containers"
+                    },
+                    "title": "Containers",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_with_LESS/Advanced_LESS/Containers"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "30.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "368",
+                    "@guid": "9452fadb150b408f965f562e6de2f2b0",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/368?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:11 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_Responsive/User_Interface_Walkthrough"
+                    },
+                    "title": "User Interface Walkthrough",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_Responsive/User_Interface_Walkthrough"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "28.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "362",
+                    "@guid": "d3311ac4287b47c2b79f98dabc123d20",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/362?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:09 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_Responsive/Custom_HTML"
+                    },
+                    "title": "Custom HTML",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_Responsive/Custom_HTML"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "33.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "361",
+                    "@guid": "49137ee48bb84af58348581e97fae1df",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/361?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:09 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_Responsive/Custom_CSS"
+                    },
+                    "title": "Custom CSS",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_Responsive/Custom_CSS"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "26.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "358",
+                    "@guid": "5ab48c60600544d1a6446105ff8764b1",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/358?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:08 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Branding_Responsive/Best_Practices"
+                    },
+                    "title": "Best Practices",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Branding_Responsive/Best_Practices"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "27.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "357",
+                    "@guid": "4ab314e2e430416186ccc55b5de54e92",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/357?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Thu, 10 Aug 2017 16:57:07 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "Documentation/Trial_User_Guide_test/Trial_Topic_Page"
+                    },
+                    "title": "Trial Topic Page",
+                    "uri.ui": "https://adamp-test.mindtouch.be/Documentation/Trial_User_Guide_test/Trial_Topic_Page"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "12.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "340",
+                    "@guid": "f342ecd2febf4396a6403297bda4e49d",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/340?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Wed, 09 Aug 2017 21:24:34 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/Page_Title_5"
+                    },
+                    "title": "Page Title 5",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/Page_Title_5"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "11.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 22:21:57 GMT",
+                "page": {
+                    "@id": "337",
+                    "@guid": "8d7b8132a59d45b8bef2fadf396991e3",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/337?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 08 Aug 2017 23:18:15 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/Page_Title_2"
+                    },
+                    "title": "Page Title 2",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/Page_Title_2"
+                },
+                "type": "page"
+            },
+            {
+                "averagePosition": "13.00",
+                "hits": "1",
+                "mostRecent": "Tue, 29 Aug 2017 23:55:05 GMT",
+                "page": {
+                    "@id": "334",
+                    "@guid": "9ebced4abb9d46a6b1413b10f01c1e52",
+                    "@draft.state": "inactive",
+                    "@href": "https://adamp-test.mindtouch.be/@api/deki/pages/334?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Tue, 08 Aug 2017 21:51:59 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": {
+                        "@seo": "true",
+                        "#text": "I'm_a_guide!/HowTo_2"
+                    },
+                    "title": "HowTo 2",
+                    "uri.ui": "https://adamp-test.mindtouch.be/I'm_a_guide!/HowTo_2"
+                },
+                "type": "page"
+            }
+        ]
+    },
+    "volume": {
+        "clickTotal": "52",
+        "clickthroughRate": "325.00",
+        "point": [
+            {
+                "clicks": "0",
+                "date": "Tue, 01 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Wed, 02 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Thu, 03 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Fri, 04 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sat, 05 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sun, 06 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Mon, 07 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Tue, 08 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Wed, 09 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Thu, 10 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Fri, 11 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sat, 12 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sun, 13 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Mon, 14 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Tue, 15 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Wed, 16 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Thu, 17 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Fri, 18 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sat, 19 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sun, 20 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Mon, 21 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Tue, 22 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Wed, 23 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Thu, 24 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Fri, 25 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sat, 26 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Sun, 27 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "0",
+                "date": "Mon, 28 Aug 2017 00:00:00 GMT",
+                "total": "0"
+            },
+            {
+                "clicks": "45",
+                "date": "Tue, 29 Aug 2017 00:00:00 GMT",
+                "total": "9"
+            },
+            {
+                "clicks": "6",
+                "date": "Wed, 30 Aug 2017 00:00:00 GMT",
+                "total": "4"
+            },
+            {
+                "clicks": "1",
+                "date": "Thu, 31 Aug 2017 00:00:00 GMT",
+                "total": "3"
+            },
+            {
+                "clicks": "0",
+                "date": "Fri, 01 Sep 2017 00:00:00 GMT",
+                "total": "0"
+            }
+        ],
+        "searchTotal": "16"
+    }
+}

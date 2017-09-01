@@ -107,6 +107,14 @@ describe('Site API', () => {
                 return site.getSearchAnalytics({ start: '20170817000000' });
             });
         });
+        describe('search analytics query test', () => {
+            it('can get search analytics query with defaults', () => {
+                return site.getSearchAnalyticsQuery({ query: 'foobar' });
+            });
+            it('can get search analytics with params', () => {
+                return site.getSearchAnalyticsQuery({ query: 'foobar', start: '20170817000000' });
+            });
+        });
         describe('site tags operations', () => {
             it('can fetch all site tags', () => {
                 return site.getTags();
