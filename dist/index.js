@@ -4828,7 +4828,7 @@ const searchAnalyticsModel = [
     {
         field: 'popular',
         transform: [
-            { 
+            {
                 field: 'search',
                 isArray: true,
                 transform: [
@@ -4838,14 +4838,8 @@ const searchAnalyticsModel = [
                     { field: 'query' },
                     { field: 'results', transform: 'number' },
                     { field: 'topresult', transform: [
-                        { field: '@type', name: 'type' },
-                        { field: '@hits', name: 'hits', transform: 'number' },
-                        { field: 'date.created', name: 'dateCreated', transform: 'date' },
-                        { field: [ 'path', '#text' ] },
-                        { field: 'title' },
-                        { field: 'filename' },
-                        { field: [ 'contents', '@href' ], name: 'fileUri' },
-                        { field: 'uri.ui', name: 'uri' }
+                        { field: 'page', transform: pageModel },
+                        { field: 'file', transform: fileModel }
                     ]},
                     { field: 'total', transform: 'number' }
                 ]
@@ -4858,7 +4852,44 @@ const searchAnalyticsModel = [
             { field: 'clickTotal', transform: 'number' },
             { field: 'clickthroughRate' },
             { field: 'searchTotal', transform: 'number' },
-            { 
+            {
+                field: 'point',
+                isArray: true,
+                transform: [
+                    { field: 'clicks', transform: 'number' },
+                    { field: 'date', transform: 'date' },
+                    { field: 'total', transform: 'number' }
+                ]
+            }
+        ]
+    }
+];
+
+const searchAnalyticsQueryModel = [
+    {
+        field: 'clicks',
+        transform: [
+            {
+                field: 'click',
+                isArray: true,
+                transform: [
+                    { field: 'averagePosition', transform: 'number' },
+                    { field: 'hits', transform: 'number' },
+                    { field: 'mostRecent', transform: 'date' },
+                    { field: 'type' },
+                    { field: 'page', transform: pageModel },
+                    { field: 'file', transform: fileModel }
+                ]
+            }
+        ]
+    },
+    {
+        field: 'volume',
+        transform: [
+            { field: 'clickTotal', transform: 'number' },
+            { field: 'clickthroughRate' },
+            { field: 'searchTotal', transform: 'number' },
+            {
                 field: 'point',
                 isArray: true,
                 transform: [
@@ -5170,6 +5201,37 @@ class Site {
             web_widget_embed_id: webWidgetEmbedId // eslint-disable-line camelcase
         };
         return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
+    }
+
+    /**
+     * Get the search analytics for the given period for a particular query
+     * @param {Object} options - The paramaters to pass through with the request
+     * @param {String} [options.query] - Query to generate analytics for
+     * @param {String} [options.start] - The start date (YYYYMMDDHHMMSS)
+     * @param {String} [options.end] - The end date (YYYYMMDDHHMMSS)
+     * @param {String} [options.userFilter] - The user type you want to filter by (Anonymous, Community, Pro)
+     * @param {String} [options.bucket] - The time you want to bucket results into (e.g. day, month) (default: month)
+     * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
+     * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
+     * @param {String} [options.sortBy] - Sort table data by this field (e.g. clicks, position) (default: clicks)
+     * @param {String} [options.sortOrder] - Sort direction to be used with sortby (e.g. asc, desc) (default: desc)
+     * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
+     * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
+     */
+    getSearchAnalyticsQuery({ query, start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+        const searchParams = {
+            query,
+            start,
+            end,
+            userFilter,
+            bucket,
+            originFilter: origin,
+            web_widget_embed_id: webWidgetEmbedId,
+            sortby: sortBy,
+            sortorder: sortOrder,
+            limit
+        };
+        return this.plug.at('search', 'analytics', 'query').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsQueryModel));
     }
 
     /**

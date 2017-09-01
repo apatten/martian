@@ -1,24 +1,20 @@
 import { pageModel } from './page.model.js';
 import { fileModel } from './file.model.js';
 
-export const searchAnalyticsModel = [
+export const searchAnalyticsQueryModel = [
     {
-        field: 'popular',
+        field: 'clicks',
         transform: [
             {
-                field: 'search',
+                field: 'click',
                 isArray: true,
                 transform: [
                     { field: 'averagePosition', transform: 'number' },
                     { field: 'hits', transform: 'number' },
                     { field: 'mostRecent', transform: 'date' },
-                    { field: 'query' },
-                    { field: 'results', transform: 'number' },
-                    { field: 'topresult', transform: [
-                        { field: 'page', transform: pageModel },
-                        { field: 'file', transform: fileModel }
-                    ]},
-                    { field: 'total', transform: 'number' }
+                    { field: 'type' },
+                    { field: 'page', transform: pageModel },
+                    { field: 'file', transform: fileModel }
                 ]
             }
         ]
