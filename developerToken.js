@@ -44,7 +44,10 @@ export class DeveloperTokenManager {
             requestXml += `<host>${host}</host>`;
         }
         requestXml += '</developer-token>';
-        return this._plug.post(requestXml, utility.xmlRequestType).then((r) => r.json()).then(modelParser.createParser(developerTokenModel));
+        return this._plug.post(requestXml, utility.xmlRequestType)
+            .then((r) => r.json())
+            .catch((err) => Promise.reject(_errorParser(err)))
+            .then(modelParser.createParser(developerTokenModel));
     }
 }
 
