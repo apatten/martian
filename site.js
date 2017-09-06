@@ -280,9 +280,12 @@ export class Site {
      * @param {String} [options.bucket] - The time you want to bucket results into
      * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
      * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
+     * @param {String} [options.sortBy] - Sort table data by this field (e.g. clicks, position) (default: clicks)
+     * @param {String} [options.sortOrder] - Sort direction to be used with sortby (e.g. asc, desc) (default: desc)
+     * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null }) {
+    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
         const searchParams = {
             start,
             end,
@@ -290,7 +293,10 @@ export class Site {
             userFilter,
             bucket,
             originFilter: origin,
-            web_widget_embed_id: webWidgetEmbedId // eslint-disable-line camelcase
+            web_widget_embed_id: webWidgetEmbedId, // eslint-disable-line camelcase
+            sortby: sortBy,
+            sortorder: sortOrder,
+            limit
         };
         return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
     }
@@ -310,7 +316,7 @@ export class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalyticsQuery({ query, start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalyticsQuery({ query, start = null, end = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
         const searchParams = {
             query,
             start,
@@ -318,7 +324,7 @@ export class Site {
             userFilter,
             bucket,
             originFilter: origin,
-            web_widget_embed_id: webWidgetEmbedId,
+            web_widget_embed_id: webWidgetEmbedId, // eslint-disable-line camelcase
             sortby: sortBy,
             sortorder: sortOrder,
             limit
