@@ -25,11 +25,13 @@ export const searchAnalyticsQueryModel = [
             { field: 'clickTotal', transform: 'number' },
             { field: 'clickthroughRate' },
             { field: 'searchTotal', transform: 'number' },
+            { field: 'searchesClickedTotal', transform: 'number' },
             {
                 field: 'point',
                 isArray: true,
                 transform: [
                     { field: 'clicks', transform: 'number' },
+                    { field: 'searchesClicked', transform: 'number' },
                     { field: 'date', transform: 'date' },
                     { field: 'total', transform: 'number' }
                 ]

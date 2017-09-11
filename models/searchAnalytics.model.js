@@ -9,6 +9,7 @@ export const searchAnalyticsModel = [
                 field: 'search',
                 isArray: true,
                 transform: [
+                    { field: 'averageClicksPerSearch', transform: 'number' },
                     { field: 'averagePosition', transform: 'number' },
                     { field: 'hits', transform: 'number' },
                     { field: 'mostRecent', transform: 'date' },
@@ -29,6 +30,7 @@ export const searchAnalyticsModel = [
             { field: 'clickTotal', transform: 'number' },
             { field: 'clickthroughRate' },
             { field: 'searchTotal', transform: 'number' },
+            { field: 'searchesClickedTotal', transform: 'number' },
             {
                 field: 'point',
                 isArray: true,

@@ -2,6 +2,7 @@
     "popular": {
         "search": [
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "5.40",
                 "hits": "55",
                 "mostRecent": "Fri, 01 Sep 2017 21:14:34 GMT",
@@ -30,6 +31,7 @@
                 "total": "18"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "3.67",
                 "hits": "8",
                 "mostRecent": "Thu, 31 Aug 2017 20:58:08 GMT",
@@ -58,6 +60,7 @@
                 "total": "9"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "3.00",
                 "hits": "1",
                 "mostRecent": "Fri, 01 Sep 2017 21:16:08 GMT",
@@ -86,6 +89,7 @@
                 "total": "7"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "2.33",
                 "hits": "5",
                 "mostRecent": "Thu, 31 Aug 2017 20:57:53 GMT",
@@ -114,6 +118,7 @@
                 "total": "6"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "1.00",
                 "hits": "2",
                 "mostRecent": "Fri, 01 Sep 2017 21:19:15 GMT",
@@ -190,6 +195,7 @@
                 "total": "3"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "1.50",
                 "hits": "2",
                 "mostRecent": "Thu, 31 Aug 2017 17:25:40 GMT",
@@ -218,6 +224,7 @@
                 "total": "3"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "0.00",
                 "hits": "0",
                 "mostRecent": "Thu, 31 Aug 2017 17:26:29 GMT",
@@ -226,6 +233,7 @@
                 "total": "3"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "3.25",
                 "hits": "3",
                 "mostRecent": "Wed, 30 Aug 2017 16:00:29 GMT",
@@ -254,6 +262,7 @@
                 "total": "2"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "1.00",
                 "hits": "1",
                 "mostRecent": "Wed, 30 Aug 2017 22:38:44 GMT",
@@ -282,6 +291,7 @@
                 "total": "2"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "5.00",
                 "hits": "1",
                 "mostRecent": "Thu, 31 Aug 2017 17:20:33 GMT",
@@ -310,6 +320,7 @@
                 "total": "1"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "0.00",
                 "hits": "0",
                 "mostRecent": "Thu, 31 Aug 2017 19:42:58 GMT",
@@ -318,6 +329,7 @@
                 "total": "1"
             },
             {
+                "averageClicksPerSearch": "1.17",
                 "averagePosition": "0.00",
                 "hits": "0",
                 "mostRecent": "Thu, 31 Aug 2017 17:20:31 GMT",
@@ -492,6 +504,7 @@
                 "total": "10"
             }
         ],
-        "searchTotal": "56"
+        "searchTotal": "56",
+        "searchesClickedTotal": "23"
     }
 }
