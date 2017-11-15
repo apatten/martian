@@ -5192,6 +5192,7 @@ class Site {
      * @param {String} [options.end] - The end date (YYYYMMDDHHMMSS)
      * @param {String} [options.queryFilters] - the stem queries you want to return results for
      * @param {String} [options.userFilter] - The user type you want to filter by (Anonymous, Community, Pro)
+     * @param {String} [options.groupIds] - Filter all search data by a set of comma separated group ids
      * @param {String} [options.bucket] - The time you want to bucket results into
      * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
      * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
@@ -5200,12 +5201,13 @@ class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
         const searchParams = {
             start,
             end,
             queryFilters,
             userFilter,
+            groupids: groupIds,
             bucket,
             originFilter: origin,
             web_widget_embed_id: webWidgetEmbedId, // eslint-disable-line camelcase
@@ -5223,6 +5225,7 @@ class Site {
      * @param {String} [options.start] - The start date (YYYYMMDDHHMMSS)
      * @param {String} [options.end] - The end date (YYYYMMDDHHMMSS)
      * @param {String} [options.userFilter] - The user type you want to filter by (Anonymous, Community, Pro)
+     * @param {String} [options.groupIds] - Filter all search data by a set of comma separated group ids
      * @param {String} [options.bucket] - The time you want to bucket results into (e.g. day, month) (default: month)
      * @param {String} [options.origin] - The source of the search query (mt-web, mt-api, etc)
      * @param {String} [options.webWidgetEmbedId] - the embed id for the source web widget
@@ -5231,12 +5234,13 @@ class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalyticsQuery({ query, start = null, end = null, userFilter = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalyticsQuery({ query, start = null, end = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
         const searchParams = {
             query,
             start,
             end,
             userFilter,
+            groupids: groupIds,
             bucket,
             originFilter: origin,
             web_widget_embed_id: webWidgetEmbedId, // eslint-disable-line camelcase
