@@ -8,6 +8,6 @@ exports.tokenGenerator = (key, secret) => {
         const epoch = Math.floor(Date.now() / 1000);
         hmac.update(`${key}${epoch}${user}`);
         const hash = hmac.digest('hex');
-        return `int_${key}_${epoch}_${hash}`;
+        return `int_${key}_${epoch}_${user}_${hash}`;
     };
 };
