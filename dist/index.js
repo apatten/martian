@@ -5594,7 +5594,9 @@ class User {
         if(errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
-        return this._plug.withParam('exclude', exclude.join(',')).get()
+        return this._plug
+            .withParam('exclude', exclude.join(','))
+            .get()
             .then((r) => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -5614,7 +5616,8 @@ class User {
         if(pageIdsErrors.length > 0) {
             return Promise.reject(new Error(pageIdsErrors.join(', ')));
         }
-        const optionsErrors = valid.object(options,
+        const optionsErrors = valid.object(
+            options,
             optional('mask', number()),
             optional('operations', array()),
             optional('verbose', bool()),
@@ -5628,7 +5631,10 @@ class User {
         }
         let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
         requestXml = `<pages>${requestXml}</pages>`;
-        return this._plug.at('allowed').withParams(options).post(requestXml, utility.xmlRequestType)
+        return this._plug
+            .at('allowed')
+            .withParams(options)
+            .post(requestXml, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
     }
@@ -5646,7 +5652,8 @@ class User {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated user data, or rejected with an error specifying the reason for rejection.
      */
     update(options) {
-        const optionsErrors = valid.object(options,
+        const optionsErrors = valid.object(
+            options,
             optional('active', bool()),
             optional('seated', bool()),
             optional('username', string()),
@@ -5670,10 +5677,40 @@ class User {
             }
         });
         postData += '</user>';
-        return this._plug.put(postData, utility.xmlRequestType)
+        return this._plug
+            .put(postData, utility.xmlRequestType)
             .catch((err) => Promise.reject(this._errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(userModel));
+    }
+
+    /**
+     * Set the password for the user
+     * @param {Object} options An object that contains the password change information
+     * @param {String} options.newPassword The new password that will be set for the user
+     * @param {String} [options.currentpassword] The user's current password (needed when changing your own password without admin rights)
+     * @returns {Promise} A Promise that, when resolved, indicates a successful password change
+     */
+    setPassword(options) {
+        const optionsErrors = valid.object(
+            options,
+            required('newPassword', string()),
+            optional('currentPassword', string())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
+        }
+        const params = {};
+        if(options.currentPassword) {
+            params.currentpassword = options.currentPassword;
+        }
+        return this._plug
+            .at('password')
+            .withParams(params)
+            .put(options.newPassword, utility.textRequestType)
+            .catch((err) => Promise.reject(this._errorParser(err)))
+            .then((r) => r.text())
+            .then((resp) => ({ authToken: resp }));
     }
 }
 
@@ -5702,8 +5739,12 @@ class UserManager {
         if(errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
-        return this._plug.at('current').withParam('exclude', exclude.join(',')).get()
-            .then((r) => r.json()).then(modelParser.createParser(userModel));
+        return this._plug
+            .at('current')
+            .withParam('exclude', exclude.join(','))
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(userModel));
     }
 
     /**
@@ -5711,21 +5752,26 @@ class UserManager {
      * @returns {Promise.<String>} - A Promise that, when resolved, returns a string with the current user activity token.
      */
     getCurrentUserActivityToken() {
-        return this._plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
-            return Promise.all([
-                r.json().then(modelParser.createParser(userModel)),
-                new Promise((resolve, reject) => {
-                    const sessionId = r.headers.get('X-Deki-Session');
-                    if(sessionId !== null) {
-                        resolve(sessionId);
-                    } else {
-                        reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
-                    }
-                })
-            ]);
-        }).then(([ user, sessionId ]) => {
-            return `${user.id}:${sessionId}`;
-        });
+        return this._plug
+            .at('current')
+            .withParam('exclude', [ 'groups', 'properties' ])
+            .get()
+            .then((r) => {
+                return Promise.all([
+                    r.json().then(modelParser.createParser(userModel)),
+                    new Promise((resolve, reject) => {
+                        const sessionId = r.headers.get('X-Deki-Session');
+                        if(sessionId !== null) {
+                            resolve(sessionId);
+                        } else {
+                            reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
+                        }
+                    })
+                ]);
+            })
+            .then(([ user, sessionId ]) => {
+                return `${user.id}:${sessionId}`;
+            });
     }
 
     /**
@@ -5734,7 +5780,10 @@ class UserManager {
      */
     getUsers() {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this._plug.get().then((r) => r.json()).then(userListModelParser);
+        return this._plug
+            .get()
+            .then((r) => r.json())
+            .then(userListModelParser);
     }
 
     /**
@@ -5754,7 +5803,12 @@ class UserManager {
      */
     searchUsers(constraints) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this._plug.at('search').withParams(constraints).get().then((r) => r.json()).then(userListModelParser);
+        return this._plug
+            .at('search')
+            .withParams(constraints)
+            .get()
+            .then((r) => r.json())
+            .then(userListModelParser);
     }
 
     /**
