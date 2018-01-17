@@ -1,0 +1,6 @@
+{
+    "confidence": { "@label": "confidence", "value": "wip", "value-label": "Work In Progress" },
+    "flag": { "@label": "Flag", "value": "false", "value-label": "Unflagged" },
+    "governance": { "@label": "governance", "value": "experience", "value-label": "Experience" },
+    "visibility": { "@label": "visibility", "value": "internal", "value-label": "Internal" }
+}
