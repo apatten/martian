@@ -1,0 +1,28 @@
+{
+    "flag": { "@label": "Flag", "value": "true", "value-label": "Flagged" },
+    "governance": { "@label": "Governance", "value": "compliance", "value-label": "Compliance" },
+    "transitions": {
+        "state": [
+            {
+                "confidence": { "@label": "Confidence", "value": "notvalidated", "value-label": "Not Validated" },
+                "visibility": { "@label": "Visibility", "value": "internal", "value-label": "Internal" }
+            },
+            {
+                "confidence": { "@label": "Confidence", "value": "notvalidated", "value-label": "Not Validated" },
+                "visibility": { "@label": "Visibility", "value": "partners", "value-label": "Partners" }
+            },
+            {
+                "confidence": { "@label": "Confidence", "value": "notvalidated", "value-label": "Not Validated" },
+                "visibility": { "@label": "Visibility", "value": "customers", "value-label": "Customers" }
+            },
+            {
+                "confidence": { "@label": "Confidence", "value": "validated", "value-label": "Validated" },
+                "visibility": { "@label": "Visibility", "value": "internal", "value-label": "Internal" }
+            },
+            {
+                "confidence": { "@label": "Confidence", "value": "archived", "value-label": "Archived" },
+                "visibility": { "@label": "Visibility", "value": "internal", "value-label": "Internal" }
+            }
+        ]
+    }
+}
