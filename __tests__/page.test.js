@@ -96,26 +96,48 @@ describe('Page', () => {
                 failed.mockReset();
             });
             it('no params', () => {
-                return page.getDiff().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getDiff()
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid previous', () => {
-                return page.getDiff({ previous: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getDiff({ previous: [] })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid revision', () => {
-                return page.getDiff({ previous: 21, revision: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getDiff({ previous: 21, revision: true })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid format', () => {
-                return page.getDiff({ previous: 21, format: 100 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getDiff({ previous: 21, format: 100 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid includeVersions', () => {
-                return page.getDiff({ previous: 21, includeVersions: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getDiff({ previous: 21, includeVersions: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
         it('can export the page as a PDF (no params)', () => {
             return page.exportPdf();
         });
         it('can export the page as a PDF (all params)', () => {
-            return page.exportPdf({ fileName: 'foo.pdf', format: 'html', stylesheet: 'foo.css', deep: true, showToc: true, dryRun: true });
+            return page.exportPdf({
+                fileName: 'foo.pdf',
+                format: 'html',
+                stylesheet: 'foo.css',
+                deep: true,
+                showToc: true,
+                dryRun: true
+            });
         });
         describe('PDF export failures', () => {
             const failed = jest.fn();
@@ -123,29 +145,55 @@ describe('Page', () => {
                 failed.mockReset();
             });
             it('invalid fileName', () => {
-                return page.exportPdf({ fileName: 132 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ fileName: 132 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid stylesheet', () => {
-                return page.exportPdf({ stylesheet: [ 132 ] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ stylesheet: [ 132 ] })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid format', () => {
-                return page.exportPdf({ format: 'peedeeeff' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ format: 'peedeeeff' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid deep', () => {
-                return page.exportPdf({ deep: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ deep: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid showToc', () => {
-                return page.exportPdf({ showToc: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ showToc: {} })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid dryRun', () => {
-                return page.exportPdf({ dryRun: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .exportPdf({ dryRun: [] })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
         it('can get link details (no params)', () => {
             return page.getLinkDetails();
         });
         it('can get link details (all params)', () => {
-            return page.getLinkDetails({ includeSubpages: true, linkTypes: [ 'foo', 'bar' ], broken: false, redirect: true, limit: 99, offset: 98, q: 'baz' });
+            return page.getLinkDetails({
+                includeSubpages: true,
+                linkTypes: [ 'foo', 'bar' ],
+                broken: false,
+                redirect: true,
+                limit: 99,
+                offset: 98,
+                q: 'baz'
+            });
         });
         describe('link details failures', () => {
             const failed = jest.fn();
@@ -153,32 +201,59 @@ describe('Page', () => {
                 failed.mockReset();
             });
             it('invalid includeSubpages', () => {
-                return page.getLinkDetails({ includeSubpages: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ includeSubpages: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid linkTypes', () => {
-                return page.getLinkDetails({ linkTypes: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ linkTypes: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid broken', () => {
-                return page.getLinkDetails({ broken: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ broken: 123 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid redirect', () => {
-                return page.getLinkDetails({ redirect: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ redirect: 123 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid limit', () => {
-                return page.getLinkDetails({ limit: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ limit: true })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid offset', () => {
-                return page.getLinkDetails({ offset: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ offset: {} })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid q', () => {
-                return page.getLinkDetails({ q: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getLinkDetails({ q: 123 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
         it('can get the health inspections (no parameters)', () => {
             return page.getHealthInspections();
         });
         it('can get the health inspections (all parameters)', () => {
-            return page.getHealthInspections({ analyzers: [ 'foo', 'bar' ], severities: [ 'foo', 'bar' ], includeSubpages: true, limit: 400, offset: 100 });
+            return page.getHealthInspections({
+                analyzers: [ 'foo', 'bar' ],
+                severities: [ 'foo', 'bar' ],
+                includeSubpages: true,
+                limit: 400,
+                offset: 100
+            });
         });
         describe('health inspections failures', () => {
             const failed = jest.fn();
@@ -186,19 +261,34 @@ describe('Page', () => {
                 failed.mockReset();
             });
             it('invalid includeSubpages', () => {
-                return page.getHealthInspections({ includeSubpages: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getHealthInspections({ includeSubpages: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid analyzers', () => {
-                return page.getHealthInspections({ analyzers: 'true' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getHealthInspections({ analyzers: 'true' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid severities', () => {
-                return page.getHealthInspections({ severities: 123 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getHealthInspections({ severities: 123 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid limit', () => {
-                return page.getHealthInspections({ limit: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getHealthInspections({ limit: true })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid offset', () => {
-                return page.getHealthInspections({ offset: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return page
+                    .getHealthInspections({ offset: {} })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
     });
@@ -240,9 +330,12 @@ describe('Page', () => {
             return page.setOverview({ body: 'FOO' });
         });
         it('can fail if no arguments are sent when setting the page overview', () => {
-            return page.setOverview().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return page
+                .setOverview()
+                .then((r) => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can move a page', () => {
             return page.move({ to: 'foo/bar' });
@@ -254,9 +347,12 @@ describe('Page', () => {
             return page.setContents('Sample contents');
         });
         it('can fail when setting invalid page contents', () => {
-            return page.setContents({}).then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return page
+                .setContents({})
+                .then((r) => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can handle setting the page contents conflict', () => {
             return page.setContents('Sample contents', { edittime: 'now', abort: 'never' });
@@ -317,12 +413,15 @@ describe('Page', () => {
         });
         it('can fail if the `to` parameter is not sent to copy()', () => {
             const success = jest.fn();
-            return page.copy().then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .copy()
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can revert a page (minimum options)', () => {
             return page.revert({ fromRevision: 5 });
@@ -335,48 +434,63 @@ describe('Page', () => {
         });
         it('can fail while trying to revert a page (no options)', () => {
             const success = jest.fn();
-            return page.revert().then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .revert()
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail while trying to revert a page (no `fromRevision`)', () => {
             const success = jest.fn();
-            return page.revert({}).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .revert({})
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail while trying to revert a page (invalid `abort` type)', () => {
             const success = jest.fn();
-            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: true }).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: true })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail while trying to revert a page (invalid `abort` value)', () => {
             const success = jest.fn();
-            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: 'YES' }).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', abort: 'YES' })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail while trying to revert a page (invalid `verbose` value)', () => {
             const success = jest.fn();
-            return page.revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', verbose: 'YES' }).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return page
+                .revert({ fromRevision: '1682aa2a-8165-bca3-3033-1176848a90b2', verbose: 'YES' })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can set reorder the page (no params)', () => {
             return page.setOrder();
@@ -386,10 +500,38 @@ describe('Page', () => {
         });
         it('can fail setting the page order (invalid after ID)', () => {
             const failed = jest.fn();
-            return page.setOrder('13').catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return page
+                .setOrder('13')
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can get hierarchy info', () => {
             return page.getHierarchyInfo();
+        });
+        describe('link to case', () => {
+            it('can get the list of cases linked to the page', () => {
+                return page.getLinkedCases();
+            });
+            it('can link a case to the page', () => {
+                return page.linkToCase('abcd1234');
+            });
+            it('can fail linking to a case if the case ID is not supplied', () => {
+                const failed = jest.fn();
+                return page
+                    .linkToCase()
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
+            });
+            it('can unlink a case from the page', () => {
+                return page.unlinkCase('abcd1234');
+            });
+            it('can fail unlinking from a case if the case ID is not supplied', () => {
+                const failed = jest.fn();
+                return page
+                    .unlinkCase()
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
+            });
         });
     });
     describe('Page manager', () => {
@@ -426,48 +568,63 @@ describe('Page', () => {
             });
             it('can fail when no parameters are sent to find pages', () => {
                 const success = jest.fn();
-                return pm.findPages().then(() => {
-                    success();
-                    throw new Error('success was called');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return pm
+                    .findPages()
+                    .then(() => {
+                        success();
+                        throw new Error('success was called');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when an invalid `tags` parameter is sent to find pages', () => {
                 const success = jest.fn();
-                return pm.findPages({ tags: 'foo' }).then(() => {
-                    success();
-                    throw new Error('success was called');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return pm
+                    .findPages({ tags: 'foo' })
+                    .then(() => {
+                        success();
+                        throw new Error('success was called');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when an invalid `missingClassifications` parameter is sent to find pages', () => {
                 const success = jest.fn();
-                return pm.findPages({ missingClassifications: 'foo' }).then(() => {
-                    success();
-                    throw new Error('success was called');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return pm
+                    .findPages({ missingClassifications: 'foo' })
+                    .then(() => {
+                        success();
+                        throw new Error('success was called');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when an invalid `since` parameter is sent to find pages', () => {
                 const success = jest.fn();
-                return pm.findPages({ since: 'foo' }).then(() => {
-                    success();
-                    throw new Error('success was called');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return pm
+                    .findPages({ since: 'foo' })
+                    .then(() => {
+                        success();
+                        throw new Error('success was called');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when an invalid `upTo` parameter is sent to find pages', () => {
                 const success = jest.fn();
-                return pm.findPages({ upTo: 'foo' }).then(() => {
-                    success();
-                    throw new Error('success was called');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return pm
+                    .findPages({ upTo: 'foo' })
+                    .then(() => {
+                        success();
+                        throw new Error('success was called');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can get template pages (no params)', () => {
                 return pm.getTemplates();
@@ -481,10 +638,16 @@ describe('Page', () => {
                     failed.mockReset();
                 });
                 it('invalid `type`', () => {
-                    return pm.getTemplates({ type: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return pm
+                        .getTemplates({ type: 'foo' })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid `includeDescription`', () => {
-                    return pm.getTemplates({ includeDescription: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return pm
+                        .getTemplates({ includeDescription: 'foo' })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
             it('can get a list of popular pages (no params)', () => {
@@ -499,7 +662,10 @@ describe('Page', () => {
                     failed.mockReset();
                 });
                 it('invalid options', () => {
-                    return pm.getPopularPages({ limit: 'foo', offset: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return pm
+                        .getPopularPages({ limit: 'foo', offset: true })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
         });
