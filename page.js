@@ -22,6 +22,7 @@ import { templateListModel } from './models/templateList.model.js';
 import { popularPagesModel } from './models/popularPages.model.js';
 import { pageHierarchyInfoModel } from './models/pageHierarchyInfo.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
+import { linkToCaseLinkList } from './models/linkToCaseLinkList.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
 
@@ -52,7 +53,12 @@ export class Page extends PageBase {
             infoParams[key] = params[key];
         });
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('info').withParams(infoParams).get().then((r) => r.json()).then(pageModelParser);
+        return this._plug
+            .at('info')
+            .withParams(infoParams)
+            .get()
+            .then((r) => r.json())
+            .then(pageModelParser);
     }
 
     /**
@@ -61,7 +67,12 @@ export class Page extends PageBase {
      * @returns {Promise.<subpagesModel>} - A Promise that, when resolved, yields a {@link subpagesModel} containing the basic page information.
      */
     getSubpages(params) {
-        return this._plug.at('subpages').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(subpagesModel));
+        return this._plug
+            .at('subpages')
+            .withParams(params)
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(subpagesModel));
     }
 
     /**
@@ -71,7 +82,12 @@ export class Page extends PageBase {
      */
     getTree(params) {
         let pageTreeModelParser = modelParser.createParser(pageTreeModel);
-        return this._plug.at('tree').withParams(params).get().then((r) => r.json()).then(pageTreeModelParser);
+        return this._plug
+            .at('tree')
+            .withParams(params)
+            .get()
+            .then((r) => r.json())
+            .then(pageTreeModelParser);
     }
 
     /**
@@ -79,17 +95,23 @@ export class Page extends PageBase {
      * @returns {Promise.<Array>} - The array of hierarchical page IDs.
      */
     getTreeIds() {
-        return this._plug.at('tree').withParam('format', 'ids').get().then((r) => r.text()).then((idString) => {
-            return idString.split(',').map((id) => {
-                let numId = parseInt(id, 10);
-                if(isNaN(numId)) {
-                    throw new Error('Unable to parse the tree IDs.');
-                }
-                return numId;
+        return this._plug
+            .at('tree')
+            .withParam('format', 'ids')
+            .get()
+            .then((r) => r.text())
+            .then((idString) => {
+                return idString.split(',').map((id) => {
+                    let numId = parseInt(id, 10);
+                    if(isNaN(numId)) {
+                        throw new Error('Unable to parse the tree IDs.');
+                    }
+                    return numId;
+                });
+            })
+            .catch((e) => {
+                return Promise.reject({ message: e.message });
             });
-        }).catch((e) => {
-            return Promise.reject({ message: e.message });
-        });
     }
 
     /**
@@ -97,7 +119,11 @@ export class Page extends PageBase {
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the rating information.
      */
     getRating() {
-        return this._plug.at('ratings').get().then((r) => r.json()).then(modelParser.createParser(pageRatingModel));
+        return this._plug
+            .at('ratings')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageRatingModel));
     }
 
     /**
@@ -119,7 +145,12 @@ export class Page extends PageBase {
         if(oldRating === null) {
             oldRating = '';
         }
-        return this._plug.at('ratings').withParams({ score: rating, previousScore: oldRating }).post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageRatingModel));
+        return this._plug
+            .at('ratings')
+            .withParams({ score: rating, previousScore: oldRating })
+            .post(null, utility.textRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageRatingModel));
     }
 
     /**
@@ -134,9 +165,14 @@ export class Page extends PageBase {
         // Double-URL-encode the path and add '=' to the beginning.  This makes
         //  it a proper page ID to be used in a URI segment.
         let templatePath = '=' + encodeURIComponent(encodeURIComponent(path));
-        let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', templatePath, 'contents').withParams(params);
+        let contentsPlug = new Plug(this._settings.host, this._settings.plugConfig)
+            .at('@api', 'deki', 'pages', templatePath, 'contents')
+            .withParams(params);
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return contentsPlug.get().then((r) => r.json()).then(pageContentsModelParser);
+        return contentsPlug
+            .get()
+            .then((r) => r.json())
+            .then(pageContentsModelParser);
     }
 
     /**
@@ -155,7 +191,8 @@ export class Page extends PageBase {
         if(!params.to) {
             return Promise.reject(new Error('The copy target location must be specified in the `to` parameter.'));
         }
-        return this._plug.at('copy')
+        return this._plug
+            .at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
             .then((r) => r.json())
@@ -169,7 +206,8 @@ export class Page extends PageBase {
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     move(params = {}) {
-        return this._plug.at('move')
+        return this._plug
+            .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
             .then((r) => r.json())
@@ -184,7 +222,11 @@ export class Page extends PageBase {
      */
     delete(recursive = false) {
         const pageDeleteModelParser = modelParser.createParser(pageDeleteModel);
-        return this._plug.withParam('recursive', recursive).delete().then((r) => r.json()).then(pageDeleteModelParser);
+        return this._plug
+            .withParam('recursive', recursive)
+            .delete()
+            .then((r) => r.json())
+            .then(pageDeleteModelParser);
     }
 
     /**
@@ -193,7 +235,11 @@ export class Page extends PageBase {
      */
     activateDraft() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('activate-draft').post().then((r) => r.json()).then(pageModelParser);
+        return this._plug
+            .at('activate-draft')
+            .post()
+            .then((r) => r.json())
+            .then(pageModelParser);
     }
 
     /**
@@ -206,14 +252,26 @@ export class Page extends PageBase {
     importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
         if(progress !== null) {
-            const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at('@api', 'deki', 'pages', this._id);
+            const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at(
+                '@api',
+                'deki',
+                'pages',
+                this._id
+            );
             const progressInfo = { callback: progress, size };
-            return progressPlug.at('import').withParams(apiParams).put(file, type, progressInfo)
+            return progressPlug
+                .at('import')
+                .withParams(apiParams)
+                .put(file, type, progressInfo)
                 .then((r) => JSON.parse(r.responseText))
                 .catch((e) => Promise.reject(JSON.parse(e.responseText)))
                 .then(modelParser.createParser(importArchiveModel));
         }
-        return this._plug.withHeader('Content-Length', size).withParams(apiParams).at('import').put(file, type)
+        return this._plug
+            .withHeader('Content-Length', size)
+            .withParams(apiParams)
+            .at('import')
+            .put(file, type)
             .then((r) => r.json())
             .catch((e) => Promise.reject(JSON.parse(e.responseText)))
             .then(modelParser.createParser(importArchiveModel));
@@ -224,7 +282,11 @@ export class Page extends PageBase {
      * @returns {Promise.<Object>} - A Promise that will be resolved with data describing the exported file, or rejected with an error specifying the reason for rejection.
      */
     getExportInformation() {
-        return this._plug.at('export').post(null, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageExportModel));
+        return this._plug
+            .at('export')
+            .post(null, utility.textRequestType)
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageExportModel));
     }
 
     /**
@@ -268,7 +330,10 @@ export class Page extends PageBase {
             return Promise.reject(new Error('The `dryRun` parameter must be a Boolean value.'));
         }
         params.dryrun = dryRun;
-        const respPromise = this._plug.at('pdf').withParams(params).get();
+        const respPromise = this._plug
+            .at('pdf')
+            .withParams(params)
+            .get();
         if(dryRun) {
             return respPromise;
         }
@@ -284,7 +349,10 @@ export class Page extends PageBase {
         if(typeof afterId !== 'number') {
             return Promise.reject(new Error('The afterId must be a numeric page ID.'));
         }
-        return this._plug.at('order').withParam('afterId', afterId).put();
+        return this._plug
+            .at('order')
+            .withParam('afterId', afterId)
+            .put();
     }
 
     /**
@@ -337,7 +405,10 @@ export class Page extends PageBase {
             }
             params.q = q;
         }
-        return this._plug.at('linkdetails').withParams(params).get()
+        return this._plug
+            .at('linkdetails')
+            .withParams(params)
+            .get()
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
@@ -385,7 +456,10 @@ export class Page extends PageBase {
             }
             params.offset = offset;
         }
-        return this._plug.at('health').withParams(params).get()
+        return this._plug
+            .at('health')
+            .withParams(params)
+            .get()
             .catch((err) => Promise.reject(_errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(healthReportModel));
@@ -396,9 +470,47 @@ export class Page extends PageBase {
      * @returns {Promise} A Promise that, when resolved, yields the heierachy count information.
      */
     getHierarchyInfo() {
-        return this._plug.at('hierarchyinfo').get()
+        return this._plug
+            .at('hierarchyinfo')
+            .get()
             .then((r) => r.json())
             .then(modelParser.createParser(pageHierarchyInfoModel));
+    }
+
+    /**
+     * Link an arbitrary ID, usually corresponding to an external case management system, to this page
+     * @param {String} caseId The ID of the case to link to this page
+     * @returns {Response} The fetch API Response.
+     */
+    linkToCase(caseId) {
+        if(!caseId) {
+            return Promise.reject(new Error('The case ID must be supplied in order to link a case to the page.'));
+        }
+        return this._plug.at('linktocase', caseId).post();
+    }
+
+    /**
+     * Remove a linked case ID from the linked cases for the page
+     * @param {String} caseId The ID of the case to unlink
+     * @returns {Response} The fetch API Response.
+     */
+    unlinkCase(caseId) {
+        if(!caseId) {
+            return Promise.reject(new Error('The case ID must be supplied in order to unlink a case from the page.'));
+        }
+        return this._plug.at('linktocase', caseId).delete();
+    }
+
+    /**
+     * Get a list of cases that have been linked to this page.
+     * @returns {Promise} A Promise that, when resolved, yields the listing of the cases linked to the page
+     */
+    getLinkedCases() {
+        return this._plug
+            .at('linktocase', 'links')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(linkToCaseLinkList));
     }
 }
 
@@ -417,7 +529,10 @@ export class PageManager {
      */
     getRatings(pageIds) {
         const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
-        return ratingsPlug.get().then((r) => r.json()).then(modelParser.createParser(pageRatingsModel));
+        return ratingsPlug
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pageRatingsModel));
     }
 
     /**
@@ -472,7 +587,8 @@ export class PageManager {
         if(paramFound === false) {
             return Promise.reject(new Error('At least one constraint must be supplied to find pages.'));
         }
-        return this._plug.at('find')
+        return this._plug
+            .at('find')
             .withParams(params)
             .get()
             .then((r) => r.json())
@@ -494,7 +610,10 @@ export class PageManager {
         if(typeof includeDescription !== 'boolean') {
             return Promise.reject(new Error('The `includeDescription` parameter must be a Boolean value'));
         }
-        return this._plug.at('templates').withParams({ type, includeDescription }).get()
+        return this._plug
+            .at('templates')
+            .withParams({ type, includeDescription })
+            .get()
             .then((r) => r.json())
             .then(modelParser.createParser(templateListModel));
     }
@@ -507,14 +626,18 @@ export class PageManager {
      * @returns {Promise} A Promise that, when resolved, yields a listing of popular pages.
      */
     getPopularPages({ limit = 50, offset = 0 } = {}) {
-        const optionsErrors = valid.object({ limit, offset },
+        const optionsErrors = valid.object(
+            { limit, offset },
             required('limit', one(number(), equals('all'))),
             required('offset', number())
         );
         if(optionsErrors.length > 0) {
             return Promise.reject(optionsErrors.join(', '));
         }
-        return this._plug.at('popular').withParams({ limit, offset }).get()
+        return this._plug
+            .at('popular')
+            .withParams({ limit, offset })
+            .get()
             .then((r) => r.json())
             .then(modelParser.createParser(popularPagesModel));
     }
