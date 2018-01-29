@@ -6,7 +6,9 @@ import { pagePropertyModel } from './models/pageProperty.model.js';
 export class PagePropertyBase {
     constructor(id) {
         if(this.constructor.name === 'PagePropertyBase') {
-            throw new TypeError('PagePropertyBase must not be constructed directly.  Use one of PageProperty() or DraftProperty()');
+            throw new TypeError(
+                'PagePropertyBase must not be constructed directly.  Use one of PageProperty() or DraftProperty()'
+            );
         }
         this._id = utility.getResourceId(id, 'home');
     }
@@ -24,7 +26,10 @@ export class PagePropertyBase {
         if(names.length > 0) {
             plug = plug.withParams({ names: names.join(',') });
         }
-        return plug.get().then((r) => r.json()).then(modelParser.createParser(pagePropertiesModel));
+        return plug
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pagePropertiesModel));
     }
 
     /**
@@ -34,7 +39,9 @@ export class PagePropertyBase {
      */
     getPropertyContents(key) {
         if(!key) {
-            return Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
+            return Promise.reject(
+                new Error('Attempting to fetch a page property contents without providing a property key')
+            );
         }
         return this._plug.at(encodeURIComponent(key)).get();
     }
@@ -48,7 +55,11 @@ export class PagePropertyBase {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
-        return this._plug.at(encodeURIComponent(key), 'info').get().then((r) => r.json()).then(modelParser.createParser(pagePropertyModel));
+        return this._plug
+            .at(encodeURIComponent(key), 'info')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pagePropertyModel));
     }
 
     /**
@@ -60,16 +71,19 @@ export class PagePropertyBase {
      * @param {Object} params - An object that contains values that will direct the behavior of the operation.
      * @returns {Promise} - A Promise that, when resolved, indicates the property was set successfully.
      */
-    setProperty(key, value = { }, params = { abort: 'modified' }) {
+    setProperty(key, value = {}, params = { abort: 'modified' }) {
         if(!key) {
             return Promise.reject(new Error('Attempting to set a property without providing a property key'));
         }
-        if(!value.text) {
+        if(typeof value.text !== 'string') {
             return Promise.reject(new Error('Attempting to set a property without providing a property value'));
         }
         if(!value.type) {
             value.type = utility.textRequestType;
         }
-        return this._plug.at(encodeURIComponent(key)).withParams(params).put(value.text, value.type);
+        return this._plug
+            .at(encodeURIComponent(key))
+            .withParams(params)
+            .put(value.text, value.type);
     }
 }
