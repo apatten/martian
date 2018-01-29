@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: FileDraft</title>
+    <title>JSDoc: Source: linkToCase.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,223 +17,49 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: FileDraft</h1>
+    <h1 class="page-title">Source: linkToCase.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>FileDraft<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-
-    
-    <h4 class="name" id="FileDraft"><span class="type-signature"></span>new FileDraft<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The resource ID of the file.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>settings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Settings.html">Settings</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The <a href="Settings.html"><code>Settings</code></a> information to use in construction. If not supplied, the default settings are used.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="file.js.html">file.js</a>, <a href="file.js.html#line107">line 107</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from '/mindtouch-http.js/plug.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { linkToCaseLinkList } from './models/linkToCaseLinkList.js';
+
+export class LinkToCase {
+
+    /**
+     *
+     * @param {String} caseId The ID of the case to manage
+     * @param {*} settings The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(caseId, settings = new Settings()) {
+        if(!caseId) {
+            throw new Error('The LinkToCase must be constructed with a case ID.');
+        }
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'linktocase', caseId);
+    }
+
+    /**
+     * Get a listing of pages that have this case linked to them
+     * @returns {Promise} A Promise that, when resolved, yields the list of pages that this case is linked to
+     */
+    getPageLinks() {
+        return this._plug
+            .at('links')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(linkToCaseLinkList));
+    }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

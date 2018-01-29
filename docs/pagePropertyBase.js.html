@@ -34,7 +34,9 @@ import { pagePropertyModel } from './models/pageProperty.model.js';
 export class PagePropertyBase {
     constructor(id) {
         if(this.constructor.name === 'PagePropertyBase') {
-            throw new TypeError('PagePropertyBase must not be constructed directly.  Use one of PageProperty() or DraftProperty()');
+            throw new TypeError(
+                'PagePropertyBase must not be constructed directly.  Use one of PageProperty() or DraftProperty()'
+            );
         }
         this._id = utility.getResourceId(id, 'home');
     }
@@ -52,7 +54,10 @@ export class PagePropertyBase {
         if(names.length > 0) {
             plug = plug.withParams({ names: names.join(',') });
         }
-        return plug.get().then((r) => r.json()).then(modelParser.createParser(pagePropertiesModel));
+        return plug
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pagePropertiesModel));
     }
 
     /**
@@ -62,7 +67,9 @@ export class PagePropertyBase {
      */
     getPropertyContents(key) {
         if(!key) {
-            return Promise.reject(new Error('Attempting to fetch a page property contents without providing a property key'));
+            return Promise.reject(
+                new Error('Attempting to fetch a page property contents without providing a property key')
+            );
         }
         return this._plug.at(encodeURIComponent(key)).get();
     }
@@ -76,7 +83,11 @@ export class PagePropertyBase {
         if(!key) {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
-        return this._plug.at(encodeURIComponent(key), 'info').get().then((r) => r.json()).then(modelParser.createParser(pagePropertyModel));
+        return this._plug
+            .at(encodeURIComponent(key), 'info')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(pagePropertyModel));
     }
 
     /**
@@ -88,17 +99,20 @@ export class PagePropertyBase {
      * @param {Object} params - An object that contains values that will direct the behavior of the operation.
      * @returns {Promise} - A Promise that, when resolved, indicates the property was set successfully.
      */
-    setProperty(key, value = { }, params = { abort: 'modified' }) {
+    setProperty(key, value = {}, params = { abort: 'modified' }) {
         if(!key) {
             return Promise.reject(new Error('Attempting to set a property without providing a property key'));
         }
-        if(!value.text) {
+        if(typeof value.text !== 'string') {
             return Promise.reject(new Error('Attempting to set a property without providing a property value'));
         }
         if(!value.type) {
             value.type = utility.textRequestType;
         }
-        return this._plug.at(encodeURIComponent(key)).withParams(params).put(value.text, value.type);
+        return this._plug
+            .at(encodeURIComponent(key))
+            .withParams(params)
+            .put(value.text, value.type);
     }
 }
 </code></pre>
@@ -111,7 +125,7 @@ export class PagePropertyBase {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="Kcs.html">Kcs</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="Kcs.html">Kcs</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="LinkToCase_LinkToCase.html">LinkToCase</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
 </nav>
 
 <br class="clear">
