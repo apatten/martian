@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Group</title>
+    <title>JSDoc: Class: PageKcs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Group</h1>
+    <h1 class="page-title">Class: PageKcs</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Group<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>PageKcs<span class="signature">(pageid, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">A class for managing a single group of users.</div>
+            <div class="class-description">A class for handling KCS actions</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Group"><span class="type-signature"></span>new Group<span class="signature">(id, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="PageKcs"><span class="type-signature"></span>new PageKcs<span class="signature">(pageid, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -53,7 +53,7 @@
 
 
 <div class="description">
-    Construct a new Group object.
+    Construct a Kcs object
 </div>
 
 
@@ -91,7 +91,7 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>pageid</code></td>
             
 
             <td class="type">
@@ -118,7 +118,7 @@
 
             
 
-            <td class="description last">The integer group ID, or the group name string.</td>
+            <td class="description last">The ID of the page to request the current KCS state for.</td>
         </tr>
 
     
@@ -192,7 +192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="group.js.html">group.js</a>, <a href="group.js.html#line13">line 13</a>
+        <a href="pageKcs.js.html">pageKcs.js</a>, <a href="pageKcs.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -246,7 +246,7 @@
     
 
     
-    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id="getState"><span class="type-signature"></span>getState<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -254,7 +254,7 @@
 
 
 <div class="description">
-    Remove the group from the site
+    Retrieves the current KCS state of a page
 </div>
 
 
@@ -298,7 +298,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="group.js.html">group.js</a>, <a href="group.js.html#line69">line 69</a>
+        <a href="pageKcs.js.html">pageKcs.js</a>, <a href="pageKcs.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -325,7 +325,7 @@
 
         
 <div class="param-desc">
-    A Promise that, when resolved, indicates the group was deleted successfully.
+    A Promise that, when resolved, yields a kcsStateModel.
 </div>
 
 
@@ -354,7 +354,7 @@
     
 
     
-    <h4 class="name" id="getInfo"><span class="type-signature"></span>getInfo<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;groupModel>}</span></h4>
+    <h4 class="name" id="getValidTransitions"><span class="type-signature"></span>getValidTransitions<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -362,7 +362,7 @@
 
 
 <div class="description">
-    Get the group information.
+    Retrieves a list of allowed KCS transitions for a page
 </div>
 
 
@@ -406,7 +406,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="group.js.html">group.js</a>, <a href="group.js.html#line33">line 33</a>
+        <a href="pageKcs.js.html">pageKcs.js</a>, <a href="pageKcs.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -433,7 +433,7 @@
 
         
 <div class="param-desc">
-    - A Promise that, when resolved, yields a <code>groupModel</code> containing the group information.
+    A Promise that, when resolved, yields a kcsTransitionsModel with a list of allowed KCS transitions.
 </div>
 
 
@@ -444,7 +444,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;groupModel></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -462,7 +462,7 @@
     
 
     
-    <h4 class="name" id="getUsers"><span class="type-signature"></span>getUsers<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise.&lt;userListModel>}</span></h4>
+    <h4 class="name" id="initialize"><span class="type-signature"></span>initialize<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -470,7 +470,115 @@
 
 
 <div class="description">
-    Get a list of optionally-filtered group users.
+    Initialize KCS state for given page
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pageKcs.js.html">pageKcs.js</a>, <a href="pageKcs.js.html#line68">line 68</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A Promise that is resolved, or rejected with an error specifying the reason for rejection.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setState"><span class="type-signature"></span>setState<span class="signature">(state)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Posts KCS state for given page
 </div>
 
 
@@ -506,7 +614,7 @@
 
         <tr>
             
-                <td class="name"><code>options</code></td>
+                <td class="name"><code>state</code></td>
             
 
             <td class="type">
@@ -522,7 +630,7 @@
 
             
 
-            <td class="description last">The filtering options for fetching the listing.
+            <td class="description last">The state that the page should be set to. Must include at least one of the following attributes.
                 <h6>Properties</h6>
                 
 
@@ -540,8 +648,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -552,7 +658,7 @@
 
         <tr>
             
-                <td class="name"><code>usernamefilter</code></td>
+                <td class="name"><code>confidence</code></td>
             
 
             <td class="type">
@@ -577,66 +683,20 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Search for users by name or part of a name.</td>
+            <td class="description last">The confidence level to set the page to.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>offset</code></td>
+                <td class="name"><code>visibility</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last">Number of items to skip. Must be a positive number or 0 to not skip any.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-|
-
 <span class="param-type">String</span>
 
 
@@ -656,21 +716,15 @@
             
 
             
-                <td class="default">
-                
-                    100
-                
-                </td>
-            
 
-            <td class="description last">Maximum number of items to retrieve. Must be a positive number or 'all' to retrieve all items.</td>
+            <td class="description last">The visibility level to set the page to.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>activatedfilter</code></td>
+                <td class="name"><code>flag</code></td>
             
 
             <td class="type">
@@ -695,86 +749,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">Search for users by their active status.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>rolefilter</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Search for users by a role name.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sortby</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Sort field. Prefix value with '-' to sort descending. Valid values are: `id`, `username`, `nick`, `email`, `fullname`, `date.lastlogin`, `status`, `role`, `service`</td>
+            <td class="description last">The flag state to set the page to.</td>
         </tr>
 
     
@@ -822,7 +798,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="group.js.html">group.js</a>, <a href="group.js.html#line48">line 48</a>
+        <a href="pageKcs.js.html">pageKcs.js</a>, <a href="pageKcs.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -849,167 +825,7 @@
 
         
 <div class="param-desc">
-    - A Promise that, when resolved, yields a <code>userListModel</code> with the users listing.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;userListModel></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="removeUser"><span class="type-signature"></span>removeUser<span class="signature">(userId)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Remove given member from a group
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>userId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-|
-
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">either an integer user ID, "current", or the username of the user to remove from the group.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="group.js.html">group.js</a>, <a href="group.js.html#line57">line 57</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    A Promise that, when resolved, yields a groupModel containing information about the group that the user was removed from.
+    A Promise that is resolved, or rejected with an error specifying the reason for rejection.
 </div>
 
 
