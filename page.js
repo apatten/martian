@@ -79,7 +79,7 @@ export class Page extends PageBase {
         return this._plug
             .at('files,subpages')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(filesAndSubpagesModel));
     }
 
