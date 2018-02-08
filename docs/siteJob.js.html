@@ -36,14 +36,13 @@ import { siteJobModel, siteJobsModel } from './models/siteJob.model.js';
 const _errorParser = modelParser.createParser(apiErrorModel);
 
 export class SiteJob {
-
     /**
      * Create a new SiteJob
      * @param {String} jobId The GUID job ID.
      * @param {Settings} [settings] The martian settings that will direct the requests for this instance.
      */
     constructor(jobId, settings = new Settings()) {
-        if(!jobId || typeof jobId !== 'string') {
+        if (!jobId || typeof jobId !== 'string') {
             throw new Error('The job ID must be supplied as a GUID string.');
         }
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'jobs', jobId);
@@ -54,9 +53,11 @@ export class SiteJob {
      * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     getStatus() {
-        return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('status')
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -65,15 +66,16 @@ export class SiteJob {
      * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     cancel() {
-        return this._plug.at('cancel').post()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('cancel')
+            .post()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 }
 
 export class SiteJobManager {
-
     /**
      * Create a new SiteJobManager object.
      * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
@@ -94,21 +96,25 @@ export class SiteJobManager {
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleExport(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The export options must be supplied'));
         }
         let notificationSupplied = false;
-        if('email' in options) {
+        if ('email' in options) {
             notificationSupplied = true;
         }
-        if('url' in options) {
+        if ('url' in options) {
             notificationSupplied = true;
         }
-        if(notificationSupplied === false) {
-            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        if (notificationSupplied === false) {
+            return Promise.reject(
+                new Error(
+                    'Notification email and url are missing. Need an email or url to notify when the job completes.'
+                )
+            );
         }
-        if('pages' in options) {
-            if(!Array.isArray(options.pages)) {
+        if ('pages' in options) {
+            if (!Array.isArray(options.pages)) {
                 return Promise.reject('The pages option must be an array.');
             }
         } else {
@@ -116,31 +122,33 @@ export class SiteJobManager {
         }
         const pagesElements = options.pages.reduce((acc, page) => {
             let element = '&lt;page';
-            if(page.id) {
+            if (page.id) {
                 element += ` id="${page.id}"`;
             }
-            if('includeSubpages' in page) {
+            if ('includeSubpages' in page) {
                 element += ` includesubpages="${page.includeSubpages}"`;
             }
             element += '>';
-            if(page.path) {
+            if (page.path) {
                 element += `&lt;path>${page.path}&lt;/path>`;
             }
             element += '&lt;/page>';
             return acc + element;
         }, '');
         let postData = '&lt;job>&lt;notification>';
-        if(options.email) {
+        if (options.email) {
             postData += `&lt;email>${options.email}&lt;/email>`;
         }
-        if(options.url) {
+        if (options.url) {
             postData += `&lt;url>${options.url}&lt;/url>`;
         }
         postData += '&lt;/notification>';
         postData += `&lt;pages>${pagesElements}&lt;/pages>`;
         postData += '&lt;/job>';
-        return this._plug.at('export').post(postData, utility.xmlRequestType)
-            .then((r) => r.json())
+        return this._plug
+            .at('export')
+            .post(postData, utility.xmlRequestType)
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -154,34 +162,43 @@ export class SiteJobManager {
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleImport(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The export options must be supplied'));
         }
         let notificationSupplied = false;
-        if('email' in options) {
+        if ('email' in options) {
             notificationSupplied = true;
         }
-        if('url' in options) {
+        if ('url' in options) {
             notificationSupplied = true;
         }
-        if(notificationSupplied === false) {
-            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        if (notificationSupplied === false) {
+            return Promise.reject(
+                new Error(
+                    'Notification email and url are missing. Need an email or url to notify when the job completes.'
+                )
+            );
         }
-        if(typeof options.archiveUrl !== 'string' || options.archiveUrl === '') {
-            return Promise.reject(new Error('An archive url is required, and must be a non-empty string to perform an import.'));
+        if (typeof options.archiveUrl !== 'string' || options.archiveUrl === '') {
+            return Promise.reject(
+                new Error('An archive url is required, and must be a non-empty string to perform an import.')
+            );
         }
         let postData = '&lt;job>&lt;notification>';
-        if(options.email) {
+        if (options.email) {
             postData += `&lt;email>${options.email}&lt;/email>`;
         }
-        if(options.url) {
+        if (options.url) {
             postData += `&lt;url>${options.url}&lt;/url>`;
         }
         postData += '&lt;/notification>';
         postData += `&lt;archive>&lt;url>${options.archiveUrl}&lt;/url>&lt;/archive>`;
         postData += '&lt;/job>';
-        return this._plug.at('import').withParam('dryrun', Boolean(options.dryRun)).post(postData, utility.xmlRequestType)
-            .then((r) => r.json())
+        return this._plug
+            .at('import')
+            .withParam('dryrun', Boolean(options.dryRun))
+            .post(postData, utility.xmlRequestType)
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -190,9 +207,11 @@ export class SiteJobManager {
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the jobs status info, or rejected with an error specifying the reason for rejection.
      */
     getJobsStatuses() {
-        return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('status')
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }

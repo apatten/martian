@@ -34,7 +34,6 @@ import { Settings } from './lib/settings.js';
  * A class for managing the properties of a page.
  */
 export class PageProperty extends PagePropertyBase {
-
     /**
      * Construct a new PageProperty object.
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
@@ -52,10 +51,15 @@ export class PageProperty extends PagePropertyBase {
      * @returns {Promise} - A Promise that, when resolved, yields the listing of the properties.
      */
     getPropertyForChildren(key, depth = 1) {
-        if(!key) {
-            return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
+        if (!key) {
+            return Promise.reject(
+                new Error('Attempting to fetch properties for children without providing a property key')
+            );
         }
-        return this._plug.withParams({ depth, names: key }).get().then((r) => r.json());
+        return this._plug
+            .withParams({ depth, names: key })
+            .get()
+            .then(r => r.json());
     }
 }
 </code></pre>
