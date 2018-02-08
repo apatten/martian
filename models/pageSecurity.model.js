@@ -1,5 +1,6 @@
 import { permissionsModel } from './permissions.model.js';
 import { userModel } from './user.model.js';
+import { groupModel } from './group.model.js';
 
 export const pageSecurityModel = [
     { field: '@href', name: 'href' },
@@ -11,7 +12,8 @@ export const pageSecurityModel = [
             { field: 'date.modified', name: 'dateModified', transform: 'date' },
             { field: 'permissions', transform: permissionsModel },
             { field: 'user', transform: userModel },
-            { field: 'user.modifiedby', name: 'userModifiedBy', transform: userModel }
+            { field: 'user.modifiedby', name: 'userModifiedBy', transform: userModel },
+            { field: 'group', transform: groupModel }
         ]
     },
     { field: 'permissions.effective', name: 'effectivePermissions', transform: permissionsModel },

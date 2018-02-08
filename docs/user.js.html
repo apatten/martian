@@ -30,7 +30,7 @@
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { platform } from './lib/platform.js';
-import { valid, optional, one, equals, bool, string, number, array } from './lib/validation.js';
+import { valid, optional, one, equals, bool, string, number, array, required } from './lib/validation.js';
 import { modelParser } from './lib/modelParser.js';
 import { userModel } from './models/user.model.js';
 import { pageModel } from './models/page.model.js';
@@ -64,7 +64,9 @@ export class User {
         if(errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
-        return this._plug.withParam('exclude', exclude.join(',')).get()
+        return this._plug
+            .withParam('exclude', exclude.join(','))
+            .get()
             .then((r) => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -84,7 +86,8 @@ export class User {
         if(pageIdsErrors.length > 0) {
             return Promise.reject(new Error(pageIdsErrors.join(', ')));
         }
-        const optionsErrors = valid.object(options,
+        const optionsErrors = valid.object(
+            options,
             optional('mask', number()),
             optional('operations', array()),
             optional('verbose', bool()),
@@ -98,7 +101,10 @@ export class User {
         }
         let requestXml = pageIds.map((id) => `&lt;page id="${id}" />`).join('');
         requestXml = `&lt;pages>${requestXml}&lt;/pages>`;
-        return this._plug.at('allowed').withParams(options).post(requestXml, utility.xmlRequestType)
+        return this._plug
+            .at('allowed')
+            .withParams(options)
+            .post(requestXml, utility.xmlRequestType)
             .then((r) => r.json())
             .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
     }
@@ -116,7 +122,8 @@ export class User {
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the updated user data, or rejected with an error specifying the reason for rejection.
      */
     update(options) {
-        const optionsErrors = valid.object(options,
+        const optionsErrors = valid.object(
+            options,
             optional('active', bool()),
             optional('seated', bool()),
             optional('username', string()),
@@ -140,10 +147,40 @@ export class User {
             }
         });
         postData += '&lt;/user>';
-        return this._plug.put(postData, utility.xmlRequestType)
+        return this._plug
+            .put(postData, utility.xmlRequestType)
             .catch((err) => Promise.reject(this._errorParser(err)))
             .then((r) => r.json())
             .then(modelParser.createParser(userModel));
+    }
+
+    /**
+     * Set the password for the user
+     * @param {Object} options An object that contains the password change information
+     * @param {String} options.newPassword The new password that will be set for the user
+     * @param {String} [options.currentpassword] The user's current password (needed when changing your own password without admin rights)
+     * @returns {Promise} A Promise that, when resolved, indicates a successful password change
+     */
+    setPassword(options) {
+        const optionsErrors = valid.object(
+            options,
+            required('newPassword', string()),
+            optional('currentPassword', string())
+        );
+        if(optionsErrors.length > 0) {
+            return Promise.reject(new Error(optionsErrors.join(', ')));
+        }
+        const params = {};
+        if(options.currentPassword) {
+            params.currentpassword = options.currentPassword;
+        }
+        return this._plug
+            .at('password')
+            .withParams(params)
+            .put(options.newPassword, utility.textRequestType)
+            .catch((err) => Promise.reject(this._errorParser(err)))
+            .then((r) => r.text())
+            .then((resp) => ({ authToken: resp }));
     }
 }
 
@@ -172,8 +209,12 @@ export class UserManager {
         if(errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
-        return this._plug.at('current').withParam('exclude', exclude.join(',')).get()
-            .then((r) => r.json()).then(modelParser.createParser(userModel));
+        return this._plug
+            .at('current')
+            .withParam('exclude', exclude.join(','))
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(userModel));
     }
 
     /**
@@ -181,21 +222,26 @@ export class UserManager {
      * @returns {Promise.&lt;String>} - A Promise that, when resolved, returns a string with the current user activity token.
      */
     getCurrentUserActivityToken() {
-        return this._plug.at('current').withParam('exclude', [ 'groups', 'properties' ]).get().then((r) => {
-            return Promise.all([
-                r.json().then(modelParser.createParser(userModel)),
-                new Promise((resolve, reject) => {
-                    const sessionId = r.headers.get('X-Deki-Session');
-                    if(sessionId !== null) {
-                        resolve(sessionId);
-                    } else {
-                        reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
-                    }
-                })
-            ]);
-        }).then(([ user, sessionId ]) => {
-            return `${user.id}:${sessionId}`;
-        });
+        return this._plug
+            .at('current')
+            .withParam('exclude', [ 'groups', 'properties' ])
+            .get()
+            .then((r) => {
+                return Promise.all([
+                    r.json().then(modelParser.createParser(userModel)),
+                    new Promise((resolve, reject) => {
+                        const sessionId = r.headers.get('X-Deki-Session');
+                        if(sessionId !== null) {
+                            resolve(sessionId);
+                        } else {
+                            reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
+                        }
+                    })
+                ]);
+            })
+            .then(([ user, sessionId ]) => {
+                return `${user.id}:${sessionId}`;
+            });
     }
 
     /**
@@ -204,7 +250,10 @@ export class UserManager {
      */
     getUsers() {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this._plug.get().then((r) => r.json()).then(userListModelParser);
+        return this._plug
+            .get()
+            .then((r) => r.json())
+            .then(userListModelParser);
     }
 
     /**
@@ -224,7 +273,12 @@ export class UserManager {
      */
     searchUsers(constraints) {
         let userListModelParser = modelParser.createParser(userListModel);
-        return this._plug.at('search').withParams(constraints).get().then((r) => r.json()).then(userListModelParser);
+        return this._plug
+            .at('search')
+            .withParams(constraints)
+            .get()
+            .then((r) => r.json())
+            .then(userListModelParser);
     }
 
     /**
@@ -265,7 +319,7 @@ export class UserManager {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="LinkToCase_LinkToCase.html">LinkToCase</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageKcs.html">PageKcs</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
 </nav>
 
 <br class="clear">

@@ -31,13 +31,15 @@ describe('User API', () => {
             return userManager.getCurrentUser({ exclude: [ 'groups', 'properties' ] });
         });
         it('can fail if the `exclude` parameter is not an array', () => {
-            return userManager.getCurrentUser({ exclude: 'groups' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return userManager
+                .getCurrentUser({ exclude: 'groups' })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can fetch the current user activity token', () => {
             return userManager.getCurrentUserActivityToken();
         });
         it('rejects if cannot get X-Deki-Session header when fetching current user activity token', (done) => {
-
             // eslint-disable-next-line camelcase
             Response.prototype._get_headers = () => {
                 return {
@@ -104,7 +106,10 @@ describe('User API', () => {
             return user.getInfo({ exclude: [ 'groups', 'properties' ] });
         });
         it('can fail if exclude is not an array', () => {
-            return user.getInfo({ exclude: 'group,properties' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return user
+                .getInfo({ exclude: 'group,properties' })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can check permissions for a user', () => {
             return user.checkAllowed([ 20 ], { mask: 256, operations: [ 'UPDATE' ] });
@@ -116,10 +121,16 @@ describe('User API', () => {
             return user.checkAllowed([ 20 ]);
         });
         it('can fail if page IDs is not an array while checking user permissions', () => {
-            return user.checkAllowed(20, { mask: 256 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return user
+                .checkAllowed(20, { mask: 256 })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can fail if `operations` is not an array while checking user permissions', () => {
-            return user.checkAllowed([ 20 ], { operations: 256 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return user
+                .checkAllowed([ 20 ], { operations: 256 })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can update user information (all params)', () => {
             return user.update({
@@ -136,7 +147,22 @@ describe('User API', () => {
             return user.update({ active: false });
         });
         it('can fail if the user information is invalid', () => {
-            return user.update({ username: [] }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+            return user
+                .update({ username: [] })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
+        });
+        it('can change the user password', () => {
+            return user.setPassword({ newPassword: 'foo', currentPassword: 'bar' });
+        });
+        it('can change the user password (newPassword only)', () => {
+            return user.setPassword({ newPassword: 'foo' });
+        });
+        it('can fail if the user password change is missing the new password field', () => {
+            return user
+                .setPassword({ currentPassword: 'bar' })
+                .catch(failed)
+                .then(() => expect(failed).toHaveBeenCalled());
         });
     });
 });
