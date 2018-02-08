@@ -28,7 +28,7 @@ describe('User API', () => {
             return userManager.getCurrentUser();
         });
         it('can fetch the current user with excluded elements array', () => {
-            return userManager.getCurrentUser({ exclude: [ 'groups', 'properties' ] });
+            return userManager.getCurrentUser({ exclude: ['groups', 'properties'] });
         });
         it('can fail if the `exclude` parameter is not an array', () => {
             return userManager
@@ -39,7 +39,7 @@ describe('User API', () => {
         it('can fetch the current user activity token', () => {
             return userManager.getCurrentUserActivityToken();
         });
-        it('rejects if cannot get X-Deki-Session header when fetching current user activity token', (done) => {
+        it('rejects if cannot get X-Deki-Session header when fetching current user activity token', done => {
             // eslint-disable-next-line camelcase
             Response.prototype._get_headers = () => {
                 return {
@@ -48,7 +48,7 @@ describe('User API', () => {
                     }
                 };
             };
-            return userManager.getCurrentUserActivityToken().catch((e) => {
+            return userManager.getCurrentUserActivityToken().catch(e => {
                 expect(e).toBeDefined();
                 done();
             });
@@ -72,7 +72,7 @@ describe('User API', () => {
             return userManager.authenticate({ username: 'admin', password: 'password', method: 'POST' });
         });
         it('can authenticate a user (invalid method)', () => {
-            return userManager.authenticate({ username: 'admin', password: 'password', method: 'DELETE' }).catch((e) => {
+            return userManager.authenticate({ username: 'admin', password: 'password', method: 'DELETE' }).catch(e => {
                 expect(e.message).toBe('GET and POST are the only valid methods for user authentication.');
             });
         });
@@ -103,7 +103,7 @@ describe('User API', () => {
             return user.getInfo();
         });
         it('can get the info for a user with excluded elements array', () => {
-            return user.getInfo({ exclude: [ 'groups', 'properties' ] });
+            return user.getInfo({ exclude: ['groups', 'properties'] });
         });
         it('can fail if exclude is not an array', () => {
             return user
@@ -112,13 +112,13 @@ describe('User API', () => {
                 .then(() => expect(failed).toHaveBeenCalled());
         });
         it('can check permissions for a user', () => {
-            return user.checkAllowed([ 20 ], { mask: 256, operations: [ 'UPDATE' ] });
+            return user.checkAllowed([20], { mask: 256, operations: ['UPDATE'] });
         });
         it('can check permissions for a user (no operations)', () => {
-            return user.checkAllowed([ 20 ], { mask: 256 });
+            return user.checkAllowed([20], { mask: 256 });
         });
         it('can check permissions for a user (no options)', () => {
-            return user.checkAllowed([ 20 ]);
+            return user.checkAllowed([20]);
         });
         it('can fail if page IDs is not an array while checking user permissions', () => {
             return user
@@ -128,7 +128,7 @@ describe('User API', () => {
         });
         it('can fail if `operations` is not an array while checking user permissions', () => {
             return user
-                .checkAllowed([ 20 ], { operations: 256 })
+                .checkAllowed([20], { operations: 256 })
                 .catch(failed)
                 .then(() => expect(failed).toHaveBeenCalled());
         });

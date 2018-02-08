@@ -6,7 +6,6 @@ import { licenseUsageModel } from './models/licenseUsage.model.js';
 import { reportLogsModel } from './models/reportLogs.model.js';
 
 export class License {
-
     /**
      * Construct a new License object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -24,19 +23,24 @@ export class License {
      */
     getUsage(options = {}) {
         const params = {};
-        if(options.since) {
-            if(!(options.since instanceof Date)) {
+        if (options.since) {
+            if (!(options.since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
             params.since = utility.getApiDateString(options.since);
         }
-        if(options.upTo) {
-            if(!(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (!(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be of type Date.'));
             }
             params.upto = utility.getApiDateString(options.upTo);
         }
-        return this._plug.at('usage').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(licenseUsageModel));
+        return this._plug
+            .at('usage')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(licenseUsageModel));
     }
 
     /**
@@ -44,7 +48,11 @@ export class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogs() {
-        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('usage', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -53,12 +61,13 @@ export class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the log URL data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogUrl(name) {
-        if(!name) {
+        if (!name) {
             return Promise.reject(new Error('The log name must be supplied.'));
         }
-        return this._plug.at('usage', 'logs', name, 'url')
+        return this._plug
+            .at('usage', 'logs', name, 'url')
             .get()
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: 'url' } ]));
+            .then(r => r.json())
+            .then(modelParser.createParser([{ field: 'url' }]));
     }
 }

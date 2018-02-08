@@ -6,13 +6,13 @@ describe('Permissions Model', () => {
     it('returns the parsed operations', () => {
         let operations1 = 'foo,bar';
         let operations2 = 100;
-        permissionsModel.forEach((propertyModel) => {
-            if(typeof propertyModel.transform === 'function' && propertyModel.field[0] === 'operations') {
+        permissionsModel.forEach(propertyModel => {
+            if (typeof propertyModel.transform === 'function' && propertyModel.field[0] === 'operations') {
                 operations1 = propertyModel.transform(operations1);
                 operations2 = propertyModel.transform(operations2);
             }
         });
-        expect(operations1).toEqual([ 'foo', 'bar' ]);
+        expect(operations1).toEqual(['foo', 'bar']);
         expect(operations2).toEqual([]);
     });
     it('returns the parsed role', () => {
@@ -28,8 +28,8 @@ describe('Permissions Model', () => {
             '@href': 'href'
         };
         let role4 = {};
-        permissionsModel.forEach((propertyModel) => {
-            if(typeof propertyModel.transform === 'function' && propertyModel.field === 'role') {
+        permissionsModel.forEach(propertyModel => {
+            if (typeof propertyModel.transform === 'function' && propertyModel.field === 'role') {
                 role0 = propertyModel.transform(role0);
                 role1 = propertyModel.transform(role1);
                 role2 = propertyModel.transform(role2);

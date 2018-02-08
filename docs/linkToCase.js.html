@@ -32,14 +32,13 @@ import { modelParser } from './lib/modelParser.js';
 import { linkToCaseLinkList } from './models/linkToCaseLinkList.js';
 
 export class LinkToCase {
-
     /**
      *
      * @param {String} caseId The ID of the case to manage
      * @param {*} settings The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(caseId, settings = new Settings()) {
-        if(!caseId) {
+        if (!caseId) {
             throw new Error('The LinkToCase must be constructed with a case ID.');
         }
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'linktocase', caseId);
@@ -53,7 +52,7 @@ export class LinkToCase {
         return this._plug
             .at('links')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(linkToCaseLinkList));
     }
 }

@@ -1,3 +1,1 @@
-export const logUrlModel = [
-    { field: 'url' }
-];
+export const logUrlModel = [{ field: 'url' }];

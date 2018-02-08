@@ -28,7 +28,7 @@ describe('Site API', () => {
                 return site.getResourceStrings({ keys: [] });
             });
             it('can fetch a batch of resource strings (all params)', () => {
-                return site.getResourceStrings({ keys: [ 'foo.bar.baz' ], lang: 'en-us' });
+                return site.getResourceStrings({ keys: ['foo.bar.baz'], lang: 'en-us' });
             });
             describe('resource string fetching failures', () => {
                 const failed = jest.fn();
@@ -36,16 +36,28 @@ describe('Site API', () => {
                     failed.mockReset();
                 });
                 it('can fail if no resource key is supplied', () => {
-                    return site.getResourceString().catch(failed).then(() => expect(failed).toBeDefined());
+                    return site
+                        .getResourceString()
+                        .catch(failed)
+                        .then(() => expect(failed).toBeDefined());
                 });
                 it('can fail batch fetching (no parameters)', () => {
-                    return site.getResourceStrings().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .getResourceStrings()
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('can fail batch fetching (invalid keys)', () => {
-                    return site.getResourceStrings({ keys: '' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .getResourceStrings({ keys: '' })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('can fail batch fetching (invalid lang)', () => {
-                    return site.getResourceStrings({ keys: [], lang: true }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .getResourceStrings({ keys: [], lang: true })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
         });
@@ -54,7 +66,7 @@ describe('Site API', () => {
                 return site.search();
             });
             it('can perform a search with some parameters', () => {
-                return site.search({ tags: [ 'abc', '123' ], type: [ 'wiki', 'image' ] });
+                return site.search({ tags: ['abc', '123'], type: ['wiki', 'image'] });
             });
             it('can perform a search with some other parameters', () => {
                 return site.search({ path: 'foo/bar', q: 'search thing' });
@@ -63,7 +75,16 @@ describe('Site API', () => {
                 return site.search({ q: 'search term', namespaces: 'template' });
             });
             it('can perform a search with all parameters', () => {
-                return site.search({ path: '/foo/bar', tags: 'abc', type: 'wiki', offset: 123, limit: 10, q: 'search term', namespaces: [ 'main', 'template' ], sessionid: 'foo' });
+                return site.search({
+                    path: '/foo/bar',
+                    tags: 'abc',
+                    type: 'wiki',
+                    offset: 123,
+                    limit: 10,
+                    q: 'search term',
+                    namespaces: ['main', 'template'],
+                    sessionid: 'foo'
+                });
             });
         });
         describe('search index tests', () => {
@@ -79,24 +100,31 @@ describe('Site API', () => {
                     verbose: false,
                     constraints: {
                         page: 'Category_1',
-                        tags: [ 'foo', 'bar' ],
+                        tags: ['foo', 'bar'],
                         type: 'wiki',
-                        namespaces: [ 'main' ]
+                        namespaces: ['main']
                     }
                 };
                 return site.searchIndex(params);
             });
             it('can search the site index with a constraint string passed', () => {
-                return site.searchIndex({ q: 'Foo', constraints: { type: 'wiki' }, constraintString: 'language:en-us AND type:wiki' });
+                return site.searchIndex({
+                    q: 'Foo',
+                    constraints: { type: 'wiki' },
+                    constraintString: 'language:en-us AND type:wiki'
+                });
             });
             it('can fail if an invalid `limit` parameter is passed in', () => {
                 const success = jest.fn();
-                return site.searchIndex({ limit: 'foo' }).then(() => {
-                    success();
-                    throw new Error('Promise was resolved.');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return site
+                    .searchIndex({ limit: 'foo' })
+                    .then(() => {
+                        success();
+                        throw new Error('Promise was resolved.');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
         });
         describe('search analytics test', () => {
@@ -120,13 +148,16 @@ describe('Site API', () => {
                 return site.getTags();
             });
             it('can update batch site tags (add only)', () => {
-                return site.setTags({ add: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+                return site.setTags({ add: [{ name: 'foo', pageids: [123, 456] }] });
             });
             it('can update batch site tags (remove only)', () => {
-                return site.setTags({ remove: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+                return site.setTags({ remove: [{ name: 'foo', pageids: [123, 456] }] });
             });
             it('can update batch site tags (add and remove)', () => {
-                return site.setTags({ add: [ { name: 'foo', pageids: [ 123, 456 ] } ], remove: [ { name: 'foo', pageids: [ 123, 456 ] } ] });
+                return site.setTags({
+                    add: [{ name: 'foo', pageids: [123, 456] }],
+                    remove: [{ name: 'foo', pageids: [123, 456] }]
+                });
             });
             it('can update batch site tags (empty request)', () => {
                 return site.setTags();
@@ -141,21 +172,27 @@ describe('Site API', () => {
             });
             it('get search query log url with empty parameters', () => {
                 const success = jest.fn();
-                return site.getSearchQueryLogUrl().then(() => {
-                    success();
-                    throw new Error();
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return site
+                    .getSearchQueryLogUrl()
+                    .then(() => {
+                        success();
+                        throw new Error();
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('get site activity log url with empty parameters', () => {
                 const success = jest.fn();
-                return site.getSiteActivityLogUrl().then(() => {
-                    success();
-                    throw new Error();
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return site
+                    .getSiteActivityLogUrl()
+                    .then(() => {
+                        success();
+                        throw new Error();
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('get search query log url', () => {
                 return site.getSearchQueryLogUrl('searchqueries-2016-10-000');
@@ -174,12 +211,15 @@ describe('Site API', () => {
             });
             it('can fail if an invalid since date is supplied', () => {
                 const success = jest.fn();
-                return site.getActivity('').then(() => {
-                    success();
-                    throw new Error();
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return site
+                    .getActivity('')
+                    .then(() => {
+                        success();
+                        throw new Error();
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
         });
         describe('roles', () => {
@@ -192,10 +232,18 @@ describe('Site API', () => {
                 return site.sendFeedback({ comment: 'This site is awesome' });
             });
             it('can send feedback (all params)', () => {
-                return site.sendFeedback({ comment: 'foo', title: 'bar', metadata: { dog: 'cat', asparagus: 'broccoli' } });
+                return site.sendFeedback({
+                    comment: 'foo',
+                    title: 'bar',
+                    metadata: { dog: 'cat', asparagus: 'broccoli' }
+                });
             });
             it('can send feedback with non-string metadata values', () => {
-                return site.sendFeedback({ comment: 'foo', title: 'bar', metadata: { dog: 'cat', asparagus: 'broccoli', bool: true, num: 1234 } });
+                return site.sendFeedback({
+                    comment: 'foo',
+                    title: 'bar',
+                    metadata: { dog: 'cat', asparagus: 'broccoli', bool: true, num: 1234 }
+                });
             });
             describe('feedback failures', () => {
                 const failed = jest.fn();
@@ -203,13 +251,22 @@ describe('Site API', () => {
                     failed.mockReset();
                 });
                 it('no comment', () => {
-                    return site.sendFeedback().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .sendFeedback()
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid title', () => {
-                    return site.sendFeedback({ comment: 'foo', title: 1234 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .sendFeedback({ comment: 'foo', title: 1234 })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid metadata', () => {
-                    return site.sendFeedback({ comment: 'foo', metadata: 'dog' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return site
+                        .sendFeedback({ comment: 'foo', metadata: 'dog' })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
         });

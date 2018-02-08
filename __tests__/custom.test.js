@@ -68,7 +68,7 @@ describe('Special page Tests', () => {
         );
         const Page = require('../page.js').Page;
         let p = new Page(123);
-        return p.getFullInfo().then((r) => expect(r.virtual).toBe(true));
+        return p.getFullInfo().then(r => expect(r.virtual).toBe(true));
     });
     it('can get through virtual page checking when there is another failure', () => {
         jest.mock('/mindtouch-http.js/plug.js', () =>
@@ -133,7 +133,7 @@ describe('Special page Tests', () => {
                 success();
                 throw new Error();
             })
-            .catch((e) => {
+            .catch(e => {
                 expect(success).not.toHaveBeenCalled();
                 expect(e).toBeDefined();
             });
@@ -169,7 +169,7 @@ describe('Special page Tests', () => {
                 success();
                 throw new Error();
             })
-            .catch((e) => {
+            .catch(e => {
                 expect(success).not.toHaveBeenCalled();
                 expect(e).toBeDefined();
             });
@@ -191,7 +191,7 @@ describe('Special page Tests', () => {
                 success();
                 throw new Error();
             })
-            .catch((e) => {
+            .catch(e => {
                 expect(success).not.toHaveBeenCalled();
                 expect(e).toBeDefined();
             });
@@ -213,7 +213,7 @@ describe('Special page Tests', () => {
                 success();
                 throw new Error();
             })
-            .catch((e) => {
+            .catch(e => {
                 expect(success).not.toHaveBeenCalled();
                 expect(e).toBeDefined();
             });
@@ -235,7 +235,7 @@ describe('Special page Tests', () => {
                 success();
                 throw new Error();
             })
-            .catch((e) => {
+            .catch(e => {
                 expect(success).not.toHaveBeenCalled();
                 expect(e).toBeDefined();
             });
@@ -257,7 +257,7 @@ describe('Special page Tests', () => {
         const pm = new PageManager();
         const success = jest.fn();
         return pm
-            .findPages({ tags: [ 'foo' ] })
+            .findPages({ tags: ['foo'] })
             .then(() => {
                 success();
                 throw new Error('Promise was resolved');

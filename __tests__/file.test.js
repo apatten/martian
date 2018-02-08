@@ -52,21 +52,27 @@ describe('File API', () => {
         });
         it('can fail if no `to` parameter is sent to move()', () => {
             const success = jest.fn();
-            return file.move().then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return file
+                .move()
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail if no `name` parameter is sent to move()', () => {
             const success = jest.fn();
-            return file.move({ to: 'foo/bar' }).then(() => {
-                success();
-                throw new Error('The promise was resolved.');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return file
+                .move({ to: 'foo/bar' })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved.');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
     });
 });

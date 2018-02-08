@@ -4,6 +4,6 @@ import * as http from '../http.js';
 
 describe('HTTP Module', () => {
     it('has expected exported modules', () => {
-        expect(Object.keys(http)).toEqual([ 'Plug', 'Uri' ]);
+        expect(Object.keys(http)).toEqual(['Plug', 'Uri']);
     });
 });

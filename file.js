@@ -11,7 +11,6 @@ import { apiErrorModel } from './models/apiError.model.js';
  * A class for working with file attachments within the MindTouch site.
  */
 export class File {
-
     /**
      * Construct a new File object.
      * @param {Number} id - The resource ID of the file.
@@ -31,7 +30,11 @@ export class File {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('info')
+            .get()
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 
     /**
@@ -39,7 +42,11 @@ export class File {
      * @returns {Promise.<fileRevisionsModel>} - A Promise that, when resolved, yields a {@link fileRevisionsModel} containing the revision listing.
      */
     getRevisions() {
-        return this._plug.at('revisions').get().then((r) => r.json()).then(modelParser.createParser(fileRevisionsModel));
+        return this._plug
+            .at('revisions')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(fileRevisionsModel));
     }
 
     /**
@@ -49,7 +56,11 @@ export class File {
      */
     setDescription(description) {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').put(description, utility.textRequestType).then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('description')
+            .put(description, utility.textRequestType)
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 
     /**
@@ -68,11 +79,20 @@ export class File {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
-        if(progress !== null) {
+        if (progress !== null) {
             const progressInfo = { callback: progress, size };
-            return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return this._progressPlug
+                .at(utility.getResourceId(name))
+                .put(file, type, progressInfo)
+                .then(r => JSON.parse(r.responseText))
+                .then(modelParser.createParser(fileModel));
         }
-        return this._plug.withHeader('Content-Length', size).at(utility.getResourceId(name)).put(file, type).then((r) => r.json()).then(modelParser.createParser(fileModel));
+        return this._plug
+            .withHeader('Content-Length', size)
+            .at(utility.getResourceId(name))
+            .put(file, type)
+            .then(r => r.json())
+            .then(modelParser.createParser(fileModel));
     }
 
     /**
@@ -83,23 +103,23 @@ export class File {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     move(params = {}) {
-        if(!params.to) {
+        if (!params.to) {
             return Promise.reject(new Error('The `to` parameter must be specified to move a file.'));
         }
-        if(!params.name) {
+        if (!params.name) {
             return Promise.reject(new Error('The `name` parameter must be specified to move a file.'));
         }
-        return this._plug.at('move')
+        return this._plug
+            .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(fileModel))
-            .catch((err) => Promise.reject(this._errorParser(err)));
+            .catch(err => Promise.reject(this._errorParser(err)));
     }
 }
 
 export class FileDraft extends File {
-
     /**
      * @param {Number} id - The resource ID of the file.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.

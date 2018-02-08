@@ -23,7 +23,10 @@ describe('Page Comment tests', () => {
             });
             it('can fail if no comment is supplied when creating a new comment', () => {
                 const failed = jest.fn();
-                return pcm.addComment().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return pcm
+                    .addComment()
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
     });

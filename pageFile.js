@@ -6,7 +6,6 @@ import { Settings } from './lib/settings.js';
  * A class for managing a file attachment on an published page.
  */
 export class PageFile extends PageFileBase {
-
     /**
      * Construct a new PageFile.
      * @param {Number|String} [pageId='home'] - The ID of the published page.
@@ -15,6 +14,13 @@ export class PageFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'pages',
+            this._pageId,
+            'files',
+            this._filename
+        );
     }
 }

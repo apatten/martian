@@ -42,14 +42,20 @@ describe('Page Subscription tests', () => {
             });
             it('can fail adding a subscription when invalid parameters are supplied', () => {
                 const failed = jest.fn();
-                return sub.subscribe({ type: 'notvalid', recursive: 1 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return sub
+                    .subscribe({ type: 'notvalid', recursive: 1 })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('can remove a subscription for a page', () => {
                 return sub.unsubscribe();
             });
             it('can fail removing a subscription when invalid parameters are supplied', () => {
                 const failed = jest.fn();
-                return sub.unsubscribe({ type: 'notvalid' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return sub
+                    .unsubscribe({ type: 'notvalid' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
     });

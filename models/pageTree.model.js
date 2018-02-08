@@ -1,6 +1,6 @@
 export const pageTreeModel = {
     preProcessor(data) {
-        if(data.page) {
+        if (data.page) {
             return data.page;
         }
     },
@@ -12,7 +12,7 @@ export const pageTreeModel = {
         { field: '@deleted', name: 'deleted', transform: 'boolean' },
         { field: 'date.created', name: 'dateCreated', transform: 'date' },
         { field: 'namespace', name: 'namespace' },
-        { field: [ 'path', '#text' ], name: 'path' },
+        { field: ['path', '#text'], name: 'path' },
         { field: 'title', name: 'title' },
         { field: 'uri.ui', name: 'uri' }
     ]
@@ -21,7 +21,7 @@ pageTreeModel.model.push({
     field: 'subpages',
     isArray: true,
     constructTransform(val) {
-        if(val.page) {
+        if (val.page) {
             return pageTreeModel;
         }
     }

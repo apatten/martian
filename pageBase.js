@@ -16,9 +16,9 @@ import { apiErrorModel } from './models/apiError.model.js';
 const _errorParser = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
-    if(error.status === 404 && error.responseText) {
+    if (error.status === 404 && error.responseText) {
         let responseJson = JSON.parse(error.responseText);
-        if(responseJson['@virtual'] === 'true') {
+        if (responseJson['@virtual'] === 'true') {
             let pageModelParser = modelParser.createParser(pageModel);
             return Promise.resolve(pageModelParser(responseJson));
         }
@@ -27,8 +27,8 @@ function _handleVirtualPage(error) {
 }
 function _getSaveXML(data) {
     let template = '';
-    if(Array.isArray(data)) {
-        data.forEach((tag) => {
+    if (Array.isArray(data)) {
+        data.forEach(tag => {
             template = `${template}<tag value="${utility.escapeHTML(tag)}" />`;
         });
     }
@@ -37,51 +37,82 @@ function _getSaveXML(data) {
 }
 export class PageBase {
     constructor(id) {
-        if(this.constructor.name === 'PageBase') {
+        if (this.constructor.name === 'PageBase') {
             throw new TypeError('PageBase must not be constructed directly.  Use one of Page() or Draft()');
         }
         this._id = utility.getResourceId(id, 'home');
     }
     getFullInfo(params = {}) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.withParams(params).get().then((r) => r.json()).then(pageModelParser).catch(_handleVirtualPage);
+        return this._plug
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageModelParser)
+            .catch(_handleVirtualPage);
     }
     getContents(params) {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return this._plug.at('contents').withParams(params).get().then((r) => r.json()).then(pageContentsModelParser);
+        return this._plug
+            .at('contents')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageContentsModelParser);
     }
     setContents(contents, params = {}) {
-        if(typeof contents !== 'string') {
+        if (typeof contents !== 'string') {
             return Promise.reject(new Error('Contents should be string.'));
         }
         let contentsParams = {
             edittime: 'now'
         };
-        Object.keys(params).forEach((key) => {
+        Object.keys(params).forEach(key => {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType)
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json()).then(pageEditModelParser);
+        return this._plug
+            .at('contents')
+            .withParams(contentsParams)
+            .post(contents, utility.textRequestType)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
-        return this._plug.at('files').withParams(params).get().then((r) => r.json()).then(pageFilesModelParser);
+        return this._plug
+            .at('files')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageFilesModelParser);
     }
     attachFile(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
-        if(progress !== null) {
+        if (progress !== null) {
             const progressPlug = new ProgressPlug(this._plug.url, this._settings.plugConfig);
             const progressInfo = { callback: progress, size };
-            return progressPlug.at('files', encodeURIComponent(encodeURIComponent(name))).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return progressPlug
+                .at('files', encodeURIComponent(encodeURIComponent(name)))
+                .put(file, type, progressInfo)
+                .then(r => JSON.parse(r.responseText))
+                .then(modelParser.createParser(fileModel));
         }
-        return this._plug.withHeader('Content-Length', size).at('files', encodeURIComponent(name)).put(file, type).then((r) => r.json());
+        return this._plug
+            .withHeader('Content-Length', size)
+            .at('files', encodeURIComponent(name))
+            .put(file, type)
+            .then(r => r.json());
     }
     getOverview() {
-        return this._plug.at('overview').get().then((r) => r.json()).then(modelParser.createParser(pageOverviewModel));
+        return this._plug
+            .at('overview')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageOverviewModel));
     }
     setOverview(options = {}) {
-        if(!('body' in options)) {
+        if (!('body' in options)) {
             return Promise.reject(new Error('No overview body was supplied'));
         }
         let request = `<overview>${utility.escapeHTML(options.body)}</overview>`;
@@ -89,13 +120,22 @@ export class PageBase {
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
-        return this._plug.at('tags').get().then((r) => r.json()).then(pageTagsModelParser);
+        return this._plug
+            .at('tags')
+            .get()
+            .then(r => r.json())
+            .then(pageTagsModelParser);
     }
     setTags(params = {}, queryParams = {}) {
         const XMLData = _getSaveXML(params);
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
 
-        return this._plug.at('tags').withParams(queryParams).put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
+        return this._plug
+            .at('tags')
+            .withParams(queryParams)
+            .put(XMLData, 'application/xml')
+            .then(r => r.json())
+            .then(pageTagsModelParser);
     }
 
     /**
@@ -103,7 +143,11 @@ export class PageBase {
      * @returns {Promise} A Promise that, when resolved yields a list of recommended tags.
      */
     getRecommendedTags() {
-        return this._plug.at('tags', 'recommended').get().then((r) => r.json()).then(modelParser.createParser(recommendedTagsModelParser));
+        return this._plug
+            .at('tags', 'recommended')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(recommendedTagsModelParser));
     }
 
     /**
@@ -116,28 +160,36 @@ export class PageBase {
      * @returns {Promise} A Promise that, when resolved, yields a pageDiffModel containing the HTML representations of the diff.
      */
     getDiff({ previous, revision = 'head', includeVersions = false, format = 'html' } = {}) {
-        if(!previous) {
+        if (!previous) {
             return Promise.reject(new Error('The `previous` parameter must be supplied.'));
         }
-        if(typeof previous !== 'string' && typeof previous !== 'number') {
+        if (typeof previous !== 'string' && typeof previous !== 'number') {
             return Promise.reject(new Error('The `previous` parameter must be a number or a string.'));
         }
-        if(typeof revision !== 'string' && typeof revision !== 'number') {
+        if (typeof revision !== 'string' && typeof revision !== 'number') {
             return Promise.reject(new Error('The revision parameter must be a number or a string.'));
         }
-        if(typeof includeVersions !== 'boolean') {
+        if (typeof includeVersions !== 'boolean') {
             return Promise.reject(new Error('The `includeRevisionis` parameter must be a Boolean value.'));
         }
-        if(format !== 'html' && format !== 'xhtml') {
+        if (format !== 'html' && format !== 'xhtml') {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
         }
-        return this._plug.at('diff').withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format }).get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('diff')
+            .withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format })
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageDiffModel));
     }
     getRelated(params = {}) {
-        return this._plug.at('related').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(relatedPagesModel));
+        return this._plug
+            .at('related')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(relatedPagesModel));
     }
 
     /**
@@ -149,24 +201,29 @@ export class PageBase {
      * @returns {Promise} - A Promise that will be resolved when the revert operation is complete, or rejected with an error specifying the reason for rejection.
      */
     revert(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The revert options must be specified.'));
         }
-        if(typeof options.fromRevision !== 'string' && typeof options.fromRevision !== 'number') {
-            return Promise.reject(new Error('The fromRevision parameter must be specified, and must be a string or a number.'));
+        if (typeof options.fromRevision !== 'string' && typeof options.fromRevision !== 'number') {
+            return Promise.reject(
+                new Error('The fromRevision parameter must be specified, and must be a string or a number.')
+            );
         }
         const params = { fromrevision: options.fromRevision };
-        if(options.abort) {
-            if(typeof options.abort !== 'string' || (options.abort !== 'never' && options.abort !== 'conflict')) {
+        if (options.abort) {
+            if (typeof options.abort !== 'string' || (options.abort !== 'never' && options.abort !== 'conflict')) {
                 return Promise.reject(new Error('The `abort` parameter must be set to "conflict" or "never".'));
             }
             params.abort = options.abort;
         }
-        if('verbose' in options && options.verbose !== true && options.verbose !== false) {
+        if ('verbose' in options && options.verbose !== true && options.verbose !== false) {
             return Promise.reject(new Error('The `verbose` parameter must be a Boolean value.'));
         }
         params.allow = options.allow;
         params.abort = options.abort;
-        return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
+        return this._plug
+            .at('revert')
+            .withParams(params)
+            .post(null, utility.textRequestType);
     }
 }

@@ -12,9 +12,7 @@ describe('PageKcs', () => {
     });
     it('requires a state to set state', () => {
         expect.assertions(1);
-        return expect(kcs.setState({})).rejects.toEqual(
-            'A state must be specified for request.'
-        );
+        return expect(kcs.setState({})).rejects.toEqual('A state must be specified for request.');
     });
     it('can set state', () => {
         return kcs.setState({ confidence: 'wip', visibility: 'internal' });

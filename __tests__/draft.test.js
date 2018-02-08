@@ -24,10 +24,16 @@ describe('Draft', () => {
                 failed.mockReset();
             });
             it('invalid redirect', () => {
-                return dm.createDraft('new/draft/path', { redirect: 'no' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return dm
+                    .createDraft('new/draft/path', { redirect: 'no' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
             it('invalid deleteRedirects', () => {
-                return dm.createDraft('new/draft/path', { deleteRedirects: 'no' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return dm
+                    .createDraft('new/draft/path', { deleteRedirects: 'no' })
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
         it('can get a Draft object by id', () => {
@@ -37,34 +43,43 @@ describe('Draft', () => {
             return dm.getDrafts();
         });
         it('can fetch the site drafts (all params)', () => {
-            return dm.getDrafts({ parentId: 123, tags: [ 'foo', 'bar' ], limit: 100, include: [ 'tags' ] });
+            return dm.getDrafts({ parentId: 123, tags: ['foo', 'bar'], limit: 100, include: ['tags'] });
         });
         it('can fail if an invalid `tags` parameter is sent', () => {
             const success = jest.fn();
-            return dm.getDrafts({ parentId: 123, tags: 'foo', limit: 100 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return dm
+                .getDrafts({ parentId: 123, tags: 'foo', limit: 100 })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail if an invalid `include` parameter is sent', () => {
             const success = jest.fn();
-            return dm.getDrafts({ parentId: 123, include: 'tags', limit: 100 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return dm
+                .getDrafts({ parentId: 123, include: 'tags', limit: 100 })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail if an invalid `limit` parameter is sent', () => {
             const success = jest.fn();
-            return dm.getDrafts({ parentId: 123, limit: '100' }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return dm
+                .getDrafts({ parentId: 123, limit: '100' })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
     });
     describe('constructor tests', () => {
@@ -76,11 +91,11 @@ describe('Draft', () => {
             var draft = new Draft('foo/bar');
             expect(draft).toBeDefined();
         });
-        it('can construct a new Draft object using \'home\'', () => {
+        it("can construct a new Draft object using 'home'", () => {
             var draft = new Draft('home');
             expect(draft).toBeDefined();
         });
-        it('can construct a new Draft object defaulting to \'home\'', () => {
+        it("can construct a new Draft object defaulting to 'home'", () => {
             var draft = new Draft();
             expect(draft).toBeDefined();
         });
@@ -113,21 +128,27 @@ describe('Draft', () => {
         });
         it('can fail if no title was sent to set (empty call)', () => {
             const success = jest.fn();
-            return draft.setTitle().then(() => {
-                success();
-                throw new Error('Success was called');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return draft
+                .setTitle()
+                .then(() => {
+                    success();
+                    throw new Error('Success was called');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail if no title was sent to set (empty string)', () => {
             const success = jest.fn();
-            return draft.setTitle('').then(() => {
-                success();
-                throw new Error('Success was called');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return draft
+                .setTitle('')
+                .then(() => {
+                    success();
+                    throw new Error('Success was called');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
     });
 });

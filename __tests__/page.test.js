@@ -13,11 +13,11 @@ describe('Page', () => {
             var page = new Page('foo/bar');
             expect(page).toBeDefined();
         });
-        it('can construct a new Page object using \'home\'', () => {
+        it("can construct a new Page object using 'home'", () => {
             var page = new Page('home');
             expect(page).toBeDefined();
         });
-        it('can construct a new Page object defaulting to \'home\'', () => {
+        it("can construct a new Page object defaulting to 'home'", () => {
             var page = new Page();
             expect(page).toBeDefined();
         });
@@ -66,10 +66,10 @@ describe('Page', () => {
         it('can fetch a template rendered in the context of the Page with supplied options', () => {
             return page.getHtmlTemplate('Template:MindTouch/IDF3/Controls/WelcomeMessage', { includes: 'overview' });
         });
-        it('can fetch the page\'s files with default options', () => {
+        it("can fetch the page's files with default options", () => {
             return page.getFiles();
         });
-        it('can fetch the page\'s files with supplied options', () => {
+        it("can fetch the page's files with supplied options", () => {
             return page.getFiles({ limit: 200 });
         });
         it('can get the related pages', () => {
@@ -152,7 +152,7 @@ describe('Page', () => {
             });
             it('invalid stylesheet', () => {
                 return page
-                    .exportPdf({ stylesheet: [ 132 ] })
+                    .exportPdf({ stylesheet: [132] })
                     .catch(failed)
                     .then(() => expect(failed).toHaveBeenCalled());
             });
@@ -187,7 +187,7 @@ describe('Page', () => {
         it('can get link details (all params)', () => {
             return page.getLinkDetails({
                 includeSubpages: true,
-                linkTypes: [ 'foo', 'bar' ],
+                linkTypes: ['foo', 'bar'],
                 broken: false,
                 redirect: true,
                 limit: 99,
@@ -248,8 +248,8 @@ describe('Page', () => {
         });
         it('can get the health inspections (all parameters)', () => {
             return page.getHealthInspections({
-                analyzers: [ 'foo', 'bar' ],
-                severities: [ 'foo', 'bar' ],
+                analyzers: ['foo', 'bar'],
+                severities: ['foo', 'bar'],
                 includeSubpages: true,
                 limit: 400,
                 offset: 100
@@ -332,7 +332,7 @@ describe('Page', () => {
         it('can fail if no arguments are sent when setting the page overview', () => {
             return page
                 .setOverview()
-                .then((r) => {
+                .then(r => {
                     expect(r).not.toBeDefined();
                 })
                 .catch(() => {});
@@ -349,7 +349,7 @@ describe('Page', () => {
         it('can fail when setting invalid page contents', () => {
             return page
                 .setContents({})
-                .then((r) => {
+                .then(r => {
                     expect(r).not.toBeDefined();
                 })
                 .catch(() => {});
@@ -367,13 +367,13 @@ describe('Page', () => {
             return page.delete(true);
         });
         it('can set the tags', () => {
-            return page.setTags([ 'foo', 'bar' ]);
+            return page.setTags(['foo', 'bar']);
         });
         it('can set the tags (empty request)', () => {
             return page.setTags();
         });
         it('can set the tags and allow idf errors', () => {
-            return page.setTags([ 'foo', 'bar' ], { allow: 'idferrors' });
+            return page.setTags(['foo', 'bar'], { allow: 'idferrors' });
         });
         it('can set the tags to empty and allow idf errors', () => {
             return page.setTags(null, { allow: 'idferrors' });
@@ -544,13 +544,13 @@ describe('Page', () => {
                 pm = null;
             });
             it('can fetch the ratings for a set of pages', () => {
-                return pm.getRatings([ 440, 441 ]);
+                return pm.getRatings([440, 441]);
             });
             it('can find pages', () => {
                 return pm.findPages({
                     parentId: 1,
-                    tags: [ 'foo' ],
-                    missingClassifications: [ 'article:topic' ],
+                    tags: ['foo'],
+                    missingClassifications: ['article:topic'],
                     since: new Date(1999, 12, 31),
                     upTo: new Date(Date.now())
                 });
@@ -558,13 +558,13 @@ describe('Page', () => {
             it('can find pages with missig optional parameters', () => {
                 return pm.findPages({
                     tags: [],
-                    missingClassifications: [ 'article:topic' ],
+                    missingClassifications: ['article:topic'],
                     since: new Date(1999, 12, 31),
                     upTo: new Date(Date.now())
                 });
             });
             it('can find pages with missig optional parameters (different ones)', () => {
-                return pm.findPages({ parentId: 1, tags: [ 'foo' ], missingClassifications: [] });
+                return pm.findPages({ parentId: 1, tags: ['foo'], missingClassifications: [] });
             });
             it('can fail when no parameters are sent to find pages', () => {
                 const success = jest.fn();

@@ -12,7 +12,6 @@ const _errorParser = modelParser.createParser(apiErrorModel);
  * A class for managing a single unpublished draft page.
  */
 export class Draft extends PageBase {
-
     /**
      * Construct a Draft object.
      * @param {Number|String} [id=home] - The id of the draft to construct.
@@ -30,7 +29,11 @@ export class Draft extends PageBase {
      */
     deactivate() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('deactivate').post().then((r) => r.json()).then(pageModelParser);
+        return this._plug
+            .at('deactivate')
+            .post()
+            .then(r => r.json())
+            .then(pageModelParser);
     }
 
     /**
@@ -39,7 +42,10 @@ export class Draft extends PageBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
     publish(params = {}) {
-        return this._plug.at('publish').withParams(params).post();
+        return this._plug
+            .at('publish')
+            .withParams(params)
+            .post();
     }
 
     /**
@@ -47,7 +53,11 @@ export class Draft extends PageBase {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the unpublished page.
      */
     unpublish() {
-        return this._plug.at('unpublish').post().then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('unpublish')
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -56,10 +66,14 @@ export class Draft extends PageBase {
      * @returns {Promise.<pageModel|Error>} - A Promise that will be resolved with the page data for the draft that had its title changed, or rejected with an error specifying the reason for rejection.
      */
     setTitle(title) {
-        if(!title) {
+        if (!title) {
             return Promise.reject(new Error('A valid title must be supplied for the draft.'));
         }
-        return this._plug.at('title').put(title, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('title')
+            .put(title, utility.textRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 }
 
@@ -67,7 +81,6 @@ export class Draft extends PageBase {
  * A class for managing unpublished draft pages.
  */
 export class DraftManager {
-
     /**
      * Create a new DraftManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -87,21 +100,25 @@ export class DraftManager {
      */
     createDraft(newPath, options = {}) {
         const params = {};
-        if('redirect' in options) {
-            if(typeof options.redirect !== 'number') {
+        if ('redirect' in options) {
+            if (typeof options.redirect !== 'number') {
                 return Promise.reject(new Error('The redirect option must be a number.'));
             }
             params.redirect = options.redirect;
         }
-        if('deleteRedirects' in options) {
-            if(typeof options.deleteRedirects !== 'boolean') {
+        if ('deleteRedirects' in options) {
+            if (typeof options.deleteRedirects !== 'boolean') {
                 return Promise.reject(new Error('The deleteredirects option must be a boolean.'));
             }
             params.deleteRedirects = options.deleteRedirects;
         }
-        return this._plug.at(utility.getResourceId(newPath), 'create').withParams(params).post()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at(utility.getResourceId(newPath), 'create')
+            .withParams(params)
+            .post()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -115,31 +132,36 @@ export class DraftManager {
      */
     getDrafts(options = {}) {
         const params = {};
-        if(options.parentId) {
+        if (options.parentId) {
             params.parentid = utility.getResourceId(options.parentId, 'home');
         }
-        if(options.tags) {
-            if(!Array.isArray(options.tags)) {
+        if (options.tags) {
+            if (!Array.isArray(options.tags)) {
                 return Promise.reject(new Error('The `tags` parameter must be an array.'));
             }
             params.tags = options.tags.join(',');
         }
-        if('limit' in options) {
-            if(typeof options.limit !== 'number') {
+        if ('limit' in options) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be an number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.withParams(params)
+        return this._plug
+            .withParams(params)
             .get()
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: [ 'pages', 'page' ], name: 'pages', isArray: true, transform: pageModel } ]));
+            .then(r => r.json())
+            .then(
+                modelParser.createParser([
+                    { field: ['pages', 'page'], name: 'pages', isArray: true, transform: pageModel }
+                ])
+            );
     }
 
     /**

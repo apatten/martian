@@ -8,7 +8,7 @@ function dateOrStringTransformer(value) {
     const dateValue = date.getDate();
 
     // eslint-disable-next-line no-self-compare
-    if(dateValue !== dateValue) {
+    if (dateValue !== dateValue) {
         return value;
     }
     return date;
@@ -83,9 +83,7 @@ export const eventModel = [
             { field: 'id', transform: 'number' },
             {
                 field: 'role',
-                transform: [
-                    { field: '@id', name: 'id', transform: 'number' }
-                ]
+                transform: [{ field: '@id', name: 'id', transform: 'number' }]
             },
             { field: 'type' },
             { field: 'user', transform: userModel }
@@ -93,9 +91,7 @@ export const eventModel = [
     },
     {
         field: 'property',
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     {
         field: 'request',
@@ -110,20 +106,16 @@ export const eventModel = [
         ]
     },
     {
-        field: [ 'tags-added', 'tag' ],
+        field: ['tags-added', 'tag'],
         name: 'tagsAdded',
         isArray: true,
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     {
-        field: [ 'tags-removed', 'tag' ],
+        field: ['tags-removed', 'tag'],
         name: 'tagsRemoved',
         isArray: true,
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     { field: 'learningpath', name: 'learningPath', transform: learningPathTransform },
     { field: 'root.learningpath', name: 'learningPathRoot', transform: learningPathTransform }

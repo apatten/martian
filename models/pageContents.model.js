@@ -16,8 +16,8 @@ export let pageContentsModel = [
         name: 'targets',
         transform(body) {
             const targets = [];
-            if(Array.isArray(body)) {
-                for(let i = 1; i < body.length; i++) {
+            if (Array.isArray(body)) {
+                for (let i = 1; i < body.length; i++) {
                     targets.push({ [body[i]['@target']]: body[i]['#text'] });
                 }
             }

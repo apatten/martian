@@ -44,52 +44,64 @@ describe('Site Jobs', () => {
             it('can schedule an export job (page path only)', () => {
                 const exportParams = {
                     url: 'http://www.example.com',
-                    pages: [ { path: 'path/to/page/1' } ]
+                    pages: [{ path: 'path/to/page/1' }]
                 };
                 return sj.scheduleExport(exportParams);
             });
             it('can schedule an export job (page ID only)', () => {
                 const exportParams = {
                     email: 'foo@bar.com',
-                    pages: [ { id: 1 } ]
+                    pages: [{ id: 1 }]
                 };
                 return sj.scheduleExport(exportParams);
             });
             it('can fail when scheduling an export with missing options', () => {
                 const success = jest.fn();
-                return sj.scheduleExport().then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleExport()
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an export with missing notification options', () => {
                 const success = jest.fn();
-                return sj.scheduleExport({}).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleExport({})
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an export with missing pages option', () => {
                 const success = jest.fn();
-                return sj.scheduleExport({ email: 'foo@bar.com' }).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleExport({ email: 'foo@bar.com' })
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an export with a non-array pages option', () => {
                 const success = jest.fn();
-                return sj.scheduleExport({ email: 'foo@bar.com', pages: 'this is clearly a string' }).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleExport({ email: 'foo@bar.com', pages: 'this is clearly a string' })
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
         });
         describe('import scheduler', () => {
@@ -125,39 +137,51 @@ describe('Site Jobs', () => {
             });
             it('can fail when scheduling an import with missing options', () => {
                 const success = jest.fn();
-                return sj.scheduleImport().then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleImport()
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an export with missing notification options', () => {
                 const success = jest.fn();
-                return sj.scheduleImport({}).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleImport({})
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an import with missing archiveUrl option', () => {
                 const success = jest.fn();
-                return sj.scheduleImport({ email: 'foo@bar.com' }).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleImport({ email: 'foo@bar.com' })
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
             it('can fail when scheduling an import with invalid archiveUrl option', () => {
                 const success = jest.fn();
-                return sj.scheduleImport({ email: 'foo@bar.com', archiveUrl: '' }).then(() => {
-                    success();
-                    throw new Error('Promise resolved');
-                }).catch(() => {
-                    expect(success).not.toHaveBeenCalled();
-                });
+                return sj
+                    .scheduleImport({ email: 'foo@bar.com', archiveUrl: '' })
+                    .then(() => {
+                        success();
+                        throw new Error('Promise resolved');
+                    })
+                    .catch(() => {
+                        expect(success).not.toHaveBeenCalled();
+                    });
             });
         });
     });

@@ -7,9 +7,6 @@ export const groupModel = [
     { field: 'permissions.group', name: 'groupPermissions', transform: permissionsModel },
     {
         field: 'users',
-        transform: [
-            { field: '@count', name: 'count' },
-            { field: '@href', name: 'href' }
-        ]
+        transform: [{ field: '@count', name: 'count' }, { field: '@href', name: 'href' }]
     }
 ];

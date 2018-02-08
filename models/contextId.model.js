@@ -1,12 +1,9 @@
 export const contextIdModel = {
     preProcessor(data) {
-        if(data.context) {
+        if (data.context) {
             return data.context;
         }
         return data;
     },
-    model: [
-        { field: 'description' },
-        { field: 'id' }
-    ]
+    model: [{ field: 'description' }, { field: 'id' }]
 };

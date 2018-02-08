@@ -450,7 +450,7 @@ let _defaultToken = null;
 let _cookieManager = null;
 function _cloneKVPs(obj) {
     const copy = {};
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach(key => {
         copy[key] = obj[key];
     });
     return copy;
@@ -517,16 +517,22 @@ class Settings {
      * @param {String|Function} [options.token] A token to allow API access. This will populate the "X-Deki-Token" header. If a function is supplied, it should return the desired token as a string.
      * @param {String} [options.origin] The origin of the API calls.
      */
-    constructor({ host = _defaultHost, queryParams = _defaultQueryParams, headers = _defaultHeaders, token = _defaultToken, origin = _defaultOrigin } = {}) {
+    constructor({
+        host = _defaultHost,
+        queryParams = _defaultQueryParams,
+        headers = _defaultHeaders,
+        token = _defaultToken,
+        origin = _defaultOrigin
+    } = {}) {
         this._host = host;
         this._token = token;
         this._origin = origin;
         this._queryParams = _cloneKVPs(queryParams);
         this._headers = _cloneKVPs(headers);
-        if(this._origin !== null) {
+        if (this._origin !== null) {
             const originUri = new Uri(this._origin);
             const hostUri = new Uri(this._host);
-            if(originUri.origin === hostUri.origin) {
+            if (originUri.origin === hostUri.origin) {
                 this._headers['X-Deki-Requested-With'] = 'XMLHttpRequest';
             }
         }
@@ -560,14 +566,14 @@ class Settings {
         return {
             uriParts: { query: this._queryParams },
             headers: this._headers,
-            beforeRequest: (params) => this._beforeRequest(params),
+            beforeRequest: params => this._beforeRequest(params),
             cookieManager: _cookieManager
         };
     }
     _beforeRequest(params) {
-        if(this._token !== null) {
+        if (this._token !== null) {
             let token = this._token;
-            if(typeof token === 'function') {
+            if (typeof token === 'function') {
                 token = this._token();
             }
             params.headers['X-Deki-Token'] = token;
@@ -979,7 +985,6 @@ class Plug {
  * A class for validating HTTP requests to the MindTouch site API.
  */
 class Api {
-
     /**
      * Construct a new API object.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -1012,14 +1017,16 @@ const modelParser = {
         },
         date(value) {
             const dateValue = new Date(value);
-            if(isNaN(dateValue.getTime())) {
+            if (isNaN(dateValue.getTime())) {
                 throw new Error('Failed converting to date');
             }
             return dateValue;
         },
         apiDate(value) {
-            if(!(/^\d{8}$|^\d{14}$/).test(value)) {
-                throw new Error('Failed converting an API date: The raw value must be a string of digits and of length 8 or 14');
+            if (!/^\d{8}$|^\d{14}$/.test(value)) {
+                throw new Error(
+                    'Failed converting an API date: The raw value must be a string of digits and of length 8 or 14'
+                );
             }
             const parts = [
                 value.slice(0, 4),
@@ -1028,21 +1035,23 @@ const modelParser = {
                 value.slice(8, 10),
                 value.slice(10, 12),
                 value.slice(12)
-            ].map((p) => parseInt(p, 10)).filter((p) => !isNaN(p));
+            ]
+                .map(p => parseInt(p, 10))
+                .filter(p => !isNaN(p));
 
             // The month parameter is zero-based, so we'll need to decrement it before constructing the Date.
             parts[1]--;
             return new Date(...parts);
         },
         number(value) {
-            if(typeof value === 'number') {
+            if (typeof value === 'number') {
                 return value;
             }
-            if(typeof value !== 'string' || value === '') {
+            if (typeof value !== 'string' || value === '') {
                 return null;
             }
             const intValue = Number(value);
-            if(Number.isNaN(intValue)) {
+            if (Number.isNaN(intValue)) {
                 throw new Error('Failed converting to integer');
             }
             return intValue;
@@ -1052,21 +1061,21 @@ const modelParser = {
         return typeof value !== 'undefined';
     },
     forceArray(value) {
-        if(!modelParser.isValid(value) || value === '') {
+        if (!modelParser.isValid(value) || value === '') {
             return [];
         }
-        return Array.isArray(value) ? value : [ value ];
+        return Array.isArray(value) ? value : [value];
     },
     getValue(obj, ...fields) {
-        if(!obj || typeof obj !== 'object') {
+        if (!obj || typeof obj !== 'object') {
             return;
         }
         const currentField = fields.shift();
-        if(currentField in obj) {
-
+        if (currentField in obj) {
             // Special '#text' logic to return parent field if it's a string
-            const textParentIsString = fields.length === 1 && fields[0] === '#text' && typeof obj[currentField] === 'string';
-            if(fields.length === 0 || textParentIsString) {
+            const textParentIsString =
+                fields.length === 1 && fields[0] === '#text' && typeof obj[currentField] === 'string';
+            if (fields.length === 0 || textParentIsString) {
                 return obj[currentField];
             }
             return modelParser.getValue(obj[currentField], ...fields);
@@ -1075,26 +1084,26 @@ const modelParser = {
     processModelAndData(model, data) {
         let preProcessor = null;
         let dataModel = null;
-        if(model && model.model) {
+        if (model && model.model) {
             preProcessor = model.preProcessor;
             dataModel = model.model;
         } else {
             dataModel = model;
         }
-        if(typeof preProcessor === 'function') {
+        if (typeof preProcessor === 'function') {
             data = preProcessor(data);
         }
-        return [ dataModel, data ];
+        return [dataModel, data];
     },
     transformValue(value, transform) {
         let result = value;
-        if(typeof transform === 'string') {
+        if (typeof transform === 'string') {
             result = modelParser.to[transform](value);
-        } else if(Array.isArray(transform) || transform.model) {
-            const [ processedModel, processedData ] = modelParser.processModelAndData(transform, value);
+        } else if (Array.isArray(transform) || transform.model) {
+            const [processedModel, processedData] = modelParser.processModelAndData(transform, value);
             let parser = modelParser.createParser(processedModel);
             result = parser(processedData);
-        } else if(typeof transform === 'function') {
+        } else if (typeof transform === 'function') {
             result = transform(value);
         } else {
             throw new Error(`Invalid value used for the transform parameter while trying to convert ${value}`);
@@ -1102,66 +1111,60 @@ const modelParser = {
         return result;
     },
     parseProperty(data, parsedObj, { field, name, isArray, transform, constructTransform }) {
-        if(!data || typeof data !== 'object') {
+        if (!data || typeof data !== 'object') {
             throw new TypeError('Cannot parse a non-object');
         }
-        if(typeof field === 'undefined') {
-            throw new TypeError('The \'field\' property must be included in every model entry');
+        if (typeof field === 'undefined') {
+            throw new TypeError("The 'field' property must be included in every model entry");
         }
         const fields = modelParser.forceArray(field);
         let value = modelParser.getValue(data, ...fields);
-        if(constructTransform && typeof constructTransform === 'function') {
+        if (constructTransform && typeof constructTransform === 'function') {
             transform = constructTransform(value);
-            [ transform, value ] = modelParser.processModelAndData(transform, value);
+            [transform, value] = modelParser.processModelAndData(transform, value);
         }
-        if(isArray) {
+        if (isArray) {
             value = modelParser.forceArray(value);
         }
-        if(transform && modelParser.isValid(value) || typeof transform === 'function') {
-            if(isArray) {
-                value = value.map((val) => modelParser.transformValue(val, transform));
+        if ((transform && modelParser.isValid(value)) || typeof transform === 'function') {
+            if (isArray) {
+                value = value.map(val => modelParser.transformValue(val, transform));
             } else {
                 value = modelParser.transformValue(value, transform);
             }
         }
         name = name || fields[0];
-        if(name in parsedObj) {
+        if (name in parsedObj) {
             throw new Error(`Duplicate "${name}" in parsing model`);
         }
-        if(modelParser.isValid(value)) {
+        if (modelParser.isValid(value)) {
             parsedObj[name] = value;
         }
     },
     createParser(model) {
-        return (data) => {
-
+        return data => {
             // If the response is an empty string, parse the response as an empty object.
-            if(data === '') {
+            if (data === '') {
                 data = {};
             }
-            const [ processedModel, processedData ] = modelParser.processModelAndData(model, data);
+            const [processedModel, processedData] = modelParser.processModelAndData(model, data);
             const parsedObj = {};
-            processedModel.forEach((propertyModel) => modelParser.parseProperty(processedData, parsedObj, propertyModel));
+            processedModel.forEach(propertyModel => modelParser.parseProperty(processedData, parsedObj, propertyModel));
             return parsedObj;
         };
     }
 };
 
-const contextIdsModel = [
-    { field: 'context', name: 'contextIds', isArray: true }
-];
+const contextIdsModel = [{ field: 'context', name: 'contextIds', isArray: true }];
 
 const contextIdModel = {
     preProcessor(data) {
-        if(data.context) {
+        if (data.context) {
             return data.context;
         }
         return data;
     },
-    model: [
-        { field: 'description' },
-        { field: 'id' }
-    ]
+    model: [{ field: 'description' }, { field: 'id' }]
 };
 
 const pageRatingModel = [
@@ -1192,10 +1195,10 @@ const pageRatingModel = [
 
 const permissionsModel = [
     {
-        field: [ 'operations', '#text' ],
+        field: ['operations', '#text'],
         transform(value) {
             let result = [];
-            if(typeof value === 'string') {
+            if (typeof value === 'string') {
                 result = value.split(',');
             }
             return result;
@@ -1205,16 +1208,16 @@ const permissionsModel = [
         field: 'role',
         transform(value) {
             let roleObj = {};
-            if(typeof value === 'string') {
+            if (typeof value === 'string') {
                 roleObj.name = value;
-            } else if(value && typeof value === 'object') {
-                if('#text' in value) {
+            } else if (value && typeof value === 'object') {
+                if ('#text' in value) {
                     roleObj.name = value['#text'];
                 }
-                if('@id' in value) {
+                if ('@id' in value) {
                     roleObj.id = parseInt(value['@id'], 10);
                 }
-                if('@href' in value) {
+                if ('@href' in value) {
                     roleObj.href = value['@href'];
                 }
             }
@@ -1222,10 +1225,8 @@ const permissionsModel = [
         }
     },
     {
-        field: 'restriction', transform: [
-            { field: '@id', name: 'id', transform: 'number' },
-            { field: '#text', name: 'name' }
-        ]
+        field: 'restriction',
+        transform: [{ field: '@id', name: 'id', transform: 'number' }, { field: '#text', name: 'name' }]
     }
 ];
 
@@ -1236,10 +1237,7 @@ const groupModel = [
     { field: 'permissions.group', name: 'groupPermissions', transform: permissionsModel },
     {
         field: 'users',
-        transform: [
-            { field: '@count', name: 'count' },
-            { field: '@href', name: 'href' }
-        ]
+        transform: [{ field: '@count', name: 'count' }, { field: '@href', name: 'href' }]
     }
 ];
 
@@ -1252,14 +1250,14 @@ const userModel = [
     { field: 'date.lastlogin', name: 'lastLoginDate', transform: 'date' },
     { field: 'email' },
     { field: 'fullname' },
-    { field: [ 'license.seat', '#text' ], name: 'seated', transform: 'boolean' },
-    { field: [ 'license.seat', '@owner' ], name: 'siteOwner', transform: 'boolean' },
+    { field: ['license.seat', '#text'], name: 'seated', transform: 'boolean' },
+    { field: ['license.seat', '@owner'], name: 'siteOwner', transform: 'boolean' },
     { field: 'nick' },
-    { field: [ 'password', '@exists' ], name: 'passwordExists', transform: 'boolean' },
+    { field: ['password', '@exists'], name: 'passwordExists', transform: 'boolean' },
     { field: 'status' },
     { field: 'username' },
     { field: 'permissions.user', name: 'userPermissions', transform: permissionsModel },
-    { field: [ 'groups', 'group' ], name: 'groups', isArray: true, transform: groupModel }
+    { field: ['groups', 'group'], name: 'groups', isArray: true, transform: groupModel }
 ];
 
 const pageModel = [
@@ -1275,7 +1273,7 @@ const pageModel = [
     { field: 'namespace' },
     { field: 'language.effective', name: 'languageEffective' },
     { field: 'timeuuid' },
-    { field: [ 'path', '#text' ] },
+    { field: ['path', '#text'] },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
     { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
@@ -1291,13 +1289,13 @@ const pageModel = [
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'date.modified', name: 'dateModified', transform: 'date' },
     { field: 'date.edited', name: 'dateEdited', transform: 'date' },
-    { field: [ 'revisions', '@count' ], name: 'revisionCount', transform: 'number' },
-    { field: [ 'comments', '@count' ], name: 'commentCount', transform: 'number' },
-    { field: [ 'permissions', 'permissions.page' ], name: 'permissions', transform: permissionsModel },
+    { field: ['revisions', '@count'], name: 'revisionCount', transform: 'number' },
+    { field: ['comments', '@count'], name: 'commentCount', transform: 'number' },
+    { field: ['permissions', 'permissions.page'], name: 'permissions', transform: permissionsModel },
     {
         field: 'rating',
         constructTransform(rating) {
-            if(typeof rating === 'object' && rating !== null) {
+            if (typeof rating === 'object' && rating !== null) {
                 return pageRatingModel;
             }
         }
@@ -1310,7 +1308,7 @@ const pageModel = [
         ]
     },
     {
-        field: [ 'tags', 'tag' ],
+        field: ['tags', 'tag'],
         isArray: true,
         transform: [
             { field: '@href', name: 'href' },
@@ -1332,20 +1330,20 @@ const contextMapModel = [
     { field: 'id' },
     { field: 'language' },
     { field: 'page', transform: pageModel },
-    { field: [ 'pageid', '#text' ], transform: 'number' }
+    { field: ['pageid', '#text'], transform: 'number' }
 ];
 
 const contextMapsModel = [
     { field: 'contextmap', name: 'contextMaps', isArray: true, transform: contextMapModel },
-    { field: [ 'languages', 'language' ], isArray: true }
+    { field: ['languages', 'language'], isArray: true }
 ];
 
 const apiErrorModel = {
     preProcessor(data) {
-        if('responseText' in data) {
+        if ('responseText' in data) {
             try {
                 data.errorInfo = JSON.parse(data.responseText);
-            } catch(e) {
+            } catch (e) {
                 data.errorText = data.responseText;
             }
             delete data.responseText;
@@ -1359,7 +1357,7 @@ const apiErrorModel = {
             field: 'errorInfo',
             name: 'info',
             transform: [
-                { field: [ 'arguments', 'argument' ], name: 'arguments', isArray: true },
+                { field: ['arguments', 'argument'], name: 'arguments', isArray: true },
                 { field: 'exception' },
                 { field: 'message' },
                 { field: 'resource' },
@@ -1374,14 +1372,13 @@ const apiErrorModel = {
  * A class to manage individual Context IDs.
  */
 class ContextDefinition {
-
     /**
      * Create a ContextDefinition.
      * @param {String} id The ID of the context definition.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
-        if(!id) {
+        if (!id) {
             throw new Error('an ID must be supplied to create a new ContextDefinition');
         }
         this.id = id;
@@ -1393,7 +1390,10 @@ class ContextDefinition {
      * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     getInfo() {
-        return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextIdModel));
+        return this.plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextIdModel));
     }
 
     /**
@@ -1403,7 +1403,10 @@ class ContextDefinition {
      */
     updateDescription(description = '') {
         const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
-        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextIdModel));
+        return this.plug
+            .put(updateRequest, 'application/xml; charset=utf-8')
+            .then(r => r.json())
+            .then(modelParser.createParser(contextIdModel));
     }
 
     /**
@@ -1419,7 +1422,6 @@ class ContextDefinition {
  * A class to manage a mapping between a {@link ContextDefinition} and a page on a MindTouch site; taking language into account.
  */
 class ContextMap {
-
     /**
      * Construct a new ContextMap
      * @param {String} language The language of the mapping.
@@ -1427,12 +1429,14 @@ class ContextMap {
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(language, id, settings = new Settings()) {
-        if(!id || !language) {
+        if (!id || !language) {
             throw new Error('an ID and language must be supplied to create a new ContextMap');
         }
         this.id = id;
         this.language = language;
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
+        this.plug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'contextmaps', language, id)
+            .withParam('verbose', 'true');
     }
 
     /**
@@ -1440,7 +1444,10 @@ class ContextMap {
      * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     getInfo() {
-        return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextMapModel));
+        return this.plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapModel));
     }
 
     /**
@@ -1449,11 +1456,16 @@ class ContextMap {
      * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     update(pageId) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('a page ID must be supplied in order to update a mapping'));
         }
-        const updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${this.language}</language></contextmap>`;
-        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextMapModel));
+        const updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${
+            this.language
+        }</language></contextmap>`;
+        return this.plug
+            .put(updateRequest, 'application/xml; charset=utf-8')
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapModel));
     }
 
     /**
@@ -1469,13 +1481,14 @@ class ContextMap {
  * A class to manage the Context ID subsystem for access to the Context IDs and Context ID Mappings.
  */
 class ContextIdManager {
-
     /**
      * Construct a new ContextIdManager.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
+        this.mapsPlug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'contextmaps')
+            .withParam('verbose', 'true');
         this.definitionsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
         this._settings = settings;
         this._errorParser = modelParser.createParser(apiErrorModel);
@@ -1486,7 +1499,10 @@ class ContextIdManager {
      * @returns {Promise.<contextMapsModel>} A promise that, when resolved, yields a {@link contextMapsModel} object.
      */
     getMaps() {
-        return this.mapsPlug.get().then((r) => r.json()).then(modelParser.createParser(contextMapsModel));
+        return this.mapsPlug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapsModel));
     }
 
     /**
@@ -1494,14 +1510,17 @@ class ContextIdManager {
      * @returns {Promise.<contextIdsModel>} A promise that, when resolved, yields a {@link contextIdsModel} object.
      */
     getDefinitions() {
-        return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
-
-            // response is an empty string when site has no context IDs.
-            if(response === '') {
-                response = { context: [] };
-            }
-            return response;
-        }).then(modelParser.createParser(contextIdsModel));
+        return this.definitionsPlug
+            .get()
+            .then(r => r.json())
+            .then(response => {
+                // response is an empty string when site has no context IDs.
+                if (response === '') {
+                    response = { context: [] };
+                }
+                return response;
+            })
+            .then(modelParser.createParser(contextIdsModel));
     }
 
     /**
@@ -1511,13 +1530,14 @@ class ContextIdManager {
      * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     addDefinition(id, description = '') {
-        if(!id) {
+        if (!id) {
             return Promise.reject(new Error('an ID must be supplied to add a definition'));
         }
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
-        return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8')
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.json())
+        return this.definitionsPlug
+            .post(addRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
 
@@ -1542,7 +1562,6 @@ class ContextIdManager {
 }
 
 const _htmlEscapeChars = {
-
     // '¢': 'cent',
     // '£': 'pound',
     // '¥': 'yen',
@@ -1553,7 +1572,7 @@ const _htmlEscapeChars = {
     '>': 'gt',
     '"': 'quot',
     '&': 'amp',
-    '\'': '#39'
+    "'": '#39'
 };
 const _regexString = new RegExp(`${Object.keys(_htmlEscapeChars).reduce((prev, key) => `${prev}${key}`, '[')}]`, 'g');
 
@@ -1562,38 +1581,38 @@ const utility = {
     textRequestType: 'text/plain; charset=utf-8',
     jsonRequestType: 'application/json; charset=utf-8',
     escapeHTML(unescaped = '') {
-        return unescaped.replace(_regexString, (m) => '&' + _htmlEscapeChars[m] + ';');
+        return unescaped.replace(_regexString, m => '&' + _htmlEscapeChars[m] + ';');
     },
     searchEscape(query) {
         let result = query.toString();
-        let charArr = [ '\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':' ];
-        charArr.forEach((c) => {
+        let charArr = ['\\', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':'];
+        charArr.forEach(c => {
             let regex = new RegExp('\\' + c, 'g');
             result = result.replace(regex, '\\' + c);
         });
         return result;
     },
     getResourceId(id, defaultId) {
-        if(!id && !defaultId) {
+        if (!id && !defaultId) {
             throw new Error('Unable to resolve the input ID to an API resource ID');
         }
         let resourceId = defaultId;
-        if(typeof id === 'string' && id !== defaultId) {
+        if (typeof id === 'string' && id !== defaultId) {
             resourceId = `=${encodeURIComponent(encodeURIComponent(id))}`;
-        } else if(id) {
+        } else if (id) {
             resourceId = id;
         }
         return resourceId;
     },
     getNormalizedUserActivityToken(token) {
         let resourceId = null;
-        if(typeof token === 'string') {
-            if(token.includes(':')) {
+        if (typeof token === 'string') {
+            if (token.includes(':')) {
                 resourceId = token;
             } else {
                 resourceId = `=${encodeURIComponent(encodeURIComponent(token))}`;
             }
-        } else if(typeof token === 'number') {
+        } else if (typeof token === 'number') {
             resourceId = token;
         } else {
             throw new Error('The user activity token must be a string or number');
@@ -1601,12 +1620,11 @@ const utility = {
         return resourceId;
     },
     getFilenameId(filename) {
-        if(typeof filename !== 'string') {
+        if (typeof filename !== 'string') {
             throw new Error('The filename must be a string');
         }
         let encodedName = encodeURIComponent(encodeURIComponent(filename));
-        if(!filename.includes('.')) {
-
+        if (!filename.includes('.')) {
             // File name has no dot (or the dot is at the first position).
             // Assume that means it doesn't have an extension.
             encodedName = `=${encodedName}`;
@@ -1622,11 +1640,13 @@ const utility = {
             minutes: `0${date.getMinutes()}`.slice(-2),
             seconds: `0${date.getSeconds()}`.slice(-2)
         };
-        return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${dateParts.seconds}`;
+        return `${dateParts.year}${dateParts.month}${dateParts.day}${dateParts.hours}${dateParts.minutes}${
+            dateParts.seconds
+        }`;
     },
     cleanParams(params = {}) {
-        Object.keys(params).forEach((key) => {
-            if(params[key] === null || typeof params[key] === 'undefined' || params[key] === '') {
+        Object.keys(params).forEach(key => {
+            if (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') {
                 delete params[key];
             }
         });
@@ -1654,7 +1674,6 @@ const _errorParser = modelParser.createParser(apiErrorModel);
  * A class for managing a site's developer tokens.
  */
 class DeveloperTokenManager {
-
     /**
      * Construct a new DeveloperTokenManager object.
      * @param {Settings} settings The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -1668,7 +1687,10 @@ class DeveloperTokenManager {
      * @returns {Promise} A Promise that, when resolved, yields a developerTokensModel representing the listing of the site's developer tokens.
      */
     getTokens() {
-        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(developerTokensModel));
+        return this._plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(developerTokensModel));
     }
 
     /**
@@ -1679,30 +1701,30 @@ class DeveloperTokenManager {
      * @returns {Promise} A Promise that, when resolved, yields a developerTokenModel contiaining the information about the new token.
      */
     addToken({ name, host } = {}) {
-        if(!name) {
+        if (!name) {
             return Promise.reject(new Error('The name must be supplied when adding a new developer token'));
         }
         let requestXml = `<developer-token><name>${name}</name>`;
-        if(host) {
+        if (host) {
             requestXml += `<host>${host}</host>`;
         }
         requestXml += '</developer-token>';
-        return this._plug.post(requestXml, utility.xmlRequestType)
-            .then((r) => r.json())
-            .catch((err) => Promise.reject(_errorParser(err)))
+        return this._plug
+            .post(requestXml, utility.xmlRequestType)
+            .then(r => r.json())
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(modelParser.createParser(developerTokenModel));
     }
 }
 
 class DeveloperToken {
-
     /**
      * Construct a new DeveloperToken instance.
      * @param {Number} id The numeric ID of the developer token.
      * @param {Settings} settings The {@see Settings} used to direct the API calls.
      */
     constructor(id, settings = new Settings()) {
-        if(!id) {
+        if (!id) {
             throw new Error('The id must be supplied to create a new DeveloperToken instance');
         }
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'developer-tokens', id);
@@ -1713,7 +1735,7 @@ class DeveloperToken {
      * @returns {Promise} A Promise that, when resolved, indicates a successufl deletion of the token.
      */
     delete() {
-        return this._plug.delete().catch((err) => Promise.reject(_errorParser(err)));
+        return this._plug.delete().catch(err => Promise.reject(_errorParser(err)));
     }
 }
 
@@ -1853,8 +1875,8 @@ let pageContentsModel = [
         name: 'targets',
         transform(body) {
             const targets = [];
-            if(Array.isArray(body)) {
-                for(let i = 1; i < body.length; i++) {
+            if (Array.isArray(body)) {
+                for (let i = 1; i < body.length; i++) {
                     targets.push({ [body[i]['@target']]: body[i]['#text'] });
                 }
             }
@@ -1948,18 +1970,16 @@ const recommendedTagsModelParser = [
         field: 'tag',
         name: 'tags',
         isArray: true,
-        transform: [
-            { field: '@value', name: 'tag' }
-        ]
+        transform: [{ field: '@value', name: 'tag' }]
     }
 ];
 
 const _errorParser$2 = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
-    if(error.status === 404 && error.responseText) {
+    if (error.status === 404 && error.responseText) {
         let responseJson = JSON.parse(error.responseText);
-        if(responseJson['@virtual'] === 'true') {
+        if (responseJson['@virtual'] === 'true') {
             let pageModelParser = modelParser.createParser(pageModel);
             return Promise.resolve(pageModelParser(responseJson));
         }
@@ -1968,8 +1988,8 @@ function _handleVirtualPage(error) {
 }
 function _getSaveXML(data) {
     let template = '';
-    if(Array.isArray(data)) {
-        data.forEach((tag) => {
+    if (Array.isArray(data)) {
+        data.forEach(tag => {
             template = `${template}<tag value="${utility.escapeHTML(tag)}" />`;
         });
     }
@@ -1978,51 +1998,82 @@ function _getSaveXML(data) {
 }
 class PageBase {
     constructor(id) {
-        if(this.constructor.name === 'PageBase') {
+        if (this.constructor.name === 'PageBase') {
             throw new TypeError('PageBase must not be constructed directly.  Use one of Page() or Draft()');
         }
         this._id = utility.getResourceId(id, 'home');
     }
     getFullInfo(params = {}) {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.withParams(params).get().then((r) => r.json()).then(pageModelParser).catch(_handleVirtualPage);
+        return this._plug
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageModelParser)
+            .catch(_handleVirtualPage);
     }
     getContents(params) {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
-        return this._plug.at('contents').withParams(params).get().then((r) => r.json()).then(pageContentsModelParser);
+        return this._plug
+            .at('contents')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageContentsModelParser);
     }
     setContents(contents, params = {}) {
-        if(typeof contents !== 'string') {
+        if (typeof contents !== 'string') {
             return Promise.reject(new Error('Contents should be string.'));
         }
         let contentsParams = {
             edittime: 'now'
         };
-        Object.keys(params).forEach((key) => {
+        Object.keys(params).forEach(key => {
             contentsParams[key] = params[key];
         });
         let pageEditModelParser = modelParser.createParser(pageEditModel);
-        return this._plug.at('contents').withParams(contentsParams).post(contents, utility.textRequestType)
-            .catch((err) => Promise.reject(_errorParser$2(err)))
-            .then((r) => r.json()).then(pageEditModelParser);
+        return this._plug
+            .at('contents')
+            .withParams(contentsParams)
+            .post(contents, utility.textRequestType)
+            .catch(err => Promise.reject(_errorParser$2(err)))
+            .then(r => r.json())
+            .then(pageEditModelParser);
     }
     getFiles(params = {}) {
         let pageFilesModelParser = modelParser.createParser(pageFilesModel);
-        return this._plug.at('files').withParams(params).get().then((r) => r.json()).then(pageFilesModelParser);
+        return this._plug
+            .at('files')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(pageFilesModelParser);
     }
     attachFile(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
-        if(progress !== null) {
+        if (progress !== null) {
             const progressPlug = new ProgressPlug(this._plug.url, this._settings.plugConfig);
             const progressInfo = { callback: progress, size };
-            return progressPlug.at('files', encodeURIComponent(encodeURIComponent(name))).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return progressPlug
+                .at('files', encodeURIComponent(encodeURIComponent(name)))
+                .put(file, type, progressInfo)
+                .then(r => JSON.parse(r.responseText))
+                .then(modelParser.createParser(fileModel));
         }
-        return this._plug.withHeader('Content-Length', size).at('files', encodeURIComponent(name)).put(file, type).then((r) => r.json());
+        return this._plug
+            .withHeader('Content-Length', size)
+            .at('files', encodeURIComponent(name))
+            .put(file, type)
+            .then(r => r.json());
     }
     getOverview() {
-        return this._plug.at('overview').get().then((r) => r.json()).then(modelParser.createParser(pageOverviewModel));
+        return this._plug
+            .at('overview')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageOverviewModel));
     }
     setOverview(options = {}) {
-        if(!('body' in options)) {
+        if (!('body' in options)) {
             return Promise.reject(new Error('No overview body was supplied'));
         }
         let request = `<overview>${utility.escapeHTML(options.body)}</overview>`;
@@ -2030,13 +2081,22 @@ class PageBase {
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
-        return this._plug.at('tags').get().then((r) => r.json()).then(pageTagsModelParser);
+        return this._plug
+            .at('tags')
+            .get()
+            .then(r => r.json())
+            .then(pageTagsModelParser);
     }
     setTags(params = {}, queryParams = {}) {
         const XMLData = _getSaveXML(params);
         const pageTagsModelParser = modelParser.createParser(pageTagsModel);
 
-        return this._plug.at('tags').withParams(queryParams).put(XMLData, 'application/xml').then((r) => r.json()).then(pageTagsModelParser);
+        return this._plug
+            .at('tags')
+            .withParams(queryParams)
+            .put(XMLData, 'application/xml')
+            .then(r => r.json())
+            .then(pageTagsModelParser);
     }
 
     /**
@@ -2044,7 +2104,11 @@ class PageBase {
      * @returns {Promise} A Promise that, when resolved yields a list of recommended tags.
      */
     getRecommendedTags() {
-        return this._plug.at('tags', 'recommended').get().then((r) => r.json()).then(modelParser.createParser(recommendedTagsModelParser));
+        return this._plug
+            .at('tags', 'recommended')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(recommendedTagsModelParser));
     }
 
     /**
@@ -2057,28 +2121,36 @@ class PageBase {
      * @returns {Promise} A Promise that, when resolved, yields a pageDiffModel containing the HTML representations of the diff.
      */
     getDiff({ previous, revision = 'head', includeVersions = false, format = 'html' } = {}) {
-        if(!previous) {
+        if (!previous) {
             return Promise.reject(new Error('The `previous` parameter must be supplied.'));
         }
-        if(typeof previous !== 'string' && typeof previous !== 'number') {
+        if (typeof previous !== 'string' && typeof previous !== 'number') {
             return Promise.reject(new Error('The `previous` parameter must be a number or a string.'));
         }
-        if(typeof revision !== 'string' && typeof revision !== 'number') {
+        if (typeof revision !== 'string' && typeof revision !== 'number') {
             return Promise.reject(new Error('The revision parameter must be a number or a string.'));
         }
-        if(typeof includeVersions !== 'boolean') {
+        if (typeof includeVersions !== 'boolean') {
             return Promise.reject(new Error('The `includeRevisionis` parameter must be a Boolean value.'));
         }
-        if(format !== 'html' && format !== 'xhtml') {
+        if (format !== 'html' && format !== 'xhtml') {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
         }
-        return this._plug.at('diff').withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format }).get()
-            .catch((err) => Promise.reject(_errorParser$2(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('diff')
+            .withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format })
+            .get()
+            .catch(err => Promise.reject(_errorParser$2(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageDiffModel));
     }
     getRelated(params = {}) {
-        return this._plug.at('related').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(relatedPagesModel));
+        return this._plug
+            .at('related')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(relatedPagesModel));
     }
 
     /**
@@ -2090,25 +2162,30 @@ class PageBase {
      * @returns {Promise} - A Promise that will be resolved when the revert operation is complete, or rejected with an error specifying the reason for rejection.
      */
     revert(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The revert options must be specified.'));
         }
-        if(typeof options.fromRevision !== 'string' && typeof options.fromRevision !== 'number') {
-            return Promise.reject(new Error('The fromRevision parameter must be specified, and must be a string or a number.'));
+        if (typeof options.fromRevision !== 'string' && typeof options.fromRevision !== 'number') {
+            return Promise.reject(
+                new Error('The fromRevision parameter must be specified, and must be a string or a number.')
+            );
         }
         const params = { fromrevision: options.fromRevision };
-        if(options.abort) {
-            if(typeof options.abort !== 'string' || (options.abort !== 'never' && options.abort !== 'conflict')) {
+        if (options.abort) {
+            if (typeof options.abort !== 'string' || (options.abort !== 'never' && options.abort !== 'conflict')) {
                 return Promise.reject(new Error('The `abort` parameter must be set to "conflict" or "never".'));
             }
             params.abort = options.abort;
         }
-        if('verbose' in options && options.verbose !== true && options.verbose !== false) {
+        if ('verbose' in options && options.verbose !== true && options.verbose !== false) {
             return Promise.reject(new Error('The `verbose` parameter must be a Boolean value.'));
         }
         params.allow = options.allow;
         params.abort = options.abort;
-        return this._plug.at('revert').withParams(params).post(null, utility.textRequestType);
+        return this._plug
+            .at('revert')
+            .withParams(params)
+            .post(null, utility.textRequestType);
     }
 }
 
@@ -2118,7 +2195,6 @@ const _errorParser$1 = modelParser.createParser(apiErrorModel);
  * A class for managing a single unpublished draft page.
  */
 class Draft extends PageBase {
-
     /**
      * Construct a Draft object.
      * @param {Number|String} [id=home] - The id of the draft to construct.
@@ -2136,7 +2212,11 @@ class Draft extends PageBase {
      */
     deactivate() {
         let pageModelParser = modelParser.createParser(pageModel);
-        return this._plug.at('deactivate').post().then((r) => r.json()).then(pageModelParser);
+        return this._plug
+            .at('deactivate')
+            .post()
+            .then(r => r.json())
+            .then(pageModelParser);
     }
 
     /**
@@ -2145,7 +2225,10 @@ class Draft extends PageBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful publish operation.
      */
     publish(params = {}) {
-        return this._plug.at('publish').withParams(params).post();
+        return this._plug
+            .at('publish')
+            .withParams(params)
+            .post();
     }
 
     /**
@@ -2153,7 +2236,11 @@ class Draft extends PageBase {
      * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} for the unpublished page.
      */
     unpublish() {
-        return this._plug.at('unpublish').post().then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('unpublish')
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -2162,10 +2249,14 @@ class Draft extends PageBase {
      * @returns {Promise.<pageModel|Error>} - A Promise that will be resolved with the page data for the draft that had its title changed, or rejected with an error specifying the reason for rejection.
      */
     setTitle(title) {
-        if(!title) {
+        if (!title) {
             return Promise.reject(new Error('A valid title must be supplied for the draft.'));
         }
-        return this._plug.at('title').put(title, utility.textRequestType).then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('title')
+            .put(title, utility.textRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 }
 
@@ -2173,7 +2264,6 @@ class Draft extends PageBase {
  * A class for managing unpublished draft pages.
  */
 class DraftManager {
-
     /**
      * Create a new DraftManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -2193,21 +2283,25 @@ class DraftManager {
      */
     createDraft(newPath, options = {}) {
         const params = {};
-        if('redirect' in options) {
-            if(typeof options.redirect !== 'number') {
+        if ('redirect' in options) {
+            if (typeof options.redirect !== 'number') {
                 return Promise.reject(new Error('The redirect option must be a number.'));
             }
             params.redirect = options.redirect;
         }
-        if('deleteRedirects' in options) {
-            if(typeof options.deleteRedirects !== 'boolean') {
+        if ('deleteRedirects' in options) {
+            if (typeof options.deleteRedirects !== 'boolean') {
                 return Promise.reject(new Error('The deleteredirects option must be a boolean.'));
             }
             params.deleteRedirects = options.deleteRedirects;
         }
-        return this._plug.at(utility.getResourceId(newPath), 'create').withParams(params).post()
-            .catch((err) => Promise.reject(_errorParser$1(err)))
-            .then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at(utility.getResourceId(newPath), 'create')
+            .withParams(params)
+            .post()
+            .catch(err => Promise.reject(_errorParser$1(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -2221,31 +2315,36 @@ class DraftManager {
      */
     getDrafts(options = {}) {
         const params = {};
-        if(options.parentId) {
+        if (options.parentId) {
             params.parentid = utility.getResourceId(options.parentId, 'home');
         }
-        if(options.tags) {
-            if(!Array.isArray(options.tags)) {
+        if (options.tags) {
+            if (!Array.isArray(options.tags)) {
                 return Promise.reject(new Error('The `tags` parameter must be an array.'));
             }
             params.tags = options.tags.join(',');
         }
-        if('limit' in options) {
-            if(typeof options.limit !== 'number') {
+        if ('limit' in options) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be an number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.withParams(params)
+        return this._plug
+            .withParams(params)
             .get()
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: [ 'pages', 'page' ], name: 'pages', isArray: true, transform: pageModel } ]));
+            .then(r => r.json())
+            .then(
+                modelParser.createParser([
+                    { field: ['pages', 'page'], name: 'pages', isArray: true, transform: pageModel }
+                ])
+            );
     }
 
     /**
@@ -2263,7 +2362,7 @@ class DraftManager {
  */
 class PageFileBase {
     constructor(pageId, filename) {
-        if(this.constructor.name === 'PageFileBase') {
+        if (this.constructor.name === 'PageFileBase') {
             throw new TypeError('PageFileBase must not be constructed directly.  Use one of PageFile() or DraftFile()');
         }
         this._pageId = utility.getResourceId(pageId, 'home');
@@ -2284,7 +2383,11 @@ class PageFileBase {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('info')
+            .get()
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 
     /**
@@ -2300,7 +2403,10 @@ class PageFileBase {
      * @returns {Promise.<String>} - A Promise that, when resolved, yields the file description.
      */
     getDescription() {
-        return this._plug.at('description').get().then((r) => r.json());
+        return this._plug
+            .at('description')
+            .get()
+            .then(r => r.json());
     }
 
     /**
@@ -2318,7 +2424,11 @@ class PageFileBase {
      */
     updateDescription(description = '') {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').put(description, utility.textRequestType).then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('description')
+            .put(description, utility.textRequestType)
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 }
 
@@ -2326,7 +2436,6 @@ class PageFileBase {
  * A class for managing a file attachment on an unpublished page.
  */
 class DraftFile extends PageFileBase {
-
     /**
      * Construct a new DraftFile
      * @param {Number|String} [pageId='home'] - The ID of the unpublished page.
@@ -2335,7 +2444,14 @@ class DraftFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'drafts',
+            this._pageId,
+            'files',
+            this._filename
+        );
     }
 }
 
@@ -2362,7 +2478,7 @@ const pagePropertiesModel = [
 
 class PagePropertyBase {
     constructor(id) {
-        if(this.constructor.name === 'PagePropertyBase') {
+        if (this.constructor.name === 'PagePropertyBase') {
             throw new TypeError(
                 'PagePropertyBase must not be constructed directly.  Use one of PageProperty() or DraftProperty()'
             );
@@ -2376,16 +2492,16 @@ class PagePropertyBase {
      * @returns {Promise.<pagePropertiesModel>} - A Promise that, when resolved, yields a {@link pagePropertiesModel} object that contains the listing of properties.
      */
     getProperties(names = []) {
-        if(!Array.isArray(names)) {
+        if (!Array.isArray(names)) {
             return Promise.reject(new Error('The property names must be an array'));
         }
         let plug = this._plug;
-        if(names.length > 0) {
+        if (names.length > 0) {
             plug = plug.withParams({ names: names.join(',') });
         }
         return plug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pagePropertiesModel));
     }
 
@@ -2395,7 +2511,7 @@ class PagePropertyBase {
      * @returns {Promise} - A Promise that, when resolved, yields the property contents.  The property can be of any type allowed by the MindTouch property subsystem.
      */
     getPropertyContents(key) {
-        if(!key) {
+        if (!key) {
             return Promise.reject(
                 new Error('Attempting to fetch a page property contents without providing a property key')
             );
@@ -2409,13 +2525,13 @@ class PagePropertyBase {
      * @returns {Promise.<pagePropertyModel>} - A Promise that, when resolved, yields a {@link pagePropertyModel} object that contains the property information.
      */
     getProperty(key) {
-        if(!key) {
+        if (!key) {
             return Promise.reject(new Error('Attempting to fetch a page property without providing a property key'));
         }
         return this._plug
             .at(encodeURIComponent(key), 'info')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pagePropertyModel));
     }
 
@@ -2429,13 +2545,13 @@ class PagePropertyBase {
      * @returns {Promise} - A Promise that, when resolved, indicates the property was set successfully.
      */
     setProperty(key, value = {}, params = { abort: 'modified' }) {
-        if(!key) {
+        if (!key) {
             return Promise.reject(new Error('Attempting to set a property without providing a property key'));
         }
-        if(typeof value.text !== 'string') {
+        if (typeof value.text !== 'string') {
             return Promise.reject(new Error('Attempting to set a property without providing a property value'));
         }
-        if(!value.type) {
+        if (!value.type) {
             value.type = utility.textRequestType;
         }
         return this._plug
@@ -2446,7 +2562,6 @@ class PagePropertyBase {
 }
 
 class DraftProperty extends PagePropertyBase {
-
     /**
      * @constructor
      * @param {String|Number} id - The numeric ID or page path string.
@@ -2463,7 +2578,7 @@ function dateOrStringTransformer(value) {
     const dateValue = date.getDate();
 
     // eslint-disable-next-line no-self-compare
-    if(dateValue !== dateValue) {
+    if (dateValue !== dateValue) {
         return value;
     }
     return date;
@@ -2538,9 +2653,7 @@ const eventModel = [
             { field: 'id', transform: 'number' },
             {
                 field: 'role',
-                transform: [
-                    { field: '@id', name: 'id', transform: 'number' }
-                ]
+                transform: [{ field: '@id', name: 'id', transform: 'number' }]
             },
             { field: 'type' },
             { field: 'user', transform: userModel }
@@ -2548,9 +2661,7 @@ const eventModel = [
     },
     {
         field: 'property',
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     {
         field: 'request',
@@ -2565,20 +2676,16 @@ const eventModel = [
         ]
     },
     {
-        field: [ 'tags-added', 'tag' ],
+        field: ['tags-added', 'tag'],
         name: 'tagsAdded',
         isArray: true,
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     {
-        field: [ 'tags-removed', 'tag' ],
+        field: ['tags-removed', 'tag'],
         name: 'tagsRemoved',
         isArray: true,
-        transform: [
-            { field: 'name' }
-        ]
+        transform: [{ field: 'name' }]
     },
     { field: 'learningpath', name: 'learningPath', transform: learningPathTransform },
     { field: 'root.learningpath', name: 'learningPathRoot', transform: learningPathTransform }
@@ -2610,12 +2717,9 @@ const pageHistoryModel = [
             { field: 'event', transform: eventModel },
             {
                 field: 'page',
-                transform: [
-                    { field: '@id', name: 'id', transform: 'number' },
-                    { field: 'path' }
-                ]
+                transform: [{ field: '@id', name: 'id', transform: 'number' }, { field: 'path' }]
             },
-            { field: [ 'users', 'user' ], name: 'users', isArray: true, transform: userModel }
+            { field: ['users', 'user'], name: 'users', isArray: true, transform: userModel }
         ]
     }
 ];
@@ -2639,9 +2743,7 @@ const reportLogsModel = [
     }
 ];
 
-const logUrlModel = [
-    { field: 'url' }
-];
+const logUrlModel = [{ field: 'url' }];
 
 const _errorParser$3 = modelParser.createParser(apiErrorModel);
 
@@ -2649,7 +2751,6 @@ const _errorParser$3 = modelParser.createParser(apiErrorModel);
  * A class for fetching and managing events.
  */
 class Events {
-
     /**
      * Construct a new Events object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -2663,8 +2764,11 @@ class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for drafts history.
      */
     getSiteDraftsHistoryLogs() {
-        return this._plug.at('draft-hierarchy', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('draft-hierarchy', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -2673,11 +2777,14 @@ class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteDraftsHistoryLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('draft-hierarchy', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('draft-hierarchy', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -2691,26 +2798,30 @@ class Events {
      */
     getSiteDraftsHistory(options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('draft-hierarchy', utility.getResourceId(options.pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft-hierarchy', utility.getResourceId(options.pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2721,18 +2832,22 @@ class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the page history data, or rejected with an error specifying the reason for rejection.
      */
     getSiteDraftsHistoryDetail(detailId, options = {}) {
-        if(!detailId || typeof detailId !== 'string') {
+        if (!detailId || typeof detailId !== 'string') {
             return Promise.reject(new Error('The detail ID must be specified, and it must be a string.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` option must be an array'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft-hierarchy', 'details', options.detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2746,26 +2861,30 @@ class Events {
      */
     getDraftHistory(pageId = 'home', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft', utility.getResourceId(pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft', utility.getResourceId(pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2777,21 +2896,25 @@ class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
      */
     getDraftHistoryDetail(pageId, detailId, options = {}) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('The page ID is required to fetch a draft history detail.'));
         }
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID is required to fetch a draft history detail.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
+        return this._plug
+            .at('draft', utility.getResourceId(pageId, 'home'), detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**
@@ -2804,30 +2927,34 @@ class Events {
      * @returns {Promise.<Object|Error>} - A Promise that will be resolved with the learning path history data, or rejected with an error specifying the reason for rejection.
      */
     getLearningPathHistory(learningPathId, options = {}) {
-        if(!learningPathId || typeof learningPathId !== 'string') {
+        if (!learningPathId || typeof learningPathId !== 'string') {
             return Promise.reject(new Error('The learning path ID must be supplied, and must be a string'));
         }
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('learningpath', utility.getResourceId(learningPathId)).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('learningpath', utility.getResourceId(learningPathId))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2836,8 +2963,11 @@ class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site history.
      */
     getSiteHistoryLogs() {
-        return this._plug.at('page-hierarchy', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('page-hierarchy', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -2846,11 +2976,14 @@ class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteHistoryLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('page-hierarchy', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('page-hierarchy', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -2864,26 +2997,30 @@ class Events {
      */
     getSiteHistory(options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('page-hierarchy', utility.getResourceId(options.pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page-hierarchy', utility.getResourceId(options.pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2894,18 +3031,22 @@ class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the site history detail data, or rejected with an error specifying the reason for rejection.
      */
     getSiteHistoryDetail(detailId, options = {}) {
-        if(!detailId || typeof detailId !== 'string') {
+        if (!detailId || typeof detailId !== 'string') {
             return Promise.reject(new Error('The detail ID must be specified, and it must be a string.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` option must be an array'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page-hierarchy', 'details', detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2915,7 +3056,9 @@ class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved, or rejected with an error specifying the reason for rejection.
      */
     logPageView(pageId, eventData = {}) {
-        return this._plug.at('page-view', utility.getResourceId(pageId, 'home')).post(JSON.stringify(eventData), utility.jsonRequestType);
+        return this._plug
+            .at('page-view', utility.getResourceId(pageId, 'home'))
+            .post(JSON.stringify(eventData), utility.jsonRequestType);
     }
 
     /**
@@ -2929,26 +3072,30 @@ class Events {
      */
     getPageHistory(pageId = 'home', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('page', utility.getResourceId(pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page', utility.getResourceId(pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -2960,21 +3107,25 @@ class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryDetailModel} that contains the listing of the page events.
      */
     getPageHistoryDetail(pageId, detailId, options = {}) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('The page ID is required to fetch a page history detail.'));
         }
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID is required to fetch a page history detail.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
+        return this._plug
+            .at('page', utility.getResourceId(pageId, 'home'), detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**
@@ -2984,7 +3135,9 @@ class Events {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful posting of the search event.
      */
     logSearch(userId, eventData) {
-        return this._plug.at('search', utility.getResourceId(userId, 'current')).post(JSON.stringify(eventData), utility.jsonRequestType);
+        return this._plug
+            .at('search', utility.getResourceId(userId, 'current'))
+            .post(JSON.stringify(eventData), utility.jsonRequestType);
     }
 
     /**
@@ -2992,8 +3145,11 @@ class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for user activity.
      */
     getUserActivityLogs() {
-        return this._plug.at('support-agent', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('support-agent', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -3002,11 +3158,14 @@ class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getUserActivityLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('support-agent', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('support-agent', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -3019,40 +3178,44 @@ class Events {
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
     getUserActivity(userActivityToken, options = {}) {
-        if(!userActivityToken) {
+        if (!userActivityToken) {
             return Promise.reject(new Error('The user activity token must be supplied'));
         }
         let token;
         try {
             token = utility.getNormalizedUserActivityToken(userActivityToken);
-        } catch(e) {
+        } catch (e) {
             return Promise.reject(e);
         }
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be a string or a Date.'));
             }
-            if(options.upTo instanceof Date) {
+            if (options.upTo instanceof Date) {
                 params.upto = utility.getApiDateString(options.upTo);
             } else {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('support-agent', token).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(userActivityModel));
+        return this._plug
+            .at('support-agent', token)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(userActivityModel));
     }
 
     /**
@@ -3066,31 +3229,34 @@ class Events {
      */
     getUserHistory(userId = 'current', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be a string or a Date.'));
             }
-            if(options.upTo instanceof Date) {
+            if (options.upTo instanceof Date) {
                 params.upto = utility.getApiDateString(options.upTo);
             } else {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
-            .catch((e) => Promise.reject(_errorParser$3(e)))
-            .then((r) => r.json())
+        return this._plug
+            .at('user-page', utility.getResourceId(userId, 'current'))
+            .withParams(params)
+            .get()
+            .catch(e => Promise.reject(_errorParser$3(e)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -3102,18 +3268,22 @@ class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the event information.
      */
     getUserHistoryDetail(detailId, options = {}) {
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID must be supplied'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('user-page', 'current', detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('user-page', 'current', detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -3136,7 +3306,6 @@ const fileRevisionsModel = [
  * A class for working with file attachments within the MindTouch site.
  */
 class File {
-
     /**
      * Construct a new File object.
      * @param {Number} id - The resource ID of the file.
@@ -3156,7 +3325,11 @@ class File {
      */
     getInfo() {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('info').get().then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('info')
+            .get()
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 
     /**
@@ -3164,7 +3337,11 @@ class File {
      * @returns {Promise.<fileRevisionsModel>} - A Promise that, when resolved, yields a {@link fileRevisionsModel} containing the revision listing.
      */
     getRevisions() {
-        return this._plug.at('revisions').get().then((r) => r.json()).then(modelParser.createParser(fileRevisionsModel));
+        return this._plug
+            .at('revisions')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(fileRevisionsModel));
     }
 
     /**
@@ -3174,7 +3351,11 @@ class File {
      */
     setDescription(description) {
         let fileModelParser = modelParser.createParser(fileModel);
-        return this._plug.at('description').put(description, utility.textRequestType).then((r) => r.json()).then(fileModelParser);
+        return this._plug
+            .at('description')
+            .put(description, utility.textRequestType)
+            .then(r => r.json())
+            .then(fileModelParser);
     }
 
     /**
@@ -3193,11 +3374,20 @@ class File {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     addRevision(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}) {
-        if(progress !== null) {
+        if (progress !== null) {
             const progressInfo = { callback: progress, size };
-            return this._progressPlug.at(utility.getResourceId(name)).put(file, type, progressInfo).then((r) => JSON.parse(r.responseText)).then(modelParser.createParser(fileModel));
+            return this._progressPlug
+                .at(utility.getResourceId(name))
+                .put(file, type, progressInfo)
+                .then(r => JSON.parse(r.responseText))
+                .then(modelParser.createParser(fileModel));
         }
-        return this._plug.withHeader('Content-Length', size).at(utility.getResourceId(name)).put(file, type).then((r) => r.json()).then(modelParser.createParser(fileModel));
+        return this._plug
+            .withHeader('Content-Length', size)
+            .at(utility.getResourceId(name))
+            .put(file, type)
+            .then(r => r.json())
+            .then(modelParser.createParser(fileModel));
     }
 
     /**
@@ -3208,23 +3398,23 @@ class File {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the updated file data, or rejected with an error specifying the reason for rejection.
      */
     move(params = {}) {
-        if(!params.to) {
+        if (!params.to) {
             return Promise.reject(new Error('The `to` parameter must be specified to move a file.'));
         }
-        if(!params.name) {
+        if (!params.name) {
             return Promise.reject(new Error('The `name` parameter must be specified to move a file.'));
         }
-        return this._plug.at('move')
+        return this._plug
+            .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(fileModel))
-            .catch((err) => Promise.reject(this._errorParser(err)));
+            .catch(err => Promise.reject(this._errorParser(err)));
     }
 }
 
 class FileDraft extends File {
-
     /**
      * @param {Number} id - The resource ID of the file.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -3256,14 +3446,13 @@ const userListModel = [
  * A class for managing a single group of users.
  */
 class Group {
-
     /**
      * Construct a new Group object.
      * @param {Number|String} id - The integer group ID, or the group name string.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
-        if(!id) {
+        if (!id) {
             throw new Error('A group ID must be supplied');
         }
         this._id = utility.getResourceId(id);
@@ -3276,7 +3465,10 @@ class Group {
      * @returns {Promise.<groupModel>} - A Promise that, when resolved, yields a {@link groupModel} containing the group information.
      */
     getInfo() {
-        return this._groupPlug.get().then((r) => r.json()).then(modelParser.createParser(groupModel));
+        return this._groupPlug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(groupModel));
     }
 
     /**
@@ -3291,7 +3483,12 @@ class Group {
      * @returns {Promise.<userListModel>} - A Promise that, when resolved, yields a {@link userListModel} with the users listing.
      */
     getUsers(options) {
-        return this._groupPlug.at('users').withParams(options).get().then((r) => r.json()).then(modelParser.createParser(userListModel));
+        return this._groupPlug
+            .at('users')
+            .withParams(options)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(userListModel));
     }
 
     /**
@@ -3300,10 +3497,11 @@ class Group {
      * @returns {Promise} A Promise that, when resolved, yields a groupModel containing information about the group that the user was removed from.
      */
     removeUser(userId) {
-        return this._groupPlug.at('users', utility.getResourceId(userId, 'current'))
+        return this._groupPlug
+            .at('users', utility.getResourceId(userId, 'current'))
             .delete()
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(groupModel));
     }
 
@@ -3320,7 +3518,6 @@ class Group {
  * A class to manage the groups defined on the MindTouch site.
  */
 class GroupManager {
-
     /**
      * Construct a GroupManager object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -3342,43 +3539,47 @@ class GroupManager {
      */
     getGroupList(options = {}) {
         const params = {};
-        if('nameFilter' in options) {
-            if(typeof options.nameFilter !== 'string') {
+        if ('nameFilter' in options) {
+            if (typeof options.nameFilter !== 'string') {
                 return Promise.reject(new Error('The group name filter must be a string'));
             }
-            if(options.nameFilter !== '') {
+            if (options.nameFilter !== '') {
                 params.groupnamefilter = options.nameFilter;
             }
         }
-        if('authProvider' in options) {
-            if(typeof options.authProvider !== 'number') {
+        if ('authProvider' in options) {
+            if (typeof options.authProvider !== 'number') {
                 return Promise.reject(new Error('The auth provider ID must be a number'));
             }
             params.authprovider = options.authProvider;
         }
-        if('limit' in options) {
-            if(typeof options.limit !== 'number' && options.limit !== 'all') {
+        if ('limit' in options) {
+            if (typeof options.limit !== 'number' && options.limit !== 'all') {
                 return Promise.reject(new Error('The limit parameter must be a number or "all"'));
             }
             params.limit = options.limit;
         }
-        if('offset' in options) {
-            if(typeof options.offset !== 'number') {
+        if ('offset' in options) {
+            if (typeof options.offset !== 'number') {
                 return Promise.reject(new Error('The offset parameter must be a number'));
             }
             params.offset = options.offset;
         }
-        if('sortBy' in options) {
-            if(typeof options.sortBy !== 'string') {
+        if ('sortBy' in options) {
+            if (typeof options.sortBy !== 'string') {
                 return Promise.reject(new Error('The sortBy option must be a string'));
             }
-            const validSortParams = [ 'id', 'name', 'role', 'service', '-id', '-name', '-role', '-service' ];
-            if(!validSortParams.includes(options.sortBy)) {
+            const validSortParams = ['id', 'name', 'role', 'service', '-id', '-name', '-role', '-service'];
+            if (!validSortParams.includes(options.sortBy)) {
                 return Promise.reject(new Error(`The sortBy option must be one of ${validSortParams.join(', ')}`));
             }
             params.sortby = options.sortBy;
         }
-        return this.plug.withParams(params).get().then((r) => r.json()).then(modelParser.createParser(groupListModel));
+        return this.plug
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(groupListModel));
     }
 
     /**
@@ -3405,12 +3606,9 @@ const learningPathsModel = [
     { field: 'learningpath', name: 'learningPaths', isArray: true, transform: learningPathModel }
 ];
 
-const learningPathCategoriesModel = [
-    { field: [ 'categories', 'category' ], name: 'categories', isArray: true }
-];
+const learningPathCategoriesModel = [{ field: ['categories', 'category'], name: 'categories', isArray: true }];
 
 class LearningPath {
-
     /**
      * Create a new Learning Path.
      * @param {String} name The name of the Learning Path represented by this instance.
@@ -3428,11 +3626,14 @@ class LearningPath {
      */
     getInfo(revision) {
         const params = {};
-        if(revision) {
+        if (revision) {
             params.revision = revision;
         }
-        return this._plug.withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -3446,34 +3647,37 @@ class LearningPath {
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel representing the updated learning path.
      */
     update(content, editTime = 'now') {
-        if(!content) {
+        if (!content) {
             return Promise.reject('The content parameter must be supplied to update a learning path');
         }
-        if(!content.title || typeof content.title !== 'string' || content.title === '') {
+        if (!content.title || typeof content.title !== 'string' || content.title === '') {
             return Promise.reject('The title parameter must be supplied, and must be a non-empty string.');
         }
         let xmlData = `<title>${utility.escapeHTML(content.title)}</title>`;
-        if(content.summary) {
-            if(typeof content.summary !== 'string') {
+        if (content.summary) {
+            if (typeof content.summary !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
             xmlData += `<summary>${utility.escapeHTML(content.summary)}</summary>`;
         }
-        if(content.category) {
-            if(typeof content.category !== 'string') {
+        if (content.category) {
+            if (typeof content.category !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
             xmlData += `<category>${utility.escapeHTML(content.category)}</category>`;
         }
-        if(content.pageIds) {
-            if(!Array.isArray(content.pageIds)) {
+        if (content.pageIds) {
+            if (!Array.isArray(content.pageIds)) {
                 return Promise.reject('The pages parameter must be an array');
             }
             xmlData += content.pageIds.reduce((acc, id) => acc + `<pages>${id}</pages>`, xmlData);
         }
         const reqBody = `<learningpath>${xmlData}</learningpath>`;
-        return this._plug.withParam('edittime', editTime).post(reqBody, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParam('edittime', editTime)
+            .post(reqBody, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -3490,11 +3694,15 @@ class LearningPath {
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel containing the information about the cloned learning path.
      */
     clone(newName) {
-        if(typeof newName !== 'string' || newName === '') {
+        if (typeof newName !== 'string' || newName === '') {
             return Promise.reject('The new name for the clone must be a non-empty string.');
         }
-        return this._plug.at('clone').withParam('name', newName).post(null, utility.textRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('clone')
+            .withParam('name', newName)
+            .post(null, utility.textRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -3504,11 +3712,15 @@ class LearningPath {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel that represents the state of the learning path after the revert has completed.
      */
     revertToRevision(revision, editTime = 'now') {
-        if(!revision) {
+        if (!revision) {
             return Promise.reject(new Error('The revision parameter is required'));
         }
-        return this._plug.at('revert').withParams({ torevision: revision, edittime: editTime }).post()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('revert')
+            .withParams({ torevision: revision, edittime: editTime })
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -3518,8 +3730,12 @@ class LearningPath {
      * @returns {Promise} A Promise that, when resolved, returns a pageModel representing the page that was added.
      */
     addPage(pageId, editTime = 'now') {
-        return this._plug.at('pages', pageId).withParam('edittime', editTime).post()
-            .then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('pages', pageId)
+            .withParam('edittime', editTime)
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -3529,7 +3745,10 @@ class LearningPath {
      * @returns {Promise} A Promise that, when resolved, indicates that the page was successfully removed.
      */
     removePage(pageId, editTime = 'now') {
-        return this._plug.at('pages', pageId).withParam('edittime', editTime).delete();
+        return this._plug
+            .at('pages', pageId)
+            .withParam('edittime', editTime)
+            .delete();
     }
 
     /**
@@ -3540,12 +3759,15 @@ class LearningPath {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel representing the learning path after a successful page reorder.
      */
     reorderPage(pageId, afterId = 0, editTime = 'now') {
-        return this._plug.at('pages', pageId, 'order').withParams({ edittime: editTime, afterid: afterId }).post()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('pages', pageId, 'order')
+            .withParams({ edittime: editTime, afterid: afterId })
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 }
 class LearningPathManager {
-
     /**
      * Create a new LearningPathManager
      * @param {Settings} settings The martian settings to direct the Learning Path API calls.
@@ -3560,7 +3782,10 @@ class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathsModel containing the information of all of the learning paths.
      */
     getLearningPaths() {
-        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(learningPathsModel));
+        return this._plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathsModel));
     }
 
     /**
@@ -3573,26 +3798,30 @@ class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel containing the information for the new learning path.
      */
     createLearningPath(data) {
-        if(!data) {
+        if (!data) {
             return Promise.reject(new Error('Unable to create a learning path without data.'));
         }
-        if(!data.name || typeof data.name !== 'string' || data.name === '') {
+        if (!data.name || typeof data.name !== 'string' || data.name === '') {
             return Promise.reject(new Error('The `name` parameter must be supplied, and must be a non-empty string.'));
         }
-        if(!data.title || typeof data.title !== 'string' || data.title === '') {
+        if (!data.title || typeof data.title !== 'string' || data.title === '') {
             return Promise.reject(new Error('The `title` parameter must be supplied, and must be a non-empty string.'));
         }
-        if(data.summary) {
-            if(typeof data.summary !== 'string') {
+        if (data.summary) {
+            if (typeof data.summary !== 'string') {
                 return Promise.reject(new Error('The `summary` parameter must be a string.'));
             }
         }
-        if(data.category) {
-            if(typeof data.category !== 'string') {
+        if (data.category) {
+            if (typeof data.category !== 'string') {
                 return Promise.reject(new Error('The `category` parameter must be a string.'));
             }
         }
-        return this._plug.withParams(data).post().then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParams(data)
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -3600,7 +3829,10 @@ class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields an object containing the list of all of the learning path categories.
      */
     getCategories() {
-        return this._plug.at('categories').get().then((r) => r.json())
+        return this._plug
+            .at('categories')
+            .get()
+            .then(r => r.json())
             .then(modelParser.createParser(learningPathCategoriesModel));
     }
 
@@ -3614,10 +3846,7 @@ class LearningPathManager {
     }
 }
 
-const helpRequestData = [
-    { field: '@name', name: 'name' },
-    { field: '@count', name: 'count', transform: 'number' }
-];
+const helpRequestData = [{ field: '@name', name: 'name' }, { field: '@count', name: 'count', transform: 'number' }];
 const licenseUsageModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@date.start', name: 'startDate', transform: 'apiDate' },
@@ -3628,14 +3857,13 @@ const licenseUsageModel = [
         isArray: true,
         transform: [
             { field: '@date', name: 'date', transform: 'apiDate' },
-            { field: [ 'custom', 'origin' ], name: 'customRequests', isArray: true, transform: helpRequestData },
-            { field: [ 'mt-requests', 'origin' ], name: 'mtRequests', isArray: true, transform: helpRequestData }
+            { field: ['custom', 'origin'], name: 'customRequests', isArray: true, transform: helpRequestData },
+            { field: ['mt-requests', 'origin'], name: 'mtRequests', isArray: true, transform: helpRequestData }
         ]
     }
 ];
 
 class License {
-
     /**
      * Construct a new License object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -3653,19 +3881,24 @@ class License {
      */
     getUsage(options = {}) {
         const params = {};
-        if(options.since) {
-            if(!(options.since instanceof Date)) {
+        if (options.since) {
+            if (!(options.since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
             params.since = utility.getApiDateString(options.since);
         }
-        if(options.upTo) {
-            if(!(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (!(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be of type Date.'));
             }
             params.upto = utility.getApiDateString(options.upTo);
         }
-        return this._plug.at('usage').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(licenseUsageModel));
+        return this._plug
+            .at('usage')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(licenseUsageModel));
     }
 
     /**
@@ -3673,7 +3906,11 @@ class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the usage logs data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogs() {
-        return this._plug.at('usage', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('usage', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -3682,37 +3919,38 @@ class License {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the log URL data, or rejected with an error specifying the reason for rejection.
      */
     getUsageLogUrl(name) {
-        if(!name) {
+        if (!name) {
             return Promise.reject(new Error('The log name must be supplied.'));
         }
-        return this._plug.at('usage', 'logs', name, 'url')
+        return this._plug
+            .at('usage', 'logs', name, 'url')
             .get()
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: 'url' } ]));
+            .then(r => r.json())
+            .then(modelParser.createParser([{ field: 'url' }]));
     }
 }
 
 function string() {
-    return (value) => typeof value === 'string' ? [] : [ `${value} is not a string` ];
+    return value => (typeof value === 'string' ? [] : [`${value} is not a string`]);
 }
 function number() {
-    return (value) => typeof value === 'number' ? [] : [ `${value} is not a number` ];
+    return value => (typeof value === 'number' ? [] : [`${value} is not a number`]);
 }
 function array() {
-    return (value) => Array.isArray(value) ? [] : [ `${value} is not an array` ];
+    return value => (Array.isArray(value) ? [] : [`${value} is not an array`]);
 }
 function bool() {
-    return (value) => typeof value === 'boolean' ? [] : [ `${value} is not a Boolean value` ];
+    return value => (typeof value === 'boolean' ? [] : [`${value} is not a Boolean value`]);
 }
 function equals(expected) {
-    return (value) => value === expected ? [] : [ `${value} does not equal ${expected}` ];
+    return value => (value === expected ? [] : [`${value} does not equal ${expected}`]);
 }
 function one(...validators) {
-    return (value) => {
+    return value => {
         let errors = [];
-        for(let i = 0; i < validators.length; i++) {
+        for (let i = 0; i < validators.length; i++) {
             const validatorErrors = validators[i](value);
-            if(validatorErrors.length === 0) {
+            if (validatorErrors.length === 0) {
                 errors = [];
                 break;
             }
@@ -3722,11 +3960,11 @@ function one(...validators) {
     };
 }
 function all(...validators) {
-    return (value) => {
+    return value => {
         let errors = [];
-        validators.forEach((validator) => {
+        validators.forEach(validator => {
             const valid = validator(value);
-            if(valid.length > 0) {
+            if (valid.length > 0) {
                 errors.push(...valid);
             }
         });
@@ -3735,29 +3973,29 @@ function all(...validators) {
 }
 
 function optional(key, validator) {
-    return (obj) => {
-        if(typeof obj[key] === 'undefined') {
+    return obj => {
+        if (typeof obj[key] === 'undefined') {
             return [];
         }
-        if(validator) {
+        if (validator) {
             return validator(obj[key]);
         }
         return [];
     };
 }
 function required(key, validator) {
-    return (obj) => {
-        if(typeof obj[key] === 'undefined') {
-            return [ `The value of ${key} is not defined` ];
+    return obj => {
+        if (typeof obj[key] === 'undefined') {
+            return [`The value of ${key} is not defined`];
         }
-        if(validator) {
+        if (validator) {
             return validator(obj[key]);
         }
         return [];
     };
 }
 function validateObject(object, ...fieldValidators) {
-    return fieldValidators.reduce((acc, fv) => [ ...acc, ...fv(object) ], []);
+    return fieldValidators.reduce((acc, fv) => [...acc, ...fv(object)], []);
 }
 function validateValue(value, validator) {
     return validator(value);
@@ -3786,7 +4024,7 @@ const subpagesModel = [
 
 const pageTreeModel = {
     preProcessor(data) {
-        if(data.page) {
+        if (data.page) {
             return data.page;
         }
     },
@@ -3798,7 +4036,7 @@ const pageTreeModel = {
         { field: '@deleted', name: 'deleted', transform: 'boolean' },
         { field: 'date.created', name: 'dateCreated', transform: 'date' },
         { field: 'namespace', name: 'namespace' },
-        { field: [ 'path', '#text' ], name: 'path' },
+        { field: ['path', '#text'], name: 'path' },
         { field: 'title', name: 'title' },
         { field: 'uri.ui', name: 'uri' }
     ]
@@ -3807,7 +4045,7 @@ pageTreeModel.model.push({
     field: 'subpages',
     isArray: true,
     constructTransform(val) {
-        if(val.page) {
+        if (val.page) {
             return pageTreeModel;
         }
     }
@@ -3829,13 +4067,9 @@ const pageDeleteModel = [
     { field: 'page', name: 'pages', isArray: true, transform: pageModel }
 ];
 
-const importArchiveModel = [
-    { field: 'uri.status', name: 'statusUri' }
-];
+const importArchiveModel = [{ field: 'uri.status', name: 'statusUri' }];
 
-const pageExportModel = [
-    { field: 'uri.download', name: 'downloadUri' }
-];
+const pageExportModel = [{ field: 'uri.download', name: 'downloadUri' }];
 
 const pageFindModel = [
     { field: '@count', name: 'count', transform: 'number' },
@@ -3862,8 +4096,8 @@ const pageLinkDetailsModel = [
                     { field: 'rel' },
                     { field: 'text' },
                     { field: 'type' },
-                    { field: [ 'destination', 'page' ], name: 'destinationPage', transform: pageModel },
-                    { field: [ 'destination', 'file' ], name: 'destinationFile', transform: fileModel }
+                    { field: ['destination', 'page'], name: 'destinationPage', transform: pageModel },
+                    { field: ['destination', 'file'], name: 'destinationFile', transform: fileModel }
                 ]
             },
             { field: 'page', transform: pageModel }
@@ -3923,7 +4157,7 @@ const pageHierarchyInfoModel = [
 const linkToCaseLinkList = [
     { field: 'count', transform: 'number' },
     {
-        field: [ 'linkdata', 'link' ],
+        field: ['linkdata', 'link'],
         name: 'linkData',
         isArray: true,
         transform: [
@@ -3942,7 +4176,6 @@ const _errorParser$4 = modelParser.createParser(apiErrorModel);
  * A class for managing a published page.
  */
 class Page extends PageBase {
-
     /**
      * Construct a new Page.
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
@@ -3961,7 +4194,7 @@ class Page extends PageBase {
      */
     getInfo(params = {}) {
         let infoParams = { exclude: 'revision' };
-        Object.keys(params).forEach((key) => {
+        Object.keys(params).forEach(key => {
             infoParams[key] = params[key];
         });
         let pageModelParser = modelParser.createParser(pageModel);
@@ -3969,7 +4202,7 @@ class Page extends PageBase {
             .at('info')
             .withParams(infoParams)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageModelParser);
     }
 
@@ -3983,7 +4216,7 @@ class Page extends PageBase {
             .at('subpages')
             .withParams(params)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(subpagesModel));
     }
 
@@ -3998,7 +4231,7 @@ class Page extends PageBase {
             .at('tree')
             .withParams(params)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageTreeModelParser);
     }
 
@@ -4011,17 +4244,17 @@ class Page extends PageBase {
             .at('tree')
             .withParam('format', 'ids')
             .get()
-            .then((r) => r.text())
-            .then((idString) => {
-                return idString.split(',').map((id) => {
+            .then(r => r.text())
+            .then(idString => {
+                return idString.split(',').map(id => {
                     let numId = parseInt(id, 10);
-                    if(isNaN(numId)) {
+                    if (isNaN(numId)) {
                         throw new Error('Unable to parse the tree IDs.');
                     }
                     return numId;
                 });
             })
-            .catch((e) => {
+            .catch(e => {
                 return Promise.reject({ message: e.message });
             });
     }
@@ -4034,7 +4267,7 @@ class Page extends PageBase {
         return this._plug
             .at('ratings')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
 
@@ -4045,23 +4278,23 @@ class Page extends PageBase {
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the new rating information.
      */
     rate(rating = null, oldRating = null) {
-        if(rating !== 1 && rating !== 0 && rating !== null) {
+        if (rating !== 1 && rating !== 0 && rating !== null) {
             throw new Error('Invalid rating supplied');
         }
-        if(oldRating !== 1 && oldRating !== 0 && oldRating !== null) {
+        if (oldRating !== 1 && oldRating !== 0 && oldRating !== null) {
             throw new Error('Invalid rating supplied for the old rating');
         }
-        if(rating === null) {
+        if (rating === null) {
             rating = '';
         }
-        if(oldRating === null) {
+        if (oldRating === null) {
             oldRating = '';
         }
         return this._plug
             .at('ratings')
             .withParams({ score: rating, previousScore: oldRating })
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
 
@@ -4083,7 +4316,7 @@ class Page extends PageBase {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
         return contentsPlug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageContentsModelParser);
     }
 
@@ -4100,16 +4333,16 @@ class Page extends PageBase {
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     copy(params = {}) {
-        if(!params.to) {
+        if (!params.to) {
             return Promise.reject(new Error('The copy target location must be specified in the `to` parameter.'));
         }
         return this._plug
             .at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$4(err)));
+            .catch(err => Promise.reject(_errorParser$4(err)));
     }
 
     /**
@@ -4122,9 +4355,9 @@ class Page extends PageBase {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser$4(err)));
+            .catch(err => Promise.reject(_errorParser$4(err)));
     }
 
     /**
@@ -4137,7 +4370,7 @@ class Page extends PageBase {
         return this._plug
             .withParam('recursive', recursive)
             .delete()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageDeleteModelParser);
     }
 
@@ -4150,7 +4383,7 @@ class Page extends PageBase {
         return this._plug
             .at('activate-draft')
             .post()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageModelParser);
     }
 
@@ -4163,7 +4396,7 @@ class Page extends PageBase {
      */
     importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
-        if(progress !== null) {
+        if (progress !== null) {
             const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at(
                 '@api',
                 'deki',
@@ -4175,8 +4408,8 @@ class Page extends PageBase {
                 .at('import')
                 .withParams(apiParams)
                 .put(file, type, progressInfo)
-                .then((r) => JSON.parse(r.responseText))
-                .catch((e) => Promise.reject(JSON.parse(e.responseText)))
+                .then(r => JSON.parse(r.responseText))
+                .catch(e => Promise.reject(JSON.parse(e.responseText)))
                 .then(modelParser.createParser(importArchiveModel));
         }
         return this._plug
@@ -4184,8 +4417,8 @@ class Page extends PageBase {
             .withParams(apiParams)
             .at('import')
             .put(file, type)
-            .then((r) => r.json())
-            .catch((e) => Promise.reject(JSON.parse(e.responseText)))
+            .then(r => r.json())
+            .catch(e => Promise.reject(JSON.parse(e.responseText)))
             .then(modelParser.createParser(importArchiveModel));
     }
 
@@ -4197,7 +4430,7 @@ class Page extends PageBase {
         return this._plug
             .at('export')
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageExportModel));
     }
 
@@ -4214,31 +4447,31 @@ class Page extends PageBase {
      */
     exportPdf({ fileName, format = 'pdf', stylesheet, deep = false, showToc = false, dryRun = false } = {}) {
         const params = {};
-        if(fileName) {
-            if(typeof fileName !== 'string') {
+        if (fileName) {
+            if (typeof fileName !== 'string') {
                 return Promise.reject(new Error('The fileName parameter must be a non-empty string'));
             }
             params.filename = fileName;
         }
-        if(stylesheet) {
-            if(typeof stylesheet !== 'string') {
+        if (stylesheet) {
+            if (typeof stylesheet !== 'string') {
                 return Promise.reject(new Error('The stylesheet parameter must be a non-empty string'));
             }
             params.stylesheet = stylesheet;
         }
-        if(format !== 'pdf' && format !== 'html') {
+        if (format !== 'pdf' && format !== 'html') {
             return Promise.reject(new Error('The `format` parameter must be either "pdf" or "html".'));
         }
         params.format = format;
-        if(typeof deep !== 'boolean') {
+        if (typeof deep !== 'boolean') {
             return Promise.reject(new Error('The `deep` parameter must be a Boolean value.'));
         }
         params.deep = deep;
-        if(typeof showToc !== 'boolean') {
+        if (typeof showToc !== 'boolean') {
             return Promise.reject(new Error('The `showToc` parameter must be a Boolean value.'));
         }
         params.showtoc = showToc;
-        if(typeof dryRun !== 'boolean') {
+        if (typeof dryRun !== 'boolean') {
             return Promise.reject(new Error('The `dryRun` parameter must be a Boolean value.'));
         }
         params.dryrun = dryRun;
@@ -4246,10 +4479,10 @@ class Page extends PageBase {
             .at('pdf')
             .withParams(params)
             .get();
-        if(dryRun) {
+        if (dryRun) {
             return respPromise;
         }
-        return respPromise.then((r) => r.blob());
+        return respPromise.then(r => r.blob());
     }
 
     /**
@@ -4258,7 +4491,7 @@ class Page extends PageBase {
      * @returns {Promise} A Promise that, when resolved, indicates that the reorder operation succeeded.
      */
     setOrder(afterId = 0) {
-        if(typeof afterId !== 'number') {
+        if (typeof afterId !== 'number') {
             return Promise.reject(new Error('The afterId must be a numeric page ID.'));
         }
         return this._plug
@@ -4281,38 +4514,38 @@ class Page extends PageBase {
      */
     getLinkDetails({ includeSubpages = false, linkTypes = [], broken, redirect, limit = 100, offset = 0, q } = {}) {
         const params = {};
-        if(typeof includeSubpages !== 'boolean') {
+        if (typeof includeSubpages !== 'boolean') {
             return Promise.reject(new Error('The `includeSubpages` parameter must be a Boolean value.'));
         }
         params.subpages = includeSubpages;
-        if(!Array.isArray(linkTypes)) {
+        if (!Array.isArray(linkTypes)) {
             return Promise.reject(new Error('The `linkTypes` parameter must be an array.'));
         }
-        if(linkTypes.length > 0) {
+        if (linkTypes.length > 0) {
             params.linktypes = linkTypes.join(',');
         }
-        if(typeof broken !== 'undefined') {
-            if(typeof broken !== 'boolean') {
+        if (typeof broken !== 'undefined') {
+            if (typeof broken !== 'boolean') {
                 return Promise.reject(new Error('The `broken` parameter must be a Boolean value.'));
             }
             params.broken = broken;
         }
-        if(typeof redirect !== 'undefined') {
-            if(typeof redirect !== 'boolean') {
+        if (typeof redirect !== 'undefined') {
+            if (typeof redirect !== 'boolean') {
                 return Promise.reject(new Error('The `redirect` parameter must be a Boolean value.'));
             }
             params.redirect = redirect;
         }
-        if(typeof limit !== 'number') {
+        if (typeof limit !== 'number') {
             return Promise.reject(new Error('The `limit` parameter must be a number.'));
         }
         params.limit = limit;
-        if(typeof offset !== 'number') {
+        if (typeof offset !== 'number') {
             return Promise.reject(new Error('The `offset` parameter must be a number.'));
         }
         params.offset = offset;
-        if(typeof q !== 'undefined') {
-            if(typeof q !== 'string') {
+        if (typeof q !== 'undefined') {
+            if (typeof q !== 'string') {
                 return Promise.reject(new Error('The `q` parameter must be a string.'));
             }
             params.q = q;
@@ -4321,8 +4554,8 @@ class Page extends PageBase {
             .at('linkdetails')
             .withParams(params)
             .get()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
 
@@ -4338,32 +4571,32 @@ class Page extends PageBase {
      */
     getHealthInspections({ analyzers, severities, includeSubpages, limit, offset } = {}) {
         const params = {};
-        if(analyzers) {
-            if(!Array.isArray(analyzers)) {
+        if (analyzers) {
+            if (!Array.isArray(analyzers)) {
                 return Promise.reject(new Error('The `analyzers` parameter must be an array.'));
             }
             params.analyzers = analyzers.join(',');
         }
-        if(severities) {
-            if(!Array.isArray(severities)) {
+        if (severities) {
+            if (!Array.isArray(severities)) {
                 return Promise.reject(new Error('The `severities` parameter must be an array.'));
             }
             params.severity = severities.join(',');
         }
-        if(typeof includeSubpages !== 'undefined') {
-            if(typeof includeSubpages !== 'boolean') {
+        if (typeof includeSubpages !== 'undefined') {
+            if (typeof includeSubpages !== 'boolean') {
                 return Promise.reject(new Error('The `includeSubpages` parameter must be a boolean value.'));
             }
             params.subpages = includeSubpages;
         }
-        if(limit) {
-            if(typeof limit !== 'number') {
+        if (limit) {
+            if (typeof limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = limit;
         }
-        if(offset) {
-            if(typeof offset !== 'number') {
+        if (offset) {
+            if (typeof offset !== 'number') {
                 return Promise.reject(new Error('The `offset` parameter must be a number.'));
             }
             params.offset = offset;
@@ -4372,8 +4605,8 @@ class Page extends PageBase {
             .at('health')
             .withParams(params)
             .get()
-            .catch((err) => Promise.reject(_errorParser$4(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
 
@@ -4385,7 +4618,7 @@ class Page extends PageBase {
         return this._plug
             .at('hierarchyinfo')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageHierarchyInfoModel));
     }
 
@@ -4395,7 +4628,7 @@ class Page extends PageBase {
      * @returns {Response} The fetch API Response.
      */
     linkToCase(caseId) {
-        if(!caseId) {
+        if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to link a case to the page.'));
         }
         return this._plug.at('linktocase', caseId).post();
@@ -4407,7 +4640,7 @@ class Page extends PageBase {
      * @returns {Response} The fetch API Response.
      */
     unlinkCase(caseId) {
-        if(!caseId) {
+        if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to unlink a case from the page.'));
         }
         return this._plug.at('linktocase', caseId).delete();
@@ -4421,7 +4654,7 @@ class Page extends PageBase {
         return this._plug
             .at('linktocase', 'links')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(linkToCaseLinkList));
     }
 }
@@ -4443,7 +4676,7 @@ class PageManager {
         const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingsModel));
     }
 
@@ -4460,51 +4693,51 @@ class PageManager {
     findPages(options = {}) {
         let paramFound = false;
         const params = {};
-        if(options.parentId) {
+        if (options.parentId) {
             params.parentid = utility.getResourceId(options.parentId, 'home');
             paramFound = true;
         }
-        if(options.tags) {
-            if(!Array.isArray(options.tags)) {
+        if (options.tags) {
+            if (!Array.isArray(options.tags)) {
                 return Promise.reject(new Error('The `tags` parameter must be an Array.'));
             }
-            if(options.tags.length > 0) {
+            if (options.tags.length > 0) {
                 params.tags = options.tags.join(',');
                 paramFound = true;
             }
         }
-        if(options.missingClassifications) {
-            if(!Array.isArray(options.missingClassifications)) {
+        if (options.missingClassifications) {
+            if (!Array.isArray(options.missingClassifications)) {
                 return Promise.reject(new Error('The `missingClassifications` parameter must be an Array.'));
             }
-            if(options.missingClassifications.length > 0) {
+            if (options.missingClassifications.length > 0) {
                 params.missingclassifications = options.missingClassifications.join(',');
                 paramFound = true;
             }
         }
-        if(options.since) {
-            if(!(options.since instanceof Date)) {
+        if (options.since) {
+            if (!(options.since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
             params.since = utility.getApiDateString(options.since);
             paramFound = true;
         }
-        if(options.upTo) {
-            if(!(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (!(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be of type Date.'));
             }
             params.upto = utility.getApiDateString(options.upTo);
             paramFound = true;
         }
-        if(paramFound === false) {
+        if (paramFound === false) {
             return Promise.reject(new Error('At least one constraint must be supplied to find pages.'));
         }
         return this._plug
             .at('find')
             .withParams(params)
             .get()
-            .then((r) => r.json())
-            .catch((err) => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -4516,17 +4749,17 @@ class PageManager {
      * @returns {Promise} A Promise that, when resolved returns a listing of the available templates.
      */
     getTemplates({ type = 'page', includeDescription = true } = {}) {
-        if(typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
+        if (typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
             return Promise.reject(new Error('The `type` parameter must be set to either "page" or "content".'));
         }
-        if(typeof includeDescription !== 'boolean') {
+        if (typeof includeDescription !== 'boolean') {
             return Promise.reject(new Error('The `includeDescription` parameter must be a Boolean value'));
         }
         return this._plug
             .at('templates')
             .withParams({ type, includeDescription })
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(templateListModel));
     }
 
@@ -4543,14 +4776,14 @@ class PageManager {
             required('limit', one(number(), equals('all'))),
             required('offset', number())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(optionsErrors.join(', '));
         }
         return this._plug
             .at('popular')
             .withParams({ limit, offset })
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(popularPagesModel));
     }
 }
@@ -4559,7 +4792,6 @@ class PageManager {
  * A class for managing a file attachment on an published page.
  */
 class PageFile extends PageFileBase {
-
     /**
      * Construct a new PageFile.
      * @param {Number|String} [pageId='home'] - The ID of the published page.
@@ -4568,7 +4800,14 @@ class PageFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'pages',
+            this._pageId,
+            'files',
+            this._filename
+        );
     }
 }
 
@@ -4576,7 +4815,6 @@ class PageFile extends PageFileBase {
  * A class for managing the properties of a page.
  */
 class PageProperty extends PagePropertyBase {
-
     /**
      * Construct a new PageProperty object.
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
@@ -4594,17 +4832,22 @@ class PageProperty extends PagePropertyBase {
      * @returns {Promise} - A Promise that, when resolved, yields the listing of the properties.
      */
     getPropertyForChildren(key, depth = 1) {
-        if(!key) {
-            return Promise.reject(new Error('Attempting to fetch properties for children without providing a property key'));
+        if (!key) {
+            return Promise.reject(
+                new Error('Attempting to fetch properties for children without providing a property key')
+            );
         }
-        return this._plug.withParams({ depth, names: key }).get().then((r) => r.json());
+        return this._plug
+            .withParams({ depth, names: key })
+            .get()
+            .then(r => r.json());
     }
 }
 
 const pageSecurityModel = [
     { field: '@href', name: 'href' },
     {
-        field: [ 'grants', 'grant' ],
+        field: ['grants', 'grant'],
         name: 'grants',
         isArray: true,
         transform: [
@@ -4621,52 +4864,54 @@ const pageSecurityModel = [
 ];
 
 function _validateGrantsArray(grants) {
-    if(!Array.isArray(grants)) {
-        return [ false, 'The specified grants must be an array' ];
+    if (!Array.isArray(grants)) {
+        return [false, 'The specified grants must be an array'];
     }
-    for(const grant of grants) {
+    for (const grant of grants) {
         const userDefined = typeof grant.user !== 'undefined';
         const groupDefined = typeof grant.group !== 'undefined';
-        if((userDefined && groupDefined) || (!userDefined && !groupDefined)) {
-            return [ false, 'The grant must only define a single user or group, but not both.' ];
+        if ((userDefined && groupDefined) || (!userDefined && !groupDefined)) {
+            return [false, 'The grant must only define a single user or group, but not both.'];
         }
-        if(userDefined && typeof grant.user !== 'string' && typeof grant.user !== 'number') {
-            return [ false, 'The grant user parameter must be a numeric ID or an username' ];
-        } else if(groupDefined && typeof grant.group !== 'string' && typeof grant.group !== 'number') {
-            return [ false, 'The grant group parameter must be a numeric ID or an username' ];
+        if (userDefined && typeof grant.user !== 'string' && typeof grant.user !== 'number') {
+            return [false, 'The grant user parameter must be a numeric ID or an username'];
+        } else if (groupDefined && typeof grant.group !== 'string' && typeof grant.group !== 'number') {
+            return [false, 'The grant group parameter must be a numeric ID or an username'];
         }
-        if(typeof grant.role !== 'string') {
-            return [ false, 'The grant role must be defined and must be a string.' ];
+        if (typeof grant.role !== 'string') {
+            return [false, 'The grant role must be defined and must be a string.'];
         }
     }
-    return [ true, 'success' ];
+    return [true, 'success'];
 }
 function _getGrantsXml(grants, modifier) {
     let tagName = 'grants';
-    if(modifier) {
+    if (modifier) {
         tagName += `.${modifier}`;
     }
-    const grantsXml = grants.map((grant) => {
-        let userOrGroup;
-        if(grant.user) {
-            userOrGroup = 'user';
-        } else {
-            userOrGroup = 'group';
-        }
-        const idOrName = grant[userOrGroup];
-        let userOrGroupXml;
-        if(typeof idOrName === 'number') {
-            userOrGroupXml = `<${userOrGroup} id="${idOrName}"></${userOrGroup}>`;
-        } else {
-            userOrGroupXml = `<${userOrGroup}><${userOrGroup}name>${idOrName}</${userOrGroup}name></${userOrGroup}>`;
-        }
-        const roleXml = `<permissions><role>${grant.role}</role></permissions>`;
-        return `<grant>${userOrGroupXml}${roleXml}</grant>`;
-    }).join('');
+    const grantsXml = grants
+        .map(grant => {
+            let userOrGroup;
+            if (grant.user) {
+                userOrGroup = 'user';
+            } else {
+                userOrGroup = 'group';
+            }
+            const idOrName = grant[userOrGroup];
+            let userOrGroupXml;
+            if (typeof idOrName === 'number') {
+                userOrGroupXml = `<${userOrGroup} id="${idOrName}"></${userOrGroup}>`;
+            } else {
+                userOrGroupXml = `<${userOrGroup}><${userOrGroup}name>${idOrName}</${userOrGroup}name></${userOrGroup}>`;
+            }
+            const roleXml = `<permissions><role>${grant.role}</role></permissions>`;
+            return `<grant>${userOrGroupXml}${roleXml}</grant>`;
+        })
+        .join('');
     return `<${tagName}>${grantsXml}</${tagName}>`;
 }
 function _getPageRestrictionXml(restriction) {
-    if(!restriction) {
+    if (!restriction) {
         return '';
     }
     return `<permissions.page><restriction>${restriction}</restriction></permissions.page>`;
@@ -4676,14 +4921,19 @@ function _getPageRestrictionXml(restriction) {
  * A class for manipulating the restrictions and grants on a page.
  */
 class PageSecurity {
-
     /**
      * Create a new PageSecurity object.
      * @param {Number|String} [id=home] The numeric page ID or page path string for the page.
      * @param {Settings} [settings] The martian Settings used to direct the API requests for the PageSecurity instance.
      */
     constructor(id = 'home', settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', utility.getResourceId(id, 'home'), 'security');
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'pages',
+            utility.getResourceId(id, 'home'),
+            'security'
+        );
     }
 
     /**
@@ -4691,7 +4941,10 @@ class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, yields a securityModel containing the page security information.
      */
     get() {
-        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 
     /**
@@ -4714,21 +4967,24 @@ class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, yields a pageSecurityModel containing the new security information.
      */
     set({ cascade = 'none', pageRestriction, grants } = {}) {
-        if(typeof pageRestriction !== 'string') {
+        if (typeof pageRestriction !== 'string') {
             return Promise.reject(new Error('The pageRestriction parameter must be provided and must be a string.'));
         }
         let grantsXml = '';
-        if(grants) {
-            const [ validGrants, err ] = _validateGrantsArray(grants);
-            if(!validGrants) {
+        if (grants) {
+            const [validGrants, err] = _validateGrantsArray(grants);
+            if (!validGrants) {
                 return Promise.reject(new Error(err));
             }
             grantsXml = _getGrantsXml(grants);
         }
         const restrictionXml = _getPageRestrictionXml(pageRestriction);
         const securityRequest = `<security>${restrictionXml}${grantsXml}</security>`;
-        return this._plug.withParams({ cascade }).put(securityRequest, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .withParams({ cascade })
+            .put(securityRequest, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 
     /**
@@ -4748,25 +5004,28 @@ class PageSecurity {
      */
     update({ cascade = 'none', pageRestriction, grantsAdded, grantsRemoved } = {}) {
         let addedXml = '';
-        if(grantsAdded) {
-            const [ valid, err ] = _validateGrantsArray(grantsAdded);
-            if(!valid) {
+        if (grantsAdded) {
+            const [valid, err] = _validateGrantsArray(grantsAdded);
+            if (!valid) {
                 return Promise.reject(new Error(err));
             }
             addedXml = _getGrantsXml(grantsAdded, 'added');
         }
         let removedXml = '';
-        if(grantsRemoved) {
-            const [ valid, err ] = _validateGrantsArray(grantsRemoved);
-            if(!valid) {
+        if (grantsRemoved) {
+            const [valid, err] = _validateGrantsArray(grantsRemoved);
+            if (!valid) {
                 return Promise.reject(new Error(err));
             }
             removedXml = _getGrantsXml(grantsRemoved, 'removed');
         }
         const restrictionXml = _getPageRestrictionXml(pageRestriction);
         const securityRequest = `<security>${restrictionXml}${addedXml}${removedXml}</security>`;
-        return this._plug.withParams({ cascade }).post(securityRequest, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .withParams({ cascade })
+            .post(securityRequest, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 }
 
@@ -4787,7 +5046,6 @@ const pageSubscriptionsModel = [
  * A class for managing the subscriptions of a page for the current user.
  */
 class PageSubscription {
-
     /**
      * Construct a new PageSubscription object.
      * @param {String} siteId The ID of the site.
@@ -4796,7 +5054,7 @@ class PageSubscription {
      */
     constructor(siteId, pageId = 'home', settings = new Settings()) {
         const error = valid.value(siteId, string());
-        if(error.length > 0) {
+        if (error.length > 0) {
             throw new Error('The siteId parameter must be supplied, and must be a string.');
         }
         this._plug = new Plug(settings.host, settings.plugConfig)
@@ -4812,11 +5070,12 @@ class PageSubscription {
      * @returns {Promise} A promise that, when resolved indicates the subscription request was successful.
      */
     subscribe({ type = 'page', recursive = false } = {}) {
-        const optionsErrors = valid.object({ type, recursive },
+        const optionsErrors = valid.object(
+            { type, recursive },
             required('type', all(string(), one(equals('page'), equals('draft')))),
             required('recursive', bool())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         return this._plug.withParams({ type, depth: recursive ? 'infinity' : '0' }).post('', utility.textRequestType);
@@ -4830,7 +5089,7 @@ class PageSubscription {
      */
     unsubscribe({ type = 'page' } = {}) {
         const error = valid.value(type, all(string(), one(equals('page'), equals('draft'))));
-        if(error.length > 0) {
+        if (error.length > 0) {
             return Promise.reject('The type parameter must be a string set to either "page" or "draft".');
         }
         return this._plug.withParams({ type }).delete();
@@ -4841,7 +5100,6 @@ class PageSubscription {
  * A class for managing the site-wide page subscriptions for the current user.
  */
 class PageSubscriptionManager {
-
     /**
      * Create a new PageSubscriptionManager
      * @param {String} siteId The ID of the site.
@@ -4849,7 +5107,7 @@ class PageSubscriptionManager {
      */
     constructor(siteId, settings = new Settings()) {
         const error = valid.value(siteId, string());
-        if(error.length > 0) {
+        if (error.length > 0) {
             throw new Error('The siteId parameter must be supplied, and must be a string.');
         }
         this._plug = new Plug(settings.host, settings.plugConfig)
@@ -4862,8 +5120,9 @@ class PageSubscriptionManager {
      * @returns {Promise} A Promise that, when resolved, yields a {@see pageSubscriptionModel} containing the listing of subscriptions.
      */
     getSubscriptions() {
-        return this._plug.get()
-            .then((r) => r.json())
+        return this._plug
+            .get()
+            .then(r => r.json())
             .then(modelParser.createParser(pageSubscriptionsModel));
     }
 }
@@ -4897,7 +5156,7 @@ const searchModel = [
                 field: 'tag',
                 name: 'tags',
                 transform(value) {
-                    if(value) {
+                    if (value) {
                         return value.split('\n');
                     }
                 }
@@ -4944,8 +5203,8 @@ const siteTagsModelPost = [
         field: 'skipped-pageids',
         name: 'skippedPageIds',
         transform(value) {
-            if(typeof value === 'string') {
-                return value.split(',').map((id) => parseInt(id, 10));
+            if (typeof value === 'string') {
+                return value.split(',').map(id => parseInt(id, 10));
             }
             return [];
         }
@@ -4954,8 +5213,8 @@ const siteTagsModelPost = [
         field: 'skipped-article-change-pageids',
         name: 'skippedArticleChangePageIds',
         transform(value) {
-            if(typeof value === 'string') {
-                return value.split(',').map((id) => parseInt(id, 10));
+            if (typeof value === 'string') {
+                return value.split(',').map(id => parseInt(id, 10));
             }
             return [];
         }
@@ -4994,10 +5253,10 @@ const searchAnalyticsModel = [
                     { field: 'mostRecent', transform: 'date' },
                     { field: 'query' },
                     { field: 'results', transform: 'number' },
-                    { field: 'topresult', transform: [
-                        { field: 'page', transform: pageModel },
-                        { field: 'file', transform: fileModel }
-                    ]},
+                    {
+                        field: 'topresult',
+                        transform: [{ field: 'page', transform: pageModel }, { field: 'file', transform: fileModel }]
+                    },
                     { field: 'total', transform: 'number' }
                 ]
             }
@@ -5062,9 +5321,7 @@ const searchAnalyticsQueryModel = [
     }
 ];
 
-const siteRolesModel = [
-    { field: 'permissions', isArray: true, transform: permissionsModel }
-];
+const siteRolesModel = [{ field: 'permissions', isArray: true, transform: permissionsModel }];
 
 const localizationsModel = [
     { field: '@lang', name: 'lang' },
@@ -5082,37 +5339,37 @@ const localizationsModel = [
 
 function _buildSearchConstraints(params) {
     let constraints = [];
-    if('path' in params) {
+    if ('path' in params) {
         let path = params.path;
-        if(path.substr(0, 1) === '/') {
+        if (path.substr(0, 1) === '/') {
             path = path.substr(1);
         }
         constraints.push('+path.ancestor:' + utility.searchEscape(path));
     }
-    if('tags' in params) {
+    if ('tags' in params) {
         let tags = params.tags;
-        if(typeof tags === 'string' && (tags)) {
+        if (typeof tags === 'string' && tags) {
             tags = tags.split(',');
         }
-        tags.forEach((tag) => {
+        tags.forEach(tag => {
             constraints.push('+tag:"' + utility.searchEscape(tag) + '"');
         });
     }
-    if('type' in params) {
+    if ('type' in params) {
         let types = params.type;
-        if(typeof types === 'string' && (types)) {
+        if (typeof types === 'string' && types) {
             types = types.split(',');
         }
-        types.forEach((type) => {
+        types.forEach(type => {
             constraints.push('+type:' + utility.searchEscape(type));
         });
     }
-    if('namespaces' in params) {
+    if ('namespaces' in params) {
         let namespaces = params.namespaces;
-        if(typeof namespaces === 'string') {
+        if (typeof namespaces === 'string') {
             namespaces = namespaces.split(',');
         }
-        namespaces.forEach((ns) => {
+        namespaces.forEach(ns => {
             constraints.push(`+namespace:${utility.searchEscape(ns)}`);
         });
     }
@@ -5121,10 +5378,10 @@ function _buildSearchConstraints(params) {
 
 function _getBatchTagsTemplate(data) {
     var postBatchTagsTemplate = '<?xml version="1.0"?><tags>';
-    if(Array.isArray(data.add) && data.add.length > 0) {
-        data.add.forEach((elm) => {
+    if (Array.isArray(data.add) && data.add.length > 0) {
+        data.add.forEach(elm => {
             let tagStr = `<tag.add value="${utility.escapeHTML(elm.name)}">`;
-            elm.pageids.forEach((id) => {
+            elm.pageids.forEach(id => {
                 tagStr += `<page id="${id}"></page>`;
             });
             tagStr += '</tag.add>';
@@ -5132,10 +5389,10 @@ function _getBatchTagsTemplate(data) {
             postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
         });
     }
-    if(Array.isArray(data.remove) && data.remove.length > 0) {
-        data.remove.forEach((elm) => {
+    if (Array.isArray(data.remove) && data.remove.length > 0) {
+        data.remove.forEach(elm => {
             let tagStr = `<tag.remove value="${utility.escapeHTML(elm.name)}">`;
-            elm.pageids.forEach((id) => {
+            elm.pageids.forEach(id => {
                 tagStr += `<page id="${id}"></page>`;
             });
             tagStr += '</tag.remove>';
@@ -5150,7 +5407,6 @@ function _getBatchTagsTemplate(data) {
  * A class for administering aspects of a MindTouch site.
  */
 class Site {
-
     /**
      * Construct a Site object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -5164,7 +5420,11 @@ class Site {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site activity.
      */
     getSiteActivityLogs() {
-        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this.plug
+            .at('activity', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -5172,7 +5432,11 @@ class Site {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for search query.
      */
     getSearchQueryLogs() {
-        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this.plug
+            .at('query', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -5183,14 +5447,14 @@ class Site {
      * @returns {Promise.<String>} - A Promise that, when resolved, yields the fetched string.
      */
     getResourceString(options = {}) {
-        if(!('key' in options)) {
+        if (!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
         let locPlug = this.plug.at('localization', options.key);
-        if('lang' in options) {
+        if ('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
-        return locPlug.get().then((r) => r.text());
+        return locPlug.get().then(r => r.text());
     }
 
     /**
@@ -5201,17 +5465,22 @@ class Site {
      * @returns {Promise} A promise that, when resolved, yields a localizationsModel containing the requested translations.
      */
     getResourceStrings({ keys, lang } = {}) {
-        if(!keys || !Array.isArray(keys)) {
+        if (!keys || !Array.isArray(keys)) {
             return Promise.reject(new Error('The keys parameter must be supplied, and it must be an array.'));
         }
         const params = { resources: keys.join(',') };
-        if(lang) {
-            if(typeof lang !== 'string') {
+        if (lang) {
+            if (typeof lang !== 'string') {
                 return Promise.reject(new Error('The lang parameter must be a string'));
             }
             params.lang = lang;
         }
-        return this.plug.at('localizations').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(localizationsModel));
+        return this.plug
+            .at('localizations')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(localizationsModel));
     }
 
     /**
@@ -5220,10 +5489,14 @@ class Site {
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
      */
     getSearchQueryLogUrl(logName) {
-        if(typeof logName === 'undefined' || logName.length === 0) {
+        if (typeof logName === 'undefined' || logName.length === 0) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this.plug.at('query', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this.plug
+            .at('query', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -5232,10 +5505,14 @@ class Site {
      * @returns {Promise.<availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteActivityLogUrl(logName) {
-        if(typeof logName === 'undefined' || logName.length === 0) {
+        if (typeof logName === 'undefined' || logName.length === 0) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this.plug.at('activity', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this.plug
+            .at('activity', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -5245,7 +5522,12 @@ class Site {
      */
     getTags(params = {}) {
         const siteTagsModelParser = modelParser.createParser(siteTagsModelGet);
-        return this.plug.at('tags').withParams(params).get().then((r) => r.json()).then(siteTagsModelParser);
+        return this.plug
+            .at('tags')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(siteTagsModelParser);
     }
 
     /**
@@ -5258,7 +5540,11 @@ class Site {
     setTags(params = {}) {
         const XMLBatchData = _getBatchTagsTemplate(params);
         const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
-        return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);
+        return this.plug
+            .at('tags')
+            .post(XMLBatchData, 'application/xml')
+            .then(r => r.json())
+            .then(siteTagsModelParser);
     }
 
     /**
@@ -5275,15 +5561,25 @@ class Site {
      * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
      * @returns {Promise.<searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
      */
-    search({ limit = 10, offset = 0, q = '', path = '', recommendations = true, tags = '', type = '', namespaces = 'main', sessionid = null } = {}) {
+    search({
+        limit = 10,
+        offset = 0,
+        q = '',
+        path = '',
+        recommendations = true,
+        tags = '',
+        type = '',
+        namespaces = 'main',
+        sessionid = null
+    } = {}) {
         const constraint = {};
-        if(path !== '' && path !== '/') {
+        if (path !== '' && path !== '/') {
             constraint.path = path;
         }
-        if(tags !== '') {
+        if (tags !== '') {
             constraint.tags = tags;
         }
-        if(type !== '') {
+        if (type !== '') {
             constraint.type = type;
         }
         constraint.namespaces = namespaces;
@@ -5296,10 +5592,15 @@ class Site {
             constraint: _buildSearchConstraints(constraint),
             recommendations
         };
-        if(sessionid) {
+        if (sessionid) {
             searchParams.sessionid = sessionid;
         }
-        return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+        return this.plug
+            .at('query')
+            .withParams(searchParams)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchModel));
     }
 
     /**
@@ -5319,9 +5620,19 @@ class Site {
      * @param {String} [options.parser='bestguess'] - The parser to use for the query. Must be one of "bestguess", "term", "filename", "lucene"
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search results, or rejected with an error specifying the reason for rejection.
      */
-    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess', format = 'xml' } = {}) {
-        if(typeof limit === 'string') {
-            if(limit !== 'all') {
+    searchIndex({
+        q = '',
+        limit = 100,
+        offset = 0,
+        sortBy = '-score',
+        constraintString = null,
+        constraints = {},
+        verbose = true,
+        parser = 'bestguess',
+        format = 'xml'
+    } = {}) {
+        if (typeof limit === 'string') {
+            if (limit !== 'all') {
                 return Promise.reject(new Error('The limit for index searching must be a number or "all"'));
             }
         }
@@ -5335,7 +5646,12 @@ class Site {
             parser,
             format
         };
-        return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+        return this.plug
+            .at('search')
+            .withParams(searchParams)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchModel));
     }
 
     /**
@@ -5354,7 +5670,19 @@ class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalytics({
+        start = null,
+        end = null,
+        queryFilters = null,
+        userFilter = null,
+        groupIds = null,
+        bucket = null,
+        origin = null,
+        webWidgetEmbedId = null,
+        sortBy = null,
+        sortOrder = null,
+        limit = null
+    }) {
         const searchParams = {
             start,
             end,
@@ -5368,7 +5696,12 @@ class Site {
             sortorder: sortOrder,
             limit
         };
-        return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
+        return this.plug
+            .at('search', 'analytics')
+            .withParams(utility.cleanParams(searchParams))
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchAnalyticsModel));
     }
 
     /**
@@ -5387,7 +5720,19 @@ class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.<Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalyticsQuery({ query, start = null, end = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalyticsQuery({
+        query,
+        start = null,
+        end = null,
+        userFilter = null,
+        groupIds = null,
+        bucket = null,
+        origin = null,
+        webWidgetEmbedId = null,
+        sortBy = null,
+        sortOrder = null,
+        limit = null
+    }) {
         const searchParams = {
             query,
             start,
@@ -5401,7 +5746,12 @@ class Site {
             sortorder: sortOrder,
             limit
         };
-        return this.plug.at('search', 'analytics', 'query').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsQueryModel));
+        return this.plug
+            .at('search', 'analytics', 'query')
+            .withParams(utility.cleanParams(searchParams))
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchAnalyticsQueryModel));
     }
 
     /**
@@ -5411,8 +5761,8 @@ class Site {
      */
     getActivity(since = null) {
         let activityPlug = this.plug.at('activity');
-        if(since !== null) {
-            if(!(since instanceof Date)) {
+        if (since !== null) {
+            if (!(since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
 
@@ -5420,7 +5770,10 @@ class Site {
             const sinceString = utility.getApiDateString(since);
             activityPlug = activityPlug.withParam('since', sinceString);
         }
-        return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
+        return activityPlug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(siteActivityModel));
     }
 
     /**
@@ -5428,7 +5781,11 @@ class Site {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the roles info, or rejected with an error specifying the reason for rejection.
      */
     getRoles() {
-        return this.plug.at('roles').get().then((r) => r.json()).then(modelParser.createParser(siteRolesModel));
+        return this.plug
+            .at('roles')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(siteRolesModel));
     }
 
     /**
@@ -5440,22 +5797,22 @@ class Site {
      * @returns {Promise} A Promise that, when resolved, indicates a successful feedback submission.
      */
     sendFeedback({ comment, title, metadata = {} } = {}) {
-        if(typeof comment !== 'string') {
+        if (typeof comment !== 'string') {
             return Promise.reject(new Error('The `comment` parameter must be supplied, and must be a string.'));
         }
         let feedbackXml = '<feedback>';
         feedbackXml += `<body>${comment}</body>`;
-        if(title) {
-            if(typeof title !== 'string') {
+        if (title) {
+            if (typeof title !== 'string') {
                 return Promise.reject(new Error('The title parameter must be a string.'));
             }
             feedbackXml += `<title>${title}</title>`;
         }
         feedbackXml += '<metadata>';
-        if(typeof metadata !== 'object') {
+        if (typeof metadata !== 'object') {
             return Promise.reject(new Error('The `metadata` parameter must be an object.'));
         }
-        Object.keys(metadata).forEach((key) => {
+        Object.keys(metadata).forEach(key => {
             feedbackXml += `<${key}>${metadata[key].toString()}</${key}>`;
         });
         feedbackXml += '</metadata>';
@@ -5475,21 +5832,18 @@ const siteJobModel = [
     { field: 'completeditems', name: 'completedItems', transform: 'number' },
     { field: 'totalitems', name: 'totalItems', transform: 'number' }
 ];
-const siteJobsModel = [
-    { field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }
-];
+const siteJobsModel = [{ field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }];
 
 const _errorParser$5 = modelParser.createParser(apiErrorModel);
 
 class SiteJob {
-
     /**
      * Create a new SiteJob
      * @param {String} jobId The GUID job ID.
      * @param {Settings} [settings] The martian settings that will direct the requests for this instance.
      */
     constructor(jobId, settings = new Settings()) {
-        if(!jobId || typeof jobId !== 'string') {
+        if (!jobId || typeof jobId !== 'string') {
             throw new Error('The job ID must be supplied as a GUID string.');
         }
         this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'jobs', jobId);
@@ -5500,9 +5854,11 @@ class SiteJob {
      * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     getStatus() {
-        return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('status')
+            .get()
+            .catch(err => Promise.reject(_errorParser$5(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -5511,15 +5867,16 @@ class SiteJob {
      * @returns {Promise} A promise that, when resolved, contains the job's status information.
      */
     cancel() {
-        return this._plug.at('cancel').post()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('cancel')
+            .post()
+            .catch(err => Promise.reject(_errorParser$5(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 }
 
 class SiteJobManager {
-
     /**
      * Create a new SiteJobManager object.
      * @param {Settings} [settings] - The martian settings that will direct the requests for this instance.
@@ -5540,21 +5897,25 @@ class SiteJobManager {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleExport(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The export options must be supplied'));
         }
         let notificationSupplied = false;
-        if('email' in options) {
+        if ('email' in options) {
             notificationSupplied = true;
         }
-        if('url' in options) {
+        if ('url' in options) {
             notificationSupplied = true;
         }
-        if(notificationSupplied === false) {
-            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        if (notificationSupplied === false) {
+            return Promise.reject(
+                new Error(
+                    'Notification email and url are missing. Need an email or url to notify when the job completes.'
+                )
+            );
         }
-        if('pages' in options) {
-            if(!Array.isArray(options.pages)) {
+        if ('pages' in options) {
+            if (!Array.isArray(options.pages)) {
                 return Promise.reject('The pages option must be an array.');
             }
         } else {
@@ -5562,31 +5923,33 @@ class SiteJobManager {
         }
         const pagesElements = options.pages.reduce((acc, page) => {
             let element = '<page';
-            if(page.id) {
+            if (page.id) {
                 element += ` id="${page.id}"`;
             }
-            if('includeSubpages' in page) {
+            if ('includeSubpages' in page) {
                 element += ` includesubpages="${page.includeSubpages}"`;
             }
             element += '>';
-            if(page.path) {
+            if (page.path) {
                 element += `<path>${page.path}</path>`;
             }
             element += '</page>';
             return acc + element;
         }, '');
         let postData = '<job><notification>';
-        if(options.email) {
+        if (options.email) {
             postData += `<email>${options.email}</email>`;
         }
-        if(options.url) {
+        if (options.url) {
             postData += `<url>${options.url}</url>`;
         }
         postData += '</notification>';
         postData += `<pages>${pagesElements}</pages>`;
         postData += '</job>';
-        return this._plug.at('export').post(postData, utility.xmlRequestType)
-            .then((r) => r.json())
+        return this._plug
+            .at('export')
+            .post(postData, utility.xmlRequestType)
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -5600,34 +5963,43 @@ class SiteJobManager {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the scheduled job info, or rejected with an error specifying the reason for rejection.
      */
     scheduleImport(options) {
-        if(!options) {
+        if (!options) {
             return Promise.reject(new Error('The export options must be supplied'));
         }
         let notificationSupplied = false;
-        if('email' in options) {
+        if ('email' in options) {
             notificationSupplied = true;
         }
-        if('url' in options) {
+        if ('url' in options) {
             notificationSupplied = true;
         }
-        if(notificationSupplied === false) {
-            return Promise.reject(new Error('Notification email and url are missing. Need an email or url to notify when the job completes.'));
+        if (notificationSupplied === false) {
+            return Promise.reject(
+                new Error(
+                    'Notification email and url are missing. Need an email or url to notify when the job completes.'
+                )
+            );
         }
-        if(typeof options.archiveUrl !== 'string' || options.archiveUrl === '') {
-            return Promise.reject(new Error('An archive url is required, and must be a non-empty string to perform an import.'));
+        if (typeof options.archiveUrl !== 'string' || options.archiveUrl === '') {
+            return Promise.reject(
+                new Error('An archive url is required, and must be a non-empty string to perform an import.')
+            );
         }
         let postData = '<job><notification>';
-        if(options.email) {
+        if (options.email) {
             postData += `<email>${options.email}</email>`;
         }
-        if(options.url) {
+        if (options.url) {
             postData += `<url>${options.url}</url>`;
         }
         postData += '</notification>';
         postData += `<archive><url>${options.archiveUrl}</url></archive>`;
         postData += '</job>';
-        return this._plug.at('import').withParam('dryrun', Boolean(options.dryRun)).post(postData, utility.xmlRequestType)
-            .then((r) => r.json())
+        return this._plug
+            .at('import')
+            .withParam('dryrun', Boolean(options.dryRun))
+            .post(postData, utility.xmlRequestType)
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
 
@@ -5636,9 +6008,11 @@ class SiteJobManager {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the jobs status info, or rejected with an error specifying the reason for rejection.
      */
     getJobsStatuses() {
-        return this._plug.at('status').get()
-            .catch((err) => Promise.reject(_errorParser$5(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('status')
+            .get()
+            .catch(err => Promise.reject(_errorParser$5(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }
@@ -5659,21 +6033,24 @@ class SiteReports {
      */
     getSiteHealth(options = {}) {
         const params = {};
-        if(options.analyzers) {
-            if(!Array.isArray(options.analyzers)) {
+        if (options.analyzers) {
+            if (!Array.isArray(options.analyzers)) {
                 return Promise.reject(new Error('The `analyzers` option must be an array of analyzers'));
             }
             params.analyzers = options.analyzers.join(',');
         }
-        if(options.severities) {
-            if(!Array.isArray(options.severities)) {
+        if (options.severities) {
+            if (!Array.isArray(options.severities)) {
                 return Promise.reject(new Error('The `severities` option must be an array of analyzers'));
             }
             params.severity = options.severities.join(',');
         }
-        return this._plug.at('sitehealth').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser$6(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('sitehealth')
+            .withParams(params)
+            .get()
+            .catch(err => Promise.reject(_errorParser$6(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
 }
@@ -5683,20 +6060,18 @@ const _platformId = typeof window === 'undefined' ? 'node' : 'browser';
 const platform = {
     base64: {
         encode(rawString) {
-            if(_platformId === 'node') {
-
+            if (_platformId === 'node') {
                 // In node, use `Buffer` to encode.
-                return (new Buffer(rawString)).toString('base64');
+                return new Buffer(rawString).toString('base64');
             }
 
             // In the browser, use btoa() to encode.
             return window.btoa(rawString);
         },
         decode(b64String) {
-            if(_platformId === 'node') {
-
+            if (_platformId === 'node') {
                 // In node, use `Buffer` to decode.
-                return (new Buffer(b64String, 'base64')).toString('utf8');
+                return new Buffer(b64String, 'base64').toString('utf8');
             }
 
             // In the browser, use atob() to decode.
@@ -5705,13 +6080,13 @@ const platform = {
     },
     fileReader: {
         toBuffer(fileObj) {
-            if(_platformId === 'browser') {
+            if (_platformId === 'browser') {
                 const fileReader = new FileReader();
                 return fileReader.readAsArrayBuffer(fileObj);
             }
         },
         getContentType(fileObj) {
-            if(_platformId === 'browser') {
+            if (_platformId === 'browser') {
                 return fileObj.type;
             }
         }
@@ -5724,7 +6099,6 @@ const platform = {
  * A class for managing a MindTouch user.
  */
 class User {
-
     /**
      * Construct a new User object.
      * @param {Number|String} [id='current'] - The user's numeric ID or username.
@@ -5744,13 +6118,13 @@ class User {
      */
     getInfo({ exclude = [] } = {}) {
         const errors = valid.value(exclude, array());
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
         return this._plug
             .withParam('exclude', exclude.join(','))
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -5766,7 +6140,7 @@ class User {
      */
     checkAllowed(pageIds, options = {}) {
         const pageIdsErrors = valid.value(pageIds, array());
-        if(pageIdsErrors.length > 0) {
+        if (pageIdsErrors.length > 0) {
             return Promise.reject(new Error(pageIdsErrors.join(', ')));
         }
         const optionsErrors = valid.object(
@@ -5776,20 +6150,20 @@ class User {
             optional('verbose', bool()),
             optional('invert', bool())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
-        if(options.operations) {
+        if (options.operations) {
             options.operations = options.operations.join(',');
         }
-        let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
+        let requestXml = pageIds.map(id => `<page id="${id}" />`).join('');
         requestXml = `<pages>${requestXml}</pages>`;
         return this._plug
             .at('allowed')
             .withParams(options)
             .post(requestXml, utility.xmlRequestType)
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
+            .then(r => r.json())
+            .then(modelParser.createParser([{ field: 'page', name: 'pages', isArray: true, transform: pageModel }]));
     }
 
     /**
@@ -5815,14 +6189,14 @@ class User {
             optional('language', string()),
             optional('timeZone', string())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         let postData = '<user>';
-        Object.entries(options).forEach(([ key, value ]) => {
-            if(key === 'active') {
+        Object.entries(options).forEach(([key, value]) => {
+            if (key === 'active') {
                 postData += `<status>${value === true ? 'active' : 'inactive'}</status>`;
-            } else if(key === 'seated') {
+            } else if (key === 'seated') {
                 postData += `<license.seat>${value}</license.seat>`;
             } else {
                 const lowerKey = key.toLowerCase();
@@ -5832,8 +6206,8 @@ class User {
         postData += '</user>';
         return this._plug
             .put(postData, utility.xmlRequestType)
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -5850,20 +6224,20 @@ class User {
             required('newPassword', string()),
             optional('currentPassword', string())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         const params = {};
-        if(options.currentPassword) {
+        if (options.currentPassword) {
             params.currentpassword = options.currentPassword;
         }
         return this._plug
             .at('password')
             .withParams(params)
             .put(options.newPassword, utility.textRequestType)
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.text())
-            .then((resp) => ({ authToken: resp }));
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.text())
+            .then(resp => ({ authToken: resp }));
     }
 }
 
@@ -5871,7 +6245,6 @@ class User {
  * A class for managing the users on a MindTouch site.
  */
 class UserManager {
-
     /**
      * Construct a new UserManager object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -5889,14 +6262,14 @@ class UserManager {
      */
     getCurrentUser({ exclude = [] } = {}) {
         const errors = valid.value(exclude, array());
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
         return this._plug
             .at('current')
             .withParam('exclude', exclude.join(','))
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -5907,14 +6280,14 @@ class UserManager {
     getCurrentUserActivityToken() {
         return this._plug
             .at('current')
-            .withParam('exclude', [ 'groups', 'properties' ])
+            .withParam('exclude', ['groups', 'properties'])
             .get()
-            .then((r) => {
+            .then(r => {
                 return Promise.all([
                     r.json().then(modelParser.createParser(userModel)),
                     new Promise((resolve, reject) => {
                         const sessionId = r.headers.get('X-Deki-Session');
-                        if(sessionId !== null) {
+                        if (sessionId !== null) {
                             resolve(sessionId);
                         } else {
                             reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
@@ -5922,7 +6295,7 @@ class UserManager {
                     })
                 ]);
             })
-            .then(([ user, sessionId ]) => {
+            .then(([user, sessionId]) => {
                 return `${user.id}:${sessionId}`;
             });
     }
@@ -5935,7 +6308,7 @@ class UserManager {
         let userListModelParser = modelParser.createParser(userListModel);
         return this._plug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(userListModelParser);
     }
 
@@ -5960,7 +6333,7 @@ class UserManager {
             .at('search')
             .withParams(constraints)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(userListModelParser);
     }
 
@@ -5975,12 +6348,12 @@ class UserManager {
     authenticate({ method = 'GET', username, password }) {
         const lowerMethod = method.toLowerCase();
         const errors = valid.value(lowerMethod, one(equals('get'), equals('post')));
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
         const encodedAuth = platform.base64.encode(`${username}:${password}`);
         const authPlug = this._plug.at('authenticate').withHeader('Authorization', `Basic ${encodedAuth}`);
-        return authPlug[lowerMethod]().then((r) => r.text());
+        return authPlug[lowerMethod]().then(r => r.text());
     }
 
     /**
@@ -5998,6 +6371,7 @@ const webWidgetsModel = [
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@type', name: 'type' },
+    { field: '@parentId', name: 'parentId', transform: 'number' },
     { field: 'host' },
     { field: 'name' },
     { field: 'token' },
@@ -6011,6 +6385,12 @@ const webWidgetsModel = [
         ]
     }
 ];
+webWidgetsModel.push({
+    field: ['sub-web-widgets', 'web-widget'],
+    name: 'subwidgets',
+    isArray: true,
+    transform: webWidgetsModel
+});
 
 const webWidgetsListModel = [
     { field: '@count', name: 'count', transform: 'number' },
@@ -6022,22 +6402,30 @@ function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
 function _makeXmlString(data) {
-    if(!data || typeof data !== 'object') {
+    if (!data || typeof data !== 'object') {
         throw new Error('Web widget data must be an object');
     }
-    if(!Array.isArray(data.arguments) || data.arguments.some((arg) => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))) {
-        throw new Error('Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean');
+    if (
+        !Array.isArray(data.arguments) ||
+        data.arguments.some(arg => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))
+    ) {
+        throw new Error(
+            'Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean'
+        );
     }
-    if(!Array.isArray(data.hosts) || data.hosts.some((host) => typeof host !== 'string')) {
+    if (!Array.isArray(data.hosts) || data.hosts.some(host => typeof host !== 'string')) {
         throw new Error('Web widget hosts must be an array of strings');
     }
-    if(typeof data.name !== 'string') {
+    if (typeof data.name !== 'string') {
         throw new Error('Web widget name must be a string');
     }
-    if(typeof data.type !== 'string') {
+    if (typeof data.type !== 'string') {
         throw new Error('Web widget type must be a string');
     }
-    const argData = data.arguments.map((arg) => {
+    if ('parentId' in data && typeof data.parentId !== 'number') {
+        throw new Error('Web widget parentId must be a number');
+    }
+    const argData = data.arguments.map(arg => {
         return `<${arg.name}>${utility.escapeHTML(arg.value)}</${arg.name}>`;
     });
     return `
@@ -6046,6 +6434,7 @@ function _makeXmlString(data) {
             <host>${utility.escapeHTML(data.hosts.join(','))}</host>
             <name>${utility.escapeHTML(data.name)}</name>
             <type>${utility.escapeHTML(data.type)}</type>
+            <parentId>${'parentId' in data ? data.parentId : ''}</parentId>
         </web-widget>
     `;
 }
@@ -6054,7 +6443,6 @@ function _makeXmlString(data) {
  * A class for managing web widgets.
  */
 class WebWidgetsManager {
-
     /**
      * Construct a new WebWidgetsManager.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -6068,9 +6456,10 @@ class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides a list of active web widgets.
      */
     getActiveWidgets() {
-        return this._plug.get()
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .get()
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
 
@@ -6079,9 +6468,11 @@ class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides a list of inactive web widgets.
      */
     getInactiveWidgets() {
-        return this._plug.at('inactive').get()
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('inactive')
+            .get()
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
 
@@ -6092,11 +6483,12 @@ class WebWidgetsManager {
      */
     getWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).get()
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId)
+            .get()
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
-
     }
 
     /**
@@ -6109,9 +6501,10 @@ class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides info of the newly created web widget.
      */
     createWidget(options) {
-        return this._plug.post(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .post(_makeXmlString(options), utility.xmlRequestType)
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -6122,8 +6515,10 @@ class WebWidgetsManager {
      */
     deleteWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).delete()
-            .catch((err) => Promise.reject(_errorParser$7(err)));
+        return this._plug
+            .at(widgetId)
+            .delete()
+            .catch(err => Promise.reject(_errorParser$7(err)));
     }
 
     /**
@@ -6138,9 +6533,11 @@ class WebWidgetsManager {
      */
     updateWidget(id, options) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).put(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId)
+            .put(_makeXmlString(options), utility.xmlRequestType)
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -6151,9 +6548,11 @@ class WebWidgetsManager {
      */
     activateWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId, 'activate').put()
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId, 'activate')
+            .put()
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -6164,23 +6563,21 @@ class WebWidgetsManager {
      */
     deactivateWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId, 'deactivate').put()
-            .catch((err) => Promise.reject(_errorParser$7(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId, 'deactivate')
+            .put()
+            .catch(err => Promise.reject(_errorParser$7(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 }
 
-const workflowsModel = [
-    { field: '@href', name: 'href' },
-    { field: 'uri.next', name: 'uriNext' }
-];
+const workflowsModel = [{ field: '@href', name: 'href' }, { field: 'uri.next', name: 'uriNext' }];
 
 /**
  * A class for working with site workflows.
  */
 class WorkflowManager {
-
     /**
      * Construct a new FeedbackManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -6201,7 +6598,7 @@ class WorkflowManager {
      */
     submitFeedback(options = {}) {
         const workflowPath = 'submit-feedback';
-        if(!('_path' in options)) {
+        if (!('_path' in options)) {
             return Promise.reject(new Error(`The _path field must be supplied for ${workflowPath}`));
         }
         const request = JSON.stringify({
@@ -6212,7 +6609,11 @@ class WorkflowManager {
             content: options.content,
             contactAllowed: options.contactAllowed
         });
-        return this._plug.at(workflowPath).post(request, utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(request, utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -6221,7 +6622,11 @@ class WorkflowManager {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the result of the request, or rejected with an error specifying the reason for rejection.
      */
     requestArticle(options = {}) {
-        return this._plug.at('submit-article-request').post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at('submit-article-request')
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -6231,10 +6636,14 @@ class WorkflowManager {
      */
     submitIssue(options = {}) {
         const workflowPath = 'submit-issue';
-        if(!('_path' in options) || !('_search' in options)) {
+        if (!('_path' in options) || !('_search' in options)) {
             return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
         }
-        return this._plug.at(workflowPath).post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -6244,10 +6653,14 @@ class WorkflowManager {
      */
     contactSupport(options = {}) {
         const workflowPath = 'contact-support';
-        if(!('_path' in options) || !('_search' in options)) {
+        if (!('_path' in options) || !('_search' in options)) {
             return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
         }
-        return this._plug.at(workflowPath).post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 }
 

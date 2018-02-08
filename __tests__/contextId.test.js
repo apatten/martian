@@ -27,9 +27,12 @@ describe('Context ID', () => {
             return cm.addDefinition('foo', 'Foo description');
         });
         it('can fail if an ID is not supplied when trying to add a definition', () => {
-            return cm.addDefinition().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return cm
+                .addDefinition()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can get a content ID Definition by id', () => {
             let def = cm.getDefinition('foo');
@@ -93,13 +96,16 @@ describe('Context ID', () => {
         });
         it('can fail if an ID is not supplied when updating a map', () => {
             const success = jest.fn();
-            return map.update().then(() => {
-                success();
-                throw new Error();
-            }).catch((e) => {
-                expect(success).not.toHaveBeenCalled();
-                expect(e).toBeDefined();
-            });
+            return map
+                .update()
+                .then(() => {
+                    success();
+                    throw new Error();
+                })
+                .catch(e => {
+                    expect(success).not.toHaveBeenCalled();
+                    expect(e).toBeDefined();
+                });
         });
         it('can clear a mapping', () => {
             return map.remove();

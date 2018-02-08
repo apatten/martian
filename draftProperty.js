@@ -3,7 +3,6 @@ import { PagePropertyBase } from './pagePropertyBase.js';
 import { Settings } from './lib/settings.js';
 
 export class DraftProperty extends PagePropertyBase {
-
     /**
      * @constructor
      * @param {String|Number} id - The numeric ID or page path string.

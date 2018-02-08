@@ -1,4 +1,3 @@
-
 import { propertyContentsModel } from './propertyContents.model.js';
 
 export const pagePropertyModel = [

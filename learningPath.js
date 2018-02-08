@@ -8,7 +8,6 @@ import { learningPathCategoriesModel } from './models/learningPathCategories.mod
 import { pageModel } from './models/page.model.js';
 
 export class LearningPath {
-
     /**
      * Create a new Learning Path.
      * @param {String} name The name of the Learning Path represented by this instance.
@@ -26,11 +25,14 @@ export class LearningPath {
      */
     getInfo(revision) {
         const params = {};
-        if(revision) {
+        if (revision) {
             params.revision = revision;
         }
-        return this._plug.withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -44,34 +46,37 @@ export class LearningPath {
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel representing the updated learning path.
      */
     update(content, editTime = 'now') {
-        if(!content) {
+        if (!content) {
             return Promise.reject('The content parameter must be supplied to update a learning path');
         }
-        if(!content.title || typeof content.title !== 'string' || content.title === '') {
+        if (!content.title || typeof content.title !== 'string' || content.title === '') {
             return Promise.reject('The title parameter must be supplied, and must be a non-empty string.');
         }
         let xmlData = `<title>${utility.escapeHTML(content.title)}</title>`;
-        if(content.summary) {
-            if(typeof content.summary !== 'string') {
+        if (content.summary) {
+            if (typeof content.summary !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
             xmlData += `<summary>${utility.escapeHTML(content.summary)}</summary>`;
         }
-        if(content.category) {
-            if(typeof content.category !== 'string') {
+        if (content.category) {
+            if (typeof content.category !== 'string') {
                 return Promise.reject('The summary parameter must be a string');
             }
             xmlData += `<category>${utility.escapeHTML(content.category)}</category>`;
         }
-        if(content.pageIds) {
-            if(!Array.isArray(content.pageIds)) {
+        if (content.pageIds) {
+            if (!Array.isArray(content.pageIds)) {
                 return Promise.reject('The pages parameter must be an array');
             }
             xmlData += content.pageIds.reduce((acc, id) => acc + `<pages>${id}</pages>`, xmlData);
         }
         const reqBody = `<learningpath>${xmlData}</learningpath>`;
-        return this._plug.withParam('edittime', editTime).post(reqBody, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParam('edittime', editTime)
+            .post(reqBody, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -88,11 +93,15 @@ export class LearningPath {
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel containing the information about the cloned learning path.
      */
     clone(newName) {
-        if(typeof newName !== 'string' || newName === '') {
+        if (typeof newName !== 'string' || newName === '') {
             return Promise.reject('The new name for the clone must be a non-empty string.');
         }
-        return this._plug.at('clone').withParam('name', newName).post(null, utility.textRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('clone')
+            .withParam('name', newName)
+            .post(null, utility.textRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -102,11 +111,15 @@ export class LearningPath {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel that represents the state of the learning path after the revert has completed.
      */
     revertToRevision(revision, editTime = 'now') {
-        if(!revision) {
+        if (!revision) {
             return Promise.reject(new Error('The revision parameter is required'));
         }
-        return this._plug.at('revert').withParams({ torevision: revision, edittime: editTime }).post()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('revert')
+            .withParams({ torevision: revision, edittime: editTime })
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -116,8 +129,12 @@ export class LearningPath {
      * @returns {Promise} A Promise that, when resolved, returns a pageModel representing the page that was added.
      */
     addPage(pageId, editTime = 'now') {
-        return this._plug.at('pages', pageId).withParam('edittime', editTime).post()
-            .then((r) => r.json()).then(modelParser.createParser(pageModel));
+        return this._plug
+            .at('pages', pageId)
+            .withParam('edittime', editTime)
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageModel));
     }
 
     /**
@@ -127,7 +144,10 @@ export class LearningPath {
      * @returns {Promise} A Promise that, when resolved, indicates that the page was successfully removed.
      */
     removePage(pageId, editTime = 'now') {
-        return this._plug.at('pages', pageId).withParam('edittime', editTime).delete();
+        return this._plug
+            .at('pages', pageId)
+            .withParam('edittime', editTime)
+            .delete();
     }
 
     /**
@@ -138,12 +158,15 @@ export class LearningPath {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel representing the learning path after a successful page reorder.
      */
     reorderPage(pageId, afterId = 0, editTime = 'now') {
-        return this._plug.at('pages', pageId, 'order').withParams({ edittime: editTime, afterid: afterId }).post()
-            .then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .at('pages', pageId, 'order')
+            .withParams({ edittime: editTime, afterid: afterId })
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 }
 export class LearningPathManager {
-
     /**
      * Create a new LearningPathManager
      * @param {Settings} settings The martian settings to direct the Learning Path API calls.
@@ -158,7 +181,10 @@ export class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathsModel containing the information of all of the learning paths.
      */
     getLearningPaths() {
-        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(learningPathsModel));
+        return this._plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathsModel));
     }
 
     /**
@@ -171,26 +197,30 @@ export class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields a learningPathModel containing the information for the new learning path.
      */
     createLearningPath(data) {
-        if(!data) {
+        if (!data) {
             return Promise.reject(new Error('Unable to create a learning path without data.'));
         }
-        if(!data.name || typeof data.name !== 'string' || data.name === '') {
+        if (!data.name || typeof data.name !== 'string' || data.name === '') {
             return Promise.reject(new Error('The `name` parameter must be supplied, and must be a non-empty string.'));
         }
-        if(!data.title || typeof data.title !== 'string' || data.title === '') {
+        if (!data.title || typeof data.title !== 'string' || data.title === '') {
             return Promise.reject(new Error('The `title` parameter must be supplied, and must be a non-empty string.'));
         }
-        if(data.summary) {
-            if(typeof data.summary !== 'string') {
+        if (data.summary) {
+            if (typeof data.summary !== 'string') {
                 return Promise.reject(new Error('The `summary` parameter must be a string.'));
             }
         }
-        if(data.category) {
-            if(typeof data.category !== 'string') {
+        if (data.category) {
+            if (typeof data.category !== 'string') {
                 return Promise.reject(new Error('The `category` parameter must be a string.'));
             }
         }
-        return this._plug.withParams(data).post().then((r) => r.json()).then(modelParser.createParser(learningPathModel));
+        return this._plug
+            .withParams(data)
+            .post()
+            .then(r => r.json())
+            .then(modelParser.createParser(learningPathModel));
     }
 
     /**
@@ -198,7 +228,10 @@ export class LearningPathManager {
      * @returns {Promise} A Promise that, when resolved, yields an object containing the list of all of the learning path categories.
      */
     getCategories() {
-        return this._plug.at('categories').get().then((r) => r.json())
+        return this._plug
+            .at('categories')
+            .get()
+            .then(r => r.json())
             .then(modelParser.createParser(learningPathCategoriesModel));
     }
 

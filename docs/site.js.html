@@ -42,37 +42,37 @@ import { localizationsModel } from './models/localizations.model.js';
 
 function _buildSearchConstraints(params) {
     let constraints = [];
-    if('path' in params) {
+    if ('path' in params) {
         let path = params.path;
-        if(path.substr(0, 1) === '/') {
+        if (path.substr(0, 1) === '/') {
             path = path.substr(1);
         }
         constraints.push('+path.ancestor:' + utility.searchEscape(path));
     }
-    if('tags' in params) {
+    if ('tags' in params) {
         let tags = params.tags;
-        if(typeof tags === 'string' &amp;&amp; (tags)) {
+        if (typeof tags === 'string' &amp;&amp; tags) {
             tags = tags.split(',');
         }
-        tags.forEach((tag) => {
+        tags.forEach(tag => {
             constraints.push('+tag:"' + utility.searchEscape(tag) + '"');
         });
     }
-    if('type' in params) {
+    if ('type' in params) {
         let types = params.type;
-        if(typeof types === 'string' &amp;&amp; (types)) {
+        if (typeof types === 'string' &amp;&amp; types) {
             types = types.split(',');
         }
-        types.forEach((type) => {
+        types.forEach(type => {
             constraints.push('+type:' + utility.searchEscape(type));
         });
     }
-    if('namespaces' in params) {
+    if ('namespaces' in params) {
         let namespaces = params.namespaces;
-        if(typeof namespaces === 'string') {
+        if (typeof namespaces === 'string') {
             namespaces = namespaces.split(',');
         }
-        namespaces.forEach((ns) => {
+        namespaces.forEach(ns => {
             constraints.push(`+namespace:${utility.searchEscape(ns)}`);
         });
     }
@@ -81,10 +81,10 @@ function _buildSearchConstraints(params) {
 
 function _getBatchTagsTemplate(data) {
     var postBatchTagsTemplate = '&lt;?xml version="1.0"?>&lt;tags>';
-    if(Array.isArray(data.add) &amp;&amp; data.add.length > 0) {
-        data.add.forEach((elm) => {
+    if (Array.isArray(data.add) &amp;&amp; data.add.length > 0) {
+        data.add.forEach(elm => {
             let tagStr = `&lt;tag.add value="${utility.escapeHTML(elm.name)}">`;
-            elm.pageids.forEach((id) => {
+            elm.pageids.forEach(id => {
                 tagStr += `&lt;page id="${id}">&lt;/page>`;
             });
             tagStr += '&lt;/tag.add>';
@@ -92,10 +92,10 @@ function _getBatchTagsTemplate(data) {
             postBatchTagsTemplate = postBatchTagsTemplate + tagStr;
         });
     }
-    if(Array.isArray(data.remove) &amp;&amp; data.remove.length > 0) {
-        data.remove.forEach((elm) => {
+    if (Array.isArray(data.remove) &amp;&amp; data.remove.length > 0) {
+        data.remove.forEach(elm => {
             let tagStr = `&lt;tag.remove value="${utility.escapeHTML(elm.name)}">`;
-            elm.pageids.forEach((id) => {
+            elm.pageids.forEach(id => {
                 tagStr += `&lt;page id="${id}">&lt;/page>`;
             });
             tagStr += '&lt;/tag.remove>';
@@ -110,7 +110,6 @@ function _getBatchTagsTemplate(data) {
  * A class for administering aspects of a MindTouch site.
  */
 export class Site {
-
     /**
      * Construct a Site object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -124,7 +123,11 @@ export class Site {
      * @returns {Promise.&lt;reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site activity.
      */
     getSiteActivityLogs() {
-        return this.plug.at('activity', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this.plug
+            .at('activity', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -132,7 +135,11 @@ export class Site {
      * @returns {Promise.&lt;reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for search query.
      */
     getSearchQueryLogs() {
-        return this.plug.at('query', 'logs').get().then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this.plug
+            .at('query', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -143,14 +150,14 @@ export class Site {
      * @returns {Promise.&lt;String>} - A Promise that, when resolved, yields the fetched string.
      */
     getResourceString(options = {}) {
-        if(!('key' in options)) {
+        if (!('key' in options)) {
             return Promise.reject('No resource key was supplied');
         }
         let locPlug = this.plug.at('localization', options.key);
-        if('lang' in options) {
+        if ('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
-        return locPlug.get().then((r) => r.text());
+        return locPlug.get().then(r => r.text());
     }
 
     /**
@@ -161,17 +168,22 @@ export class Site {
      * @returns {Promise} A promise that, when resolved, yields a localizationsModel containing the requested translations.
      */
     getResourceStrings({ keys, lang } = {}) {
-        if(!keys || !Array.isArray(keys)) {
+        if (!keys || !Array.isArray(keys)) {
             return Promise.reject(new Error('The keys parameter must be supplied, and it must be an array.'));
         }
         const params = { resources: keys.join(',') };
-        if(lang) {
-            if(typeof lang !== 'string') {
+        if (lang) {
+            if (typeof lang !== 'string') {
                 return Promise.reject(new Error('The lang parameter must be a string'));
             }
             params.lang = lang;
         }
-        return this.plug.at('localizations').withParams(params).get().then((r) => r.json()).then(modelParser.createParser(localizationsModel));
+        return this.plug
+            .at('localizations')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(localizationsModel));
     }
 
     /**
@@ -180,10 +192,14 @@ export class Site {
      * @returns {Promise.&lt;availableLogsModel>} - A Promise that, when resolved, yields a {@link availableLogsModel} containing log url.
      */
     getSearchQueryLogUrl(logName) {
-        if(typeof logName === 'undefined' || logName.length === 0) {
+        if (typeof logName === 'undefined' || logName.length === 0) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this.plug.at('query', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this.plug
+            .at('query', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -192,10 +208,14 @@ export class Site {
      * @returns {Promise.&lt;availableLogsModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteActivityLogUrl(logName) {
-        if(typeof logName === 'undefined' || logName.length === 0) {
+        if (typeof logName === 'undefined' || logName.length === 0) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this.plug.at('activity', 'logs', logName, 'url').get().then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this.plug
+            .at('activity', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -205,7 +225,12 @@ export class Site {
      */
     getTags(params = {}) {
         const siteTagsModelParser = modelParser.createParser(siteTagsModelGet);
-        return this.plug.at('tags').withParams(params).get().then((r) => r.json()).then(siteTagsModelParser);
+        return this.plug
+            .at('tags')
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(siteTagsModelParser);
     }
 
     /**
@@ -218,7 +243,11 @@ export class Site {
     setTags(params = {}) {
         const XMLBatchData = _getBatchTagsTemplate(params);
         const siteTagsModelParser = modelParser.createParser(siteTagsModelPost);
-        return this.plug.at('tags').post(XMLBatchData, 'application/xml').then((r) => r.json()).then(siteTagsModelParser);
+        return this.plug
+            .at('tags')
+            .post(XMLBatchData, 'application/xml')
+            .then(r => r.json())
+            .then(siteTagsModelParser);
     }
 
     /**
@@ -235,15 +264,25 @@ export class Site {
      * @param {Boolean} [recommendations=true] - `true` to include recommended search results based off site configuration. `false` to suppress them.
      * @returns {Promise.&lt;searchModel>} - A Promise that, when resolved, yields the results from the search in a {@link searchModel}.
      */
-    search({ limit = 10, offset = 0, q = '', path = '', recommendations = true, tags = '', type = '', namespaces = 'main', sessionid = null } = {}) {
+    search({
+        limit = 10,
+        offset = 0,
+        q = '',
+        path = '',
+        recommendations = true,
+        tags = '',
+        type = '',
+        namespaces = 'main',
+        sessionid = null
+    } = {}) {
         const constraint = {};
-        if(path !== '' &amp;&amp; path !== '/') {
+        if (path !== '' &amp;&amp; path !== '/') {
             constraint.path = path;
         }
-        if(tags !== '') {
+        if (tags !== '') {
             constraint.tags = tags;
         }
-        if(type !== '') {
+        if (type !== '') {
             constraint.type = type;
         }
         constraint.namespaces = namespaces;
@@ -256,10 +295,15 @@ export class Site {
             constraint: _buildSearchConstraints(constraint),
             recommendations
         };
-        if(sessionid) {
+        if (sessionid) {
             searchParams.sessionid = sessionid;
         }
-        return this.plug.at('query').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+        return this.plug
+            .at('query')
+            .withParams(searchParams)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchModel));
     }
 
     /**
@@ -279,9 +323,19 @@ export class Site {
      * @param {String} [options.parser='bestguess'] - The parser to use for the query. Must be one of "bestguess", "term", "filename", "lucene"
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the search results, or rejected with an error specifying the reason for rejection.
      */
-    searchIndex({ q = '', limit = 100, offset = 0, sortBy = '-score', constraintString = null, constraints = {}, verbose = true, parser = 'bestguess', format = 'xml' } = {}) {
-        if(typeof limit === 'string') {
-            if(limit !== 'all') {
+    searchIndex({
+        q = '',
+        limit = 100,
+        offset = 0,
+        sortBy = '-score',
+        constraintString = null,
+        constraints = {},
+        verbose = true,
+        parser = 'bestguess',
+        format = 'xml'
+    } = {}) {
+        if (typeof limit === 'string') {
+            if (limit !== 'all') {
                 return Promise.reject(new Error('The limit for index searching must be a number or "all"'));
             }
         }
@@ -295,7 +349,12 @@ export class Site {
             parser,
             format
         };
-        return this.plug.at('search').withParams(searchParams).get().then((r) => r.json()).then(modelParser.createParser(searchModel));
+        return this.plug
+            .at('search')
+            .withParams(searchParams)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchModel));
     }
 
     /**
@@ -314,7 +373,19 @@ export class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalytics({ start = null, end = null, queryFilters = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalytics({
+        start = null,
+        end = null,
+        queryFilters = null,
+        userFilter = null,
+        groupIds = null,
+        bucket = null,
+        origin = null,
+        webWidgetEmbedId = null,
+        sortBy = null,
+        sortOrder = null,
+        limit = null
+    }) {
         const searchParams = {
             start,
             end,
@@ -328,7 +399,12 @@ export class Site {
             sortorder: sortOrder,
             limit
         };
-        return this.plug.at('search', 'analytics').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsModel));
+        return this.plug
+            .at('search', 'analytics')
+            .withParams(utility.cleanParams(searchParams))
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchAnalyticsModel));
     }
 
     /**
@@ -347,7 +423,19 @@ export class Site {
      * @param {Number} [options.limit] - Number of clicked results to return results for (between 1 and 1000 inclusive) (default: 100)
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the search analytics data, or rejected with an error specifiying the reason for rejection.
      */
-    getSearchAnalyticsQuery({ query, start = null, end = null, userFilter = null, groupIds = null, bucket = null, origin = null, webWidgetEmbedId = null, sortBy = null, sortOrder = null, limit = null }) {
+    getSearchAnalyticsQuery({
+        query,
+        start = null,
+        end = null,
+        userFilter = null,
+        groupIds = null,
+        bucket = null,
+        origin = null,
+        webWidgetEmbedId = null,
+        sortBy = null,
+        sortOrder = null,
+        limit = null
+    }) {
         const searchParams = {
             query,
             start,
@@ -361,7 +449,12 @@ export class Site {
             sortorder: sortOrder,
             limit
         };
-        return this.plug.at('search', 'analytics', 'query').withParams(utility.cleanParams(searchParams)).get().then((r) => r.json()).then(modelParser.createParser(searchAnalyticsQueryModel));
+        return this.plug
+            .at('search', 'analytics', 'query')
+            .withParams(utility.cleanParams(searchParams))
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(searchAnalyticsQueryModel));
     }
 
     /**
@@ -371,8 +464,8 @@ export class Site {
      */
     getActivity(since = null) {
         let activityPlug = this.plug.at('activity');
-        if(since !== null) {
-            if(!(since instanceof Date)) {
+        if (since !== null) {
+            if (!(since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
 
@@ -380,7 +473,10 @@ export class Site {
             const sinceString = utility.getApiDateString(since);
             activityPlug = activityPlug.withParam('since', sinceString);
         }
-        return activityPlug.get().then((r) => r.json()).then(modelParser.createParser(siteActivityModel));
+        return activityPlug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(siteActivityModel));
     }
 
     /**
@@ -388,7 +484,11 @@ export class Site {
      * @returns {Promise.&lt;Object>} - A Promise that will be resolved with the roles info, or rejected with an error specifying the reason for rejection.
      */
     getRoles() {
-        return this.plug.at('roles').get().then((r) => r.json()).then(modelParser.createParser(siteRolesModel));
+        return this.plug
+            .at('roles')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(siteRolesModel));
     }
 
     /**
@@ -400,22 +500,22 @@ export class Site {
      * @returns {Promise} A Promise that, when resolved, indicates a successful feedback submission.
      */
     sendFeedback({ comment, title, metadata = {} } = {}) {
-        if(typeof comment !== 'string') {
+        if (typeof comment !== 'string') {
             return Promise.reject(new Error('The `comment` parameter must be supplied, and must be a string.'));
         }
         let feedbackXml = '&lt;feedback>';
         feedbackXml += `&lt;body>${comment}&lt;/body>`;
-        if(title) {
-            if(typeof title !== 'string') {
+        if (title) {
+            if (typeof title !== 'string') {
                 return Promise.reject(new Error('The title parameter must be a string.'));
             }
             feedbackXml += `&lt;title>${title}&lt;/title>`;
         }
         feedbackXml += '&lt;metadata>';
-        if(typeof metadata !== 'object') {
+        if (typeof metadata !== 'object') {
             return Promise.reject(new Error('The `metadata` parameter must be an object.'));
         }
-        Object.keys(metadata).forEach((key) => {
+        Object.keys(metadata).forEach(key => {
             feedbackXml += `&lt;${key}>${metadata[key].toString()}&lt;/${key}>`;
         });
         feedbackXml += '&lt;/metadata>';

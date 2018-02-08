@@ -2,7 +2,7 @@
 const crypto = require('crypto');
 
 exports.tokenGenerator = (key, secret) => {
-    return (user) => {
+    return user => {
         user = typeof user === 'number' ? user : `=${user}`;
         const hmac = crypto.createHmac('sha256', secret);
         const epoch = Math.floor(Date.now() / 1000);

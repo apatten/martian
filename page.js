@@ -30,7 +30,6 @@ const _errorParser = modelParser.createParser(apiErrorModel);
  * A class for managing a published page.
  */
 export class Page extends PageBase {
-
     /**
      * Construct a new Page.
      * @param {Number|String} [id='home'] The numeric page ID or the page path.
@@ -49,7 +48,7 @@ export class Page extends PageBase {
      */
     getInfo(params = {}) {
         let infoParams = { exclude: 'revision' };
-        Object.keys(params).forEach((key) => {
+        Object.keys(params).forEach(key => {
             infoParams[key] = params[key];
         });
         let pageModelParser = modelParser.createParser(pageModel);
@@ -57,7 +56,7 @@ export class Page extends PageBase {
             .at('info')
             .withParams(infoParams)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageModelParser);
     }
 
@@ -71,7 +70,7 @@ export class Page extends PageBase {
             .at('subpages')
             .withParams(params)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(subpagesModel));
     }
 
@@ -86,7 +85,7 @@ export class Page extends PageBase {
             .at('tree')
             .withParams(params)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageTreeModelParser);
     }
 
@@ -99,17 +98,17 @@ export class Page extends PageBase {
             .at('tree')
             .withParam('format', 'ids')
             .get()
-            .then((r) => r.text())
-            .then((idString) => {
-                return idString.split(',').map((id) => {
+            .then(r => r.text())
+            .then(idString => {
+                return idString.split(',').map(id => {
                     let numId = parseInt(id, 10);
-                    if(isNaN(numId)) {
+                    if (isNaN(numId)) {
                         throw new Error('Unable to parse the tree IDs.');
                     }
                     return numId;
                 });
             })
-            .catch((e) => {
+            .catch(e => {
                 return Promise.reject({ message: e.message });
             });
     }
@@ -122,7 +121,7 @@ export class Page extends PageBase {
         return this._plug
             .at('ratings')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
 
@@ -133,23 +132,23 @@ export class Page extends PageBase {
      * @returns {Promise.<pageRatingModel>} - A Promise that, when resolved, yields a {@link pageRatingModel} containing the new rating information.
      */
     rate(rating = null, oldRating = null) {
-        if(rating !== 1 && rating !== 0 && rating !== null) {
+        if (rating !== 1 && rating !== 0 && rating !== null) {
             throw new Error('Invalid rating supplied');
         }
-        if(oldRating !== 1 && oldRating !== 0 && oldRating !== null) {
+        if (oldRating !== 1 && oldRating !== 0 && oldRating !== null) {
             throw new Error('Invalid rating supplied for the old rating');
         }
-        if(rating === null) {
+        if (rating === null) {
             rating = '';
         }
-        if(oldRating === null) {
+        if (oldRating === null) {
             oldRating = '';
         }
         return this._plug
             .at('ratings')
             .withParams({ score: rating, previousScore: oldRating })
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
 
@@ -171,7 +170,7 @@ export class Page extends PageBase {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
         return contentsPlug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageContentsModelParser);
     }
 
@@ -188,16 +187,16 @@ export class Page extends PageBase {
      * @returns {Promise.<pageMoveModel>} - A Promise that, when resolved, yields a {@link pageMoveModel} containing information regarding the move operation.
      */
     copy(params = {}) {
-        if(!params.to) {
+        if (!params.to) {
             return Promise.reject(new Error('The copy target location must be specified in the `to` parameter.'));
         }
         return this._plug
             .at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser(err)));
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -210,9 +209,9 @@ export class Page extends PageBase {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch((err) => Promise.reject(_errorParser(err)));
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -225,7 +224,7 @@ export class Page extends PageBase {
         return this._plug
             .withParam('recursive', recursive)
             .delete()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageDeleteModelParser);
     }
 
@@ -238,7 +237,7 @@ export class Page extends PageBase {
         return this._plug
             .at('activate-draft')
             .post()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(pageModelParser);
     }
 
@@ -251,7 +250,7 @@ export class Page extends PageBase {
      */
     importArchive(file, { name = file.name, size = file.size, type = file.type, progress = null } = {}, params = {}) {
         const apiParams = Object.assign({ filename: name, behavior: 'async' }, params);
-        if(progress !== null) {
+        if (progress !== null) {
             const progressPlug = new ProgressPlug(this._settings.host, this._settings.plugConfig).at(
                 '@api',
                 'deki',
@@ -263,8 +262,8 @@ export class Page extends PageBase {
                 .at('import')
                 .withParams(apiParams)
                 .put(file, type, progressInfo)
-                .then((r) => JSON.parse(r.responseText))
-                .catch((e) => Promise.reject(JSON.parse(e.responseText)))
+                .then(r => JSON.parse(r.responseText))
+                .catch(e => Promise.reject(JSON.parse(e.responseText)))
                 .then(modelParser.createParser(importArchiveModel));
         }
         return this._plug
@@ -272,8 +271,8 @@ export class Page extends PageBase {
             .withParams(apiParams)
             .at('import')
             .put(file, type)
-            .then((r) => r.json())
-            .catch((e) => Promise.reject(JSON.parse(e.responseText)))
+            .then(r => r.json())
+            .catch(e => Promise.reject(JSON.parse(e.responseText)))
             .then(modelParser.createParser(importArchiveModel));
     }
 
@@ -285,7 +284,7 @@ export class Page extends PageBase {
         return this._plug
             .at('export')
             .post(null, utility.textRequestType)
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageExportModel));
     }
 
@@ -302,31 +301,31 @@ export class Page extends PageBase {
      */
     exportPdf({ fileName, format = 'pdf', stylesheet, deep = false, showToc = false, dryRun = false } = {}) {
         const params = {};
-        if(fileName) {
-            if(typeof fileName !== 'string') {
+        if (fileName) {
+            if (typeof fileName !== 'string') {
                 return Promise.reject(new Error('The fileName parameter must be a non-empty string'));
             }
             params.filename = fileName;
         }
-        if(stylesheet) {
-            if(typeof stylesheet !== 'string') {
+        if (stylesheet) {
+            if (typeof stylesheet !== 'string') {
                 return Promise.reject(new Error('The stylesheet parameter must be a non-empty string'));
             }
             params.stylesheet = stylesheet;
         }
-        if(format !== 'pdf' && format !== 'html') {
+        if (format !== 'pdf' && format !== 'html') {
             return Promise.reject(new Error('The `format` parameter must be either "pdf" or "html".'));
         }
         params.format = format;
-        if(typeof deep !== 'boolean') {
+        if (typeof deep !== 'boolean') {
             return Promise.reject(new Error('The `deep` parameter must be a Boolean value.'));
         }
         params.deep = deep;
-        if(typeof showToc !== 'boolean') {
+        if (typeof showToc !== 'boolean') {
             return Promise.reject(new Error('The `showToc` parameter must be a Boolean value.'));
         }
         params.showtoc = showToc;
-        if(typeof dryRun !== 'boolean') {
+        if (typeof dryRun !== 'boolean') {
             return Promise.reject(new Error('The `dryRun` parameter must be a Boolean value.'));
         }
         params.dryrun = dryRun;
@@ -334,10 +333,10 @@ export class Page extends PageBase {
             .at('pdf')
             .withParams(params)
             .get();
-        if(dryRun) {
+        if (dryRun) {
             return respPromise;
         }
-        return respPromise.then((r) => r.blob());
+        return respPromise.then(r => r.blob());
     }
 
     /**
@@ -346,7 +345,7 @@ export class Page extends PageBase {
      * @returns {Promise} A Promise that, when resolved, indicates that the reorder operation succeeded.
      */
     setOrder(afterId = 0) {
-        if(typeof afterId !== 'number') {
+        if (typeof afterId !== 'number') {
             return Promise.reject(new Error('The afterId must be a numeric page ID.'));
         }
         return this._plug
@@ -369,38 +368,38 @@ export class Page extends PageBase {
      */
     getLinkDetails({ includeSubpages = false, linkTypes = [], broken, redirect, limit = 100, offset = 0, q } = {}) {
         const params = {};
-        if(typeof includeSubpages !== 'boolean') {
+        if (typeof includeSubpages !== 'boolean') {
             return Promise.reject(new Error('The `includeSubpages` parameter must be a Boolean value.'));
         }
         params.subpages = includeSubpages;
-        if(!Array.isArray(linkTypes)) {
+        if (!Array.isArray(linkTypes)) {
             return Promise.reject(new Error('The `linkTypes` parameter must be an array.'));
         }
-        if(linkTypes.length > 0) {
+        if (linkTypes.length > 0) {
             params.linktypes = linkTypes.join(',');
         }
-        if(typeof broken !== 'undefined') {
-            if(typeof broken !== 'boolean') {
+        if (typeof broken !== 'undefined') {
+            if (typeof broken !== 'boolean') {
                 return Promise.reject(new Error('The `broken` parameter must be a Boolean value.'));
             }
             params.broken = broken;
         }
-        if(typeof redirect !== 'undefined') {
-            if(typeof redirect !== 'boolean') {
+        if (typeof redirect !== 'undefined') {
+            if (typeof redirect !== 'boolean') {
                 return Promise.reject(new Error('The `redirect` parameter must be a Boolean value.'));
             }
             params.redirect = redirect;
         }
-        if(typeof limit !== 'number') {
+        if (typeof limit !== 'number') {
             return Promise.reject(new Error('The `limit` parameter must be a number.'));
         }
         params.limit = limit;
-        if(typeof offset !== 'number') {
+        if (typeof offset !== 'number') {
             return Promise.reject(new Error('The `offset` parameter must be a number.'));
         }
         params.offset = offset;
-        if(typeof q !== 'undefined') {
-            if(typeof q !== 'string') {
+        if (typeof q !== 'undefined') {
+            if (typeof q !== 'string') {
                 return Promise.reject(new Error('The `q` parameter must be a string.'));
             }
             params.q = q;
@@ -409,8 +408,8 @@ export class Page extends PageBase {
             .at('linkdetails')
             .withParams(params)
             .get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
 
@@ -426,32 +425,32 @@ export class Page extends PageBase {
      */
     getHealthInspections({ analyzers, severities, includeSubpages, limit, offset } = {}) {
         const params = {};
-        if(analyzers) {
-            if(!Array.isArray(analyzers)) {
+        if (analyzers) {
+            if (!Array.isArray(analyzers)) {
                 return Promise.reject(new Error('The `analyzers` parameter must be an array.'));
             }
             params.analyzers = analyzers.join(',');
         }
-        if(severities) {
-            if(!Array.isArray(severities)) {
+        if (severities) {
+            if (!Array.isArray(severities)) {
                 return Promise.reject(new Error('The `severities` parameter must be an array.'));
             }
             params.severity = severities.join(',');
         }
-        if(typeof includeSubpages !== 'undefined') {
-            if(typeof includeSubpages !== 'boolean') {
+        if (typeof includeSubpages !== 'undefined') {
+            if (typeof includeSubpages !== 'boolean') {
                 return Promise.reject(new Error('The `includeSubpages` parameter must be a boolean value.'));
             }
             params.subpages = includeSubpages;
         }
-        if(limit) {
-            if(typeof limit !== 'number') {
+        if (limit) {
+            if (typeof limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = limit;
         }
-        if(offset) {
-            if(typeof offset !== 'number') {
+        if (offset) {
+            if (typeof offset !== 'number') {
                 return Promise.reject(new Error('The `offset` parameter must be a number.'));
             }
             params.offset = offset;
@@ -460,8 +459,8 @@ export class Page extends PageBase {
             .at('health')
             .withParams(params)
             .get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
 
@@ -473,7 +472,7 @@ export class Page extends PageBase {
         return this._plug
             .at('hierarchyinfo')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageHierarchyInfoModel));
     }
 
@@ -483,7 +482,7 @@ export class Page extends PageBase {
      * @returns {Response} The fetch API Response.
      */
     linkToCase(caseId) {
-        if(!caseId) {
+        if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to link a case to the page.'));
         }
         return this._plug.at('linktocase', caseId).post();
@@ -495,7 +494,7 @@ export class Page extends PageBase {
      * @returns {Response} The fetch API Response.
      */
     unlinkCase(caseId) {
-        if(!caseId) {
+        if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to unlink a case from the page.'));
         }
         return this._plug.at('linktocase', caseId).delete();
@@ -509,7 +508,7 @@ export class Page extends PageBase {
         return this._plug
             .at('linktocase', 'links')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(linkToCaseLinkList));
     }
 }
@@ -531,7 +530,7 @@ export class PageManager {
         const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(pageRatingsModel));
     }
 
@@ -548,51 +547,51 @@ export class PageManager {
     findPages(options = {}) {
         let paramFound = false;
         const params = {};
-        if(options.parentId) {
+        if (options.parentId) {
             params.parentid = utility.getResourceId(options.parentId, 'home');
             paramFound = true;
         }
-        if(options.tags) {
-            if(!Array.isArray(options.tags)) {
+        if (options.tags) {
+            if (!Array.isArray(options.tags)) {
                 return Promise.reject(new Error('The `tags` parameter must be an Array.'));
             }
-            if(options.tags.length > 0) {
+            if (options.tags.length > 0) {
                 params.tags = options.tags.join(',');
                 paramFound = true;
             }
         }
-        if(options.missingClassifications) {
-            if(!Array.isArray(options.missingClassifications)) {
+        if (options.missingClassifications) {
+            if (!Array.isArray(options.missingClassifications)) {
                 return Promise.reject(new Error('The `missingClassifications` parameter must be an Array.'));
             }
-            if(options.missingClassifications.length > 0) {
+            if (options.missingClassifications.length > 0) {
                 params.missingclassifications = options.missingClassifications.join(',');
                 paramFound = true;
             }
         }
-        if(options.since) {
-            if(!(options.since instanceof Date)) {
+        if (options.since) {
+            if (!(options.since instanceof Date)) {
                 return Promise.reject(new Error('The `since` parameter must be of type Date.'));
             }
             params.since = utility.getApiDateString(options.since);
             paramFound = true;
         }
-        if(options.upTo) {
-            if(!(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (!(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be of type Date.'));
             }
             params.upto = utility.getApiDateString(options.upTo);
             paramFound = true;
         }
-        if(paramFound === false) {
+        if (paramFound === false) {
             return Promise.reject(new Error('At least one constraint must be supplied to find pages.'));
         }
         return this._plug
             .at('find')
             .withParams(params)
             .get()
-            .then((r) => r.json())
-            .catch((err) => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -604,17 +603,17 @@ export class PageManager {
      * @returns {Promise} A Promise that, when resolved returns a listing of the available templates.
      */
     getTemplates({ type = 'page', includeDescription = true } = {}) {
-        if(typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
+        if (typeof type !== 'string' || (type !== 'page' && type !== 'content')) {
             return Promise.reject(new Error('The `type` parameter must be set to either "page" or "content".'));
         }
-        if(typeof includeDescription !== 'boolean') {
+        if (typeof includeDescription !== 'boolean') {
             return Promise.reject(new Error('The `includeDescription` parameter must be a Boolean value'));
         }
         return this._plug
             .at('templates')
             .withParams({ type, includeDescription })
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(templateListModel));
     }
 
@@ -631,14 +630,14 @@ export class PageManager {
             required('limit', one(number(), equals('all'))),
             required('offset', number())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(optionsErrors.join(', '));
         }
         return this._plug
             .at('popular')
             .withParams({ limit, offset })
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(popularPagesModel));
     }
 }

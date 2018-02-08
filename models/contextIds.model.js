@@ -1,3 +1,1 @@
-export const contextIdsModel = [
-    { field: 'context', name: 'contextIds', isArray: true }
-];
+export const contextIdsModel = [{ field: 'context', name: 'contextIds', isArray: true }];

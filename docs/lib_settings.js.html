@@ -36,7 +36,7 @@ let _defaultToken = null;
 let _cookieManager = null;
 function _cloneKVPs(obj) {
     const copy = {};
-    Object.keys(obj).forEach((key) => {
+    Object.keys(obj).forEach(key => {
         copy[key] = obj[key];
     });
     return copy;
@@ -103,16 +103,22 @@ export class Settings {
      * @param {String|Function} [options.token] A token to allow API access. This will populate the "X-Deki-Token" header. If a function is supplied, it should return the desired token as a string.
      * @param {String} [options.origin] The origin of the API calls.
      */
-    constructor({ host = _defaultHost, queryParams = _defaultQueryParams, headers = _defaultHeaders, token = _defaultToken, origin = _defaultOrigin } = {}) {
+    constructor({
+        host = _defaultHost,
+        queryParams = _defaultQueryParams,
+        headers = _defaultHeaders,
+        token = _defaultToken,
+        origin = _defaultOrigin
+    } = {}) {
         this._host = host;
         this._token = token;
         this._origin = origin;
         this._queryParams = _cloneKVPs(queryParams);
         this._headers = _cloneKVPs(headers);
-        if(this._origin !== null) {
+        if (this._origin !== null) {
             const originUri = new Uri(this._origin);
             const hostUri = new Uri(this._host);
-            if(originUri.origin === hostUri.origin) {
+            if (originUri.origin === hostUri.origin) {
                 this._headers['X-Deki-Requested-With'] = 'XMLHttpRequest';
             }
         }
@@ -146,14 +152,14 @@ export class Settings {
         return {
             uriParts: { query: this._queryParams },
             headers: this._headers,
-            beforeRequest: (params) => this._beforeRequest(params),
+            beforeRequest: params => this._beforeRequest(params),
             cookieManager: _cookieManager
         };
     }
     _beforeRequest(params) {
-        if(this._token !== null) {
+        if (this._token !== null) {
             let token = this._token;
-            if(typeof token === 'function') {
+            if (typeof token === 'function') {
                 token = this._token();
             }
             params.headers['X-Deki-Token'] = token;

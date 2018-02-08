@@ -5,7 +5,6 @@ import { Settings } from './lib/settings.js';
  * A class for validating HTTP requests to the MindTouch site API.
  */
 export class Api {
-
     /**
      * Construct a new API object.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.

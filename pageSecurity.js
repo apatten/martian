@@ -5,52 +5,54 @@ import { modelParser } from './lib/modelParser.js';
 import { pageSecurityModel } from './models/pageSecurity.model.js';
 
 function _validateGrantsArray(grants) {
-    if(!Array.isArray(grants)) {
-        return [ false, 'The specified grants must be an array' ];
+    if (!Array.isArray(grants)) {
+        return [false, 'The specified grants must be an array'];
     }
-    for(const grant of grants) {
+    for (const grant of grants) {
         const userDefined = typeof grant.user !== 'undefined';
         const groupDefined = typeof grant.group !== 'undefined';
-        if((userDefined && groupDefined) || (!userDefined && !groupDefined)) {
-            return [ false, 'The grant must only define a single user or group, but not both.' ];
+        if ((userDefined && groupDefined) || (!userDefined && !groupDefined)) {
+            return [false, 'The grant must only define a single user or group, but not both.'];
         }
-        if(userDefined && typeof grant.user !== 'string' && typeof grant.user !== 'number') {
-            return [ false, 'The grant user parameter must be a numeric ID or an username' ];
-        } else if(groupDefined && typeof grant.group !== 'string' && typeof grant.group !== 'number') {
-            return [ false, 'The grant group parameter must be a numeric ID or an username' ];
+        if (userDefined && typeof grant.user !== 'string' && typeof grant.user !== 'number') {
+            return [false, 'The grant user parameter must be a numeric ID or an username'];
+        } else if (groupDefined && typeof grant.group !== 'string' && typeof grant.group !== 'number') {
+            return [false, 'The grant group parameter must be a numeric ID or an username'];
         }
-        if(typeof grant.role !== 'string') {
-            return [ false, 'The grant role must be defined and must be a string.' ];
+        if (typeof grant.role !== 'string') {
+            return [false, 'The grant role must be defined and must be a string.'];
         }
     }
-    return [ true, 'success' ];
+    return [true, 'success'];
 }
 function _getGrantsXml(grants, modifier) {
     let tagName = 'grants';
-    if(modifier) {
+    if (modifier) {
         tagName += `.${modifier}`;
     }
-    const grantsXml = grants.map((grant) => {
-        let userOrGroup;
-        if(grant.user) {
-            userOrGroup = 'user';
-        } else {
-            userOrGroup = 'group';
-        }
-        const idOrName = grant[userOrGroup];
-        let userOrGroupXml;
-        if(typeof idOrName === 'number') {
-            userOrGroupXml = `<${userOrGroup} id="${idOrName}"></${userOrGroup}>`;
-        } else {
-            userOrGroupXml = `<${userOrGroup}><${userOrGroup}name>${idOrName}</${userOrGroup}name></${userOrGroup}>`;
-        }
-        const roleXml = `<permissions><role>${grant.role}</role></permissions>`;
-        return `<grant>${userOrGroupXml}${roleXml}</grant>`;
-    }).join('');
+    const grantsXml = grants
+        .map(grant => {
+            let userOrGroup;
+            if (grant.user) {
+                userOrGroup = 'user';
+            } else {
+                userOrGroup = 'group';
+            }
+            const idOrName = grant[userOrGroup];
+            let userOrGroupXml;
+            if (typeof idOrName === 'number') {
+                userOrGroupXml = `<${userOrGroup} id="${idOrName}"></${userOrGroup}>`;
+            } else {
+                userOrGroupXml = `<${userOrGroup}><${userOrGroup}name>${idOrName}</${userOrGroup}name></${userOrGroup}>`;
+            }
+            const roleXml = `<permissions><role>${grant.role}</role></permissions>`;
+            return `<grant>${userOrGroupXml}${roleXml}</grant>`;
+        })
+        .join('');
     return `<${tagName}>${grantsXml}</${tagName}>`;
 }
 function _getPageRestrictionXml(restriction) {
-    if(!restriction) {
+    if (!restriction) {
         return '';
     }
     return `<permissions.page><restriction>${restriction}</restriction></permissions.page>`;
@@ -60,14 +62,19 @@ function _getPageRestrictionXml(restriction) {
  * A class for manipulating the restrictions and grants on a page.
  */
 export class PageSecurity {
-
     /**
      * Create a new PageSecurity object.
      * @param {Number|String} [id=home] The numeric page ID or page path string for the page.
      * @param {Settings} [settings] The martian Settings used to direct the API requests for the PageSecurity instance.
      */
     constructor(id = 'home', settings = new Settings()) {
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'pages', utility.getResourceId(id, 'home'), 'security');
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'pages',
+            utility.getResourceId(id, 'home'),
+            'security'
+        );
     }
 
     /**
@@ -75,7 +82,10 @@ export class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, yields a securityModel containing the page security information.
      */
     get() {
-        return this._plug.get().then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 
     /**
@@ -98,21 +108,24 @@ export class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, yields a pageSecurityModel containing the new security information.
      */
     set({ cascade = 'none', pageRestriction, grants } = {}) {
-        if(typeof pageRestriction !== 'string') {
+        if (typeof pageRestriction !== 'string') {
             return Promise.reject(new Error('The pageRestriction parameter must be provided and must be a string.'));
         }
         let grantsXml = '';
-        if(grants) {
-            const [ validGrants, err ] = _validateGrantsArray(grants);
-            if(!validGrants) {
+        if (grants) {
+            const [validGrants, err] = _validateGrantsArray(grants);
+            if (!validGrants) {
                 return Promise.reject(new Error(err));
             }
             grantsXml = _getGrantsXml(grants);
         }
         const restrictionXml = _getPageRestrictionXml(pageRestriction);
         const securityRequest = `<security>${restrictionXml}${grantsXml}</security>`;
-        return this._plug.withParams({ cascade }).put(securityRequest, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .withParams({ cascade })
+            .put(securityRequest, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 
     /**
@@ -132,24 +145,27 @@ export class PageSecurity {
      */
     update({ cascade = 'none', pageRestriction, grantsAdded, grantsRemoved } = {}) {
         let addedXml = '';
-        if(grantsAdded) {
-            const [ valid, err ] = _validateGrantsArray(grantsAdded);
-            if(!valid) {
+        if (grantsAdded) {
+            const [valid, err] = _validateGrantsArray(grantsAdded);
+            if (!valid) {
                 return Promise.reject(new Error(err));
             }
             addedXml = _getGrantsXml(grantsAdded, 'added');
         }
         let removedXml = '';
-        if(grantsRemoved) {
-            const [ valid, err ] = _validateGrantsArray(grantsRemoved);
-            if(!valid) {
+        if (grantsRemoved) {
+            const [valid, err] = _validateGrantsArray(grantsRemoved);
+            if (!valid) {
                 return Promise.reject(new Error(err));
             }
             removedXml = _getGrantsXml(grantsRemoved, 'removed');
         }
         const restrictionXml = _getPageRestrictionXml(pageRestriction);
         const securityRequest = `<security>${restrictionXml}${addedXml}${removedXml}</security>`;
-        return this._plug.withParams({ cascade }).post(securityRequest, utility.xmlRequestType)
-            .then((r) => r.json()).then(modelParser.createParser(pageSecurityModel));
+        return this._plug
+            .withParams({ cascade })
+            .post(securityRequest, utility.xmlRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(pageSecurityModel));
     }
 }

@@ -11,14 +11,13 @@ import { apiErrorModel } from './models/apiError.model.js';
  * A class to manage individual Context IDs.
  */
 export class ContextDefinition {
-
     /**
      * Create a ContextDefinition.
      * @param {String} id The ID of the context definition.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(id, settings = new Settings()) {
-        if(!id) {
+        if (!id) {
             throw new Error('an ID must be supplied to create a new ContextDefinition');
         }
         this.id = id;
@@ -30,7 +29,10 @@ export class ContextDefinition {
      * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     getInfo() {
-        return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextIdModel));
+        return this.plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextIdModel));
     }
 
     /**
@@ -40,7 +42,10 @@ export class ContextDefinition {
      */
     updateDescription(description = '') {
         const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
-        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextIdModel));
+        return this.plug
+            .put(updateRequest, 'application/xml; charset=utf-8')
+            .then(r => r.json())
+            .then(modelParser.createParser(contextIdModel));
     }
 
     /**
@@ -56,7 +61,6 @@ export class ContextDefinition {
  * A class to manage a mapping between a {@link ContextDefinition} and a page on a MindTouch site; taking language into account.
  */
 export class ContextMap {
-
     /**
      * Construct a new ContextMap
      * @param {String} language The language of the mapping.
@@ -64,12 +68,14 @@ export class ContextMap {
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(language, id, settings = new Settings()) {
-        if(!id || !language) {
+        if (!id || !language) {
             throw new Error('an ID and language must be supplied to create a new ContextMap');
         }
         this.id = id;
         this.language = language;
-        this.plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps', language, id).withParam('verbose', 'true');
+        this.plug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'contextmaps', language, id)
+            .withParam('verbose', 'true');
     }
 
     /**
@@ -77,7 +83,10 @@ export class ContextMap {
      * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     getInfo() {
-        return this.plug.get().then((r) => r.json()).then(modelParser.createParser(contextMapModel));
+        return this.plug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapModel));
     }
 
     /**
@@ -86,11 +95,16 @@ export class ContextMap {
      * @returns {Promise.<contextMapModel>} A promise that, when resolved, yields a {@link contextMapModel} object.
      */
     update(pageId) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('a page ID must be supplied in order to update a mapping'));
         }
-        const updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${this.language}</language></contextmap>`;
-        return this.plug.put(updateRequest, 'application/xml; charset=utf-8').then((r) => r.json()).then(modelParser.createParser(contextMapModel));
+        const updateRequest = `<contextmap><id>${this.id}</id><pageid>${pageId}</pageid><language>${
+            this.language
+        }</language></contextmap>`;
+        return this.plug
+            .put(updateRequest, 'application/xml; charset=utf-8')
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapModel));
     }
 
     /**
@@ -106,13 +120,14 @@ export class ContextMap {
  * A class to manage the Context ID subsystem for access to the Context IDs and Context ID Mappings.
  */
 export class ContextIdManager {
-
     /**
      * Construct a new ContextIdManager.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
      */
     constructor(settings = new Settings()) {
-        this.mapsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contextmaps').withParam('verbose', 'true');
+        this.mapsPlug = new Plug(settings.host, settings.plugConfig)
+            .at('@api', 'deki', 'contextmaps')
+            .withParam('verbose', 'true');
         this.definitionsPlug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'contexts');
         this._settings = settings;
         this._errorParser = modelParser.createParser(apiErrorModel);
@@ -123,7 +138,10 @@ export class ContextIdManager {
      * @returns {Promise.<contextMapsModel>} A promise that, when resolved, yields a {@link contextMapsModel} object.
      */
     getMaps() {
-        return this.mapsPlug.get().then((r) => r.json()).then(modelParser.createParser(contextMapsModel));
+        return this.mapsPlug
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(contextMapsModel));
     }
 
     /**
@@ -131,14 +149,17 @@ export class ContextIdManager {
      * @returns {Promise.<contextIdsModel>} A promise that, when resolved, yields a {@link contextIdsModel} object.
      */
     getDefinitions() {
-        return this.definitionsPlug.get().then((r) => r.json()).then((response) => {
-
-            // response is an empty string when site has no context IDs.
-            if(response === '') {
-                response = { context: [] };
-            }
-            return response;
-        }).then(modelParser.createParser(contextIdsModel));
+        return this.definitionsPlug
+            .get()
+            .then(r => r.json())
+            .then(response => {
+                // response is an empty string when site has no context IDs.
+                if (response === '') {
+                    response = { context: [] };
+                }
+                return response;
+            })
+            .then(modelParser.createParser(contextIdsModel));
     }
 
     /**
@@ -148,13 +169,14 @@ export class ContextIdManager {
      * @returns {Promise.<contextIdModel>} A promise that, when resolved, yields a {@link contextIdModel} object.
      */
     addDefinition(id, description = '') {
-        if(!id) {
+        if (!id) {
             return Promise.reject(new Error('an ID must be supplied to add a definition'));
         }
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
-        return this.definitionsPlug.post(addRequest, 'application/xml; charset=utf-8')
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.json())
+        return this.definitionsPlug
+            .post(addRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
 
