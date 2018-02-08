@@ -24,6 +24,13 @@ export const fileModel = [
             { field: '@width', name: 'width', transform: 'number' }
         ]
     },
+    {
+        field: 'revisions',
+        transform: [
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@totalcount', name: 'totalCount', transform: 'number' }
+        ]
+    },
     { field: 'user.createdby', name: 'userCreatedBy', transform: userModel },
     { field: 'page.parent', name: 'pageParent', transform: pageModel }
 ];

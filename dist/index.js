@@ -1926,6 +1926,13 @@ const fileModel = [
             { field: '@width', name: 'width', transform: 'number' }
         ]
     },
+    {
+        field: 'revisions',
+        transform: [
+            { field: '@count', name: 'count', transform: 'number' },
+            { field: '@totalcount', name: 'totalCount', transform: 'number' }
+        ]
+    },
     { field: 'user.createdby', name: 'userCreatedBy', transform: userModel },
     { field: 'page.parent', name: 'pageParent', transform: pageModel }
 ];
@@ -4170,6 +4177,21 @@ const linkToCaseLinkList = [
     { field: 'total', transform: 'number' }
 ];
 
+const filesAndSubpagesModel = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: '@guid', name: 'guid' },
+    { field: '@draft.state', name: 'draftState' },
+    { field: '@href', name: 'href' },
+    { field: '@deleted', name: 'deleted', transform: 'boolean' },
+    { field: 'date.created', name: 'dateCreated', transform: 'date' },
+    { field: 'language' },
+    { field: [ 'path', '#text' ] },
+    { field: 'title' },
+    { field: 'uri.ui', name: 'uri' },
+    { field: 'files', name: 'filesInfo', transform: pageFilesModel },
+    { field: 'subpages', name: 'subpagesInfo', transform: subpagesModel }
+];
+
 const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 /**
@@ -4218,6 +4240,14 @@ class Page extends PageBase {
             .get()
             .then(r => r.json())
             .then(modelParser.createParser(subpagesModel));
+    }
+
+    getFilesAndSubpages() {
+        return this._plug
+            .at('files,subpages')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(filesAndSubpagesModel));
     }
 
     /**

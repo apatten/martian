@@ -51,6 +51,9 @@ describe('Page', () => {
         it('can get the subpages', () => {
             return page.getSubpages();
         });
+        it('can get files and subpages', () => {
+            return page.getFilesAndSubpages();
+        });
         it('can get the page tree', () => {
             return page.getTree();
         });

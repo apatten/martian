@@ -1,0 +1,166 @@
+{
+    "@id": "322",
+    "@guid": "cadfabf4023a477db12a7a2e29d60632",
+    "@draft.state": "inactive",
+    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+    "@deleted": "false",
+    "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+    "files": {
+        "@count": "2",
+        "file": [
+            {
+                "@id": "48",
+                "@revision": "2",
+                "@res-id": "227",
+                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/48/info",
+                "@res-is-head": "true",
+                "@res-is-deleted": "false",
+                "@res-rev-is-deleted": "false",
+                "@res-contents-id": "1179",
+                "contents": {
+                    "@type": "image/gif",
+                    "@size": "3171053",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/48/1763905162232357521-account_id%3D1.gif"
+                },
+                "date.created": "Wed, 07 Feb 2018 22:39:30 GMT",
+                "description": "",
+                "filename": "1763905162232357521-account_id=1.gif",
+                "page.parent": {
+                    "@id": "322",
+                    "@guid": "cadfabf4023a477db12a7a2e29d60632",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": { "@seo": "true", "#text": "Category_2/Guide_2/Topic_2.3" },
+                    "title": "Topic 2.3",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+                },
+                "revisions": {
+                    "@count": "1",
+                    "@totalcount": "2",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/48/revisions"
+                },
+                "user.createdby": {
+                    "@anonymous": "false",
+                    "@id": "1",
+                    "@wikiid": "site_18",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+                    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+                    "date.lastlogin": "Fri, 12 Jan 2018 20:39:11 GMT",
+                    "email": "aaronm@mindtouch.com",
+                    "fullname": "Mr. Admin",
+                    "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+                    "license.seat": { "@owner": "true", "#text": "true" },
+                    "nick": "admin",
+                    "password": { "@exists": "true" },
+                    "status": "active",
+                    "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                    "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                    "username": "admin"
+                }
+            },
+            {
+                "@id": "37",
+                "@revision": "1",
+                "@res-id": "215",
+                "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/37/info",
+                "@res-is-head": "true",
+                "@res-is-deleted": "false",
+                "@res-rev-is-deleted": "false",
+                "@res-contents-id": "1156",
+                "contents": {
+                    "@type": "image/jpeg",
+                    "@size": "1945674",
+                    "@width": "3024",
+                    "@height": "4032",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/37/GlasgowWeekInHamburg.JPG"
+                },
+                "contents.preview": [
+                    {
+                        "@rel": "thumb",
+                        "@type": "image/jpeg",
+                        "@maxwidth": "160",
+                        "@maxheight": "160",
+                        "@href":
+                            "https://aaronm-elm.mindtouch.be/@api/deki/files/37/GlasgowWeekInHamburg.JPG?size=thumb"
+                    },
+                    {
+                        "@rel": "webview",
+                        "@type": "image/jpeg",
+                        "@maxwidth": "550",
+                        "@maxheight": "550",
+                        "@href":
+                            "https://aaronm-elm.mindtouch.be/@api/deki/files/37/GlasgowWeekInHamburg.JPG?size=webview"
+                    }
+                ],
+                "date.created": "Wed, 02 Aug 2017 19:19:50 GMT",
+                "description": "",
+                "filename": "GlasgowWeekInHamburg.JPG",
+                "page.parent": {
+                    "@id": "322",
+                    "@guid": "cadfabf4023a477db12a7a2e29d60632",
+                    "@draft.state": "inactive",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322?redirects=0",
+                    "@deleted": "false",
+                    "date.created": "Fri, 06 Jan 2017 17:27:07 GMT",
+                    "language": "en-US",
+                    "namespace": "main",
+                    "path": { "@seo": "true", "#text": "Category_2/Guide_2/Topic_2.3" },
+                    "title": "Topic 2.3",
+                    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+                },
+                "revisions": {
+                    "@count": "1",
+                    "@totalcount": "1",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/files/37/revisions"
+                },
+                "user.createdby": {
+                    "@anonymous": "false",
+                    "@id": "1",
+                    "@wikiid": "site_18",
+                    "@href": "https://aaronm-elm.mindtouch.be/@api/deki/users/1",
+                    "date.created": "Mon, 19 Dec 2016 17:22:45 GMT",
+                    "date.lastlogin": "Fri, 12 Jan 2018 20:39:11 GMT",
+                    "email": "aaronm@mindtouch.com",
+                    "fullname": "Mr. Admin",
+                    "hash.email": "f7362144f4ae25d0fee0101f597ef60a",
+                    "license.seat": { "@owner": "true", "#text": "true" },
+                    "nick": "admin",
+                    "password": { "@exists": "true" },
+                    "status": "active",
+                    "uri.avatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                    "uri.gravatar": "https://gravatar.com/avatar/f7362144f4ae25d0fee0101f597ef60a.png?d=mm",
+                    "username": "admin"
+                }
+            }
+        ]
+    },
+    "language": "en-US",
+    "namespace": "main",
+    "path": { "@seo": "true", "#text": "Category_2/Guide_2/Topic_2.3" },
+    "subpages": {
+        "@totalcount": "1",
+        "@count": "1",
+        "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/322/subpages",
+        "page.subpage": {
+            "@id": "532",
+            "@guid": "7f9033ccc5384607857feed76a121d7a",
+            "@draft.state": "inactive",
+            "@href": "https://aaronm-elm.mindtouch.be/@api/deki/pages/532?redirects=0",
+            "@deleted": "false",
+            "@terminal": "true",
+            "@subpages": "false",
+            "date.created": "Thu, 08 Feb 2018 19:46:19 GMT",
+            "language": "en-US",
+            "namespace": "main",
+            "path": { "@seo": "true", "#text": "Category_2/Guide_2/Topic_2.3/This_is_blank!" },
+            "title": "This is blank!",
+            "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3/This_is_blank!"
+        }
+    },
+    "title": "Topic 2.3",
+    "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Guide_2/Topic_2.3"
+}
