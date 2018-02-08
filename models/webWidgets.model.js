@@ -3,6 +3,7 @@ export const webWidgetsModel = [
     { field: '@date', name: 'date', transform: 'date' },
     { field: '@id', name: 'id', transform: 'number' },
     { field: '@type', name: 'type' },
+    { field: '@parentId', name: 'parentId', transform: 'number' },
     { field: 'host' },
     { field: 'name' },
     { field: 'token' },
@@ -16,3 +17,4 @@ export const webWidgetsModel = [
         ]
     }
 ];
+webWidgetsModel.push({ field: ['sub-web-widgets', 'web-widget'], name: 'subwidgets', isArray: true, transform: webWidgetsModel });

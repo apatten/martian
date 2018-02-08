@@ -11,20 +11,23 @@ function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
 function _makeXmlString(data) {
-    if(!data || typeof data !== 'object') {
+    if (!data || typeof data !== 'object') {
         throw new Error('Web widget data must be an object');
     }
-    if(!Array.isArray(data.arguments) || data.arguments.some((arg) => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))) {
+    if (!Array.isArray(data.arguments) || data.arguments.some((arg) => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))) {
         throw new Error('Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean');
     }
-    if(!Array.isArray(data.hosts) || data.hosts.some((host) => typeof host !== 'string')) {
+    if (!Array.isArray(data.hosts) || data.hosts.some((host) => typeof host !== 'string')) {
         throw new Error('Web widget hosts must be an array of strings');
     }
-    if(typeof data.name !== 'string') {
+    if (typeof data.name !== 'string') {
         throw new Error('Web widget name must be a string');
     }
-    if(typeof data.type !== 'string') {
+    if (typeof data.type !== 'string') {
         throw new Error('Web widget type must be a string');
+    }
+    if ('parentId' in data && typeof data.parentId !== 'number') {
+        throw new Error('Web widget parentId must be a number');
     }
     const argData = data.arguments.map((arg) => {
         return `<${arg.name}>${utility.escapeHTML(arg.value)}</${arg.name}>`;
@@ -35,6 +38,7 @@ function _makeXmlString(data) {
             <host>${utility.escapeHTML(data.hosts.join(','))}</host>
             <name>${utility.escapeHTML(data.name)}</name>
             <type>${utility.escapeHTML(data.type)}</type>
+            <parentId>${'parentId' in data ? data.parentId : ''}</parentId>
         </web-widget>
     `;
 }
