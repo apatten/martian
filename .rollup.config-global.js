@@ -42,8 +42,8 @@ export default {
         }),
         babel({
             babelrc: false,
-            plugins: [ 'external-helpers' ],
-            presets: [ [ 'env', { modules: false, targets: { uglify: true } } ] ]
+            plugins: ['external-helpers'],
+            presets: [['env', { modules: false, targets: { uglify: true } }]]
         }),
         uglify({
             output: {

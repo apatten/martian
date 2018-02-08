@@ -20,21 +20,24 @@ export class SiteReports {
      */
     getSiteHealth(options = {}) {
         const params = {};
-        if(options.analyzers) {
-            if(!Array.isArray(options.analyzers)) {
+        if (options.analyzers) {
+            if (!Array.isArray(options.analyzers)) {
                 return Promise.reject(new Error('The `analyzers` option must be an array of analyzers'));
             }
             params.analyzers = options.analyzers.join(',');
         }
-        if(options.severities) {
-            if(!Array.isArray(options.severities)) {
+        if (options.severities) {
+            if (!Array.isArray(options.severities)) {
                 return Promise.reject(new Error('The `severities` option must be an array of analyzers'));
             }
             params.severity = options.severities.join(',');
         }
-        return this._plug.at('sitehealth').withParams(params).get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('sitehealth')
+            .withParams(params)
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
 }

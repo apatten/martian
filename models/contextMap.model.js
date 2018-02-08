@@ -7,5 +7,5 @@ export const contextMapModel = [
     { field: 'id' },
     { field: 'language' },
     { field: 'page', transform: pageModel },
-    { field: [ 'pageid', '#text' ], transform: 'number' }
+    { field: ['pageid', '#text'], transform: 'number' }
 ];

@@ -15,10 +15,10 @@ export const searchAnalyticsModel = [
                     { field: 'mostRecent', transform: 'date' },
                     { field: 'query' },
                     { field: 'results', transform: 'number' },
-                    { field: 'topresult', transform: [
-                        { field: 'page', transform: pageModel },
-                        { field: 'file', transform: fileModel }
-                    ]},
+                    {
+                        field: 'topresult',
+                        transform: [{ field: 'page', transform: pageModel }, { field: 'file', transform: fileModel }]
+                    },
                     { field: 'total', transform: 'number' }
                 ]
             }

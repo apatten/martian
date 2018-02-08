@@ -14,14 +14,11 @@ describe('Page Contents Model', () => {
             ]
         };
         let results = [];
-        pageContentsModel.forEach((propertyModel) => {
-            if(typeof propertyModel.transform === 'function') {
+        pageContentsModel.forEach(propertyModel => {
+            if (typeof propertyModel.transform === 'function') {
                 results.push(propertyModel.transform(mockData.body));
             }
         });
-        expect(results).toEqual([
-            'body content',
-            [ { target: 'target content' } ]
-        ]);
+        expect(results).toEqual(['body content', [{ target: 'target content' }]]);
     });
 });

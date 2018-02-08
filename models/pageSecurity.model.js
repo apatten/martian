@@ -5,7 +5,7 @@ import { groupModel } from './group.model.js';
 export const pageSecurityModel = [
     { field: '@href', name: 'href' },
     {
-        field: [ 'grants', 'grant' ],
+        field: ['grants', 'grant'],
         name: 'grants',
         isArray: true,
         transform: [

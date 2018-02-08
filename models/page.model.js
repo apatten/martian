@@ -15,7 +15,7 @@ const pageModel = [
     { field: 'namespace' },
     { field: 'language.effective', name: 'languageEffective' },
     { field: 'timeuuid' },
-    { field: [ 'path', '#text' ] },
+    { field: ['path', '#text'] },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
     { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
@@ -31,13 +31,13 @@ const pageModel = [
     { field: 'date.created', name: 'dateCreated', transform: 'date' },
     { field: 'date.modified', name: 'dateModified', transform: 'date' },
     { field: 'date.edited', name: 'dateEdited', transform: 'date' },
-    { field: [ 'revisions', '@count' ], name: 'revisionCount', transform: 'number' },
-    { field: [ 'comments', '@count' ], name: 'commentCount', transform: 'number' },
-    { field: [ 'permissions', 'permissions.page' ], name: 'permissions', transform: permissionsModel },
+    { field: ['revisions', '@count'], name: 'revisionCount', transform: 'number' },
+    { field: ['comments', '@count'], name: 'commentCount', transform: 'number' },
+    { field: ['permissions', 'permissions.page'], name: 'permissions', transform: permissionsModel },
     {
         field: 'rating',
         constructTransform(rating) {
-            if(typeof rating === 'object' && rating !== null) {
+            if (typeof rating === 'object' && rating !== null) {
                 return pageRatingModel;
             }
         }
@@ -50,7 +50,7 @@ const pageModel = [
         ]
     },
     {
-        field: [ 'tags', 'tag' ],
+        field: ['tags', 'tag'],
         isArray: true,
         transform: [
             { field: '@href', name: 'href' },

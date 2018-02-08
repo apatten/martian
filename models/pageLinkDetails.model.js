@@ -20,8 +20,8 @@ export const pageLinkDetailsModel = [
                     { field: 'rel' },
                     { field: 'text' },
                     { field: 'type' },
-                    { field: [ 'destination', 'page' ], name: 'destinationPage', transform: pageModel },
-                    { field: [ 'destination', 'file' ], name: 'destinationFile', transform: fileModel }
+                    { field: ['destination', 'page'], name: 'destinationPage', transform: pageModel },
+                    { field: ['destination', 'file'], name: 'destinationFile', transform: fileModel }
                 ]
             },
             { field: 'page', transform: pageModel }

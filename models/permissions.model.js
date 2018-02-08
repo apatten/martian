@@ -1,9 +1,9 @@
 export const permissionsModel = [
     {
-        field: [ 'operations', '#text' ],
+        field: ['operations', '#text'],
         transform(value) {
             let result = [];
-            if(typeof value === 'string') {
+            if (typeof value === 'string') {
                 result = value.split(',');
             }
             return result;
@@ -13,16 +13,16 @@ export const permissionsModel = [
         field: 'role',
         transform(value) {
             let roleObj = {};
-            if(typeof value === 'string') {
+            if (typeof value === 'string') {
                 roleObj.name = value;
-            } else if(value && typeof value === 'object') {
-                if('#text' in value) {
+            } else if (value && typeof value === 'object') {
+                if ('#text' in value) {
                     roleObj.name = value['#text'];
                 }
-                if('@id' in value) {
+                if ('@id' in value) {
                     roleObj.id = parseInt(value['@id'], 10);
                 }
-                if('@href' in value) {
+                if ('@href' in value) {
                     roleObj.href = value['@href'];
                 }
             }
@@ -30,9 +30,7 @@ export const permissionsModel = [
         }
     },
     {
-        field: 'restriction', transform: [
-            { field: '@id', name: 'id', transform: 'number' },
-            { field: '#text', name: 'name' }
-        ]
+        field: 'restriction',
+        transform: [{ field: '@id', name: 'id', transform: 'number' }, { field: '#text', name: 'name' }]
     }
 ];

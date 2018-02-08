@@ -18,25 +18,31 @@ describe('Site Reports', () => {
             return sr.getSiteHealth();
         });
         it('can get the site health report (all params)', () => {
-            return sr.getSiteHealth({ analyzers: [ 'foo' ], severities: [ 'error' ] });
+            return sr.getSiteHealth({ analyzers: ['foo'], severities: ['error'] });
         });
         it('can fail with an invalid `analyzers` parameter', () => {
             const success = jest.fn();
-            return sr.getSiteHealth({ analyzers: 'foo' }).then(() => {
-                success();
-                throw new Error('The promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return sr
+                .getSiteHealth({ analyzers: 'foo' })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail with an invalid `severities` parameter', () => {
             const success = jest.fn();
-            return sr.getSiteHealth({ severities: 'foo' }).then(() => {
-                success();
-                throw new Error('The promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return sr
+                .getSiteHealth({ severities: 'foo' })
+                .then(() => {
+                    success();
+                    throw new Error('The promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
     });
 });

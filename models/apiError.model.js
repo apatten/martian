@@ -1,9 +1,9 @@
 export const apiErrorModel = {
     preProcessor(data) {
-        if('responseText' in data) {
+        if ('responseText' in data) {
             try {
                 data.errorInfo = JSON.parse(data.responseText);
-            } catch(e) {
+            } catch (e) {
                 data.errorText = data.responseText;
             }
             delete data.responseText;
@@ -17,7 +17,7 @@ export const apiErrorModel = {
             field: 'errorInfo',
             name: 'info',
             transform: [
-                { field: [ 'arguments', 'argument' ], name: 'arguments', isArray: true },
+                { field: ['arguments', 'argument'], name: 'arguments', isArray: true },
                 { field: 'exception' },
                 { field: 'message' },
                 { field: 'resource' },

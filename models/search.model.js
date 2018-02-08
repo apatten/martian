@@ -29,7 +29,7 @@ export const searchModel = [
                 field: 'tag',
                 name: 'tags',
                 transform(value) {
-                    if(value) {
+                    if (value) {
                         return value.split('\n');
                     }
                 }

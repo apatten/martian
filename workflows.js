@@ -8,7 +8,6 @@ import { workflowsModel } from './models/workflows.model.js';
  * A class for working with site workflows.
  */
 export class WorkflowManager {
-
     /**
      * Construct a new FeedbackManager.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -29,7 +28,7 @@ export class WorkflowManager {
      */
     submitFeedback(options = {}) {
         const workflowPath = 'submit-feedback';
-        if(!('_path' in options)) {
+        if (!('_path' in options)) {
             return Promise.reject(new Error(`The _path field must be supplied for ${workflowPath}`));
         }
         const request = JSON.stringify({
@@ -40,7 +39,11 @@ export class WorkflowManager {
             content: options.content,
             contactAllowed: options.contactAllowed
         });
-        return this._plug.at(workflowPath).post(request, utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(request, utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -49,7 +52,11 @@ export class WorkflowManager {
      * @returns {Promise.<Object>} - A Promise that will be resolved with the result of the request, or rejected with an error specifying the reason for rejection.
      */
     requestArticle(options = {}) {
-        return this._plug.at('submit-article-request').post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at('submit-article-request')
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -59,10 +66,14 @@ export class WorkflowManager {
      */
     submitIssue(options = {}) {
         const workflowPath = 'submit-issue';
-        if(!('_path' in options) || !('_search' in options)) {
+        if (!('_path' in options) || !('_search' in options)) {
             return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
         }
-        return this._plug.at(workflowPath).post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 
     /**
@@ -72,9 +83,13 @@ export class WorkflowManager {
      */
     contactSupport(options = {}) {
         const workflowPath = 'contact-support';
-        if(!('_path' in options) || !('_search' in options)) {
+        if (!('_path' in options) || !('_search' in options)) {
             return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
         }
-        return this._plug.at(workflowPath).post(JSON.stringify(options), utility.jsonRequestType).then((r) => r.json()).then(modelParser.createParser(workflowsModel));
+        return this._plug
+            .at(workflowPath)
+            .post(JSON.stringify(options), utility.jsonRequestType)
+            .then(r => r.json())
+            .then(modelParser.createParser(workflowsModel));
     }
 }

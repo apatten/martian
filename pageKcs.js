@@ -9,7 +9,6 @@ import { kcsStateModel } from './models/kcsState.model.js';
  * A class for handling KCS actions
  */
 export class PageKcs {
-
     /**
      * Construct a Kcs object
      * @param {Number|String} pageid The ID of the page to request the current KCS state for.
@@ -27,7 +26,7 @@ export class PageKcs {
         return this._plug
             .at('state')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(kcsStateModel));
     }
 
@@ -39,7 +38,7 @@ export class PageKcs {
         return this._plug
             .at('validtransitions')
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(kcsTransitionsModel));
     }
 
@@ -52,7 +51,7 @@ export class PageKcs {
      * @returns {Promise} A Promise that is resolved, or rejected with an error specifying the reason for rejection.
      */
     setState(state) {
-        if(state && Object.keys(state).length === 0) {
+        if (state && Object.keys(state).length === 0) {
             return Promise.reject('A state must be specified for request.');
         }
         return this._plug

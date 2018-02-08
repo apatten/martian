@@ -20,8 +20,8 @@ export const siteTagsModelPost = [
         field: 'skipped-pageids',
         name: 'skippedPageIds',
         transform(value) {
-            if(typeof value === 'string') {
-                return value.split(',').map((id) => parseInt(id, 10));
+            if (typeof value === 'string') {
+                return value.split(',').map(id => parseInt(id, 10));
             }
             return [];
         }
@@ -30,8 +30,8 @@ export const siteTagsModelPost = [
         field: 'skipped-article-change-pageids',
         name: 'skippedArticleChangePageIds',
         transform(value) {
-            if(typeof value === 'string') {
-                return value.split(',').map((id) => parseInt(id, 10));
+            if (typeof value === 'string') {
+                return value.split(',').map(id => parseInt(id, 10));
             }
             return [];
         }

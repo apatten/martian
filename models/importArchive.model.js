@@ -1,3 +1,1 @@
-export const importArchiveModel = [
-    { field: 'uri.status', name: 'statusUri' }
-];
+export const importArchiveModel = [{ field: 'uri.status', name: 'statusUri' }];

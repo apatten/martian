@@ -14,10 +14,15 @@ function _makeXmlString(data) {
     if (!data || typeof data !== 'object') {
         throw new Error('Web widget data must be an object');
     }
-    if (!Array.isArray(data.arguments) || data.arguments.some((arg) => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))) {
-        throw new Error('Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean');
+    if (
+        !Array.isArray(data.arguments) ||
+        data.arguments.some(arg => !arg || typeof arg.name !== 'string' || !isValidArgValue(arg.value))
+    ) {
+        throw new Error(
+            'Web widget arguments must be an array of objects with a `name` string and a `value` string|number|boolean'
+        );
     }
-    if (!Array.isArray(data.hosts) || data.hosts.some((host) => typeof host !== 'string')) {
+    if (!Array.isArray(data.hosts) || data.hosts.some(host => typeof host !== 'string')) {
         throw new Error('Web widget hosts must be an array of strings');
     }
     if (typeof data.name !== 'string') {
@@ -29,7 +34,7 @@ function _makeXmlString(data) {
     if ('parentId' in data && typeof data.parentId !== 'number') {
         throw new Error('Web widget parentId must be a number');
     }
-    const argData = data.arguments.map((arg) => {
+    const argData = data.arguments.map(arg => {
         return `<${arg.name}>${utility.escapeHTML(arg.value)}</${arg.name}>`;
     });
     return `
@@ -47,7 +52,6 @@ function _makeXmlString(data) {
  * A class for managing web widgets.
  */
 export class WebWidgetsManager {
-
     /**
      * Construct a new WebWidgetsManager.
      * @param {Settings} [settings] The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -61,9 +65,10 @@ export class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides a list of active web widgets.
      */
     getActiveWidgets() {
-        return this._plug.get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
 
@@ -72,9 +77,11 @@ export class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides a list of inactive web widgets.
      */
     getInactiveWidgets() {
-        return this._plug.at('inactive').get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at('inactive')
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
 
@@ -85,11 +92,12 @@ export class WebWidgetsManager {
      */
     getWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).get()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId)
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
-
     }
 
     /**
@@ -102,9 +110,10 @@ export class WebWidgetsManager {
      * @returns {Promise} A Promise, when resolved, provides info of the newly created web widget.
      */
     createWidget(options) {
-        return this._plug.post(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .post(_makeXmlString(options), utility.xmlRequestType)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -115,8 +124,10 @@ export class WebWidgetsManager {
      */
     deleteWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).delete()
-            .catch((err) => Promise.reject(_errorParser(err)));
+        return this._plug
+            .at(widgetId)
+            .delete()
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -131,9 +142,11 @@ export class WebWidgetsManager {
      */
     updateWidget(id, options) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId).put(_makeXmlString(options), utility.xmlRequestType)
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId)
+            .put(_makeXmlString(options), utility.xmlRequestType)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -144,9 +157,11 @@ export class WebWidgetsManager {
      */
     activateWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId, 'activate').put()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId, 'activate')
+            .put()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 
@@ -157,9 +172,11 @@ export class WebWidgetsManager {
      */
     deactivateWidget(id) {
         const widgetId = utility.getResourceId(id);
-        return this._plug.at(widgetId, 'deactivate').put()
-            .catch((err) => Promise.reject(_errorParser(err)))
-            .then((r) => r.json())
+        return this._plug
+            .at(widgetId, 'deactivate')
+            .put()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
 }

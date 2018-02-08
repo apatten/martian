@@ -22,21 +22,27 @@ describe('License', () => {
     });
     it('can fail if an invalid `since` value is sent', () => {
         const success = jest.fn();
-        return license.getUsage({ since: '20151231121200' }).then(() => {
-            success();
-            throw new Error('Promise was resolved');
-        }).catch(() => {
-            expect(success).not.toHaveBeenCalled();
-        });
+        return license
+            .getUsage({ since: '20151231121200' })
+            .then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            })
+            .catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
     });
     it('can fail if an invalid `upTo` value is sent', () => {
         const success = jest.fn();
-        return license.getUsage({ upTo: 20151231121200 }).then(() => {
-            success();
-            throw new Error('Promise was resolved');
-        }).catch(() => {
-            expect(success).not.toHaveBeenCalled();
-        });
+        return license
+            .getUsage({ upTo: 20151231121200 })
+            .then(() => {
+                success();
+                throw new Error('Promise was resolved');
+            })
+            .catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
     });
     it('can fetch the usage logs', () => {
         return license.getUsageLogs();
@@ -46,11 +52,14 @@ describe('License', () => {
     });
     it('can fail if no name is supplied to fetch a log URL.', () => {
         const success = jest.fn();
-        return license.getUsageLogUrl().then(() => {
-            success();
-            throw new Error('Promise was resolved.');
-        }).catch(() => {
-            expect(success).not.toHaveBeenCalled();
-        });
+        return license
+            .getUsageLogUrl()
+            .then(() => {
+                success();
+                throw new Error('Promise was resolved.');
+            })
+            .catch(() => {
+                expect(success).not.toHaveBeenCalled();
+            });
     });
 });

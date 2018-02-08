@@ -6,7 +6,6 @@ import { Settings } from './lib/settings.js';
  * A class for managing a file attachment on an unpublished page.
  */
 export class DraftFile extends PageFileBase {
-
     /**
      * Construct a new DraftFile
      * @param {Number|String} [pageId='home'] - The ID of the unpublished page.
@@ -15,6 +14,13 @@ export class DraftFile extends PageFileBase {
      */
     constructor(pageId, filename, settings = new Settings()) {
         super(pageId, filename);
-        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'drafts', this._pageId, 'files', this._filename);
+        this._plug = new Plug(settings.host, settings.plugConfig).at(
+            '@api',
+            'deki',
+            'drafts',
+            this._pageId,
+            'files',
+            this._filename
+        );
     }
 }

@@ -26,7 +26,10 @@ describe('Developer Tokens', () => {
             });
             it('can fail if the name is not supplied when adding a new token', () => {
                 const failed = jest.fn();
-                return dtm.addToken().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                return dtm
+                    .addToken()
+                    .catch(failed)
+                    .then(() => expect(failed).toHaveBeenCalled());
             });
         });
     });

@@ -15,7 +15,6 @@ const _errorParser = modelParser.createParser(apiErrorModel);
  * A class for fetching and managing events.
  */
 export class Events {
-
     /**
      * Construct a new Events object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -29,8 +28,11 @@ export class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for drafts history.
      */
     getSiteDraftsHistoryLogs() {
-        return this._plug.at('draft-hierarchy', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('draft-hierarchy', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -39,11 +41,14 @@ export class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteDraftsHistoryLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('draft-hierarchy', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('draft-hierarchy', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -57,26 +62,30 @@ export class Events {
      */
     getSiteDraftsHistory(options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('draft-hierarchy', utility.getResourceId(options.pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft-hierarchy', utility.getResourceId(options.pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -87,18 +96,22 @@ export class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the page history data, or rejected with an error specifying the reason for rejection.
      */
     getSiteDraftsHistoryDetail(detailId, options = {}) {
-        if(!detailId || typeof detailId !== 'string') {
+        if (!detailId || typeof detailId !== 'string') {
             return Promise.reject(new Error('The detail ID must be specified, and it must be a string.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` option must be an array'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft-hierarchy', 'details', options.detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft-hierarchy', 'details', options.detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -112,26 +125,30 @@ export class Events {
      */
     getDraftHistory(pageId = 'home', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft', utility.getResourceId(pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('draft', utility.getResourceId(pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -143,21 +160,25 @@ export class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the listing of the page events.
      */
     getDraftHistoryDetail(pageId, detailId, options = {}) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('The page ID is required to fetch a draft history detail.'));
         }
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID is required to fetch a draft history detail.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('draft', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
+        return this._plug
+            .at('draft', utility.getResourceId(pageId, 'home'), detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**
@@ -170,30 +191,34 @@ export class Events {
      * @returns {Promise.<Object|Error>} - A Promise that will be resolved with the learning path history data, or rejected with an error specifying the reason for rejection.
      */
     getLearningPathHistory(learningPathId, options = {}) {
-        if(!learningPathId || typeof learningPathId !== 'string') {
+        if (!learningPathId || typeof learningPathId !== 'string') {
             return Promise.reject(new Error('The learning path ID must be supplied, and must be a string'));
         }
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('learningpath', utility.getResourceId(learningPathId)).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('learningpath', utility.getResourceId(learningPathId))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -202,8 +227,11 @@ export class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for site history.
      */
     getSiteHistoryLogs() {
-        return this._plug.at('page-hierarchy', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('page-hierarchy', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -212,11 +240,14 @@ export class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getSiteHistoryLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('page-hierarchy', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('page-hierarchy', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -230,26 +261,30 @@ export class Events {
      */
     getSiteHistory(options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('page-hierarchy', utility.getResourceId(options.pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page-hierarchy', utility.getResourceId(options.pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -260,18 +295,22 @@ export class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved with the site history detail data, or rejected with an error specifying the reason for rejection.
      */
     getSiteHistoryDetail(detailId, options = {}) {
-        if(!detailId || typeof detailId !== 'string') {
+        if (!detailId || typeof detailId !== 'string') {
             return Promise.reject(new Error('The detail ID must be specified, and it must be a string.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` option must be an array'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page-hierarchy', 'details', detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page-hierarchy', 'details', detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -281,7 +320,9 @@ export class Events {
      * @returns {Promise.<pageHistoryModel|Error>} - A Promise that will be resolved, or rejected with an error specifying the reason for rejection.
      */
     logPageView(pageId, eventData = {}) {
-        return this._plug.at('page-view', utility.getResourceId(pageId, 'home')).post(JSON.stringify(eventData), utility.jsonRequestType);
+        return this._plug
+            .at('page-view', utility.getResourceId(pageId, 'home'))
+            .post(JSON.stringify(eventData), utility.jsonRequestType);
     }
 
     /**
@@ -295,26 +336,30 @@ export class Events {
      */
     getPageHistory(pageId = 'home', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number less than or equal to 1000.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string') {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string') {
                 return Promise.reject(new Error('The `upTo` parameter must be a string.'));
             }
             params.upto = options.upTo;
         }
-        return this._plug.at('page', utility.getResourceId(pageId, 'home')).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('page', utility.getResourceId(pageId, 'home'))
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**
@@ -326,21 +371,25 @@ export class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryDetailModel} that contains the listing of the page events.
      */
     getPageHistoryDetail(pageId, detailId, options = {}) {
-        if(!pageId) {
+        if (!pageId) {
             return Promise.reject(new Error('The page ID is required to fetch a page history detail.'));
         }
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID is required to fetch a page history detail.'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('page', utility.getResourceId(pageId, 'home'), detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryDetailModel));
+        return this._plug
+            .at('page', utility.getResourceId(pageId, 'home'), detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryDetailModel));
     }
 
     /**
@@ -350,7 +399,9 @@ export class Events {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful posting of the search event.
      */
     logSearch(userId, eventData) {
-        return this._plug.at('search', utility.getResourceId(userId, 'current')).post(JSON.stringify(eventData), utility.jsonRequestType);
+        return this._plug
+            .at('search', utility.getResourceId(userId, 'current'))
+            .post(JSON.stringify(eventData), utility.jsonRequestType);
     }
 
     /**
@@ -358,8 +409,11 @@ export class Events {
      * @returns {Promise.<reportLogsModel>} - A Promise that, when resolved, yields a {@link reportLogsModel} containing the available logs for user activity.
      */
     getUserActivityLogs() {
-        return this._plug.at('support-agent', 'logs').get()
-            .then((r) => r.json()).then(modelParser.createParser(reportLogsModel));
+        return this._plug
+            .at('support-agent', 'logs')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(reportLogsModel));
     }
 
     /**
@@ -368,11 +422,14 @@ export class Events {
      * @returns {Promise.<logUrlModel>} - A Promise that, when resolved, yields a {@link logUrlModel} containing log url.
      */
     getUserActivityLogUrl(logName) {
-        if(!logName) {
+        if (!logName) {
             return Promise.reject(new Error('Attempting to get log url without required name'));
         }
-        return this._plug.at('support-agent', 'logs', logName, 'url').get()
-            .then((r) => r.json()).then(modelParser.createParser(logUrlModel));
+        return this._plug
+            .at('support-agent', 'logs', logName, 'url')
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(logUrlModel));
     }
 
     /**
@@ -385,40 +442,44 @@ export class Events {
      * @returns {Promise.<userActivityModel>} - A Promise that, when resolved, yields a {@link userActivityModel} containing the user's activity events.
      */
     getUserActivity(userActivityToken, options = {}) {
-        if(!userActivityToken) {
+        if (!userActivityToken) {
             return Promise.reject(new Error('The user activity token must be supplied'));
         }
         let token;
         try {
             token = utility.getNormalizedUserActivityToken(userActivityToken);
-        } catch(e) {
+        } catch (e) {
             return Promise.reject(e);
         }
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be a string or a Date.'));
             }
-            if(options.upTo instanceof Date) {
+            if (options.upTo instanceof Date) {
                 params.upto = utility.getApiDateString(options.upTo);
             } else {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('support-agent', token).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(userActivityModel));
+        return this._plug
+            .at('support-agent', token)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(userActivityModel));
     }
 
     /**
@@ -432,31 +493,34 @@ export class Events {
      */
     getUserHistory(userId = 'current', options = {}) {
         const params = {};
-        if(options.limit) {
-            if(typeof options.limit !== 'number') {
+        if (options.limit) {
+            if (typeof options.limit !== 'number') {
                 return Promise.reject(new Error('The `limit` parameter must be a number.'));
             }
             params.limit = options.limit;
         }
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        if(options.upTo) {
-            if(typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
+        if (options.upTo) {
+            if (typeof options.upTo !== 'string' && !(options.upTo instanceof Date)) {
                 return Promise.reject(new Error('The `upTo` parameter must be a string or a Date.'));
             }
-            if(options.upTo instanceof Date) {
+            if (options.upTo instanceof Date) {
                 params.upto = utility.getApiDateString(options.upTo);
             } else {
                 params.upto = options.upTo;
             }
         }
-        return this._plug.at('user-page', utility.getResourceId(userId, 'current')).withParams(params).get()
-            .catch((e) => Promise.reject(_errorParser(e)))
-            .then((r) => r.json())
+        return this._plug
+            .at('user-page', utility.getResourceId(userId, 'current'))
+            .withParams(params)
+            .get()
+            .catch(e => Promise.reject(_errorParser(e)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
 
@@ -468,18 +532,22 @@ export class Events {
      * @returns {Promise.<pageHistoryModel>} - A Promise that, when resolved, yields a {@link pageHistoryModel} that contains the event information.
      */
     getUserHistoryDetail(detailId, options = {}) {
-        if(!detailId) {
+        if (!detailId) {
             return Promise.reject(new Error('The detail ID must be supplied'));
         }
         const params = {};
-        if(options.include) {
-            if(!Array.isArray(options.include)) {
+        if (options.include) {
+            if (!Array.isArray(options.include)) {
                 return Promise.reject(new Error('The `include` parameter must be an array.'));
             }
             params.include = options.include.join(',');
         }
-        return this._plug.at('user-page', 'current', detailId).withParams(params).get()
-            .then((r) => r.json()).then(modelParser.createParser(pageHistoryModel));
+        return this._plug
+            .at('user-page', 'current', detailId)
+            .withParams(params)
+            .get()
+            .then(r => r.json())
+            .then(modelParser.createParser(pageHistoryModel));
     }
 
     /**

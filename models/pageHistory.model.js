@@ -20,12 +20,9 @@ export const pageHistoryModel = [
             { field: 'event', transform: eventModel },
             {
                 field: 'page',
-                transform: [
-                    { field: '@id', name: 'id', transform: 'number' },
-                    { field: 'path' }
-                ]
+                transform: [{ field: '@id', name: 'id', transform: 'number' }, { field: 'path' }]
             },
-            { field: [ 'users', 'user' ], name: 'users', isArray: true, transform: userModel }
+            { field: ['users', 'user'], name: 'users', isArray: true, transform: userModel }
         ]
     }
 ];

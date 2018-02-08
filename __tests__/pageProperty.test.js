@@ -37,24 +37,30 @@ describe('Page Property', () => {
             return prop.getProperties();
         });
         it('can filter properties by supplying a list of names', () => {
-            return prop.getProperties([ 'property1', 'property2' ]);
+            return prop.getProperties(['property1', 'property2']);
         });
         it('can can fail gracefully if supplying an invalid name filter', () => {
             const success = jest.fn();
-            return prop.getProperties('property1').then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return prop
+                .getProperties('property1')
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fetch a single property', () => {
             return prop.getProperty('mindtouch.import#info');
         });
         it('can fail gracefully if a key is not supplied when fetching a single property', () => {
-            return prop.getProperty().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return prop
+                .getProperty()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can fetch properties from children of the root page', () => {
             return prop.getPropertyForChildren('property1');
@@ -63,17 +69,23 @@ describe('Page Property', () => {
             return prop.getPropertyForChildren('property1', 2);
         });
         it('can fail gracefully if a key is not supplied when fetching children properties', () => {
-            return prop.getPropertyForChildren().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return prop
+                .getPropertyForChildren()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can fetch the contents of a single property', () => {
             return prop.getPropertyContents('property1');
         });
         it('can fail gracefully if a key is not supplied when fetching the contents of a property', () => {
-            return prop.getPropertyContents().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return prop
+                .getPropertyContents()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
     });
     describe('setting tests', () => {
@@ -85,14 +97,20 @@ describe('Page Property', () => {
             prop = null;
         });
         it('can fail gracefully if a key is not provided when setting a page property', () => {
-            return prop.setProperty().then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return prop
+                .setProperty()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can fail gracefully if the value text is not provided when setting a page property', () => {
-            return prop.setProperty('property1').then((r) => {
-                expect(r).not.toBeDefined();
-            }).catch(() => {});
+            return prop
+                .setProperty('property1')
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
         });
         it('can set a page property', () => {
             return prop.setProperty('property1', { text: 'property text', type: 'text/plain' });

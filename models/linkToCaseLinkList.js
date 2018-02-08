@@ -1,7 +1,7 @@
 export const linkToCaseLinkList = [
     { field: 'count', transform: 'number' },
     {
-        field: [ 'linkdata', 'link' ],
+        field: ['linkdata', 'link'],
         name: 'linkData',
         isArray: true,
         transform: [

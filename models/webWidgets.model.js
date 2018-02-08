@@ -17,4 +17,9 @@ export const webWidgetsModel = [
         ]
     }
 ];
-webWidgetsModel.push({ field: ['sub-web-widgets', 'web-widget'], name: 'subwidgets', isArray: true, transform: webWidgetsModel });
+webWidgetsModel.push({
+    field: ['sub-web-widgets', 'web-widget'],
+    name: 'subwidgets',
+    isArray: true,
+    transform: webWidgetsModel
+});

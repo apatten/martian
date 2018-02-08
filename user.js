@@ -13,7 +13,6 @@ import { apiErrorModel } from './models/apiError.model.js';
  * A class for managing a MindTouch user.
  */
 export class User {
-
     /**
      * Construct a new User object.
      * @param {Number|String} [id='current'] - The user's numeric ID or username.
@@ -33,13 +32,13 @@ export class User {
      */
     getInfo({ exclude = [] } = {}) {
         const errors = valid.value(exclude, array());
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
         return this._plug
             .withParam('exclude', exclude.join(','))
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -55,7 +54,7 @@ export class User {
      */
     checkAllowed(pageIds, options = {}) {
         const pageIdsErrors = valid.value(pageIds, array());
-        if(pageIdsErrors.length > 0) {
+        if (pageIdsErrors.length > 0) {
             return Promise.reject(new Error(pageIdsErrors.join(', ')));
         }
         const optionsErrors = valid.object(
@@ -65,20 +64,20 @@ export class User {
             optional('verbose', bool()),
             optional('invert', bool())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
-        if(options.operations) {
+        if (options.operations) {
             options.operations = options.operations.join(',');
         }
-        let requestXml = pageIds.map((id) => `<page id="${id}" />`).join('');
+        let requestXml = pageIds.map(id => `<page id="${id}" />`).join('');
         requestXml = `<pages>${requestXml}</pages>`;
         return this._plug
             .at('allowed')
             .withParams(options)
             .post(requestXml, utility.xmlRequestType)
-            .then((r) => r.json())
-            .then(modelParser.createParser([ { field: 'page', name: 'pages', isArray: true, transform: pageModel } ]));
+            .then(r => r.json())
+            .then(modelParser.createParser([{ field: 'page', name: 'pages', isArray: true, transform: pageModel }]));
     }
 
     /**
@@ -104,14 +103,14 @@ export class User {
             optional('language', string()),
             optional('timeZone', string())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         let postData = '<user>';
-        Object.entries(options).forEach(([ key, value ]) => {
-            if(key === 'active') {
+        Object.entries(options).forEach(([key, value]) => {
+            if (key === 'active') {
                 postData += `<status>${value === true ? 'active' : 'inactive'}</status>`;
-            } else if(key === 'seated') {
+            } else if (key === 'seated') {
                 postData += `<license.seat>${value}</license.seat>`;
             } else {
                 const lowerKey = key.toLowerCase();
@@ -121,8 +120,8 @@ export class User {
         postData += '</user>';
         return this._plug
             .put(postData, utility.xmlRequestType)
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.json())
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -139,20 +138,20 @@ export class User {
             required('newPassword', string()),
             optional('currentPassword', string())
         );
-        if(optionsErrors.length > 0) {
+        if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
         const params = {};
-        if(options.currentPassword) {
+        if (options.currentPassword) {
             params.currentpassword = options.currentPassword;
         }
         return this._plug
             .at('password')
             .withParams(params)
             .put(options.newPassword, utility.textRequestType)
-            .catch((err) => Promise.reject(this._errorParser(err)))
-            .then((r) => r.text())
-            .then((resp) => ({ authToken: resp }));
+            .catch(err => Promise.reject(this._errorParser(err)))
+            .then(r => r.text())
+            .then(resp => ({ authToken: resp }));
     }
 }
 
@@ -160,7 +159,6 @@ export class User {
  * A class for managing the users on a MindTouch site.
  */
 export class UserManager {
-
     /**
      * Construct a new UserManager object.
      * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
@@ -178,14 +176,14 @@ export class UserManager {
      */
     getCurrentUser({ exclude = [] } = {}) {
         const errors = valid.value(exclude, array());
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error(errors.join(', ')));
         }
         return this._plug
             .at('current')
             .withParam('exclude', exclude.join(','))
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
 
@@ -196,14 +194,14 @@ export class UserManager {
     getCurrentUserActivityToken() {
         return this._plug
             .at('current')
-            .withParam('exclude', [ 'groups', 'properties' ])
+            .withParam('exclude', ['groups', 'properties'])
             .get()
-            .then((r) => {
+            .then(r => {
                 return Promise.all([
                     r.json().then(modelParser.createParser(userModel)),
                     new Promise((resolve, reject) => {
                         const sessionId = r.headers.get('X-Deki-Session');
-                        if(sessionId !== null) {
+                        if (sessionId !== null) {
                             resolve(sessionId);
                         } else {
                             reject(new Error('Could not fetch an X-Deki-Session HTTP header from the MindTouch API.'));
@@ -211,7 +209,7 @@ export class UserManager {
                     })
                 ]);
             })
-            .then(([ user, sessionId ]) => {
+            .then(([user, sessionId]) => {
                 return `${user.id}:${sessionId}`;
             });
     }
@@ -224,7 +222,7 @@ export class UserManager {
         let userListModelParser = modelParser.createParser(userListModel);
         return this._plug
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(userListModelParser);
     }
 
@@ -249,7 +247,7 @@ export class UserManager {
             .at('search')
             .withParams(constraints)
             .get()
-            .then((r) => r.json())
+            .then(r => r.json())
             .then(userListModelParser);
     }
 
@@ -264,12 +262,12 @@ export class UserManager {
     authenticate({ method = 'GET', username, password }) {
         const lowerMethod = method.toLowerCase();
         const errors = valid.value(lowerMethod, one(equals('get'), equals('post')));
-        if(errors.length > 0) {
+        if (errors.length > 0) {
             return Promise.reject(new Error('GET and POST are the only valid methods for user authentication.'));
         }
         const encodedAuth = platform.base64.encode(`${username}:${password}`);
         const authPlug = this._plug.at('authenticate').withHeader('Authorization', `Basic ${encodedAuth}`);
-        return authPlug[lowerMethod]().then((r) => r.text());
+        return authPlug[lowerMethod]().then(r => r.text());
     }
 
     /**

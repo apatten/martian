@@ -31,57 +31,75 @@ describe('Group API', () => {
         });
         it('can fail getting the groups listing with an invalid nameFilter', () => {
             const success = jest.fn();
-            return gm.getGroupList({ nameFilter: 123 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ nameFilter: 123 })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail getting the groups listing with an invalid authProvider', () => {
             const success = jest.fn();
-            return gm.getGroupList({ authProvider: '123' }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ authProvider: '123' })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail getting the groups listing with an invalid limit', () => {
             const success = jest.fn();
-            return gm.getGroupList({ limit: '123' }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ limit: '123' })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail getting the groups listing with an invalid offset', () => {
             const success = jest.fn();
-            return gm.getGroupList({ offset: '123' }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ offset: '123' })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail getting the groups listing with an invalid sortBy (wrong type)', () => {
             const success = jest.fn();
-            return gm.getGroupList({ sortBy: 123 }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ sortBy: 123 })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can fail getting the groups listing with an invalid sortBy (wrong value)', () => {
             const success = jest.fn();
-            return gm.getGroupList({ sortBy: '123' }).then(() => {
-                success();
-                throw new Error('Promise was resolved');
-            }).catch(() => {
-                expect(success).not.toHaveBeenCalled();
-            });
+            return gm
+                .getGroupList({ sortBy: '123' })
+                .then(() => {
+                    success();
+                    throw new Error('Promise was resolved');
+                })
+                .catch(() => {
+                    expect(success).not.toHaveBeenCalled();
+                });
         });
         it('can get a Group object by ID', () => {
             let group = gm.getGroup(132);
@@ -113,7 +131,7 @@ describe('Group API', () => {
         it('can fetch a single group', () => {
             return group.getInfo();
         });
-        it('can fetch a group\'s users', () => {
+        it("can fetch a group's users", () => {
             return group.getUsers();
         });
         it('can delete a group', () => {

@@ -48,44 +48,58 @@ describe('Page Security', () => {
                     failed.mockReset();
                 });
                 it('missing pageRestriction', () => {
-                    return ps.set().catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return ps
+                        .set()
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid pageRestriction', () => {
-                    return ps.set({ pageRestriction: 13 }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return ps
+                        .set({ pageRestriction: 13 })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (bad type)', () => {
                     const badGrants = {};
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (user and group defined)', () => {
-                    const badGrants = [
-                        { user: 1, group: 2 }
-                    ];
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    const badGrants = [{ user: 1, group: 2 }];
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (no user or group defined)', () => {
-                    const badGrants = [
-                        { role: 'foo' }
-                    ];
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    const badGrants = [{ role: 'foo' }];
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (invalid user)', () => {
-                    const badGrants = [
-                        { user: true }
-                    ];
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    const badGrants = [{ user: true }];
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (invalid group)', () => {
-                    const badGrants = [
-                        { group: [] }
-                    ];
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    const badGrants = [{ group: [] }];
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grants (invalid role)', () => {
-                    const badGrants = [
-                        { user: 'foo', role: 123 }
-                    ];
-                    return ps.set({ pageRestriction: 'Public', grants: badGrants }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    const badGrants = [{ user: 'foo', role: 123 }];
+                    return ps
+                        .set({ pageRestriction: 'Public', grants: badGrants })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
         });
@@ -97,8 +111,8 @@ describe('Page Security', () => {
                 const info = {
                     cascade: 'delta',
                     pageRestriction: 'Private',
-                    grantsAdded: [ { user: 1, role: 'Manager' } ],
-                    grantsRemoved: [ { group: 'foo', role: 'Contributor' } ]
+                    grantsAdded: [{ user: 1, role: 'Manager' }],
+                    grantsRemoved: [{ group: 'foo', role: 'Contributor' }]
                 };
                 return ps.update(info);
             });
@@ -108,10 +122,16 @@ describe('Page Security', () => {
                     failed.mockReset();
                 });
                 it('invalid grantsAdded', () => {
-                    return ps.update({ grantsAdded: 'foo' }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return ps
+                        .update({ grantsAdded: 'foo' })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
                 it('invalid grantsRemoved', () => {
-                    return ps.update({ grantsRemoved: {} }).catch(failed).then(() => expect(failed).toHaveBeenCalled());
+                    return ps
+                        .update({ grantsRemoved: {} })
+                        .catch(failed)
+                        .then(() => expect(failed).toHaveBeenCalled());
                 });
             });
         });
