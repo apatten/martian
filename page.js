@@ -23,6 +23,7 @@ import { popularPagesModel } from './models/popularPages.model.js';
 import { pageHierarchyInfoModel } from './models/pageHierarchyInfo.model.js';
 import { apiErrorModel } from './models/apiError.model.js';
 import { linkToCaseLinkList } from './models/linkToCaseLinkList.js';
+import { filesAndSubpagesModel } from './models/filesAndSubpages.model.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
 
@@ -72,6 +73,14 @@ export class Page extends PageBase {
             .get()
             .then(r => r.json())
             .then(modelParser.createParser(subpagesModel));
+    }
+
+    getFilesAndSubpages() {
+        return this._plug
+            .at('files,subpages')
+            .get()
+            .then((r) => r.json())
+            .then(modelParser.createParser(filesAndSubpagesModel));
     }
 
     /**
