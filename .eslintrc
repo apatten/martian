@@ -18,6 +18,8 @@
       "requireReturnType": true,
       "requireParamDescription": true,
       "requireReturnDescription": true
-    } ]
+    } ],
+    "keyword-spacing": "off",
+    "array-bracket-spacing": "off"
   }
 }
