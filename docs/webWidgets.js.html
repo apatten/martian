@@ -71,7 +71,7 @@ function _makeXmlString(data) {
             &lt;host>${utility.escapeHTML(data.hosts.join(','))}&lt;/host>
             &lt;name>${utility.escapeHTML(data.name)}&lt;/name>
             &lt;type>${utility.escapeHTML(data.type)}&lt;/type>
-            &lt;parentId>${'parentId' in data ? data.parentId : ''}&lt;/parentId>
+            &lt;web-widget.parent id="${'parentId' in data ? data.parentId : ''}">&lt;/web-widget.parent>
         &lt;/web-widget>
     `;
 }

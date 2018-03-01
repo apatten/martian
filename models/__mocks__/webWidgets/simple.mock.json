@@ -2,8 +2,9 @@
   "@id": "17",
   "@type": "user_activity",
   "@date": "Mon, 30 Jan 2017 04:37:43 GMT",
+  "@date.deleted": "Thu, 01 Mar 2018 18:53:55 GMT",
   "@active": "true",
-  "@parentId": "1",
+  "web-widget.parent": { "@id": "110" },
   "arguments": {
     "height": "",
     "input-hint": "",
