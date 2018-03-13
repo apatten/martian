@@ -119,4 +119,24 @@ describe('Page Property', () => {
             return prop.setProperty('property1', { text: 'property text' });
         });
     });
+    describe('deleting tests', () => {
+        let prop = null;
+        beforeEach(() => {
+            prop = new PageProperty(123);
+        });
+        afterEach(() => {
+            prop = null;
+        });
+        it('can fail gracefully if a key is not provided when deleting a page property', () => {
+            return prop
+                .deleteProperty()
+                .then(r => {
+                    expect(r).not.toBeDefined();
+                })
+                .catch(() => {});
+        });
+        it('can delete a page property', () => {
+            return prop.deleteProperty('property1');
+        });
+    });
 });
