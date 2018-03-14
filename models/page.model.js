@@ -25,6 +25,7 @@ const pageModel = [
     { field: '@deactivate', name: 'deactivate', transform: 'boolean' },
     { field: '@virtual', name: 'virtual', transform: 'boolean' },
     { field: '@subpages', name: 'hasSubpages', transform: 'boolean' },
+    { field: '@files', name: 'files', transform: 'number' },
     { field: '@terminal', name: 'terminal', transform: 'boolean' },
     { field: 'overview' },
     { field: 'user.author', name: 'userAuthor', transform: userModel },
