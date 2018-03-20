@@ -86,4 +86,16 @@ export class PagePropertyBase {
             .withParams(params)
             .put(value.text, value.type);
     }
+
+    /**
+     * Remove a page property
+     * @param {String} key - The key of the property to remove
+     * @returns {Promise} - A Promise that, when resolved, indicates the property was removed successfully.
+     */
+    deleteProperty(key) {
+        if (!key) {
+            return Promise.reject(new Error('Attempting to delete a property without providing a property key'));
+        }
+        return this._plug.at(encodeURIComponent(key)).delete();
+    }
 }

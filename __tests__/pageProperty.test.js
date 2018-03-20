@@ -119,4 +119,21 @@ describe('Page Property', () => {
             return prop.setProperty('property1', { text: 'property text' });
         });
     });
+    describe('deleting tests', () => {
+        let prop = null;
+        beforeEach(() => {
+            prop = new PageProperty(123);
+        });
+        afterEach(() => {
+            prop = null;
+        });
+        it('can fail gracefully if a key is not provided when deleting a page property', () => {
+            return prop.deleteProperty().catch(r => {
+                expect(r.message).toBe('Attempting to delete a property without providing a property key');
+            });
+        });
+        it('can delete a page property', () => {
+            return prop.deleteProperty('property1');
+        });
+    });
 });
