@@ -128,12 +128,9 @@ describe('Page Property', () => {
             prop = null;
         });
         it('can fail gracefully if a key is not provided when deleting a page property', () => {
-            return prop
-                .deleteProperty()
-                .then(r => {
-                    expect(r).not.toBeDefined();
-                })
-                .catch(() => {});
+            return prop.deleteProperty().catch(r => {
+                expect(r.message).toBe('Attempting to delete a property without providing a property key');
+            });
         });
         it('can delete a page property', () => {
             return prop.deleteProperty('property1');
