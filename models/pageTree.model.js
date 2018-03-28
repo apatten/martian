@@ -1,3 +1,5 @@
+import { pagePropertyModel } from './pageProperty.model.js';
+
 export const pageTreeModel = {
     preProcessor(data) {
         if (data.page) {
@@ -23,6 +25,22 @@ pageTreeModel.model.push({
     constructTransform(val) {
         if (val.page) {
             return pageTreeModel;
+        }
+    }
+});
+pageTreeModel.model.push({
+    field: 'properties',
+    isArray: true,
+    constructTransform(val) {
+        if (val) {
+            return {
+                preProcessor(data) {
+                    if (data.property) {
+                        return data.property;
+                    }
+                },
+                model: pagePropertyModel
+            };
         }
     }
 });
