@@ -5261,6 +5261,16 @@ const siteTagsModelPost = [
             }
             return [];
         }
+    },
+    {
+        field: 'skipped-kcs-change-pageids',
+        name: 'skippedKcsChangePageIds',
+        transform(value) {
+            if (typeof value === 'string') {
+                return value.split(',').map(id => parseInt(id, 10));
+            }
+            return [];
+        }
     }
 ];
 

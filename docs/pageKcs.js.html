@@ -105,10 +105,13 @@ export class PageKcs {
         return this._plug
             .at('flag')
             .withParams()
-            .post(JSON.stringify({
-                flag: flag.state,
-                flag_details: flag.details
-            }), utility.jsonRequestType);
+            .post(
+                JSON.stringify({
+                    flag: flag.state,
+                    flag_details: flag.details // eslint-disable-line camelcase
+                }),
+                utility.jsonRequestType
+            );
     }
 
     /**
