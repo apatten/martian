@@ -4070,6 +4070,22 @@ pageTreeModel.model.push({
         }
     }
 });
+pageTreeModel.model.push({
+    field: 'properties',
+    isArray: true,
+    constructTransform(val) {
+        if (val) {
+            return {
+                preProcessor(data) {
+                    if (data.property) {
+                        return data.property;
+                    }
+                },
+                model: pagePropertyModel
+            };
+        }
+    }
+});
 
 const pageMoveModel = [
     { field: '@count', name: 'count', transform: 'number' },
