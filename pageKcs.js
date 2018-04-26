@@ -4,6 +4,9 @@ import { modelParser } from './lib/modelParser.js';
 import { utility } from './lib/utility.js';
 import { kcsTransitionsModel } from './models/kcsTransitions.model.js';
 import { kcsStateModel } from './models/kcsState.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for handling KCS actions
