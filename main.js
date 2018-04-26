@@ -6,6 +6,7 @@ import { Draft, DraftManager } from './draft.js';
 import { DraftFile } from './draftFile.js';
 import { DraftProperty } from './draftProperty.js';
 import { Events } from './events.js';
+import { ExternalReport } from './externalReport.js';
 import { File, FileDraft } from './file.js';
 import { Group, GroupManager } from './group.js';
 import { LearningPath, LearningPathManager } from './learningPath.js';
@@ -35,6 +36,7 @@ export {
     DraftFile,
     DraftProperty,
     Events,
+    ExternalReport,
     File,
     FileDraft,
     Group,
