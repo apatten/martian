@@ -3,6 +3,7 @@ import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { apiErrorModel } from './models/apiError.model.js';
 import { externalReportModel } from './models/externalReport.model.js';
+import { externalReportListModel } from './models/externalReportList.model.js';
 import { valid, required, string } from './lib/validation.js';
 
 const _errorParser = modelParser.createParser(apiErrorModel);
@@ -25,7 +26,7 @@ export class ExternalReport {
             .get()
             .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
-            .then(modelParser.createParser(externalReportModel));
+            .then(modelParser.createParser(externalReportListModel));
     }
 
     /**
