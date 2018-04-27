@@ -59,6 +59,7 @@ export class ExternalReport {
         }
         return this._plug
             .post(externalReport)
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -78,6 +79,7 @@ export class ExternalReport {
         }
         return this._plug
             .put(externalReport.id, externalReport)
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }

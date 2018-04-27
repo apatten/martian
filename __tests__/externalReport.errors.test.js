@@ -21,52 +21,31 @@ describe('ExternalReport Errors', () => {
     });
 
     it('can fail list', async () => {
-        const success = jest.fn();
-        return externalReport
-            .getExternalReports()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+        expect.assertions(1);
+        return await expect(externalReport.getExternalReports()).rejects.toBeDefined();
     });
 
     it('can fail single', async () => {
-        const success = jest.fn();
-        return externalReport
-            .getExternalReport(1)
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+        expect.assertions(1);
+        return await expect(externalReport.getExternalReport(1)).rejects.toBeDefined();
     });
 
     it('can fail create', async () => {
-        const success = jest.fn();
-        return externalReport
-            .createExternalReport({ name: 'test', url: '/asdf/asdf/asdf/adsf' })
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+        expect.assertions(1);
+        return await expect(
+            externalReport.createExternalReport({ name: 'test', url: '/asdf/asdf/asdf/adsf' })
+        ).rejects.toBeDefined();
     });
 
     it('can fail update', async () => {
-        const success = jest.fn();
-        return externalReport
-            .updateExternalReport({ id: 1, name: 'test', url: '/asdf/asdf/asdf/adsf' })
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+        expect.assertions(1);
+        return await expect(
+            externalReport.updateExternalReport({ id: 1, name: 'test', url: '/asdf/asdf/asdf/adsf' })
+        ).rejects.toBeDefined();
     });
 
     it('can fail delete', async () => {
-        const success = jest.fn();
-        return externalReport
-            .deleteExternalReport(1)
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+        expect.assertions(1);
+        return await expect(externalReport.deleteExternalReport(1)).rejects.toBeDefined();
     });
 });
