@@ -24,7 +24,7 @@ describe('Developer Token Errors', () => {
         it('can fail if the add operation is rejected', async () => {
             const dtm = new DT.DeveloperTokenManager();
             expect.assertions(1);
-            return await expect(dtm.addToken(123)).rejects.toBeDefined();
+            return await expect(dtm.addToken({ name: 'My New Token', host: 'www.example.com' })).rejects.toBeDefined();
         });
         it('can fail if the get operation is rejected', async () => {
             const dtm = new DT.DeveloperTokenManager();

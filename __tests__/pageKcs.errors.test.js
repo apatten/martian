@@ -35,6 +35,6 @@ describe('PageKcs', () => {
     });
     it('can fail setting a kcs flag state', async () => {
         expect.assertions(1);
-        return await expect(kcs.setFlag({ state: true }, 'flagDetail')).rejects.toBeDefined();
+        return await expect(kcs.setFlag({ state: false }, 'flagDetail')).rejects.toEqual(undefined);
     });
 });

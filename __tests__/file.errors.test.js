@@ -32,7 +32,7 @@ describe('File API', () => {
         expect.assertions(1);
         return await expect(file.delete()).rejects.toEqual(undefined);
     });
-    it('can fail adding a file revision', async () => {
+    it('can fail adding a file revision with no progress', async () => {
         expect.assertions(1);
         return await expect(file.addRevision('fileObj')).rejects.toEqual(undefined);
     });

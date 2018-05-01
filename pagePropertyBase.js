@@ -2,6 +2,9 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pagePropertiesModel } from './models/pageProperties.model.js';
 import { pagePropertyModel } from './models/pageProperty.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 export class PagePropertyBase {
     constructor(id) {
@@ -28,7 +31,7 @@ export class PagePropertyBase {
         }
         return plug
             .get()
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pagePropertiesModel));
     }

@@ -27,6 +27,10 @@ describe('Learning Path API', () => {
                 lpm.createLearningPath({ title: 'foo', name: 'bar', summary: 'baz', category: 'thing' })
             ).rejects.toEqual(undefined);
         });
+        it('can fail getting the lsting of all categories used amongst learning paths', async () => {
+            expect.assertions(1);
+            return await expect(lpm.getCategories()).rejects.toEqual(undefined);
+        });
     });
     describe('operations', () => {
         let lp = null;

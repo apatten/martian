@@ -47,7 +47,6 @@ export class PageBase {
         return this._plug
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser)
             .catch(_handleVirtualPage);

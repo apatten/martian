@@ -112,7 +112,7 @@ export class Page extends PageBase {
             .withParam('format', 'ids')
             .get()
             .catch(e => {
-                return Promise.reject({ message: e.message });
+                return Promise.reject(new Error(e.message));
             })
             .then(r => r.text())
             .then(idString => {
