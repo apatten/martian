@@ -47,6 +47,7 @@ export class PageBase {
         return this._plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser)
             .catch(_handleVirtualPage);
@@ -57,6 +58,7 @@ export class PageBase {
             .at('contents')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageContentsModelParser);
     }
@@ -85,6 +87,7 @@ export class PageBase {
             .at('files')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageFilesModelParser);
     }
@@ -95,6 +98,7 @@ export class PageBase {
             return progressPlug
                 .at('files', encodeURIComponent(encodeURIComponent(name)))
                 .put(file, type, progressInfo)
+                .catch(err => Promise.reject(err))
                 .then(r => JSON.parse(r.responseText))
                 .then(modelParser.createParser(fileModel));
         }
@@ -102,12 +106,14 @@ export class PageBase {
             .withHeader('Content-Length', size)
             .at('files', encodeURIComponent(name))
             .put(file, type)
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
     getOverview() {
         return this._plug
             .at('overview')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageOverviewModel));
     }
@@ -116,13 +122,17 @@ export class PageBase {
             return Promise.reject(new Error('No overview body was supplied'));
         }
         let request = `<overview>${utility.escapeHTML(options.body)}</overview>`;
-        return this._plug.at('overview').put(request, utility.xmlRequestType);
+        return this._plug
+            .at('overview')
+            .put(request, utility.xmlRequestType)
+            .catch(err => Promise.reject(err));
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug
             .at('tags')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageTagsModelParser);
     }
@@ -134,6 +144,7 @@ export class PageBase {
             .at('tags')
             .withParams(queryParams)
             .put(XMLData, 'application/xml')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageTagsModelParser);
     }
@@ -146,6 +157,7 @@ export class PageBase {
         return this._plug
             .at('tags', 'recommended')
             .get()
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(recommendedTagsModelParser));
     }
@@ -188,6 +200,7 @@ export class PageBase {
             .at('related')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(relatedPagesModel));
     }
@@ -224,6 +237,7 @@ export class PageBase {
         return this._plug
             .at('revert')
             .withParams(params)
-            .post(null, utility.textRequestType);
+            .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err));
     }
 }

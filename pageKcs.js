@@ -29,7 +29,7 @@ export class PageKcs {
         return this._plug
             .at('state')
             .get()
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(kcsStateModel));
     }
@@ -42,7 +42,7 @@ export class PageKcs {
         return this._plug
             .at('validtransitions')
             .get()
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(kcsTransitionsModel));
     }
@@ -63,7 +63,7 @@ export class PageKcs {
             .at('state')
             .withParams()
             .post(JSON.stringify(state), utility.jsonRequestType)
-            .catch(err => Promise.reject(_errorParser(err)));
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -90,7 +90,7 @@ export class PageKcs {
                 }),
                 utility.jsonRequestType
             )
-            .catch(err => Promise.reject(_errorParser(err)));
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -98,8 +98,9 @@ export class PageKcs {
      * @returns {Promise} A Promise that is resolved, or rejected with an error specifying the reason for rejection.
      */
     initialize() {
-        return this._plug.at('initialize')
-        .post(utility.jsonRequestType)
-        .catch(err => Promise.reject(_errorParser(err)));
+        return this._plug
+            .at('initialize')
+            .post(utility.jsonRequestType)
+            .catch(err => Promise.reject(err));
     }
 }

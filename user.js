@@ -38,6 +38,7 @@ export class User {
         return this._plug
             .withParam('exclude', exclude.join(','))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -76,6 +77,7 @@ export class User {
             .at('allowed')
             .withParams(options)
             .post(requestXml, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser([{ field: 'page', name: 'pages', isArray: true, transform: pageModel }]));
     }
@@ -183,6 +185,7 @@ export class UserManager {
             .at('current')
             .withParam('exclude', exclude.join(','))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -196,6 +199,7 @@ export class UserManager {
             .at('current')
             .withParam('exclude', ['groups', 'properties'])
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => {
                 return Promise.all([
                     r.json().then(modelParser.createParser(userModel)),
@@ -222,6 +226,7 @@ export class UserManager {
         let userListModelParser = modelParser.createParser(userListModel);
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(userListModelParser);
     }
@@ -247,6 +252,7 @@ export class UserManager {
             .at('search')
             .withParams(constraints)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(userListModelParser);
     }

@@ -120,6 +120,7 @@ export class SiteJobManager {
         return this._plug
             .at('export')
             .post(postData, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -170,6 +171,7 @@ export class SiteJobManager {
             .at('import')
             .withParam('dryrun', Boolean(options.dryRun))
             .post(postData, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }

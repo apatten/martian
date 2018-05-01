@@ -22,11 +22,12 @@ export class PageComment {
         return this._plug
             .at('content')
             .put(newComment, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageCommentModel));
     }
     delete() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 }
 export class PageCommentManager {
@@ -46,6 +47,7 @@ export class PageCommentManager {
         return this._plug
             .withParam('title', title)
             .post(comment, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageCommentModel));
     }

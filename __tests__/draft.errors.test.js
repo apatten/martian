@@ -1,4 +1,8 @@
 /* eslint-env jasmine, jest */
+jest.unmock('../pageBase.js');
+jest.unmock('../draft.js');
+import { DraftManager, Draft } from '../draft.js';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
         get: () => Promise.reject(),
@@ -7,21 +11,41 @@ jest.mock('/mindtouch-http.js/plug.js', () =>
     })
 );
 jest.unmock('../pageBase.js');
-const DraftManager = require.requireActual('../draft.js').DraftManager;
-describe('Plug Error handling for the draft.js module', () => {
+
+describe('Plug Error handling for the draft.js Draft Manager module', () => {
     let dm = null;
-    const failed = jest.fn();
     beforeEach(() => {
         dm = new DraftManager();
     });
-    afterEach(() => {
-        dm = null;
-        failed.mockReset();
+    it('can fail to create draft when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(dm.createDraft()).rejects.toBeDefined();
     });
-    it('can fail to create draft when an HTTP error is returned', () => {
-        return dm
-            .createDraft('')
-            .catch(failed)
-            .then(() => expect(failed).toHaveBeenCalled());
+    it('can fail to get drafts when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(dm.getDrafts()).rejects.toEqual(undefined);
+    });
+});
+
+describe('Plug Error handling for the draft.js Draft module', () => {
+    let draft = null;
+    beforeEach(() => {
+        draft = new Draft();
+    });
+    it('can fail to deactivate draft when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(draft.deactivate()).rejects.toEqual(undefined);
+    });
+    it('can fail to publish drafts when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(draft.publish()).rejects.toEqual(undefined);
+    });
+    it('can fail to unpublish drafts when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(draft.unpublish()).rejects.toEqual(undefined);
+    });
+    it('can fail to set draft title when an HTTP error is returned', async () => {
+        expect.assertions(1);
+        return await expect(draft.setTitle(123)).rejects.toEqual(undefined);
     });
 });

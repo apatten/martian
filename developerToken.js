@@ -26,6 +26,7 @@ export class DeveloperTokenManager {
     getTokens() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(developerTokensModel));
     }
@@ -48,8 +49,8 @@ export class DeveloperTokenManager {
         requestXml += '</developer-token>';
         return this._plug
             .post(requestXml, utility.xmlRequestType)
-            .then(r => r.json())
             .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(developerTokenModel));
     }
 }
@@ -69,7 +70,7 @@ export class DeveloperToken {
 
     /**
      * Delete the token from the site.
-     * @returns {Promise} A Promise that, when resolved, indicates a successufl deletion of the token.
+     * @returns {Promise} A Promise that, when resolved, indicates a successful deletion of the token.
      */
     delete() {
         return this._plug.delete().catch(err => Promise.reject(_errorParser(err)));

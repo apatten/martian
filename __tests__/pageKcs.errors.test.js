@@ -17,52 +17,24 @@ describe('PageKcs', () => {
     beforeEach(() => {
         kcs = new PageKcs(150);
     });
-    afterEach(() => {
-        kcs = null;
+    it('can fail getting kcs state', async () => {
+        expect.assertions(1);
+        return await expect(kcs.getState()).rejects.toEqual(undefined);
     });
-    it('can fail getting kcs state', () => {
-        const success = jest.fn();
-        return kcs
-            .getState()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+    it('can fail setting a kcs state', async () => {
+        expect.assertions(1);
+        return await expect(kcs.setState()).rejects.toEqual(undefined);
     });
-    it('can fail setting a kcs state', () => {
-        const success = jest.fn();
-        return kcs
-            .setState()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+    it('can fail getting kcs valid transitions', async () => {
+        expect.assertions(1);
+        return await expect(kcs.getValidTransitions()).rejects.toEqual(undefined);
     });
-    it('can fail getting kcs valid transitions', () => {
-        const success = jest.fn();
-        return kcs
-            .getValidTransitions()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+    it('can fail initializing a kcs state', async () => {
+        expect.assertions(1);
+        return await expect(kcs.initialize()).rejects.toEqual(undefined);
     });
-    it('can fail initializing a kcs state', () => {
-        const success = jest.fn();
-        return kcs
-            .initialize()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
-    });
-    it('can fail setting a kcs flag state', () => {
-        const success = jest.fn();
-        return kcs
-            .setFlag()
-            .catch(success)
-            .then(() => {
-                expect(success).toHaveBeenCalled();
-            });
+    it('can fail setting a kcs flag state', async () => {
+        expect.assertions(1);
+        return await expect(kcs.setFlag({ state: true }, 'flagDetail')).rejects.toBeDefined();
     });
 });

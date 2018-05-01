@@ -98,6 +98,7 @@ export class Site {
         return this.plug
             .at('activity', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -110,6 +111,7 @@ export class Site {
         return this.plug
             .at('query', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -129,7 +131,10 @@ export class Site {
         if ('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
-        return locPlug.get().then(r => r.text());
+        return locPlug
+            .get()
+            .catch(err => Promise.reject(err))
+            .then(r => r.text());
     }
 
     /**
@@ -154,6 +159,7 @@ export class Site {
             .at('localizations')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(localizationsModel));
     }
@@ -170,6 +176,7 @@ export class Site {
         return this.plug
             .at('query', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -186,6 +193,7 @@ export class Site {
         return this.plug
             .at('activity', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -201,6 +209,7 @@ export class Site {
             .at('tags')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(siteTagsModelParser);
     }
@@ -218,6 +227,7 @@ export class Site {
         return this.plug
             .at('tags')
             .post(XMLBatchData, 'application/xml')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(siteTagsModelParser);
     }
@@ -274,6 +284,7 @@ export class Site {
             .at('query')
             .withParams(searchParams)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchModel));
     }
@@ -325,6 +336,7 @@ export class Site {
             .at('search')
             .withParams(searchParams)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchModel));
     }
@@ -375,6 +387,7 @@ export class Site {
             .at('search', 'analytics')
             .withParams(utility.cleanParams(searchParams))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchAnalyticsModel));
     }
@@ -425,6 +438,7 @@ export class Site {
             .at('search', 'analytics', 'query')
             .withParams(utility.cleanParams(searchParams))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchAnalyticsQueryModel));
     }
@@ -447,6 +461,7 @@ export class Site {
         }
         return activityPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteActivityModel));
     }
@@ -459,6 +474,7 @@ export class Site {
         return this.plug
             .at('roles')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteRolesModel));
     }
@@ -492,6 +508,9 @@ export class Site {
         });
         feedbackXml += '</metadata>';
         feedbackXml += '</feedback>';
-        return this.plug.at('feedback').post(feedbackXml, utility.xmlRequestType);
+        return this.plug
+            .at('feedback')
+            .post(feedbackXml, utility.xmlRequestType)
+            .catch(err => Promise.reject(err));
     }
 }

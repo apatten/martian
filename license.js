@@ -39,6 +39,7 @@ export class License {
             .at('usage')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(licenseUsageModel));
     }
@@ -51,6 +52,7 @@ export class License {
         return this._plug
             .at('usage', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -67,6 +69,7 @@ export class License {
         return this._plug
             .at('usage', 'logs', name, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser([{ field: 'url' }]));
     }

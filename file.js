@@ -33,6 +33,7 @@ export class File {
         return this._plug
             .at('info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
@@ -45,6 +46,7 @@ export class File {
         return this._plug
             .at('revisions')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(fileRevisionsModel));
     }
@@ -59,6 +61,7 @@ export class File {
         return this._plug
             .at('description')
             .put(description, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
@@ -68,7 +71,7 @@ export class File {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful file deletion.
      */
     delete() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -84,6 +87,7 @@ export class File {
             return this._progressPlug
                 .at(utility.getResourceId(name))
                 .put(file, type, progressInfo)
+                .catch(err => Promise.reject(err))
                 .then(r => JSON.parse(r.responseText))
                 .then(modelParser.createParser(fileModel));
         }
@@ -91,6 +95,7 @@ export class File {
             .withHeader('Content-Length', size)
             .at(utility.getResourceId(name))
             .put(file, type)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(fileModel));
     }
@@ -113,9 +118,9 @@ export class File {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(this._errorParser(err)))
             .then(r => r.json())
-            .then(modelParser.createParser(fileModel))
-            .catch(err => Promise.reject(this._errorParser(err)));
+            .then(modelParser.createParser(fileModel));
     }
 }
 

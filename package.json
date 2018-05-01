@@ -41,7 +41,8 @@
   },
   "homepage": "https://github.com/MindTouch/martian",
   "dependencies": {
-    "mindtouch-http.js": "2.1.4"
+    "mindtouch-http.js": "2.1.4",
+    "mindtouch-martian": "^1.40.3"
   },
   "directories": {
     "doc": "docs"

@@ -31,6 +31,7 @@ export class Events {
         return this._plug
             .at('draft-hierarchy', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -47,6 +48,7 @@ export class Events {
         return this._plug
             .at('draft-hierarchy', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -84,6 +86,7 @@ export class Events {
             .at('draft-hierarchy', utility.getResourceId(options.pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -110,6 +113,7 @@ export class Events {
             .at('draft-hierarchy', 'details', options.detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -147,6 +151,7 @@ export class Events {
             .at('draft', utility.getResourceId(pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -177,6 +182,7 @@ export class Events {
             .at('draft', utility.getResourceId(pageId, 'home'), detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryDetailModel));
     }
@@ -217,6 +223,7 @@ export class Events {
             .at('learningpath', utility.getResourceId(learningPathId))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -230,6 +237,7 @@ export class Events {
         return this._plug
             .at('page-hierarchy', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -246,6 +254,7 @@ export class Events {
         return this._plug
             .at('page-hierarchy', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -283,6 +292,7 @@ export class Events {
             .at('page-hierarchy', utility.getResourceId(options.pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -309,6 +319,7 @@ export class Events {
             .at('page-hierarchy', 'details', detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -322,7 +333,8 @@ export class Events {
     logPageView(pageId, eventData = {}) {
         return this._plug
             .at('page-view', utility.getResourceId(pageId, 'home'))
-            .post(JSON.stringify(eventData), utility.jsonRequestType);
+            .post(JSON.stringify(eventData), utility.jsonRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -358,6 +370,7 @@ export class Events {
             .at('page', utility.getResourceId(pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -388,6 +401,7 @@ export class Events {
             .at('page', utility.getResourceId(pageId, 'home'), detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryDetailModel));
     }
@@ -401,7 +415,8 @@ export class Events {
     logSearch(userId, eventData) {
         return this._plug
             .at('search', utility.getResourceId(userId, 'current'))
-            .post(JSON.stringify(eventData), utility.jsonRequestType);
+            .post(JSON.stringify(eventData), utility.jsonRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -412,6 +427,7 @@ export class Events {
         return this._plug
             .at('support-agent', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -428,6 +444,7 @@ export class Events {
         return this._plug
             .at('support-agent', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -478,6 +495,7 @@ export class Events {
             .at('support-agent', token)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userActivityModel));
     }
@@ -519,7 +537,7 @@ export class Events {
             .at('user-page', utility.getResourceId(userId, 'current'))
             .withParams(params)
             .get()
-            .catch(e => Promise.reject(_errorParser(e)))
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -546,6 +564,7 @@ export class Events {
             .at('user-page', 'current', detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -555,6 +574,9 @@ export class Events {
      * @returns {Promise} - A Promise that, when resolved, contains the status of the web widget impression request.
      */
     logWebWidgetImpression() {
-        return this._plug.at('web-widget-impression').post();
+        return this._plug
+            .at('web-widget-impression')
+            .post()
+            .catch(err => Promise.reject(err));
     }
 }
