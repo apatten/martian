@@ -3315,6 +3315,193 @@ class Events {
     }
 }
 
+const externalReportModel = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: 'name', name: 'name' },
+    { field: 'url', name: 'url' }
+];
+
+const externalReportListModel = [
+    { field: 'external-report', name: 'external-reports', isArray: true, transform: externalReportModel }
+];
+
+function string() {
+    return value => (typeof value === 'string' ? [] : [`${value} is not a string`]);
+}
+function number() {
+    return value => (typeof value === 'number' ? [] : [`${value} is not a number`]);
+}
+function array() {
+    return value => (Array.isArray(value) ? [] : [`${value} is not an array`]);
+}
+function bool() {
+    return value => (typeof value === 'boolean' ? [] : [`${value} is not a Boolean value`]);
+}
+function equals(expected) {
+    return value => (value === expected ? [] : [`${value} does not equal ${expected}`]);
+}
+function one(...validators) {
+    return value => {
+        let errors = [];
+        for (let i = 0; i < validators.length; i++) {
+            const validatorErrors = validators[i](value);
+            if (validatorErrors.length === 0) {
+                errors = [];
+                break;
+            }
+            errors.push(...validatorErrors);
+        }
+        return errors;
+    };
+}
+function all(...validators) {
+    return value => {
+        let errors = [];
+        validators.forEach(validator => {
+            const valid = validator(value);
+            if (valid.length > 0) {
+                errors.push(...valid);
+            }
+        });
+        return errors;
+    };
+}
+
+function optional(key, validator) {
+    return obj => {
+        if (typeof obj[key] === 'undefined') {
+            return [];
+        }
+        if (validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+function required(key, validator) {
+    return obj => {
+        if (typeof obj[key] === 'undefined') {
+            return [`The value of ${key} is not defined`];
+        }
+        if (validator) {
+            return validator(obj[key]);
+        }
+        return [];
+    };
+}
+function validateObject(object, ...fieldValidators) {
+    return fieldValidators.reduce((acc, fv) => [...acc, ...fv(object)], []);
+}
+function validateValue(value, validator) {
+    return validator(value);
+}
+
+const valid = {
+    get object() {
+        return validateObject;
+    },
+    get value() {
+        return validateValue;
+    }
+};
+
+const _errorParser$4 = modelParser.createParser(apiErrorModel);
+
+class ExternalReport {
+    /**
+     * Construct a ExternalReport object.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'external-reports');
+    }
+
+    /**
+     * Return all external reports
+     * @returns {Promise.<Array>} - A Promise that will be resolved with an array of external reports, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReports() {
+        return this._plug
+            .get()
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportListModel));
+    }
+
+    /**
+     * Return an external report
+     * @param {Number} id External Report Id
+     * @returns {Promise.<Object>} - A Promise that will be resolved with an external report, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReport(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .get(id)
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Create an external report
+     * @param {Object} externalReport - an external report
+     * @returns {Promise.<Object>} - external report
+     */
+    createExternalReport(externalReport) {
+        if (!externalReport) {
+            return Promise.reject(new Error('Unable to create an external report without data.'));
+        }
+        const validationErrors = valid.object(externalReport, required('url', string()), required('name', string()));
+        if (validationErrors.length > 0) {
+            return Promise.reject(new Error(validationErrors));
+        }
+        return this._plug
+            .post(externalReport)
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Update an external report
+     * @param {Object} externalReport - an external report
+     * @returns {Promise.<Object>} - external report
+     */
+    updateExternalReport(externalReport) {
+        if (!externalReport) {
+            return Promise.reject(new Error('Unable to create an external report without data.'));
+        }
+        const validationErrors = valid.object(externalReport, required('url', string()), required('name', string()));
+        if (validationErrors.length > 0) {
+            return Promise.reject(new Error(validationErrors));
+        }
+        return this._plug
+            .put(externalReport.id, externalReport)
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Delete an external report
+     * @param {Number} id - an id of an external report
+     * @returns {void}
+     */
+    deleteExternalReport(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .at(id)
+            .delete()
+            .catch(err => Promise.reject(_errorParser$4(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+}
+
 const fileRevisionsModel = [
     { field: '@count', name: 'count', transform: 'number' },
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
@@ -3950,86 +4137,6 @@ class License {
     }
 }
 
-function string() {
-    return value => (typeof value === 'string' ? [] : [`${value} is not a string`]);
-}
-function number() {
-    return value => (typeof value === 'number' ? [] : [`${value} is not a number`]);
-}
-function array() {
-    return value => (Array.isArray(value) ? [] : [`${value} is not an array`]);
-}
-function bool() {
-    return value => (typeof value === 'boolean' ? [] : [`${value} is not a Boolean value`]);
-}
-function equals(expected) {
-    return value => (value === expected ? [] : [`${value} does not equal ${expected}`]);
-}
-function one(...validators) {
-    return value => {
-        let errors = [];
-        for (let i = 0; i < validators.length; i++) {
-            const validatorErrors = validators[i](value);
-            if (validatorErrors.length === 0) {
-                errors = [];
-                break;
-            }
-            errors.push(...validatorErrors);
-        }
-        return errors;
-    };
-}
-function all(...validators) {
-    return value => {
-        let errors = [];
-        validators.forEach(validator => {
-            const valid = validator(value);
-            if (valid.length > 0) {
-                errors.push(...valid);
-            }
-        });
-        return errors;
-    };
-}
-
-function optional(key, validator) {
-    return obj => {
-        if (typeof obj[key] === 'undefined') {
-            return [];
-        }
-        if (validator) {
-            return validator(obj[key]);
-        }
-        return [];
-    };
-}
-function required(key, validator) {
-    return obj => {
-        if (typeof obj[key] === 'undefined') {
-            return [`The value of ${key} is not defined`];
-        }
-        if (validator) {
-            return validator(obj[key]);
-        }
-        return [];
-    };
-}
-function validateObject(object, ...fieldValidators) {
-    return fieldValidators.reduce((acc, fv) => [...acc, ...fv(object)], []);
-}
-function validateValue(value, validator) {
-    return validator(value);
-}
-
-const valid = {
-    get object() {
-        return validateObject;
-    },
-    get value() {
-        return validateValue;
-    }
-};
-
 const subpagesModel = [
     { field: '@totalcount', name: 'totalCount', transform: 'number' },
     { field: '@count', name: 'count', transform: 'number' },
@@ -4221,7 +4328,7 @@ const filesAndSubpagesModel = [
     { field: 'subpages', name: 'subpagesInfo', transform: subpagesModel }
 ];
 
-const _errorParser$4 = modelParser.createParser(apiErrorModel);
+const _errorParser$5 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
@@ -4401,7 +4508,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch(err => Promise.reject(_errorParser$4(err)));
+            .catch(err => Promise.reject(_errorParser$5(err)));
     }
 
     /**
@@ -4416,7 +4523,7 @@ class Page extends PageBase {
             .post(null, utility.textRequestType)
             .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel))
-            .catch(err => Promise.reject(_errorParser$4(err)));
+            .catch(err => Promise.reject(_errorParser$5(err)));
     }
 
     /**
@@ -4613,7 +4720,7 @@ class Page extends PageBase {
             .at('linkdetails')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
@@ -4664,7 +4771,7 @@ class Page extends PageBase {
             .at('health')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -4796,7 +4903,7 @@ class PageManager {
             .withParams(params)
             .get()
             .then(r => r.json())
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -5903,7 +6010,7 @@ const siteJobModel = [
 ];
 const siteJobsModel = [{ field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }];
 
-const _errorParser$5 = modelParser.createParser(apiErrorModel);
+const _errorParser$6 = modelParser.createParser(apiErrorModel);
 
 class SiteJob {
     /**
@@ -5926,7 +6033,7 @@ class SiteJob {
         return this._plug
             .at('status')
             .get()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$6(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -5939,7 +6046,7 @@ class SiteJob {
         return this._plug
             .at('cancel')
             .post()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$6(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -6080,13 +6187,13 @@ class SiteJobManager {
         return this._plug
             .at('status')
             .get()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$6(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }
 
-const _errorParser$6 = modelParser.createParser(apiErrorModel);
+const _errorParser$7 = modelParser.createParser(apiErrorModel);
 
 class SiteReports {
     constructor(settings = new Settings()) {
@@ -6118,7 +6225,7 @@ class SiteReports {
             .at('sitehealth')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$6(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -6473,7 +6580,7 @@ const webWidgetsListModel = [
     { field: 'web-widget', name: 'webWidgets', isArray: true, transform: webWidgetsModel }
 ];
 
-const _errorParser$7 = modelParser.createParser(apiErrorModel);
+const _errorParser$8 = modelParser.createParser(apiErrorModel);
 function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
@@ -6534,7 +6641,7 @@ class WebWidgetsManager {
     getActiveWidgets() {
         return this._plug
             .get()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6547,7 +6654,7 @@ class WebWidgetsManager {
         return this._plug
             .at('inactive')
             .get()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6562,7 +6669,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .get()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6579,7 +6686,7 @@ class WebWidgetsManager {
     createWidget(options) {
         return this._plug
             .post(_makeXmlString(options), utility.xmlRequestType)
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6594,7 +6701,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .delete()
-            .catch(err => Promise.reject(_errorParser$7(err)));
+            .catch(err => Promise.reject(_errorParser$8(err)));
     }
 
     /**
@@ -6612,7 +6719,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .put(_makeXmlString(options), utility.xmlRequestType)
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6627,7 +6734,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId, 'activate')
             .put()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6642,7 +6749,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId, 'deactivate')
             .put()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$8(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6752,6 +6859,7 @@ exports.DraftManager = DraftManager;
 exports.DraftFile = DraftFile;
 exports.DraftProperty = DraftProperty;
 exports.Events = Events;
+exports.ExternalReport = ExternalReport;
 exports.File = File;
 exports.FileDraft = FileDraft;
 exports.Group = Group;

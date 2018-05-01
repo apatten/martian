@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: externalReport.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: externalReport.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Plug } from '/mindtouch-http.js/plug.js';
+import { Settings } from './lib/settings.js';
+import { modelParser } from './lib/modelParser.js';
+import { apiErrorModel } from './models/apiError.model.js';
+import { externalReportModel } from './models/externalReport.model.js';
+import { externalReportListModel } from './models/externalReportList.model.js';
+import { valid, required, string } from './lib/validation.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
+
+export class ExternalReport {
+    /**
+     * Construct a ExternalReport object.
+     * @param {Settings} [settings] - The {@link Settings} information to use in construction. If not supplied, the default settings are used.
+     */
+    constructor(settings = new Settings()) {
+        this._plug = new Plug(settings.host, settings.plugConfig).at('@api', 'deki', 'site', 'external-reports');
+    }
+
+    /**
+     * Return all external reports
+     * @returns {Promise.&lt;Array>} - A Promise that will be resolved with an array of external reports, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReports() {
+        return this._plug
+            .get()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportListModel));
+    }
+
+    /**
+     * Return an external report
+     * @param {Number} id External Report Id
+     * @returns {Promise.&lt;Object>} - A Promise that will be resolved with an external report, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReport(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .get(id)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Create an external report
+     * @param {Object} externalReport - an external report
+     * @returns {Promise.&lt;Object>} - external report
+     */
+    createExternalReport(externalReport) {
+        if (!externalReport) {
+            return Promise.reject(new Error('Unable to create an external report without data.'));
+        }
+        const validationErrors = valid.object(externalReport, required('url', string()), required('name', string()));
+        if (validationErrors.length > 0) {
+            return Promise.reject(new Error(validationErrors));
+        }
+        return this._plug
+            .post(externalReport)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Update an external report
+     * @param {Object} externalReport - an external report
+     * @returns {Promise.&lt;Object>} - external report
+     */
+    updateExternalReport(externalReport) {
+        if (!externalReport) {
+            return Promise.reject(new Error('Unable to create an external report without data.'));
+        }
+        const validationErrors = valid.object(externalReport, required('url', string()), required('name', string()));
+        if (validationErrors.length > 0) {
+            return Promise.reject(new Error(validationErrors));
+        }
+        return this._plug
+            .put(externalReport.id, externalReport)
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Delete an external report
+     * @param {Number} id - an id of an external report
+     * @returns {void}
+     */
+    deleteExternalReport(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .at(id)
+            .delete()
+            .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportModel));
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="ExternalReport_ExternalReport.html">ExternalReport</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="LinkToCase_LinkToCase.html">LinkToCase</a></li><li><a href="Page.html">Page</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageKcs.html">PageKcs</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
