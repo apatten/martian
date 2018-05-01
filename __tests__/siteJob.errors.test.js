@@ -33,12 +33,12 @@ describe('Error handling for the siteJobs.js module', () => {
         expect.assertions(1);
         return await expect(sjm.getJobsStatuses()).rejects.toBeDefined();
     });
-    it('can fail schedulign a site export', async () => {
+    it('can fail scheduling a site export', async () => {
         const sjm = new SiteJobManager();
         expect.assertions(1);
         return await expect(sjm.scheduleExport(exportParams)).rejects.toEqual(undefined);
     });
-    it('can fail schedulign a site import', async () => {
+    it('can fail scheduling a site import', async () => {
         const sjm = new SiteJobManager();
         expect.assertions(1);
         return await expect(sjm.scheduleImport(importParams)).rejects.toEqual(undefined);
