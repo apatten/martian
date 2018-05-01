@@ -1,0 +1,6 @@
+{
+    "external-report": [
+        { "@id": "1", "name": "test", "url": "asetasdf" },
+        { "@id": "2", "name": "wfwef", "url": "wefwefwefwefw" }
+    ]
+}
