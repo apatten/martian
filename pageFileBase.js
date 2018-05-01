@@ -31,16 +31,17 @@ export class PageFileBase {
         return this._plug
             .at('info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
 
     /**
-     * Delete the file attachment fron the page.
+     * Delete the file attachment from the page.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful delete operation.
      */
     delete() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -51,6 +52,7 @@ export class PageFileBase {
         return this._plug
             .at('description')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
 
@@ -59,7 +61,10 @@ export class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful removal.
      */
     clearDescription() {
-        return this._plug.at('description').delete();
+        return this._plug
+            .at('description')
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -72,6 +77,7 @@ export class PageFileBase {
         return this._plug
             .at('description')
             .put(description, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }

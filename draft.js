@@ -32,6 +32,7 @@ export class Draft extends PageBase {
         return this._plug
             .at('deactivate')
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser);
     }
@@ -45,7 +46,8 @@ export class Draft extends PageBase {
         return this._plug
             .at('publish')
             .withParams(params)
-            .post();
+            .post()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -56,6 +58,7 @@ export class Draft extends PageBase {
         return this._plug
             .at('unpublish')
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -72,6 +75,7 @@ export class Draft extends PageBase {
         return this._plug
             .at('title')
             .put(title, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -156,6 +160,7 @@ export class DraftManager {
         return this._plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(
                 modelParser.createParser([

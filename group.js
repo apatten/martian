@@ -32,6 +32,7 @@ export class Group {
     getInfo() {
         return this._groupPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(groupModel));
     }
@@ -52,6 +53,7 @@ export class Group {
             .at('users')
             .withParams(options)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userListModel));
     }
@@ -75,7 +77,7 @@ export class Group {
      * @returns {Promise} A Promise that, when resolved, indicates the group was deleted successfully.
      */
     delete() {
-        return this._groupPlug.delete();
+        return this._groupPlug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -143,6 +145,7 @@ export class GroupManager {
         return this.plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(groupListModel));
     }

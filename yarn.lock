@@ -2083,6 +2083,12 @@ mindtouch-http.js@2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/mindtouch-http.js/-/mindtouch-http.js-2.1.4.tgz#cd007d4039fb76718f5ad264e6076d751ca86961"
 
+mindtouch-martian@^1.40.3:
+  version "1.40.3"
+  resolved "https://registry.yarnpkg.com/mindtouch-martian/-/mindtouch-martian-1.40.3.tgz#5e96bf0ac157f1b6790023880e0c3bcabd7c33ad"
+  dependencies:
+    mindtouch-http.js "2.1.4"
+
 minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"

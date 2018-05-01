@@ -31,6 +31,7 @@ export class PageProperty extends PagePropertyBase {
         return this._plug
             .withParams({ depth, names: key })
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
 }

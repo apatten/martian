@@ -31,6 +31,7 @@ export class ContextDefinition {
     getInfo() {
         return this.plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
@@ -44,6 +45,7 @@ export class ContextDefinition {
         const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
         return this.plug
             .put(updateRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
@@ -53,7 +55,7 @@ export class ContextDefinition {
      * @returns {Promise} A Promise that, when resolved, indicates a successful deletion of the Context ID.
      */
     delete() {
-        return this.plug.delete();
+        return this.plug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -85,6 +87,7 @@ export class ContextMap {
     getInfo() {
         return this.plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapModel));
     }
@@ -103,6 +106,7 @@ export class ContextMap {
         }</language></contextmap>`;
         return this.plug
             .put(updateRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapModel));
     }
@@ -112,7 +116,7 @@ export class ContextMap {
      * @returns {Promise} A Promise that, when resolved, indicates a successful removal of the mapping.
      */
     remove() {
-        return this.plug.delete();
+        return this.plug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -140,6 +144,7 @@ export class ContextIdManager {
     getMaps() {
         return this.mapsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapsModel));
     }
@@ -151,6 +156,7 @@ export class ContextIdManager {
     getDefinitions() {
         return this.definitionsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(response => {
                 // response is an empty string when site has no context IDs.
@@ -175,7 +181,7 @@ export class ContextIdManager {
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
         return this.definitionsPlug
             .post(addRequest, 'application/xml; charset=utf-8')
-            .catch(err => Promise.reject(this._errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }

@@ -31,6 +31,7 @@ export class LearningPath {
         return this._plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -75,6 +76,7 @@ export class LearningPath {
         return this._plug
             .withParam('edittime', editTime)
             .post(reqBody, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -84,7 +86,7 @@ export class LearningPath {
      * @returns {Promise} A promise that, when resolved, indicates successful removal of the learning path.
      */
     remove() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -100,6 +102,7 @@ export class LearningPath {
             .at('clone')
             .withParam('name', newName)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -118,6 +121,7 @@ export class LearningPath {
             .at('revert')
             .withParams({ torevision: revision, edittime: editTime })
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -133,6 +137,7 @@ export class LearningPath {
             .at('pages', pageId)
             .withParam('edittime', editTime)
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -147,7 +152,8 @@ export class LearningPath {
         return this._plug
             .at('pages', pageId)
             .withParam('edittime', editTime)
-            .delete();
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -162,6 +168,7 @@ export class LearningPath {
             .at('pages', pageId, 'order')
             .withParams({ edittime: editTime, afterid: afterId })
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -183,6 +190,7 @@ export class LearningPathManager {
     getLearningPaths() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathsModel));
     }
@@ -219,6 +227,7 @@ export class LearningPathManager {
         return this._plug
             .withParams(data)
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -231,6 +240,7 @@ export class LearningPathManager {
         return this._plug
             .at('categories')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathCategoriesModel));
     }

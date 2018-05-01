@@ -42,6 +42,7 @@ export class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(request, utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -55,6 +56,7 @@ export class WorkflowManager {
         return this._plug
             .at('submit-article-request')
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -72,6 +74,7 @@ export class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -89,6 +92,7 @@ export class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }

@@ -24,6 +24,7 @@ export class LinkToCase {
         return this._plug
             .at('links')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(linkToCaseLinkList));
     }

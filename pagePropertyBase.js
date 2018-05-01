@@ -2,6 +2,9 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pagePropertiesModel } from './models/pageProperties.model.js';
 import { pagePropertyModel } from './models/pageProperty.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 export class PagePropertyBase {
     constructor(id) {
@@ -28,6 +31,7 @@ export class PagePropertyBase {
         }
         return plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pagePropertiesModel));
     }
@@ -43,7 +47,10 @@ export class PagePropertyBase {
                 new Error('Attempting to fetch a page property contents without providing a property key')
             );
         }
-        return this._plug.at(encodeURIComponent(key)).get();
+        return this._plug
+            .at(encodeURIComponent(key))
+            .get()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -58,6 +65,7 @@ export class PagePropertyBase {
         return this._plug
             .at(encodeURIComponent(key), 'info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pagePropertyModel));
     }
@@ -84,7 +92,8 @@ export class PagePropertyBase {
         return this._plug
             .at(encodeURIComponent(key))
             .withParams(params)
-            .put(value.text, value.type);
+            .put(value.text, value.type)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -96,6 +105,9 @@ export class PagePropertyBase {
         if (!key) {
             return Promise.reject(new Error('Attempting to delete a property without providing a property key'));
         }
-        return this._plug.at(encodeURIComponent(key)).delete();
+        return this._plug
+            .at(encodeURIComponent(key))
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 }

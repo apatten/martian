@@ -84,6 +84,7 @@ export class PageSecurity {
     get() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }
@@ -93,7 +94,7 @@ export class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, indicates the page's security was successfully reset.
      */
     reset() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -124,6 +125,7 @@ export class PageSecurity {
         return this._plug
             .withParams({ cascade })
             .put(securityRequest, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }
@@ -165,6 +167,7 @@ export class PageSecurity {
         return this._plug
             .withParams({ cascade })
             .post(securityRequest, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }

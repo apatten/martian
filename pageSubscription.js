@@ -41,7 +41,10 @@ export class PageSubscription {
         if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
-        return this._plug.withParams({ type, depth: recursive ? 'infinity' : '0' }).post('', utility.textRequestType);
+        return this._plug
+            .withParams({ type, depth: recursive ? 'infinity' : '0' })
+            .post('', utility.textRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -55,7 +58,10 @@ export class PageSubscription {
         if (error.length > 0) {
             return Promise.reject('The type parameter must be a string set to either "page" or "draft".');
         }
-        return this._plug.withParams({ type }).delete();
+        return this._plug
+            .withParams({ type })
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -85,6 +91,7 @@ export class PageSubscriptionManager {
     getSubscriptions() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSubscriptionsModel));
     }
