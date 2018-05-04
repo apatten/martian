@@ -51,6 +51,23 @@ describe('ExternalReport', () => {
             );
         });
     });
+    describe('get external report external uri', () => {
+        it('can get external report external uri', () => {
+            return externalReport.getExternalReportExternalUri(1);
+        });
+        it('can fail with null value ', async () => {
+            expect.assertions(1);
+            return await expect(externalReport.getExternalReportExternalUri(null)).rejects.toEqual(
+                new Error('Must submit a numeric id of an external report.')
+            );
+        });
+        it('can fail with string value', async () => {
+            expect.assertions(1);
+            return await expect(externalReport.getExternalReportExternalUri('1')).rejects.toEqual(
+                new Error('Must submit a numeric id of an external report.')
+            );
+        });
+    });
 
     describe('delete external report', () => {
         it('can delete external report', () => {
