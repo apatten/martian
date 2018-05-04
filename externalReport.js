@@ -1,12 +1,10 @@
 import { Plug } from '/mindtouch-http.js/plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
-import { apiErrorModel } from './models/apiError.model.js';
 import { externalReportModel } from './models/externalReport.model.js';
 import { externalReportListModel } from './models/externalReportList.model.js';
+import { externalReportExternalUriModel } from './models/externalReportExtenalUri.model.js';
 import { valid, required, string } from './lib/validation.js';
-
-const _errorParser = modelParser.createParser(apiErrorModel);
 
 export class ExternalReport {
     /**
@@ -24,7 +22,7 @@ export class ExternalReport {
     getExternalReports() {
         return this._plug
             .get()
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportListModel));
     }
@@ -40,9 +38,26 @@ export class ExternalReport {
         }
         return this._plug
             .get(id)
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Return an external report external uri
+     * @param {Number} id External Report Id
+     * @returns {Promise.<Object>} - A Promise that will be resolved with an external report uri, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReportExternalUri(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .at(id, 'external-uri')
+            .get()
+            .catch(err => Promise.reject(err))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportExternalUriModel));
     }
 
     /**
@@ -60,7 +75,7 @@ export class ExternalReport {
         }
         return this._plug
             .post(externalReport)
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -80,7 +95,7 @@ export class ExternalReport {
         }
         return this._plug
             .put(externalReport.id, externalReport)
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -97,7 +112,7 @@ export class ExternalReport {
         return this._plug
             .at(id)
             .delete()
-            .catch(err => Promise.reject(_errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
