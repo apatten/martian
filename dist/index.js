@@ -998,7 +998,10 @@ class Api {
      * @returns {Promise} A Promise that, when resolved, indicates a successful HTTP request.
      */
     http() {
-        return this._plug.at('http').get();
+        return this._plug
+            .at('http')
+            .get()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -1006,7 +1009,10 @@ class Api {
      * @returns {Promise} A Promise that, when resolved, indicates a successful F1 HTTP request.
      */
     f1() {
-        return this._plug.at('f1').get();
+        return this._plug
+            .at('f1')
+            .get()
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -1393,6 +1399,7 @@ class ContextDefinition {
     getInfo() {
         return this.plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
@@ -1406,6 +1413,7 @@ class ContextDefinition {
         const updateRequest = `<context><id>${this.id}</id><description>${description}</description></context>`;
         return this.plug
             .put(updateRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
@@ -1415,7 +1423,7 @@ class ContextDefinition {
      * @returns {Promise} A Promise that, when resolved, indicates a successful deletion of the Context ID.
      */
     delete() {
-        return this.plug.delete();
+        return this.plug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -1447,6 +1455,7 @@ class ContextMap {
     getInfo() {
         return this.plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapModel));
     }
@@ -1465,6 +1474,7 @@ class ContextMap {
         }</language></contextmap>`;
         return this.plug
             .put(updateRequest, 'application/xml; charset=utf-8')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapModel));
     }
@@ -1474,7 +1484,7 @@ class ContextMap {
      * @returns {Promise} A Promise that, when resolved, indicates a successful removal of the mapping.
      */
     remove() {
-        return this.plug.delete();
+        return this.plug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -1502,6 +1512,7 @@ class ContextIdManager {
     getMaps() {
         return this.mapsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextMapsModel));
     }
@@ -1513,6 +1524,7 @@ class ContextIdManager {
     getDefinitions() {
         return this.definitionsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(response => {
                 // response is an empty string when site has no context IDs.
@@ -1537,7 +1549,7 @@ class ContextIdManager {
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
         return this.definitionsPlug
             .post(addRequest, 'application/xml; charset=utf-8')
-            .catch(err => Promise.reject(this._errorParser(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
@@ -1690,6 +1702,7 @@ class DeveloperTokenManager {
     getTokens() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(developerTokensModel));
     }
@@ -1712,8 +1725,8 @@ class DeveloperTokenManager {
         requestXml += '</developer-token>';
         return this._plug
             .post(requestXml, utility.xmlRequestType)
-            .then(r => r.json())
             .catch(err => Promise.reject(_errorParser(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(developerTokenModel));
     }
 }
@@ -1733,7 +1746,7 @@ class DeveloperToken {
 
     /**
      * Delete the token from the site.
-     * @returns {Promise} A Promise that, when resolved, indicates a successufl deletion of the token.
+     * @returns {Promise} A Promise that, when resolved, indicates a successful deletion of the token.
      */
     delete() {
         return this._plug.delete().catch(err => Promise.reject(_errorParser(err)));
@@ -2026,6 +2039,7 @@ class PageBase {
             .at('contents')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageContentsModelParser);
     }
@@ -2054,6 +2068,7 @@ class PageBase {
             .at('files')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageFilesModelParser);
     }
@@ -2064,6 +2079,7 @@ class PageBase {
             return progressPlug
                 .at('files', encodeURIComponent(encodeURIComponent(name)))
                 .put(file, type, progressInfo)
+                .catch(err => Promise.reject(err))
                 .then(r => JSON.parse(r.responseText))
                 .then(modelParser.createParser(fileModel));
         }
@@ -2071,12 +2087,14 @@ class PageBase {
             .withHeader('Content-Length', size)
             .at('files', encodeURIComponent(name))
             .put(file, type)
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
     getOverview() {
         return this._plug
             .at('overview')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageOverviewModel));
     }
@@ -2085,13 +2103,17 @@ class PageBase {
             return Promise.reject(new Error('No overview body was supplied'));
         }
         let request = `<overview>${utility.escapeHTML(options.body)}</overview>`;
-        return this._plug.at('overview').put(request, utility.xmlRequestType);
+        return this._plug
+            .at('overview')
+            .put(request, utility.xmlRequestType)
+            .catch(err => Promise.reject(err));
     }
     getTags() {
         let pageTagsModelParser = modelParser.createParser(pageTagsModel);
         return this._plug
             .at('tags')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageTagsModelParser);
     }
@@ -2103,6 +2125,7 @@ class PageBase {
             .at('tags')
             .withParams(queryParams)
             .put(XMLData, 'application/xml')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageTagsModelParser);
     }
@@ -2115,6 +2138,7 @@ class PageBase {
         return this._plug
             .at('tags', 'recommended')
             .get()
+            .catch(err => Promise.reject(_errorParser$2(err)))
             .then(r => r.json())
             .then(modelParser.createParser(recommendedTagsModelParser));
     }
@@ -2157,6 +2181,7 @@ class PageBase {
             .at('related')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(relatedPagesModel));
     }
@@ -2193,7 +2218,8 @@ class PageBase {
         return this._plug
             .at('revert')
             .withParams(params)
-            .post(null, utility.textRequestType);
+            .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -2223,6 +2249,7 @@ class Draft extends PageBase {
         return this._plug
             .at('deactivate')
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser);
     }
@@ -2236,7 +2263,8 @@ class Draft extends PageBase {
         return this._plug
             .at('publish')
             .withParams(params)
-            .post();
+            .post()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -2247,6 +2275,7 @@ class Draft extends PageBase {
         return this._plug
             .at('unpublish')
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -2263,6 +2292,7 @@ class Draft extends PageBase {
         return this._plug
             .at('title')
             .put(title, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -2347,6 +2377,7 @@ class DraftManager {
         return this._plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(
                 modelParser.createParser([
@@ -2394,16 +2425,17 @@ class PageFileBase {
         return this._plug
             .at('info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
 
     /**
-     * Delete the file attachment fron the page.
+     * Delete the file attachment from the page.
      * @returns {Promise} - A Promise that, when resolved, indicates a successful delete operation.
      */
     delete() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -2414,6 +2446,7 @@ class PageFileBase {
         return this._plug
             .at('description')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
 
@@ -2422,7 +2455,10 @@ class PageFileBase {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful removal.
      */
     clearDescription() {
-        return this._plug.at('description').delete();
+        return this._plug
+            .at('description')
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -2435,6 +2471,7 @@ class PageFileBase {
         return this._plug
             .at('description')
             .put(description, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
@@ -2484,6 +2521,8 @@ const pagePropertiesModel = [
     { field: 'property', name: 'properties', isArray: true, transform: pagePropertyModel }
 ];
 
+const _errorParser$3 = modelParser.createParser(apiErrorModel);
+
 class PagePropertyBase {
     constructor(id) {
         if (this.constructor.name === 'PagePropertyBase') {
@@ -2509,6 +2548,7 @@ class PagePropertyBase {
         }
         return plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pagePropertiesModel));
     }
@@ -2524,7 +2564,10 @@ class PagePropertyBase {
                 new Error('Attempting to fetch a page property contents without providing a property key')
             );
         }
-        return this._plug.at(encodeURIComponent(key)).get();
+        return this._plug
+            .at(encodeURIComponent(key))
+            .get()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -2539,6 +2582,7 @@ class PagePropertyBase {
         return this._plug
             .at(encodeURIComponent(key), 'info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pagePropertyModel));
     }
@@ -2565,7 +2609,8 @@ class PagePropertyBase {
         return this._plug
             .at(encodeURIComponent(key))
             .withParams(params)
-            .put(value.text, value.type);
+            .put(value.text, value.type)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -2577,7 +2622,10 @@ class PagePropertyBase {
         if (!key) {
             return Promise.reject(new Error('Attempting to delete a property without providing a property key'));
         }
-        return this._plug.at(encodeURIComponent(key)).delete();
+        return this._plug
+            .at(encodeURIComponent(key))
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -2765,7 +2813,7 @@ const reportLogsModel = [
 
 const logUrlModel = [{ field: 'url' }];
 
-const _errorParser$3 = modelParser.createParser(apiErrorModel);
+const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for fetching and managing events.
@@ -2787,6 +2835,7 @@ class Events {
         return this._plug
             .at('draft-hierarchy', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -2803,6 +2852,7 @@ class Events {
         return this._plug
             .at('draft-hierarchy', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -2840,6 +2890,7 @@ class Events {
             .at('draft-hierarchy', utility.getResourceId(options.pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -2866,6 +2917,7 @@ class Events {
             .at('draft-hierarchy', 'details', options.detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -2903,6 +2955,7 @@ class Events {
             .at('draft', utility.getResourceId(pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -2933,6 +2986,7 @@ class Events {
             .at('draft', utility.getResourceId(pageId, 'home'), detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryDetailModel));
     }
@@ -2973,6 +3027,7 @@ class Events {
             .at('learningpath', utility.getResourceId(learningPathId))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -2986,6 +3041,7 @@ class Events {
         return this._plug
             .at('page-hierarchy', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -3002,6 +3058,7 @@ class Events {
         return this._plug
             .at('page-hierarchy', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -3039,6 +3096,7 @@ class Events {
             .at('page-hierarchy', utility.getResourceId(options.pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3065,6 +3123,7 @@ class Events {
             .at('page-hierarchy', 'details', detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3078,7 +3137,8 @@ class Events {
     logPageView(pageId, eventData = {}) {
         return this._plug
             .at('page-view', utility.getResourceId(pageId, 'home'))
-            .post(JSON.stringify(eventData), utility.jsonRequestType);
+            .post(JSON.stringify(eventData), utility.jsonRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -3114,6 +3174,7 @@ class Events {
             .at('page', utility.getResourceId(pageId, 'home'))
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3144,6 +3205,7 @@ class Events {
             .at('page', utility.getResourceId(pageId, 'home'), detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryDetailModel));
     }
@@ -3157,7 +3219,8 @@ class Events {
     logSearch(userId, eventData) {
         return this._plug
             .at('search', utility.getResourceId(userId, 'current'))
-            .post(JSON.stringify(eventData), utility.jsonRequestType);
+            .post(JSON.stringify(eventData), utility.jsonRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -3168,6 +3231,7 @@ class Events {
         return this._plug
             .at('support-agent', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -3184,6 +3248,7 @@ class Events {
         return this._plug
             .at('support-agent', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -3234,6 +3299,7 @@ class Events {
             .at('support-agent', token)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userActivityModel));
     }
@@ -3275,7 +3341,7 @@ class Events {
             .at('user-page', utility.getResourceId(userId, 'current'))
             .withParams(params)
             .get()
-            .catch(e => Promise.reject(_errorParser$3(e)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3302,6 +3368,7 @@ class Events {
             .at('user-page', 'current', detailId)
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -3311,7 +3378,10 @@ class Events {
      * @returns {Promise} - A Promise that, when resolved, contains the status of the web widget impression request.
      */
     logWebWidgetImpression() {
-        return this._plug.at('web-widget-impression').post();
+        return this._plug
+            .at('web-widget-impression')
+            .post()
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -3323,6 +3393,11 @@ const externalReportModel = [
 
 const externalReportListModel = [
     { field: 'external-report', name: 'external-reports', isArray: true, transform: externalReportModel }
+];
+
+const externalReportExternalUriModel = [
+    { field: '@id', name: 'id', transform: 'number' },
+    { field: '@uri', name: 'uri' }
 ];
 
 function string() {
@@ -3405,8 +3480,6 @@ const valid = {
     }
 };
 
-const _errorParser$4 = modelParser.createParser(apiErrorModel);
-
 class ExternalReport {
     /**
      * Construct a ExternalReport object.
@@ -3423,7 +3496,7 @@ class ExternalReport {
     getExternalReports() {
         return this._plug
             .get()
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportListModel));
     }
@@ -3439,9 +3512,26 @@ class ExternalReport {
         }
         return this._plug
             .get(id)
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
+    }
+
+    /**
+     * Return an external report external uri
+     * @param {Number} id External Report Id
+     * @returns {Promise.<Object>} - A Promise that will be resolved with an external report uri, or rejected with an error specifying the reason for rejection.
+     */
+    getExternalReportExternalUri(id) {
+        if (!id || !Number.isInteger(id)) {
+            return Promise.reject(new Error('Must submit a numeric id of an external report.'));
+        }
+        return this._plug
+            .at(id, 'external-uri')
+            .get()
+            .catch(err => Promise.reject(err))
+            .then(r => r.json())
+            .then(modelParser.createParser(externalReportExternalUriModel));
     }
 
     /**
@@ -3459,7 +3549,7 @@ class ExternalReport {
         }
         return this._plug
             .post(externalReport)
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -3479,7 +3569,7 @@ class ExternalReport {
         }
         return this._plug
             .put(externalReport.id, externalReport)
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -3496,7 +3586,7 @@ class ExternalReport {
         return this._plug
             .at(id)
             .delete()
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(externalReportModel));
     }
@@ -3535,6 +3625,7 @@ class File {
         return this._plug
             .at('info')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
@@ -3547,6 +3638,7 @@ class File {
         return this._plug
             .at('revisions')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(fileRevisionsModel));
     }
@@ -3561,6 +3653,7 @@ class File {
         return this._plug
             .at('description')
             .put(description, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(fileModelParser);
     }
@@ -3570,7 +3663,7 @@ class File {
      * @returns {Promise} - A Promise that, when resolved, indicates a successful file deletion.
      */
     delete() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -3586,6 +3679,7 @@ class File {
             return this._progressPlug
                 .at(utility.getResourceId(name))
                 .put(file, type, progressInfo)
+                .catch(err => Promise.reject(err))
                 .then(r => JSON.parse(r.responseText))
                 .then(modelParser.createParser(fileModel));
         }
@@ -3593,6 +3687,7 @@ class File {
             .withHeader('Content-Length', size)
             .at(utility.getResourceId(name))
             .put(file, type)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(fileModel));
     }
@@ -3615,9 +3710,9 @@ class File {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(this._errorParser(err)))
             .then(r => r.json())
-            .then(modelParser.createParser(fileModel))
-            .catch(err => Promise.reject(this._errorParser(err)));
+            .then(modelParser.createParser(fileModel));
     }
 }
 
@@ -3674,6 +3769,7 @@ class Group {
     getInfo() {
         return this._groupPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(groupModel));
     }
@@ -3694,6 +3790,7 @@ class Group {
             .at('users')
             .withParams(options)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userListModel));
     }
@@ -3717,7 +3814,7 @@ class Group {
      * @returns {Promise} A Promise that, when resolved, indicates the group was deleted successfully.
      */
     delete() {
-        return this._groupPlug.delete();
+        return this._groupPlug.delete().catch(err => Promise.reject(err));
     }
 }
 
@@ -3785,6 +3882,7 @@ class GroupManager {
         return this.plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(groupListModel));
     }
@@ -3839,6 +3937,7 @@ class LearningPath {
         return this._plug
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -3883,6 +3982,7 @@ class LearningPath {
         return this._plug
             .withParam('edittime', editTime)
             .post(reqBody, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -3892,7 +3992,7 @@ class LearningPath {
      * @returns {Promise} A promise that, when resolved, indicates successful removal of the learning path.
      */
     remove() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -3908,6 +4008,7 @@ class LearningPath {
             .at('clone')
             .withParam('name', newName)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -3926,6 +4027,7 @@ class LearningPath {
             .at('revert')
             .withParams({ torevision: revision, edittime: editTime })
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -3941,6 +4043,7 @@ class LearningPath {
             .at('pages', pageId)
             .withParam('edittime', editTime)
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -3955,7 +4058,8 @@ class LearningPath {
         return this._plug
             .at('pages', pageId)
             .withParam('edittime', editTime)
-            .delete();
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -3970,6 +4074,7 @@ class LearningPath {
             .at('pages', pageId, 'order')
             .withParams({ edittime: editTime, afterid: afterId })
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -3991,6 +4096,7 @@ class LearningPathManager {
     getLearningPaths() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathsModel));
     }
@@ -4027,6 +4133,7 @@ class LearningPathManager {
         return this._plug
             .withParams(data)
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathModel));
     }
@@ -4039,6 +4146,7 @@ class LearningPathManager {
         return this._plug
             .at('categories')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(learningPathCategoriesModel));
     }
@@ -4104,6 +4212,7 @@ class License {
             .at('usage')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(licenseUsageModel));
     }
@@ -4116,6 +4225,7 @@ class License {
         return this._plug
             .at('usage', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -4132,6 +4242,7 @@ class License {
         return this._plug
             .at('usage', 'logs', name, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser([{ field: 'url' }]));
     }
@@ -4360,6 +4471,7 @@ class Page extends PageBase {
             .at('info')
             .withParams(infoParams)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser);
     }
@@ -4374,6 +4486,7 @@ class Page extends PageBase {
             .at('subpages')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(subpagesModel));
     }
@@ -4382,6 +4495,7 @@ class Page extends PageBase {
         return this._plug
             .at('files,subpages')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(filesAndSubpagesModel));
     }
@@ -4397,6 +4511,7 @@ class Page extends PageBase {
             .at('tree')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageTreeModelParser);
     }
@@ -4410,6 +4525,9 @@ class Page extends PageBase {
             .at('tree')
             .withParam('format', 'ids')
             .get()
+            .catch(e => {
+                return Promise.reject(new Error(e.message));
+            })
             .then(r => r.text())
             .then(idString => {
                 return idString.split(',').map(id => {
@@ -4419,9 +4537,6 @@ class Page extends PageBase {
                     }
                     return numId;
                 });
-            })
-            .catch(e => {
-                return Promise.reject({ message: e.message });
             });
     }
 
@@ -4433,6 +4548,7 @@ class Page extends PageBase {
         return this._plug
             .at('ratings')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
@@ -4460,6 +4576,7 @@ class Page extends PageBase {
             .at('ratings')
             .withParams({ score: rating, previousScore: oldRating })
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageRatingModel));
     }
@@ -4482,6 +4599,7 @@ class Page extends PageBase {
         let pageContentsModelParser = modelParser.createParser(pageContentsModel);
         return contentsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageContentsModelParser);
     }
@@ -4506,9 +4624,9 @@ class Page extends PageBase {
             .at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
-            .then(modelParser.createParser(pageMoveModel))
-            .catch(err => Promise.reject(_errorParser$5(err)));
+            .then(modelParser.createParser(pageMoveModel));
     }
 
     /**
@@ -4521,9 +4639,9 @@ class Page extends PageBase {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
-            .then(modelParser.createParser(pageMoveModel))
-            .catch(err => Promise.reject(_errorParser$5(err)));
+            .then(modelParser.createParser(pageMoveModel));
     }
 
     /**
@@ -4536,6 +4654,7 @@ class Page extends PageBase {
         return this._plug
             .withParam('recursive', recursive)
             .delete()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageDeleteModelParser);
     }
@@ -4549,6 +4668,7 @@ class Page extends PageBase {
         return this._plug
             .at('activate-draft')
             .post()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(pageModelParser);
     }
@@ -4574,8 +4694,8 @@ class Page extends PageBase {
                 .at('import')
                 .withParams(apiParams)
                 .put(file, type, progressInfo)
-                .then(r => JSON.parse(r.responseText))
                 .catch(e => Promise.reject(JSON.parse(e.responseText)))
+                .then(r => JSON.parse(r.responseText))
                 .then(modelParser.createParser(importArchiveModel));
         }
         return this._plug
@@ -4583,8 +4703,8 @@ class Page extends PageBase {
             .withParams(apiParams)
             .at('import')
             .put(file, type)
-            .then(r => r.json())
             .catch(e => Promise.reject(JSON.parse(e.responseText)))
+            .then(r => r.json())
             .then(modelParser.createParser(importArchiveModel));
     }
 
@@ -4596,6 +4716,7 @@ class Page extends PageBase {
         return this._plug
             .at('export')
             .post(null, utility.textRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageExportModel));
     }
@@ -4644,7 +4765,8 @@ class Page extends PageBase {
         const respPromise = this._plug
             .at('pdf')
             .withParams(params)
-            .get();
+            .get()
+            .catch(err => Promise.reject(err));
         if (dryRun) {
             return respPromise;
         }
@@ -4663,7 +4785,8 @@ class Page extends PageBase {
         return this._plug
             .at('order')
             .withParam('afterId', afterId)
-            .put();
+            .put()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -4784,6 +4907,7 @@ class Page extends PageBase {
         return this._plug
             .at('hierarchyinfo')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageHierarchyInfoModel));
     }
@@ -4797,7 +4921,10 @@ class Page extends PageBase {
         if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to link a case to the page.'));
         }
-        return this._plug.at('linktocase', caseId).post();
+        return this._plug
+            .at('linktocase', caseId)
+            .post()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -4809,7 +4936,10 @@ class Page extends PageBase {
         if (!caseId) {
             return Promise.reject(new Error('The case ID must be supplied in order to unlink a case from the page.'));
         }
-        return this._plug.at('linktocase', caseId).delete();
+        return this._plug
+            .at('linktocase', caseId)
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -4820,6 +4950,7 @@ class Page extends PageBase {
         return this._plug
             .at('linktocase', 'links')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(linkToCaseLinkList));
     }
@@ -4842,6 +4973,7 @@ class PageManager {
         const ratingsPlug = this._plug.at('ratings').withParams({ pageids: pageIds.join(',') });
         return ratingsPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageRatingsModel));
     }
@@ -4902,8 +5034,8 @@ class PageManager {
             .at('find')
             .withParams(params)
             .get()
-            .then(r => r.json())
             .catch(err => Promise.reject(_errorParser$5(err)))
+            .then(r => r.json())
             .then(modelParser.createParser(pageFindModel));
     }
 
@@ -4925,6 +5057,7 @@ class PageManager {
             .at('templates')
             .withParams({ type, includeDescription })
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(templateListModel));
     }
@@ -4949,6 +5082,7 @@ class PageManager {
             .at('popular')
             .withParams({ limit, offset })
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(popularPagesModel));
     }
@@ -5006,6 +5140,7 @@ class PageProperty extends PagePropertyBase {
         return this._plug
             .withParams({ depth, names: key })
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json());
     }
 }
@@ -5109,6 +5244,7 @@ class PageSecurity {
     get() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }
@@ -5118,7 +5254,7 @@ class PageSecurity {
      * @returns {Promise} A Promise that, when resolved, indicates the page's security was successfully reset.
      */
     reset() {
-        return this._plug.delete();
+        return this._plug.delete().catch(err => Promise.reject(err));
     }
 
     /**
@@ -5149,6 +5285,7 @@ class PageSecurity {
         return this._plug
             .withParams({ cascade })
             .put(securityRequest, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }
@@ -5190,6 +5327,7 @@ class PageSecurity {
         return this._plug
             .withParams({ cascade })
             .post(securityRequest, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSecurityModel));
     }
@@ -5244,7 +5382,10 @@ class PageSubscription {
         if (optionsErrors.length > 0) {
             return Promise.reject(new Error(optionsErrors.join(', ')));
         }
-        return this._plug.withParams({ type, depth: recursive ? 'infinity' : '0' }).post('', utility.textRequestType);
+        return this._plug
+            .withParams({ type, depth: recursive ? 'infinity' : '0' })
+            .post('', utility.textRequestType)
+            .catch(err => Promise.reject(err));
     }
 
     /**
@@ -5258,7 +5399,10 @@ class PageSubscription {
         if (error.length > 0) {
             return Promise.reject('The type parameter must be a string set to either "page" or "draft".');
         }
-        return this._plug.withParams({ type }).delete();
+        return this._plug
+            .withParams({ type })
+            .delete()
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -5288,6 +5432,7 @@ class PageSubscriptionManager {
     getSubscriptions() {
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(pageSubscriptionsModel));
     }
@@ -5599,6 +5744,7 @@ class Site {
         return this.plug
             .at('activity', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -5611,6 +5757,7 @@ class Site {
         return this.plug
             .at('query', 'logs')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(reportLogsModel));
     }
@@ -5630,7 +5777,10 @@ class Site {
         if ('lang' in options) {
             locPlug = locPlug.withParam('lang', options.lang);
         }
-        return locPlug.get().then(r => r.text());
+        return locPlug
+            .get()
+            .catch(err => Promise.reject(err))
+            .then(r => r.text());
     }
 
     /**
@@ -5655,6 +5805,7 @@ class Site {
             .at('localizations')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(localizationsModel));
     }
@@ -5671,6 +5822,7 @@ class Site {
         return this.plug
             .at('query', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -5687,6 +5839,7 @@ class Site {
         return this.plug
             .at('activity', 'logs', logName, 'url')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(logUrlModel));
     }
@@ -5702,6 +5855,7 @@ class Site {
             .at('tags')
             .withParams(params)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(siteTagsModelParser);
     }
@@ -5719,6 +5873,7 @@ class Site {
         return this.plug
             .at('tags')
             .post(XMLBatchData, 'application/xml')
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(siteTagsModelParser);
     }
@@ -5775,6 +5930,7 @@ class Site {
             .at('query')
             .withParams(searchParams)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchModel));
     }
@@ -5826,6 +5982,7 @@ class Site {
             .at('search')
             .withParams(searchParams)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchModel));
     }
@@ -5876,6 +6033,7 @@ class Site {
             .at('search', 'analytics')
             .withParams(utility.cleanParams(searchParams))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchAnalyticsModel));
     }
@@ -5926,6 +6084,7 @@ class Site {
             .at('search', 'analytics', 'query')
             .withParams(utility.cleanParams(searchParams))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(searchAnalyticsQueryModel));
     }
@@ -5948,6 +6107,7 @@ class Site {
         }
         return activityPlug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteActivityModel));
     }
@@ -5960,6 +6120,7 @@ class Site {
         return this.plug
             .at('roles')
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteRolesModel));
     }
@@ -5993,7 +6154,10 @@ class Site {
         });
         feedbackXml += '</metadata>';
         feedbackXml += '</feedback>';
-        return this.plug.at('feedback').post(feedbackXml, utility.xmlRequestType);
+        return this.plug
+            .at('feedback')
+            .post(feedbackXml, utility.xmlRequestType)
+            .catch(err => Promise.reject(err));
     }
 }
 
@@ -6125,6 +6289,7 @@ class SiteJobManager {
         return this._plug
             .at('export')
             .post(postData, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -6175,6 +6340,7 @@ class SiteJobManager {
             .at('import')
             .withParam('dryrun', Boolean(options.dryRun))
             .post(postData, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -6300,6 +6466,7 @@ class User {
         return this._plug
             .withParam('exclude', exclude.join(','))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -6338,6 +6505,7 @@ class User {
             .at('allowed')
             .withParams(options)
             .post(requestXml, utility.xmlRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser([{ field: 'page', name: 'pages', isArray: true, transform: pageModel }]));
     }
@@ -6445,6 +6613,7 @@ class UserManager {
             .at('current')
             .withParam('exclude', exclude.join(','))
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(userModel));
     }
@@ -6458,6 +6627,7 @@ class UserManager {
             .at('current')
             .withParam('exclude', ['groups', 'properties'])
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => {
                 return Promise.all([
                     r.json().then(modelParser.createParser(userModel)),
@@ -6484,6 +6654,7 @@ class UserManager {
         let userListModelParser = modelParser.createParser(userListModel);
         return this._plug
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(userListModelParser);
     }
@@ -6509,6 +6680,7 @@ class UserManager {
             .at('search')
             .withParams(constraints)
             .get()
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(userListModelParser);
     }
@@ -6795,6 +6967,7 @@ class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(request, utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -6808,6 +6981,7 @@ class WorkflowManager {
         return this._plug
             .at('submit-article-request')
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -6825,6 +6999,7 @@ class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
@@ -6842,6 +7017,7 @@ class WorkflowManager {
         return this._plug
             .at(workflowPath)
             .post(JSON.stringify(options), utility.jsonRequestType)
+            .catch(err => Promise.reject(err))
             .then(r => r.json())
             .then(modelParser.createParser(workflowsModel));
     }
