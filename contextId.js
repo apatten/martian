@@ -181,7 +181,7 @@ export class ContextIdManager {
         const addRequest = `<contexts><context><id>${id}</id><description>${description}</description></context></contexts>`;
         return this.definitionsPlug
             .post(addRequest, 'application/xml; charset=utf-8')
-            .catch(err => Promise.reject(err))
+            .catch(err => Promise.reject(this._errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(contextIdModel));
     }
