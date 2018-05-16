@@ -31,7 +31,7 @@ describe('Context ID', () => {
         });
         it('can fail adding a context ID definition', async () => {
             expect.assertions(1);
-            return await expect(cm.addDefinition(123)).rejects.toEqual(undefined);
+            return await expect(cm.addDefinition(123)).rejects.toBeDefined();
         });
     });
     describe('definition instance functions', () => {
