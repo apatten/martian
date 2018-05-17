@@ -1,12 +1,16 @@
 /* eslint-env jasmine, jest */
+
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
-        delete: () => Promise.reject(),
-        get: () => Promise.reject(),
-        post: () => Promise.reject(),
-        put: () => Promise.reject()
+        delete: () => Promise.reject(mockFailed),
+        get: () => Promise.reject(mockFailed),
+        post: () => Promise.reject(mockFailed),
+        put: () => Promise.reject(mockFailed)
     })
 );
+
 jest.unmock('../pageBase.js');
 const Page = require.requireActual('../page.js').Page;
 const PageManager = require.requireActual('../page.js').PageManager;
@@ -18,19 +22,19 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting basic page info', async () => {
         expect.assertions(1);
-        return await expect(page.getInfo()).rejects.toEqual(undefined);
+        return await expect(page.getInfo()).rejects.toEqual(mockFailed);
     });
     it('can fail getting subpages of a page', async () => {
         expect.assertions(1);
-        return await expect(page.getSubpages()).rejects.toEqual(undefined);
+        return await expect(page.getSubpages()).rejects.toEqual(mockFailed);
     });
     it('can fail getting the files and subpages of a page', async () => {
         expect.assertions(1);
-        return await expect(page.getFilesAndSubpages()).rejects.toEqual(undefined);
+        return await expect(page.getFilesAndSubpages()).rejects.toEqual(mockFailed);
     });
     it('can fail getting the hierarchy tree of the current page', async () => {
         expect.assertions(1);
-        return await expect(page.getTree()).rejects.toEqual(undefined);
+        return await expect(page.getTree()).rejects.toEqual(mockFailed);
     });
     it('can fail getting the hierarchy tree IDs of the current page', async () => {
         expect.assertions(1);
@@ -38,15 +42,15 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting the rating information of the current page', async () => {
         expect.assertions(1);
-        return await expect(page.getRating()).rejects.toEqual(undefined);
+        return await expect(page.getRating()).rejects.toEqual(mockFailed);
     });
     it('can fail setting the rating of the current page', async () => {
         expect.assertions(1);
-        return await expect(page.rate()).rejects.toEqual(undefined);
+        return await expect(page.rate()).rejects.toEqual(mockFailed);
     });
     it('can fail getting the html template of the current page', async () => {
         expect.assertions(1);
-        return await expect(page.getHtmlTemplate()).rejects.toEqual(undefined);
+        return await expect(page.getHtmlTemplate()).rejects.toEqual(mockFailed);
     });
     it('can fail copying the current page', async () => {
         expect.assertions(1);
@@ -58,11 +62,11 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail deleting the current page', async () => {
         expect.assertions(1);
-        return await expect(page.delete()).rejects.toEqual(undefined);
+        return await expect(page.delete()).rejects.toEqual(mockFailed);
     });
     it('can fail activating a draft on the current page', async () => {
         expect.assertions(1);
-        return await expect(page.activateDraft()).rejects.toEqual(undefined);
+        return await expect(page.activateDraft()).rejects.toEqual(mockFailed);
     });
     it('can fail importing archived files on the current page', async () => {
         expect.assertions(1);
@@ -70,7 +74,7 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting export information', async () => {
         expect.assertions(1);
-        return await expect(page.getExportInformation()).rejects.toEqual(undefined);
+        return await expect(page.getExportInformation()).rejects.toEqual(mockFailed);
     });
     it('can fail exporting current page as pdf', async () => {
         expect.assertions(1);
@@ -83,11 +87,11 @@ describe('Plug Error handling for the page.js module', () => {
                 showToc: true,
                 dryRun: true
             })
-        ).rejects.toEqual(undefined);
+        ).rejects.toEqual(mockFailed);
     });
     it('can fail setting order of current page', async () => {
         expect.assertions(1);
-        return await expect(page.setOrder()).rejects.toEqual(undefined);
+        return await expect(page.setOrder()).rejects.toEqual(mockFailed);
     });
     it('can fail getting link details on current page', async () => {
         expect.assertions(1);
@@ -99,19 +103,19 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting getting hierarchy info on current page', async () => {
         expect.assertions(1);
-        return await expect(page.getHierarchyInfo()).rejects.toEqual(undefined);
+        return await expect(page.getHierarchyInfo()).rejects.toEqual(mockFailed);
     });
     it('can fail posting link to case info on current page', async () => {
         expect.assertions(1);
-        return await expect(page.linkToCase('linkName')).rejects.toEqual(undefined);
+        return await expect(page.linkToCase('linkName')).rejects.toEqual(mockFailed);
     });
     it('can fail removing link to case on current page', async () => {
         expect.assertions(1);
-        return await expect(page.unlinkCase('linkName')).rejects.toEqual(undefined);
+        return await expect(page.unlinkCase('linkName')).rejects.toEqual(mockFailed);
     });
     it('can fail getting link to case on current page', async () => {
         expect.assertions(1);
-        return await expect(page.getLinkedCases()).rejects.toEqual(undefined);
+        return await expect(page.getLinkedCases()).rejects.toEqual(mockFailed);
     });
 });
 
@@ -127,7 +131,7 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting page rating information', async () => {
         expect.assertions(1);
-        return await expect(page.getRatings([440, 441])).rejects.toEqual(undefined);
+        return await expect(page.getRatings([440, 441])).rejects.toEqual(mockFailed);
     });
     it('can fail finding pages', async () => {
         expect.assertions(1);
@@ -143,10 +147,10 @@ describe('Plug Error handling for the page.js module', () => {
     });
     it('can fail getting page templates', async () => {
         expect.assertions(1);
-        return await expect(page.getTemplates()).rejects.toEqual(undefined);
+        return await expect(page.getTemplates()).rejects.toEqual(mockFailed);
     });
     it('can fail getting popular pages', async () => {
         expect.assertions(1);
-        return await expect(page.getPopularPages()).rejects.toEqual(undefined);
+        return await expect(page.getPopularPages()).rejects.toEqual(mockFailed);
     });
 });

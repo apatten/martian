@@ -2,12 +2,14 @@
 import { developerTokensModel, developerTokenModel } from '../developerToken.js';
 jest.unmock('../developerToken.js');
 
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
-        delete: () => Promise.reject(),
-        get: () => Promise.reject(),
-        post: () => Promise.reject(),
-        put: () => Promise.reject()
+        delete: () => Promise.reject(mockFailed),
+        get: () => Promise.reject(mockFailed),
+        post: () => Promise.reject(mockFailed),
+        put: () => Promise.reject(mockFailed)
     })
 );
 const DT = require.requireActual('../developerToken.js');
@@ -29,7 +31,7 @@ describe('Developer Token Errors', () => {
         it('can fail if the get operation is rejected', async () => {
             const dtm = new DT.DeveloperTokenManager();
             expect.assertions(1);
-            return await expect(dtm.getTokens()).rejects.toEqual(undefined);
+            return await expect(dtm.getTokens()).rejects.toEqual(mockFailed);
         });
     });
 });

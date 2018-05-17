@@ -1,10 +1,13 @@
 /* eslint-env jasmine, jest */
+
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
-        delete: () => Promise.reject(),
-        get: () => Promise.reject(),
-        post: () => Promise.reject(),
-        put: () => Promise.reject()
+        delete: () => Promise.reject(mockFailed),
+        get: () => Promise.reject(mockFailed),
+        post: () => Promise.reject(mockFailed),
+        put: () => Promise.reject(mockFailed)
     })
 );
 jest.unmock('../siteJob.js');
@@ -36,12 +39,12 @@ describe('Error handling for the siteJobs.js module', () => {
     it('can fail scheduling a site export', async () => {
         const sjm = new SiteJobManager();
         expect.assertions(1);
-        return await expect(sjm.scheduleExport(exportParams)).rejects.toEqual(undefined);
+        return await expect(sjm.scheduleExport(exportParams)).rejects.toEqual(mockFailed);
     });
     it('can fail scheduling a site import', async () => {
         const sjm = new SiteJobManager();
         expect.assertions(1);
-        return await expect(sjm.scheduleImport(importParams)).rejects.toEqual(undefined);
+        return await expect(sjm.scheduleImport(importParams)).rejects.toEqual(mockFailed);
     });
     it('can fail if the response to getting a job status is an error', async () => {
         const sj = new SiteJob('3c07ca9c-49c0-4097-8eea-8e29e96461ec');

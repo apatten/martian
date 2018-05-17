@@ -2,9 +2,11 @@
 jest.unmock('../file.js');
 import { File } from '../file.js';
 
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/progressPlug.js', () =>
     require.requireActual('../__mocks__/customProgressPlug.js')({
-        put: () => Promise.reject()
+        put: () => Promise.reject(mockFailed)
     })
 );
 
@@ -15,6 +17,6 @@ describe('File API', () => {
     });
     it('can fail adding a file revision with no progress', async () => {
         expect.assertions(1);
-        return await expect(file.addRevision('fileObj', { progress: () => {} })).rejects.toEqual(undefined);
+        return await expect(file.addRevision('fileObj', { progress: () => {} })).rejects.toEqual(mockFailed);
     });
 });
