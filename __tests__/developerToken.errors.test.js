@@ -1,5 +1,4 @@
 /* eslint-env jasmine, jest */
-import { developerTokensModel, developerTokenModel } from '../developerToken.js';
 jest.unmock('../developerToken.js');
 
 let mockFailed = 'MOCK FAILED';
