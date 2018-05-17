@@ -1,10 +1,13 @@
 /* eslint-env jasmine, jest */
+
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
-        delete: () => Promise.reject(),
-        get: () => Promise.reject(),
-        post: () => Promise.reject(),
-        put: () => Promise.reject()
+        delete: () => Promise.reject(mockFailed),
+        get: () => Promise.reject(mockFailed),
+        post: () => Promise.reject(mockFailed),
+        put: () => Promise.reject(mockFailed)
     })
 );
 const WebWidgetsManager = require.requireActual('../webWidgets.js').WebWidgetsManager;

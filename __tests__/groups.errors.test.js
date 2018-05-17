@@ -2,12 +2,14 @@
 jest.unmock('../group.js');
 import { GroupManager, Group } from '../group.js';
 
+let mockFailed = 'MOCK FAILED';
+
 jest.mock('/mindtouch-http.js/plug.js', () =>
     require.requireActual('../__mocks__/customPlug.js')({
-        delete: () => Promise.reject(),
-        get: () => Promise.reject(),
-        post: () => Promise.reject(),
-        put: () => Promise.reject()
+        delete: () => Promise.reject(mockFailed),
+        get: () => Promise.reject(mockFailed),
+        post: () => Promise.reject(mockFailed),
+        put: () => Promise.reject(mockFailed)
     })
 );
 
@@ -27,7 +29,7 @@ describe('Group API', () => {
                     offset: 100,
                     sortBy: 'id'
                 })
-            ).rejects.toEqual(undefined);
+            ).rejects.toEqual(mockFailed);
         });
     });
     describe('Group', () => {
@@ -40,15 +42,15 @@ describe('Group API', () => {
         });
         it('can fail fetching a single group', async () => {
             expect.assertions(1);
-            return await expect(group.getInfo()).rejects.toEqual(undefined);
+            return await expect(group.getInfo()).rejects.toEqual(mockFailed);
         });
         it("can fail fetching a group's users", async () => {
             expect.assertions(1);
-            return await expect(group.getUsers()).rejects.toEqual(undefined);
+            return await expect(group.getUsers()).rejects.toEqual(mockFailed);
         });
         it('can fail deleting a group', async () => {
             expect.assertions(1);
-            return await expect(group.delete()).rejects.toEqual(undefined);
+            return await expect(group.delete()).rejects.toEqual(mockFailed);
         });
         it('can fail removing a user from a group', async () => {
             expect.assertions(1);

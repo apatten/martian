@@ -2,9 +2,6 @@ import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pagePropertiesModel } from './models/pageProperties.model.js';
 import { pagePropertyModel } from './models/pageProperty.model.js';
-import { apiErrorModel } from './models/apiError.model.js';
-
-const _errorParser = modelParser.createParser(apiErrorModel);
 
 export class PagePropertyBase {
     constructor(id) {
