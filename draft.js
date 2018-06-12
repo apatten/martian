@@ -10,6 +10,8 @@ const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
+ * @augments PageBase
+ * @inheritdoc
  */
 export class Draft extends PageBase {
     /**
