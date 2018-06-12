@@ -35,6 +35,9 @@ function _getSaveXML(data) {
     template = `<tags>${template}</tags>`;
     return template;
 }
+/**
+ * The base class for managing a published page.
+ */
 export class PageBase {
     constructor(id) {
         if (this.constructor.name === 'PageBase') {
@@ -42,6 +45,12 @@ export class PageBase {
         }
         this._id = utility.getResourceId(id, 'home');
     }
+
+    /**
+     * Gets the full page information.
+     * @param {Object} [params] - Additional parameters to direct the API request.
+     * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} containing the full page information.
+     */
     getFullInfo(params = {}) {
         let pageModelParser = modelParser.createParser(pageModel);
         return this._plug

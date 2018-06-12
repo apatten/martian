@@ -29,6 +29,8 @@ const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
+ * @augments PageBase
+ * @inheritdoc
  */
 export class Page extends PageBase {
     /**
