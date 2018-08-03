@@ -1,6 +1,6 @@
 {
   "name": "mindtouch-martian",
-  "version": "1.40.8",
+  "version": "1.40.9",
   "description": "Core JavaScript API for MindTouch",
   "license": "Apache-2.0",
   "main": "dist/index.js",
