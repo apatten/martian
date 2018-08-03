@@ -2017,6 +2017,9 @@ function _getSaveXML(data) {
     template = `<tags>${template}</tags>`;
     return template;
 }
+/**
+ * The base class for managing a published page.
+ */
 class PageBase {
     constructor(id) {
         if (this.constructor.name === 'PageBase') {
@@ -2024,6 +2027,12 @@ class PageBase {
         }
         this._id = utility.getResourceId(id, 'home');
     }
+
+    /**
+     * Gets the full page information.
+     * @param {Object} [params] - Additional parameters to direct the API request.
+     * @returns {Promise.<pageModel>} - A Promise that, when resolved, yields a {@link pageModel} containing the full page information.
+     */
     getFullInfo(params = {}) {
         let pageModelParser = modelParser.createParser(pageModel);
         return this._plug
@@ -2227,6 +2236,8 @@ const _errorParser$1 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
+ * @augments PageBase
+ * @inheritdoc
  */
 class Draft extends PageBase {
     /**
@@ -2521,8 +2532,6 @@ const pagePropertiesModel = [
     { field: 'property', name: 'properties', isArray: true, transform: pagePropertyModel }
 ];
 
-const _errorParser$3 = modelParser.createParser(apiErrorModel);
-
 class PagePropertyBase {
     constructor(id) {
         if (this.constructor.name === 'PagePropertyBase') {
@@ -2813,7 +2822,7 @@ const reportLogsModel = [
 
 const logUrlModel = [{ field: 'url' }];
 
-const _errorParser$4 = modelParser.createParser(apiErrorModel);
+const _errorParser$3 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for fetching and managing events.
@@ -3341,7 +3350,7 @@ class Events {
             .at('user-page', utility.getResourceId(userId, 'current'))
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$4(err)))
+            .catch(err => Promise.reject(_errorParser$3(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageHistoryModel));
     }
@@ -4416,6 +4425,8 @@ const linkToCaseLinkList = [
         isArray: true,
         transform: [
             { field: 'caseid', name: 'caseId' },
+            { field: 'pagetitle', name: 'pageTitle' },
+            { field: 'pageuri', name: 'pageUri' },
             { field: 'linkcreatoruserid', name: 'linkCreatorUserId', transform: 'number' },
             { field: 'linkdate', name: 'linkDate', transform: 'date' },
             { field: 'pageid', name: 'pageId', transform: 'number' }
@@ -4439,10 +4450,12 @@ const filesAndSubpagesModel = [
     { field: 'subpages', name: 'subpagesInfo', transform: subpagesModel }
 ];
 
-const _errorParser$5 = modelParser.createParser(apiErrorModel);
+const _errorParser$4 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a published page.
+ * @augments PageBase
+ * @inheritdoc
  */
 class Page extends PageBase {
     /**
@@ -4624,7 +4637,7 @@ class Page extends PageBase {
             .at('copy')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel));
     }
@@ -4639,7 +4652,7 @@ class Page extends PageBase {
             .at('move')
             .withParams(params)
             .post(null, utility.textRequestType)
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageMoveModel));
     }
@@ -4843,7 +4856,7 @@ class Page extends PageBase {
             .at('linkdetails')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageLinkDetailsModel));
     }
@@ -4894,7 +4907,7 @@ class Page extends PageBase {
             .at('health')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -5034,7 +5047,7 @@ class PageManager {
             .at('find')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$5(err)))
+            .catch(err => Promise.reject(_errorParser$4(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageFindModel));
     }
@@ -6174,7 +6187,7 @@ const siteJobModel = [
 ];
 const siteJobsModel = [{ field: 'job', name: 'jobs', isArray: true, transform: siteJobModel }];
 
-const _errorParser$6 = modelParser.createParser(apiErrorModel);
+const _errorParser$5 = modelParser.createParser(apiErrorModel);
 
 class SiteJob {
     /**
@@ -6197,7 +6210,7 @@ class SiteJob {
         return this._plug
             .at('status')
             .get()
-            .catch(err => Promise.reject(_errorParser$6(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -6210,7 +6223,7 @@ class SiteJob {
         return this._plug
             .at('cancel')
             .post()
-            .catch(err => Promise.reject(_errorParser$6(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobModel));
     }
@@ -6353,13 +6366,13 @@ class SiteJobManager {
         return this._plug
             .at('status')
             .get()
-            .catch(err => Promise.reject(_errorParser$6(err)))
+            .catch(err => Promise.reject(_errorParser$5(err)))
             .then(r => r.json())
             .then(modelParser.createParser(siteJobsModel));
     }
 }
 
-const _errorParser$7 = modelParser.createParser(apiErrorModel);
+const _errorParser$6 = modelParser.createParser(apiErrorModel);
 
 class SiteReports {
     constructor(settings = new Settings()) {
@@ -6391,7 +6404,7 @@ class SiteReports {
             .at('sitehealth')
             .withParams(params)
             .get()
-            .catch(err => Promise.reject(_errorParser$7(err)))
+            .catch(err => Promise.reject(_errorParser$6(err)))
             .then(r => r.json())
             .then(modelParser.createParser(healthReportModel));
     }
@@ -6752,7 +6765,7 @@ const webWidgetsListModel = [
     { field: 'web-widget', name: 'webWidgets', isArray: true, transform: webWidgetsModel }
 ];
 
-const _errorParser$8 = modelParser.createParser(apiErrorModel);
+const _errorParser$7 = modelParser.createParser(apiErrorModel);
 function isValidArgValue(value) {
     return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean';
 }
@@ -6813,7 +6826,7 @@ class WebWidgetsManager {
     getActiveWidgets() {
         return this._plug
             .get()
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6826,7 +6839,7 @@ class WebWidgetsManager {
         return this._plug
             .at('inactive')
             .get()
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsListModel));
     }
@@ -6841,7 +6854,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .get()
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6858,7 +6871,7 @@ class WebWidgetsManager {
     createWidget(options) {
         return this._plug
             .post(_makeXmlString(options), utility.xmlRequestType)
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6873,7 +6886,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .delete()
-            .catch(err => Promise.reject(_errorParser$8(err)));
+            .catch(err => Promise.reject(_errorParser$7(err)));
     }
 
     /**
@@ -6891,7 +6904,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId)
             .put(_makeXmlString(options), utility.xmlRequestType)
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6906,7 +6919,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId, 'activate')
             .put()
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
@@ -6921,7 +6934,7 @@ class WebWidgetsManager {
         return this._plug
             .at(widgetId, 'deactivate')
             .put()
-            .catch(err => Promise.reject(_errorParser$8(err)))
+            .catch(err => Promise.reject(_errorParser$7(err)))
             .then(r => r.json())
             .then(modelParser.createParser(webWidgetsModel));
     }
