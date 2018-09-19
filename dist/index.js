@@ -2,453 +2,55 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-/**
- * Martian - Core JavaScript API for MindTouch
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-const uriParser = /^(?:(?![^:@]+:[^:@/]*@)([^:/?#.]+:))?(?:\/\/)?(?:([^:@/]*)(?::([^:@/]*))?@)?(\[[0-9a-fA-F.]+]|[^:/?#]*)(?::(\d+|(?=:)))?((?:[^?#])*\/?)?[^?#/]*(?:(\?[^#]*))?(?:(#.*))?/;
-function _parseUri(str) {
-    const parserKeys = [ 'href', 'protocol', 'username', 'password', 'hostname', 'port', 'pathname', 'search', 'hash' ];
-    const m = uriParser.exec(str);
-    const parts = {};
-    parserKeys.forEach(function(key, i) {
-        parts[key] = m[i];
-    });
-    return parts;
-}
-function _searchStringToParams(search) {
-    const params = [];
-    const queryEntries = search.split('&');
-    queryEntries.forEach((entry) => {
-        let kvp = entry.split('=');
-        params.push([ kvp[0], kvp[1] ]);
-    });
-    return params;
-}
-class UriSearchParams {
-    constructor(searchString) {
-        this._params = [];
-        if(searchString && searchString !== '') {
-            if(searchString[0] === '?') {
-                searchString = searchString.slice(1);
+/* eslint-env node, browser */
+const _platformId = typeof window === 'undefined' ? 'node' : 'browser';
+const platform = {
+    get environment() {
+        return _platformId;
+    },
+    base64: {
+        encode(rawString) {
+            if (_platformId === 'node') {
+                // In node, use `Buffer` to encode.
+                return new Buffer(rawString).toString('base64');
             }
-            this._params = _searchStringToParams(searchString);
-        }
-    }
-    append(name, value) {
-        this._params.push([ name, value ]);
-    }
-    delete(name) {
-        const newParams = [];
-        this._params.forEach((pair) => {
-            if(pair[0] !== name) {
-                newParams.push(pair);
+
+            // In the browser, use btoa() to encode.
+            return window.btoa(rawString);
+        },
+        decode(b64String) {
+            if (_platformId === 'node') {
+                // In node, use `Buffer` to decode.
+                return new Buffer(b64String, 'base64').toString('utf8');
             }
-        });
-        this._params = newParams;
-    }
-    get(name) {
-        let found = null;
-        for(let i = 0; i < this._params.length; i++) {
-            if(this._params[i][0] === name) {
-                found = this._params[i][1];
-                break;
-            }
+
+            // In the browser, use atob() to decode.
+            return window.atob(b64String);
         }
-        return found;
-    }
-    getAll(name) {
-        const found = [];
-        this._params.forEach((param) => {
-            if(param[0] === name) {
-                found.push(param[1]);
-            }
-        });
-        return found;
-    }
-    has(name) {
-        let found = false;
-        for(let i = 0; i < this._params.length; i++) {
-            if(this._params[i][0] === name) {
-                found = true;
-                break;
-            }
+    },
+    get URL() {
+        if (_platformId === 'browser') {
+            return window.URL;
         }
-        return found;
-    }
-    set(name, value) {
-        let found = false;
-        const result = [];
-        this._params.forEach((pair) => {
-            if(pair[0] === name && !found) {
-                pair[1] = value;
-                result.push(pair);
-                found = true;
-            } else if(pair[0] !== name) {
-                result.push(pair);
-            }
-        });
-        this._params = result;
-    }
-    get entries() {
-        return this._params;
-    }
-    get count() {
-        return this._params.length;
-    }
-    toString() {
-        return this._params.reduce((previous, current, index) => {
-            return `${previous}${index === 0 ? '' : '&'}${current[0]}=${current[1]}`;
-        }, '');
-    }
-}
-
-class UriParser {
-    constructor(urlString = '') {
-        if(typeof urlString !== 'string') {
-            throw new TypeError('Failed to construct \'URL\': The supplied URL must be a string');
+        return require('url').URL;
+    },
+    get defaultHost() {
+        if (_platformId === 'browser') {
+            return window.location.origin;
         }
-        this._parts = _parseUri(urlString);
-        const protocolExists = typeof this._parts.protocol !== 'undefined' && this._parts.protocol !== '';
-        const hostExists = typeof this._parts.hostname !== 'undefined' && this._parts.hostname !== '';
-        if((protocolExists && !hostExists) || (!protocolExists && hostExists)) {
-            throw new TypeError('Failed to construct \'URL\': Protocol and hostname must be supplied together');
-        }
-        this._hostless = !protocolExists && !hostExists;
-        this._params = new UriSearchParams(this._parts.search);
+        return global.__DefaultMindTouchHost || '';
     }
+};
 
-    // Properties that come directly from the regex
-    get params() {
-        return this._params;
-    }
-    get protocol() {
-        return this._parts.protocol ? this._parts.protocol.toLowerCase() : '';
-    }
-    set protocol(val) {
-        if(!val) {
+const _URL = platform.URL;
 
-            // removing the protocol means converting url to a `hostless` url
-            this._parts.hostname = null;
-            this._parts.protocol = null;
-            this._hostless = true;
-            return;
-        }
-        this._parts.protocol = val;
-    }
-    get hostname() {
-        return this._parts.hostname || '';
-    }
-    set hostname(val) {
-        if(!val) {
-
-            // removing the hostname means converting url to a `hostless` url
-            this._parts.hostname = null;
-            this._parts.protocol = null;
-            this._hostless = true;
-            return;
-        }
-        this._parts.hostname = val;
-    }
-    get port() {
-        return this._parts.port || '';
-    }
-    set port(val) {
-        this._parts.port = val;
-    }
-    get pathname() {
-        return this._parts.pathname || '/';
-    }
-    set pathname(val) {
-        this._parts.pathname = val;
-    }
-    get search() {
-        return this._params.entries.length === 0 ? '' : `?${this._params.toString()}`;
-    }
-    set search(val) {
-        this._parts.search = val;
-        this._params = new UriSearchParams(val);
-    }
-    get hash() {
-        return this._parts.hash || '';
-    }
-    set hash(val) {
-        this._parts.hash = val;
-    }
-    get username() {
-        return this._parts.username || '';
-    }
-    set username(val) {
-        this._parts.username = val;
-    }
-    get password() {
-        return this._parts.password || '';
-    }
-    set password(val) {
-        this._parts.password = val;
-    }
-
-    // Properties computed from various regex parts
-    get href() {
-        return this.toString();
-    }
-    set href(val) {
-        this._parts = _parseUri(val);
-        this.search = this._parts.search;
-    }
-    get host() {
-        let host = this.hostname.toLowerCase();
-        if(host !== '' && this.port) {
-            host = `${host}:${this.port}`;
-        }
-        return host;
-    }
-    set host(val) {
-        const hostParts = val.split(':');
-        this.hostname = hostParts[0];
-        if(hostParts.length > 1) {
-            this.port = hostParts[1];
-        } else {
-            this.port = '';
-        }
-    }
-    get origin() {
-        return `${this.protocol}//${this.host}`;
-    }
-    get searchParams() {
-        return this._params;
-    }
-    set searchParams(val) {
-        this._params = val;
-        this._parts.search = `?${val.toString()}`;
-    }
-    toString() {
-        let hrefString = '';
-        if(!this._hostless) {
-            hrefString = `${this.protocol}//`;
-            if(this.username && this.username !== '') {
-                hrefString = `${hrefString}${this.username}`;
-                if(this.password && this.password !== '') {
-                    hrefString = `${hrefString}:${this.password}`;
-                }
-                hrefString = `${hrefString}@`;
-            }
-        }
-        hrefString = `${hrefString}${this.host}${this.pathname}`;
-        if(this.search && this.search !== '') {
-            hrefString = `${hrefString}${this.search}`;
-        }
-        if(this.hash && this.hash !== '') {
-            hrefString = `${hrefString}${this.hash}`;
-        }
-        return hrefString;
-    }
-}
-
-/**
- * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * A class for parsing and manipulating URIs.
- */
-class Uri {
-
-    /**
-     * Construct a Uri from a supplied string.
-     * @param {String} [url] The URI string to parse. If not supplied, an empty URI will be initialized.
-     */
-    constructor(url = '') {
-        this.parsedUrl = new UriParser(url);
-    }
-
-    /**
-     * Get the protocol portion of the Uri.
-     */
-    get protocol() {
-        return this.parsedUrl.protocol;
-    }
-
-    /**
-     * Set the protocol for the Uri.
-     * @param {String} protocol The new protocol for the Uri. Must be one of `http:` or `https:`.
-     */
-    set protocol(protocol) {
-        this.parsedUrl.protocol = protocol;
-    }
-
-    /**
-     * Get the hostname portion of the Uri.
-     */
-    get hostname() {
-        return this.parsedUrl.hostname;
-    }
-
-    /**
-     * Set the hostname for the Uri.
-     * @param {String} hostname The new hostname for the Uri.
-     */
-    set hostname(hostname) {
-        this.parsedUrl.hostname = hostname;
-    }
-
-    /**
-     * Get the origin portion of the Uri.
-     */
-    get origin() {
-        return this.parsedUrl.origin;
-    }
-
-    /**
-     * Get the path portion of the Uri.
-     */
-    get path() {
-        return this.parsedUrl.pathname;
-    }
-
-    /**
-     * Get the search portion of the Uri detailing the query parameters as a string.
-     */
-    get search() {
-        return this.parsedUrl.params.count === 0 ? '' : `?${this.parsedUrl.params.toString()}`;
-    }
-
-    /**
-     * Get the hash portion of the Uri.
-     */
-    get hash() {
-        return this.parsedUrl.hash;
-    }
-
-    /**
-     * Get a query parameter value.
-     * @param {String} key The key of the query string value to fetch.
-     * @returns {String} The value of the query parameter.
-     */
-    getQueryParam(key) {
-        return this.parsedUrl.searchParams.get(key);
-    }
-
-    /**
-     * Remove a query string parameter from the Uri.
-     * @param {String} key The key of the query parameter to remove.
-     */
-    removeQueryParam(key) {
-        this.parsedUrl.searchParams.delete(key);
-    }
-
-    /**
-     * Additively sets a query string parameter. It is possible to add multiple query parameter values with the same key using this function.
-     * @param {String} key The key of the query parameter to add.
-     * @param {String|Number|Boolean} value The value of the added query parameter.
-     */
-    addQueryParam(key, value) {
-        const paramVal = value === null || typeof value === 'undefined' ? '' : encodeURIComponent(value);
-        this.parsedUrl.searchParams.append(key, paramVal);
-    }
-
-    /**
-     * Add a batch of query parameters.
-     * @param {Object} queryMap A list of key-value pairs to add as query parameters. It is possible to add multiple query parameter values with the same key using this function.
-     */
-    addQueryParams(queryMap) {
-        Object.keys(queryMap).forEach((key) => {
-            this.addQueryParam(key, queryMap[key]);
-        });
-    }
-
-    /**
-     * Set the value of an existing query parameter, or add it if it does not exist.
-     * @param {String} key The key of the query parameter to add.
-     * @param {String|Number|Boolean} value The value of the added query parameter.
-     */
-    setQueryParam(key, value) {
-        this.removeQueryParam(key);
-        this.addQueryParam(key, value);
-    }
-
-    /**
-     * Set a batch of query parameters.
-     * @param {Object} queryMap A list of key-value pairs to set as query parameters. If any of the keys of this input object conflict with existing query parameter keys, they will be replaced.
-     */
-    setQueryParams(queryMap) {
-        Object.keys(queryMap).forEach((key) => {
-            this.setQueryParam(key, queryMap[key]);
-        });
-    }
-
-    /**
-     * Add path segments to the Uri.
-     * @param {...String} segments The segments to be added to the Uri.
-     */
-    addSegments(...segments) {
-        let path = '';
-        segments.forEach((segment) => {
-            if(Array.isArray(segment)) {
-                segment.forEach((arraySegment) => {
-                    if(arraySegment[0] === '/') {
-                        arraySegment = arraySegment.slice(1);
-                    }
-                    path = `${path}/${arraySegment}`;
-                });
-            } else {
-                if(segment[0] === '/') {
-                    segment = segment.slice(1);
-                }
-                path = `${path}/${segment}`;
-            }
-        });
-        let pathName = this.parsedUrl.pathname;
-        if(pathName === '/') {
-            pathName = '';
-        }
-        this.parsedUrl.pathname = `${pathName}${path}`;
-    }
-
-    /**
-     * Get a string representation of the current state of the Uri.
-     * @returns {String} The Uri string.
-     */
-    toString() {
-        return this.parsedUrl.toString();
-    }
-}
-
-let _defaultHost = '/';
+let _defaultHost = platform.defaultHost;
 let _defaultOrigin = null;
 let _defaultQueryParams = { 'dream.out.format': 'json' };
 let _defaultHeaders = { 'X-Deki-Client': 'mindtouch-martian' };
 let _defaultToken = null;
 let _cookieManager = null;
-function _cloneKVPs(obj) {
+function _cloneKeyValuePair(obj) {
     const copy = {};
     Object.keys(obj).forEach(key => {
         copy[key] = obj[key];
@@ -499,7 +101,7 @@ class Settings {
                 _defaultQueryParams = params;
             },
             reset() {
-                _defaultHost = '/';
+                _defaultHost = platform.defaultHost;
                 _defaultQueryParams = { 'dream.out.format': 'json' };
                 _defaultToken = null;
                 _defaultHeaders = { 'X-Deki-Client': 'mindtouch-martian' };
@@ -511,7 +113,7 @@ class Settings {
     /**
      * Create a new martian Settings object.
      * @param {Object} [options] The options for the martian settings object.
-     * @param {String} [options.host] The URI of the mindtouch site that is hosting the API to access.
+     * @param {String} [options.host] The URL of the mindtouch site that is hosting the API to access.
      * @param {Object} [options.queryParams] An object mapping query parameter keys with values. Keys and values will both be converted to strings.
      * @param {Object} [options.headers] An object mapping HTTP header keys with values. Keys must be strings, and values will be converted to strings.
      * @param {String|Function} [options.token] A token to allow API access. This will populate the "X-Deki-Token" header. If a function is supplied, it should return the desired token as a string.
@@ -527,12 +129,12 @@ class Settings {
         this._host = host;
         this._token = token;
         this._origin = origin;
-        this._queryParams = _cloneKVPs(queryParams);
-        this._headers = _cloneKVPs(headers);
+        this._queryParams = _cloneKeyValuePair(queryParams);
+        this._headers = _cloneKeyValuePair(headers);
         if (this._origin !== null) {
-            const originUri = new Uri(this._origin);
-            const hostUri = new Uri(this._host);
-            if (originUri.origin === hostUri.origin) {
+            const originUrl = new _URL(this._origin);
+            const hostUrl = new _URL(this._host);
+            if (originUrl.origin === hostUrl.origin) {
                 this._headers['X-Deki-Requested-With'] = 'XMLHttpRequest';
             }
         }
@@ -600,8 +202,10 @@ class Settings {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const _URL$1 = platform.URL;
+
 function _isRedirectResponse(response) {
-    if(!response.headers.has('location')) {
+    if (!response.headers.has('location')) {
         return false;
     }
     const code = response.status;
@@ -612,20 +216,20 @@ function _handleHttpError(response) {
         const isRedirectResponse = _isRedirectResponse(response);
 
         // a redirect response from fetch when a cookie manager is present is resolved later
-        if(isRedirectResponse && this._followRedirects && this._cookieManager !== null) {
+        if (isRedirectResponse && this._followRedirects && this._cookieManager !== null) {
             resolve(response);
             return;
         }
 
         // a redirect response when follow redirects is false is valid
-        if(isRedirectResponse && !this._followRedirects) {
+        if (isRedirectResponse && !this._followRedirects) {
             resolve(response);
             return;
         }
 
         // throw for all non-2xx status codes, except for 304
-        if(!response.ok && response.status !== 304) {
-            response.text().then((text) => {
+        if (!response.ok && response.status !== 304) {
+            response.text().then(text => {
                 reject({
                     message: response.statusText,
                     status: response.status,
@@ -638,62 +242,95 @@ function _handleHttpError(response) {
     });
 }
 function _readCookies(request) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.getCookieString(request.url).then((cookieString) => {
-            if(cookieString !== '') {
-                request.headers.set('Cookie', cookieString);
-            }
-        }).then(() => request);
+    if (this._cookieManager !== null) {
+        return this._cookieManager
+            .getCookieString(request.url)
+            .then(cookieString => {
+                if (cookieString !== '') {
+                    request.headers.set('Cookie', cookieString);
+                }
+            })
+            .then(() => request);
     }
     return Promise.resolve(request);
 }
 function _handleCookies(response) {
-    if(this._cookieManager !== null) {
-
+    if (this._cookieManager !== null) {
         // NOTE (@modethirteen, 20170321): Headers.getAll() is obsolete and will be removed: https://developer.mozilla.org/en-US/docs/Web/API/Headers/getAll
         // Headers.get() will cease to return first header of a key, and instead take on the same behavior of Headers.getAll()
-        const cookies = response.headers.getAll ? response.headers.getAll('Set-Cookie') : response.headers.get('Set-Cookie').split(',');
+        /* istanbul ignore next: The test environment has an implementation for Headers.getAll() */
+        const cookies = response.headers.getAll
+            ? response.headers.getAll('Set-Cookie')
+            : response.headers.get('Set-Cookie').split(',');
         return this._cookieManager.storeCookies(response.url, cookies).then(() => response);
     }
     return Promise.resolve(response);
 }
 function _doFetch({ url, method, headers, body = null }) {
+    const requestHeaders = new Headers(headers);
+    const requestBody = body;
     const requestData = {
-        method: method,
-        headers: new Headers(headers),
+        method,
+        headers: requestHeaders,
         credentials: 'include',
 
         // redirect resolution when a cookie manager is set will be handled in plug, not fetch
         redirect: this._followRedirects && this._cookieManager === null ? 'follow' : 'manual'
     };
-    if(body !== null) {
-        requestData.body = body;
+    if (body !== null) {
+        requestData.body = requestBody;
     }
     const request = new Request(url, requestData);
-    return _readCookies.call(this, request)
+    return _readCookies
+        .call(this, request)
         .then(this._fetch)
         .then(_handleHttpError.bind(this))
         .then(_handleCookies.bind(this))
-        .then((response) => {
-            if(this._followRedirects && _isRedirectResponse(response)) {
+        .then(response => {
+            if (this._followRedirects && _isRedirectResponse(response)) {
                 return _doFetch.call(this, {
                     url: response.headers.get('location'),
 
                     // HTTP 307/308 maintain request method
-                    method: (response.status !== 307 && response.status !== 308) ? 'GET' : request.method,
-                    headers: request.headers,
-                    body: request.body
+                    method: response.status !== 307 && response.status !== 308 ? 'GET' : request.method,
+                    headers: requestHeaders,
+                    body: requestBody
                 });
             }
             return response;
         });
+}
+function addURLSegments(url, ...segments) {
+    const segmentArrayToPath = segmentArray =>
+        segmentArray.reduce((acc, segment) => {
+            if (Array.isArray(segment)) {
+                acc += segmentArrayToPath(segment);
+            } else {
+                if (segment[0] === '/') {
+                    segment = segment.slice(1);
+                }
+                acc += `/${segment}`;
+            }
+            return acc;
+        }, '');
+
+    const path = segmentArrayToPath(segments);
+    let pathName = url.pathname;
+    if (pathName === '/') {
+        pathName = '';
+    }
+    url.pathname = `${pathName}${path}`;
+}
+function addURLQueryParams(url, queryMap) {
+    Object.keys(queryMap).forEach(key => {
+        url.searchParams.append(key, queryMap[key]);
+    });
 }
 
 /**
  * A class for building URIs and performing HTTP requests.
  */
 class Plug {
-
     /**
      * @param {String} [url=/] The initial URL to start the URL building from and to ultimately send HTTP requests to.
      * @param {Object} [options] Options to direct the construction of the Plug.
@@ -708,26 +345,35 @@ class Plug {
      * @param {Boolean} [options.followRedirects] Should HTTP redirects be auto-followed, or should HTTP redirect responses be returned to the caller (default: true)
      * @param {function} [options.fetchImpl] whatwg/fetch implementation (default: window.fetch)
      */
-    constructor(url = '/', {
-        uriParts = {},
-        headers = {},
-        timeout = null,
-        beforeRequest = (params) => params,
-        cookieManager = null,
-        followRedirects = true,
-        fetchImpl = fetch
-    } = {}) {
-
+    constructor(
+        url,
+        {
+            uriParts = {},
+            headers = {},
+            timeout = null,
+            beforeRequest = params => params,
+            cookieManager = null,
+            followRedirects = true,
+            fetchImpl = fetch
+        } = {}
+    ) {
         // Initialize the url for this instance
-        this._url = new Uri(url);
-        if('segments' in uriParts) {
-            this._url.addSegments(uriParts.segments);
+        if (!url) {
+            throw new Error('A full, valid URL must be specified');
         }
-        if('query' in uriParts) {
-            this._url.addQueryParams(uriParts.query);
+        try {
+            this._url = new _URL$1(url);
+        } catch (e) {
+            throw new Error(`Unable to construct a URL object from ${url}`);
         }
-        if('excludeQuery' in uriParts) {
-            this._url.removeQueryParam(uriParts.excludeQuery);
+        if ('segments' in uriParts) {
+            addURLSegments(this._url, uriParts.segments);
+        }
+        if ('query' in uriParts) {
+            addURLQueryParams(this._url, uriParts.query);
+        }
+        if ('excludeQuery' in uriParts) {
+            this._url.searchParams.delete(uriParts.excludeQuery);
         }
         this._beforeRequest = beforeRequest;
         this._timeout = timeout;
@@ -751,6 +397,10 @@ class Plug {
         return new Headers(this._headers);
     }
 
+    get followingRedirects() {
+        return this._followRedirects;
+    }
+
     /**
      * Get a new Plug, based on the current one, with the specified path segments added.
      * @param {...String} segments The segments to be added to the new Plug instance.
@@ -758,7 +408,7 @@ class Plug {
      */
     at(...segments) {
         const values = [];
-        segments.forEach((segment) => {
+        segments.forEach(segment => {
             values.push(segment.toString());
         });
         return new this.constructor(this._url.toString(), {
@@ -852,7 +502,7 @@ class Plug {
      */
     withHeaders(values) {
         const newHeaders = Object.assign({}, this._headers);
-        Object.keys(values).forEach((key) => {
+        Object.keys(values).forEach(key => {
             newHeaders[key] = values[key];
         });
         return new this.constructor(this._url.toString(), {
@@ -920,7 +570,7 @@ class Plug {
     get(method = 'GET') {
         const params = this._beforeRequest({
             url: this._url.toString(),
-            method: method,
+            method,
             headers: Object.assign({}, this._headers)
         });
         return _doFetch.call(this, params);
@@ -934,13 +584,13 @@ class Plug {
      * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
      */
     post(body, mime, method = 'POST') {
-        if(mime) {
+        if (mime) {
             this._headers['Content-Type'] = mime;
         }
         const params = this._beforeRequest({
             url: this._url.toString(),
-            method: method,
-            body: body,
+            method,
+            body,
             headers: Object.assign({}, this._headers)
         });
         return _doFetch.call(this, params);
@@ -978,6 +628,129 @@ class Plug {
      */
     delete() {
         return this.post(null, null, 'DELETE');
+    }
+}
+
+/**
+ * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function _doXhr({ xhr, body, progressInfo }) {
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                const status = xhr.status;
+                if (status >= 200 && status <= 300) {
+                    progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
+                    resolve(xhr);
+                } else {
+                    reject({
+                        message: xhr.statusText,
+                        status: xhr.status,
+                        responseText: xhr.responseText
+                    });
+                }
+            }
+        };
+        xhr.onerror = () => {
+            reject(new Error('An error occurred while initiating the file upload'));
+        };
+        xhr.send(body);
+    });
+}
+function _readCookies$1(request) {
+    if (this._cookieManager !== null) {
+        return this._cookieManager
+            .getCookieString(this.url)
+            .then(cookieString => {
+                if (cookieString !== '') {
+                    request.xhr.setRequestHeader('Cookie', cookieString);
+                }
+            })
+            .then(() => request);
+    }
+    return Promise.resolve(request);
+}
+function _handleCookies$1(xhr) {
+    if (this._cookieManager !== null) {
+        return this._cookieManager.storeCookies(this.url, xhr.getResponseHeader('Set-Cookie')).then(() => xhr);
+    }
+    return Promise.resolve(xhr);
+}
+function _doRequest({ method, headers, body = null, progressInfo }) {
+    const xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
+    xhr.open(method, this.url, true);
+    xhr.upload.onprogress = e => {
+        progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
+    };
+    for (const [header, val] of Object.entries(headers)) {
+        xhr.setRequestHeader(header, val);
+    }
+    const request = { xhr, body, progressInfo };
+    progressInfo.callback({ loaded: 0, total: progressInfo.size });
+    return _readCookies$1
+        .call(this, request)
+        .then(_doXhr)
+        .then(_handleCookies$1.bind(this));
+}
+
+/**
+ * A class that performs HTTP POST and PUT requests, and allows for the progress of the uploaded data to be reported.
+ */
+class ProgressPlug extends Plug {
+    /**
+     * Construct a ProgressPlug object.
+     * @param {String} [url] The initial URL for the Plug.
+     * @param {Object} params The parameters that direct the construction and behavior of the Plug. See {@see Plug} for details.
+     */
+    constructor(url, params) {
+        super(url, params);
+    }
+
+    /**
+     * Perform an HTTP POST request, enabling progress callback notifications.
+     * @param {String} body The body of the POST.
+     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
+     * @param {String} [method=POST] The HTTP method to use with the POST logic.
+     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
+     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
+     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
+     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
+     */
+    post(body, mime, method = 'POST', progressInfo = { size: 0, callback: () => {} }) {
+        if (mime) {
+            this._headers['Content-Type'] = mime;
+        }
+        let params = this._beforeRequest({ method, body, headers: Object.assign({}, this._headers) });
+        params.progressInfo = progressInfo;
+        return _doRequest.call(this, params);
+    }
+
+    /**
+     * Perform an HTTP PUT request, enabling progress callback notifications.
+     * @param {String} body The body of the PUT.
+     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
+     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
+     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
+     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
+     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
+     */
+    put(body, mime, progressInfo) {
+        return this.post(body, mime, 'PUT', progressInfo);
     }
 }
 
@@ -1282,7 +1055,15 @@ const pageModel = [
     { field: ['path', '#text'] },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
-    { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
+    {
+        field: 'path.original',
+        name: 'originalPath',
+        transform: val => {
+            if (val) {
+                return decodeURIComponent(val);
+            }
+        }
+    },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },
     { field: '@publish', name: 'publish', transform: 'boolean' },
     { field: '@unpublish', name: 'unpublish', transform: 'boolean' },
@@ -1753,124 +1534,6 @@ class DeveloperToken {
     }
 }
 
-/**
- * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
- *
- * Copyright (c) 2015 MindTouch Inc.
- * www.mindtouch.com  oss@mindtouch.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function _doXhr({ xhr, body, progressInfo }) {
-    return new Promise((resolve, reject) => {
-        xhr.onreadystatechange = () => {
-            if(xhr.readyState === 4) {
-                const status = xhr.status;
-                if(status >= 200 && status <= 300) {
-                    progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
-                    resolve(xhr);
-                } else {
-                    reject({
-                        message: xhr.statusText,
-                        status: xhr.status,
-                        responseText: xhr.responseText
-                    });
-                }
-            }
-        };
-        xhr.onerror = () => {
-            reject(new Error('An error occurred while initiating the file upload'));
-        };
-        xhr.send(body);
-    });
-}
-function _readCookies$1(request) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.getCookieString(this.url).then((cookieString) => {
-            if(cookieString !== '') {
-                request.xhr.setRequestHeader('Cookie', cookieString);
-            }
-        }).then(() => request);
-    }
-    return Promise.resolve(request);
-}
-function _handleCookies$1(xhr) {
-    if(this._cookieManager !== null) {
-        return this._cookieManager.storeCookies(this.url, xhr.getResponseHeader('Set-Cookie')).then(() => xhr);
-    }
-    return Promise.resolve(xhr);
-}
-function _doRequest({ method, headers, body = null, progressInfo }) {
-    const xhr = new XMLHttpRequest();  // eslint-disable-line no-undef
-    xhr.open(method, this.url, true);
-    xhr.upload.onprogress = (e) => {
-        progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
-    };
-    for(const [ header, val ] of Object.entries(headers)) {
-        xhr.setRequestHeader(header, val);
-    }
-    const request = { xhr: xhr, body: body, progressInfo: progressInfo };
-    progressInfo.callback({ loaded: 0, total: progressInfo.size });
-    return _readCookies$1.call(this, request).then(_doXhr).then(_handleCookies$1.bind(this));
-}
-
-/**
- * A class that performs HTTP POST and PUT requests, and allows for the progress of the uploaded data to be reported.
- */
-class ProgressPlug extends Plug {
-
-    /**
-     * Construct a ProgressPlug object.
-     * @param {String} [url] The initial URL for the Plug.
-     * @param {Object} params The parameters that direct the construction and behavior of the Plug. See {@see Plug} for details.
-     */
-    constructor(url, params) {
-        super(url, params);
-    }
-
-    /**
-     * Perform an HTTP POST request, enabling progress callback notifications.
-     * @param {String} body The body of the POST.
-     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
-     * @param {String} [method=POST] The HTTP method to use with the POST logic.
-     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
-     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
-     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
-     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
-     */
-    post(body, mime, method = 'POST', progressInfo = { size: 0, callback: () => {} }) {
-        if(mime) {
-            this._headers['Content-Type'] = mime;
-        }
-        let params = this._beforeRequest({ method: method, body: body, headers: Object.assign({}, this._headers) });
-        params.progressInfo = progressInfo;
-        return _doRequest.call(this, params);
-    }
-
-    /**
-     * Perform an HTTP PUT request, enabling progress callback notifications.
-     * @param {String} body The body of the PUT.
-     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
-     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
-     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
-     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
-     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
-     */
-    put(body, mime, progressInfo) {
-        return this.post(body, mime, 'PUT', progressInfo);
-    }
-}
-
 let pageContentsModel = [
     { field: '@type', name: 'type' },
     { field: '@title', name: 'title' },
@@ -1995,7 +1658,7 @@ const recommendedTagsModelParser = [
     }
 ];
 
-const _errorParser$2 = modelParser.createParser(apiErrorModel);
+const _errorParser$1 = modelParser.createParser(apiErrorModel);
 
 function _handleVirtualPage(error) {
     if (error.status === 404 && error.responseText) {
@@ -2067,7 +1730,7 @@ class PageBase {
             .at('contents')
             .withParams(contentsParams)
             .post(contents, utility.textRequestType)
-            .catch(err => Promise.reject(_errorParser$2(err)))
+            .catch(err => Promise.reject(_errorParser$1(err)))
             .then(r => r.json())
             .then(pageEditModelParser);
     }
@@ -2147,7 +1810,7 @@ class PageBase {
         return this._plug
             .at('tags', 'recommended')
             .get()
-            .catch(err => Promise.reject(_errorParser$2(err)))
+            .catch(err => Promise.reject(_errorParser$1(err)))
             .then(r => r.json())
             .then(modelParser.createParser(recommendedTagsModelParser));
     }
@@ -2172,7 +1835,7 @@ class PageBase {
             return Promise.reject(new Error('The revision parameter must be a number or a string.'));
         }
         if (typeof includeVersions !== 'boolean') {
-            return Promise.reject(new Error('The `includeRevisionis` parameter must be a Boolean value.'));
+            return Promise.reject(new Error('The `includeVersions` parameter must be a Boolean value.'));
         }
         if (format !== 'html' && format !== 'xhtml') {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));
@@ -2181,7 +1844,7 @@ class PageBase {
             .at('diff')
             .withParams({ previous, revision, diff: includeVersions ? 'all' : 'combined', format })
             .get()
-            .catch(err => Promise.reject(_errorParser$2(err)))
+            .catch(err => Promise.reject(_errorParser$1(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageDiffModel));
     }
@@ -2232,7 +1895,7 @@ class PageBase {
     }
 }
 
-const _errorParser$1 = modelParser.createParser(apiErrorModel);
+const _errorParser$2 = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for managing a single unpublished draft page.
@@ -2348,7 +2011,7 @@ class DraftManager {
             .at(utility.getResourceId(newPath), 'create')
             .withParams(params)
             .post()
-            .catch(err => Promise.reject(_errorParser$1(err)))
+            .catch(err => Promise.reject(_errorParser$2(err)))
             .then(r => r.json())
             .then(modelParser.createParser(pageModel));
     }
@@ -2923,7 +2586,7 @@ class Events {
             params.include = options.include.join(',');
         }
         return this._plug
-            .at('draft-hierarchy', 'details', options.detailId)
+            .at('draft-hierarchy', 'details', detailId)
             .withParams(params)
             .get()
             .catch(err => Promise.reject(err))
@@ -3977,7 +3640,7 @@ class LearningPath {
         }
         if (content.category) {
             if (typeof content.category !== 'string') {
-                return Promise.reject('The summary parameter must be a string');
+                return Promise.reject('The category parameter must be a string');
             }
             xmlData += `<category>${utility.escapeHTML(content.category)}</category>`;
         }
@@ -4519,14 +4182,13 @@ class Page extends PageBase {
      * @returns {Promise.<pageTreeModel>} - A Promise that, when resolved, yields a {@link pageTreeModel} containing the basic page information.
      */
     getTree(params) {
-        let pageTreeModelParser = modelParser.createParser(pageTreeModel);
         return this._plug
             .at('tree')
             .withParams(params)
             .get()
             .catch(err => Promise.reject(err))
             .then(r => r.json())
-            .then(pageTreeModelParser);
+            .then(modelParser.createParser(pageTreeModel));
     }
 
     /**
@@ -6318,7 +5980,7 @@ class SiteJobManager {
      */
     scheduleImport(options) {
         if (!options) {
-            return Promise.reject(new Error('The export options must be supplied'));
+            return Promise.reject(new Error('The import options must be supplied'));
         }
         let notificationSupplied = false;
         if ('email' in options) {
@@ -6396,7 +6058,7 @@ class SiteReports {
         }
         if (options.severities) {
             if (!Array.isArray(options.severities)) {
-                return Promise.reject(new Error('The `severities` option must be an array of analyzers'));
+                return Promise.reject(new Error('The `severities` option must be an array of severity levels'));
             }
             params.severity = options.severities.join(',');
         }
@@ -6409,46 +6071,6 @@ class SiteReports {
             .then(modelParser.createParser(healthReportModel));
     }
 }
-
-/* eslint-disable no-undef */
-const _platformId = typeof window === 'undefined' ? 'node' : 'browser';
-const platform = {
-    base64: {
-        encode(rawString) {
-            if (_platformId === 'node') {
-                // In node, use `Buffer` to encode.
-                return new Buffer(rawString).toString('base64');
-            }
-
-            // In the browser, use btoa() to encode.
-            return window.btoa(rawString);
-        },
-        decode(b64String) {
-            if (_platformId === 'node') {
-                // In node, use `Buffer` to decode.
-                return new Buffer(b64String, 'base64').toString('utf8');
-            }
-
-            // In the browser, use atob() to decode.
-            return window.atob(b64String);
-        }
-    },
-    fileReader: {
-        toBuffer(fileObj) {
-            if (_platformId === 'browser') {
-                const fileReader = new FileReader();
-                return fileReader.readAsArrayBuffer(fileObj);
-            }
-        },
-        getContentType(fileObj) {
-            if (_platformId === 'browser') {
-                return fileObj.type;
-            }
-        }
-    }
-};
-
-/* eslint-enable no-undef */
 
 /**
  * A class for managing a MindTouch user.
@@ -7007,7 +6629,7 @@ class WorkflowManager {
     submitIssue(options = {}) {
         const workflowPath = 'submit-issue';
         if (!('_path' in options) || !('_search' in options)) {
-            return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
+            return Promise.reject(new Error(`The _path and _search fields must be supplied for ${workflowPath}`));
         }
         return this._plug
             .at(workflowPath)
@@ -7025,7 +6647,7 @@ class WorkflowManager {
     contactSupport(options = {}) {
         const workflowPath = 'contact-support';
         if (!('_path' in options) || !('_search' in options)) {
-            return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
+            return Promise.reject(new Error(`The _path and _search fields must be supplied for ${workflowPath}`));
         }
         return this._plug
             .at(workflowPath)
@@ -7063,6 +6685,8 @@ exports.PageProperty = PageProperty;
 exports.PageSecurity = PageSecurity;
 exports.PageSubscription = PageSubscription;
 exports.PageSubscriptionManager = PageSubscriptionManager;
+exports.Plug = Plug;
+exports.ProgressPlug = ProgressPlug;
 exports.Site = Site;
 exports.SiteJob = SiteJob;
 exports.SiteJobManager = SiteJobManager;

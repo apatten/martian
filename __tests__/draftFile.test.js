@@ -1,12 +1,15 @@
-/* eslint-env jasmine, jest */
-jest.unmock('../pageFileBase.js');
-jest.unmock('../draftFile.js');
 import { DraftFile } from '../draftFile.js';
+global.fetch = {};
 
 describe('Draft files', () => {
     describe('constructor', () => {
+        it('can fail to construct a new Draft File if no file name is supplied', () => {
+            expect.assertions(1);
+            expect(() => new DraftFile(123)).toThrowError(new Error('The filename must be a string'));
+        });
         it('can construct a new Draft File', () => {
-            const df = new DraftFile();
+            expect.assertions(1);
+            const df = new DraftFile(123, 'foo.jpg');
             expect(df).toBeDefined();
         });
     });

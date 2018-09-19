@@ -12,6 +12,7 @@
     "@seo": "true",
     "#text": "Category_2/Page_Title"
   },
+  "path.original": "Category_2/Page_Title_Original",
   "title": "Page Title",
   "uri.ui": "https://aaronm-elm.mindtouch.be/Category_2/Page_Title"
 }

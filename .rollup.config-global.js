@@ -1,6 +1,5 @@
-import uglify from 'rollup-plugin-uglify';
 import babel from 'rollup-plugin-babel';
-import aliasModuleSpecifiers from 'rollup-plugin-alias-module-specifiers';
+import { terser } from 'rollup-plugin-terser';
 
 const banner = `
 /**
@@ -28,27 +27,9 @@ const banner = `
 
 export default {
     input: './global.js',
-    output: [
-        {
-            file: 'build/martian.min.js',
-            format: 'iife',
-            name: 'MindTouch',
-            banner
-        }
-    ],
+    output: [{ file: 'build/martian.min.js', format: 'iife', name: 'MindTouch', sourcemap: true }],
     plugins: [
-        aliasModuleSpecifiers({
-            '/mindtouch-http.js/': './node_modules/mindtouch-http.js/'
-        }),
-        babel({
-            babelrc: false,
-            plugins: ['external-helpers'],
-            presets: [['env', { modules: false, targets: { uglify: true } }]]
-        }),
-        uglify({
-            output: {
-                comments: 'some'
-            }
-        })
+        babel({ babelrc: false, presets: [['@babel/env', { modules: false }]] }),
+        terser({ output: { preamble: banner } })
     ]
 };

@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from './plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -110,7 +110,7 @@ export class Events {
             params.include = options.include.join(',');
         }
         return this._plug
-            .at('draft-hierarchy', 'details', options.detailId)
+            .at('draft-hierarchy', 'details', detailId)
             .withParams(params)
             .get()
             .catch(err => Promise.reject(err))

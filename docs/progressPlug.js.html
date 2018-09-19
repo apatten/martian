@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: progressPlug.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: progressPlug.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * mindtouch-http.js - A JavaScript library to construct URLs and make HTTP requests using the fetch API
+ *
+ * Copyright (c) 2015 MindTouch Inc.
+ * www.mindtouch.com  oss@mindtouch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { Plug } from './plug.js';
+function _doXhr({ xhr, body, progressInfo }) {
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                const status = xhr.status;
+                if (status >= 200 &amp;&amp; status &lt;= 300) {
+                    progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
+                    resolve(xhr);
+                } else {
+                    reject({
+                        message: xhr.statusText,
+                        status: xhr.status,
+                        responseText: xhr.responseText
+                    });
+                }
+            }
+        };
+        xhr.onerror = () => {
+            reject(new Error('An error occurred while initiating the file upload'));
+        };
+        xhr.send(body);
+    });
+}
+function _readCookies(request) {
+    if (this._cookieManager !== null) {
+        return this._cookieManager
+            .getCookieString(this.url)
+            .then(cookieString => {
+                if (cookieString !== '') {
+                    request.xhr.setRequestHeader('Cookie', cookieString);
+                }
+            })
+            .then(() => request);
+    }
+    return Promise.resolve(request);
+}
+function _handleCookies(xhr) {
+    if (this._cookieManager !== null) {
+        return this._cookieManager.storeCookies(this.url, xhr.getResponseHeader('Set-Cookie')).then(() => xhr);
+    }
+    return Promise.resolve(xhr);
+}
+function _doRequest({ method, headers, body = null, progressInfo }) {
+    const xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
+    xhr.open(method, this.url, true);
+    xhr.upload.onprogress = e => {
+        progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
+    };
+    for (const [header, val] of Object.entries(headers)) {
+        xhr.setRequestHeader(header, val);
+    }
+    const request = { xhr, body, progressInfo };
+    progressInfo.callback({ loaded: 0, total: progressInfo.size });
+    return _readCookies
+        .call(this, request)
+        .then(_doXhr)
+        .then(_handleCookies.bind(this));
+}
+
+/**
+ * A class that performs HTTP POST and PUT requests, and allows for the progress of the uploaded data to be reported.
+ */
+export class ProgressPlug extends Plug {
+    /**
+     * Construct a ProgressPlug object.
+     * @param {String} [url] The initial URL for the Plug.
+     * @param {Object} params The parameters that direct the construction and behavior of the Plug. See {@see Plug} for details.
+     */
+    constructor(url, params) {
+        super(url, params);
+    }
+
+    /**
+     * Perform an HTTP POST request, enabling progress callback notifications.
+     * @param {String} body The body of the POST.
+     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
+     * @param {String} [method=POST] The HTTP method to use with the POST logic.
+     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
+     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
+     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
+     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
+     */
+    post(body, mime, method = 'POST', progressInfo = { size: 0, callback: () => {} }) {
+        if (mime) {
+            this._headers['Content-Type'] = mime;
+        }
+        let params = this._beforeRequest({ method, body, headers: Object.assign({}, this._headers) });
+        params.progressInfo = progressInfo;
+        return _doRequest.call(this, params);
+    }
+
+    /**
+     * Perform an HTTP PUT request, enabling progress callback notifications.
+     * @param {String} body The body of the PUT.
+     * @param {String} mime The mime type of the request, set in the `Content-Type` header.
+     * @param {Object} [progressInfo] An object containing parameters to receive the progress notifications.
+     * @param {Number} [progressInfo.size] The Number of bytes that are uploaded before a notification callback occurs.
+     * @param {function} [progressInfo.callback] A function that is called to notify about a progress event.
+     * @returns {Promise} A Promise that, when resolved, yields the {Response} object as defined by the fetch API.
+     */
+    put(body, mime, progressInfo) {
+        return this.post(body, mime, 'PUT', progressInfo);
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="ContextDefinition.html">ContextDefinition</a></li><li><a href="ContextIdManager.html">ContextIdManager</a></li><li><a href="ContextMap.html">ContextMap</a></li><li><a href="DeveloperToken_DeveloperToken.html">DeveloperToken</a></li><li><a href="DeveloperTokenManager.html">DeveloperTokenManager</a></li><li><a href="Draft.html">Draft</a></li><li><a href="DraftFile.html">DraftFile</a></li><li><a href="DraftManager.html">DraftManager</a></li><li><a href="DraftProperty_DraftProperty.html">DraftProperty</a></li><li><a href="Events.html">Events</a></li><li><a href="ExternalReport_ExternalReport.html">ExternalReport</a></li><li><a href="File.html">File</a></li><li><a href="FileDraft_FileDraft.html">FileDraft</a></li><li><a href="Group.html">Group</a></li><li><a href="GroupManager.html">GroupManager</a></li><li><a href="LearningPath_LearningPath.html">LearningPath</a></li><li><a href="LearningPathManager_LearningPathManager.html">LearningPathManager</a></li><li><a href="License_License.html">License</a></li><li><a href="LinkToCase_LinkToCase.html">LinkToCase</a></li><li><a href="Page.html">Page</a></li><li><a href="PageBase.html">PageBase</a></li><li><a href="PageFile.html">PageFile</a></li><li><a href="PageFileBase.html">PageFileBase</a></li><li><a href="PageKcs.html">PageKcs</a></li><li><a href="PageManager.html">PageManager</a></li><li><a href="PageProperty.html">PageProperty</a></li><li><a href="PageSecurity.html">PageSecurity</a></li><li><a href="PageSubscription.html">PageSubscription</a></li><li><a href="PageSubscriptionManager.html">PageSubscriptionManager</a></li><li><a href="Plug.html">Plug</a></li><li><a href="ProgressPlug.html">ProgressPlug</a></li><li><a href="Settings.html">Settings</a></li><li><a href="Site.html">Site</a></li><li><a href="SiteJob_SiteJob.html">SiteJob</a></li><li><a href="SiteJobManager_SiteJobManager.html">SiteJobManager</a></li><li><a href="User.html">User</a></li><li><a href="UserManager.html">UserManager</a></li><li><a href="WebWidgetsManager.html">WebWidgetsManager</a></li><li><a href="WorkflowManager.html">WorkflowManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from './plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { apiErrorModel } from './models/apiError.model.js';
@@ -28,7 +28,7 @@ export class SiteReports {
         }
         if (options.severities) {
             if (!Array.isArray(options.severities)) {
-                return Promise.reject(new Error('The `severities` option must be an array of analyzers'));
+                return Promise.reject(new Error('The `severities` option must be an array of severity levels'));
             }
             params.severity = options.severities.join(',');
         }

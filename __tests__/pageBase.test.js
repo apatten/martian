@@ -1,5 +1,4 @@
 /* eslint-env jasmine, jest */
-jest.unmock('../pageBase.js');
 import { PageBase } from '../pageBase.js';
 
 describe('Page Base', () => {

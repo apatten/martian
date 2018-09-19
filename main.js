@@ -1,4 +1,6 @@
 import { Settings } from './lib/settings.js';
+import { Plug } from './plug.js';
+import { ProgressPlug } from './progressPlug.js';
 import { Api } from './api.js';
 import { ContextDefinition, ContextMap, ContextIdManager } from './contextId.js';
 import { DeveloperToken, DeveloperTokenManager } from './developerToken.js';
@@ -51,6 +53,8 @@ export {
     PageSecurity,
     PageSubscription,
     PageSubscriptionManager,
+    Plug,
+    ProgressPlug,
     Site,
     SiteJob,
     SiteJobManager,

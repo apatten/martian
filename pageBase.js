@@ -1,4 +1,4 @@
-import { ProgressPlug } from '/mindtouch-http.js/progressPlug.js';
+import { ProgressPlug } from './progressPlug.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
 import { pageModel } from './models/page.model.js';
@@ -190,7 +190,7 @@ export class PageBase {
             return Promise.reject(new Error('The revision parameter must be a number or a string.'));
         }
         if (typeof includeVersions !== 'boolean') {
-            return Promise.reject(new Error('The `includeRevisionis` parameter must be a Boolean value.'));
+            return Promise.reject(new Error('The `includeVersions` parameter must be a Boolean value.'));
         }
         if (format !== 'html' && format !== 'xhtml') {
             return Promise.reject(new Error('The `format` parameter must be a string equal to "html" or "xhtml".'));

@@ -18,7 +18,15 @@ const pageModel = [
     { field: ['path', '#text'] },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
-    { field: 'path.original', name: 'originalPath', transform: decodeURIComponent },
+    {
+        field: 'path.original',
+        name: 'originalPath',
+        transform: val => {
+            if (val) {
+                return decodeURIComponent(val);
+            }
+        }
+    },
     { field: '@deleted', name: 'deleted', transform: 'boolean' },
     { field: '@publish', name: 'publish', transform: 'boolean' },
     { field: '@unpublish', name: 'unpublish', transform: 'boolean' },

@@ -16,6 +16,7 @@ script:
   - yarn inspect
   - yarn test-jsdom
   - yarn test-node
+  - yarn bundle
   - yarn bundle-global
 
 after_success:

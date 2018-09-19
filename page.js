@@ -1,5 +1,5 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
-import { ProgressPlug } from '/mindtouch-http.js/progressPlug.js';
+import { Plug } from './plug.js';
+import { ProgressPlug } from './progressPlug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -94,14 +94,13 @@ export class Page extends PageBase {
      * @returns {Promise.<pageTreeModel>} - A Promise that, when resolved, yields a {@link pageTreeModel} containing the basic page information.
      */
     getTree(params) {
-        let pageTreeModelParser = modelParser.createParser(pageTreeModel);
         return this._plug
             .at('tree')
             .withParams(params)
             .get()
             .catch(err => Promise.reject(err))
             .then(r => r.json())
-            .then(pageTreeModelParser);
+            .then(modelParser.createParser(pageTreeModel));
     }
 
     /**

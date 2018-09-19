@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from './plug.js';
 import { Settings } from './lib/settings.js';
 import { modelParser } from './lib/modelParser.js';
 import { utility } from './lib/utility.js';
@@ -136,7 +136,7 @@ export class SiteJobManager {
      */
     scheduleImport(options) {
         if (!options) {
-            return Promise.reject(new Error('The export options must be supplied'));
+            return Promise.reject(new Error('The import options must be supplied'));
         }
         let notificationSupplied = false;
         if ('email' in options) {

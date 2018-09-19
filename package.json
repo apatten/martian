@@ -11,39 +11,38 @@
     "url": "git+https://github.com/MindTouch/martian.git"
   },
   "scripts": {
-    "test-node": "jest --config jest-node.json",
-    "watch-node": "jest --config jest-node.json --watch",
-    "test-jsdom": "jest --config jest-jsdom.json",
-    "watch-jsdom": "jest --config jest-jsdom.json --watch",
-    "test": "npm run test-jsdom & npm run test-node;wait",
-    "inspect": "eslint *.js __mocks__/**/*.js __tests__/**/*.js lib/**/*.js models/**/*.js",
+    "test-node": "jest --config .jest-config-node.js",
+    "watch-node": "jest --config .jest-config-node.js --watch",
+    "test-jsdom": "jest --config .jest-config-jsdom.js",
+    "watch-jsdom": "jest --config .jest-config-jsdom.js --watch",
+    "test": "yarn run test-jsdom;yarn run test-node",
+    "inspect": "eslint *.js __tests__/**/*.js lib/**/*.js models/**/*.js",
     "docs": "jsdoc -c .jsdoc.json",
     "bundle": "rollup --config .rollup.config.js",
     "bundle-global": "rollup --config .rollup.config-global.js"
   },
   "devDependencies": {
-    "babel-jest": "20.0.3",
-    "babel-plugin-external-helpers": "6.22.0",
-    "babel-preset-env": "1.6.0",
-    "eslint": "4.5.0",
+    "@babel/core": "7.1.0",
+    "@babel/preset-env": "7.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "23.6.0",
+    "eslint": "5.6.0",
     "eslint-config-mindtouch": "1.1.1",
-    "jest-cli": "20.0.4",
+    "jest": "23.6.0",
+    "jest-fetch-mock": "1.6.6",
     "jsdoc": "3.5.5",
-    "prettier": "1.10.2",
-    "rollup": "0.49.2",
-    "rollup-plugin-alias-module-specifiers": "0.1.7",
-    "rollup-plugin-babel": "3.0.2",
-    "rollup-plugin-uglify": "2.0.1"
+    "prettier": "1.14.2",
+    "regenerator-runtime": "0.12.1",
+    "rollup": "0.66.0",
+    "rollup-plugin-babel": "4.0.3",
+    "rollup-plugin-terser": "3.0.0",
+    "xhr-mock": "2.4.1"
   },
   "author": "MindTouch",
   "bugs": {
     "url": "https://github.com/MindTouch/martian/issues"
   },
   "homepage": "https://github.com/MindTouch/martian",
-  "dependencies": {
-    "mindtouch-http.js": "2.1.4",
-    "mindtouch-martian": "^1.40.3"
-  },
   "directories": {
     "doc": "docs"
   }

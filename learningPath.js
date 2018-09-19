@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from './plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -62,7 +62,7 @@ export class LearningPath {
         }
         if (content.category) {
             if (typeof content.category !== 'string') {
-                return Promise.reject('The summary parameter must be a string');
+                return Promise.reject('The category parameter must be a string');
             }
             xmlData += `<category>${utility.escapeHTML(content.category)}</category>`;
         }

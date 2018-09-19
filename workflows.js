@@ -1,4 +1,4 @@
-import { Plug } from '/mindtouch-http.js/plug.js';
+import { Plug } from './plug.js';
 import { Settings } from './lib/settings.js';
 import { utility } from './lib/utility.js';
 import { modelParser } from './lib/modelParser.js';
@@ -69,7 +69,7 @@ export class WorkflowManager {
     submitIssue(options = {}) {
         const workflowPath = 'submit-issue';
         if (!('_path' in options) || !('_search' in options)) {
-            return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
+            return Promise.reject(new Error(`The _path and _search fields must be supplied for ${workflowPath}`));
         }
         return this._plug
             .at(workflowPath)
@@ -87,7 +87,7 @@ export class WorkflowManager {
     contactSupport(options = {}) {
         const workflowPath = 'contact-support';
         if (!('_path' in options) || !('_search' in options)) {
-            return Promise.reject(new Error('The _path and _search fields must be supplied for ${workflowPath}'));
+            return Promise.reject(new Error(`The _path and _search fields must be supplied for ${workflowPath}`));
         }
         return this._plug
             .at(workflowPath)
