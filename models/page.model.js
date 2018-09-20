@@ -35,6 +35,7 @@ const pageModel = [
     { field: ['revisions', '@count'], name: 'revisionCount', transform: 'number' },
     { field: ['comments', '@count'], name: 'commentCount', transform: 'number' },
     { field: ['permissions', 'permissions.page'], name: 'permissions', transform: permissionsModel },
+    { field: ['security', 'permissions.effective'], name: 'effectivePermissions', transform: permissionsModel },
     {
         field: 'rating',
         constructTransform(rating) {
