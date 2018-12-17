@@ -21,8 +21,7 @@ function _doXhr({ xhr, body, progressInfo }) {
     return new Promise((resolve, reject) => {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                const status = xhr.status;
-                if (status >= 200 && status <= 300) {
+                if (xhr.status >= 200 && xhr.status <= 300) {
                     progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
                     resolve(xhr);
                 } else {
