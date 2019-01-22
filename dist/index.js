@@ -694,6 +694,7 @@ function _handleCookies$1(xhr) {
 function _doRequest({ method, headers, body = null, progressInfo }) {
     const xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
     xhr.open(method, this.url, true);
+    xhr.withCredentials = true;
     xhr.upload.onprogress = e => {
         progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
     };
@@ -4168,6 +4169,10 @@ class Page extends PageBase {
             .then(modelParser.createParser(subpagesModel));
     }
 
+    /**
+     * Fetch a combined response for the files and subpages of the current Page.
+     * @returns {Promise.<filesAndSubpagesModel>} - A promise that, when resolved, yields a {@link filesAndSubpagesModel} containing the consolidated response.
+     */
     getFilesAndSubpages() {
         return this._plug
             .at('files,subpages')
