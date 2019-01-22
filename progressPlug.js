@@ -62,6 +62,7 @@ function _handleCookies(xhr) {
 function _doRequest({ method, headers, body = null, progressInfo }) {
     const xhr = new XMLHttpRequest(); // eslint-disable-line no-undef
     xhr.open(method, this.url, true);
+    xhr.withCredentials = true;
     xhr.upload.onprogress = e => {
         progressInfo.callback({ loaded: e.loaded, total: progressInfo.size });
     };
