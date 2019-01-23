@@ -138,9 +138,20 @@ function addURLSegments(url, ...segments) {
     url.pathname = `${pathName}${path}`;
 }
 function addURLQueryParams(url, queryMap) {
-    Object.keys(queryMap).forEach(key => {
-        url.searchParams.append(key, queryMap[key]);
-    });
+
+    // (20190122 katherinem) Issue #13440 - Workaround for Microsoft Edge not properly encoding query params with spaces
+    if((new URLSearchParams({q: " +"})).toString() != "q=+%2B") {
+        Object.keys(queryMap).forEach(key => {
+            let value = queryMap[key].toString().includes(' ') ?
+                queryMap[key].split(' ').map(encodeURIComponent).join(' ') :
+                queryMap[key];
+            url.searchParams.append(key, value);
+        });
+    } else {
+        Object.keys(queryMap).forEach(key => {
+            url.searchParams.append(key, queryMap[key]);
+        });
+    }
 }
 
 /**
