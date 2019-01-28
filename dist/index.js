@@ -34,6 +34,12 @@ const platform = {
         }
         return require('url').URL;
     },
+    get URLSearchParams() {
+        if (_platformId === 'browser') {
+            return window.URLSearchParams;
+        }
+        return require('url').URLSearchParams;
+    },
     get defaultHost() {
         if (_platformId === 'browser') {
             return window.location.origin;
@@ -202,7 +208,6 @@ class Settings {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const _URL$1 = platform.URL;
 
 function _isRedirectResponse(response) {
     if (!response.headers.has('location')) {
@@ -322,9 +327,26 @@ function addURLSegments(url, ...segments) {
     url.pathname = `${pathName}${path}`;
 }
 function addURLQueryParams(url, queryMap) {
-    Object.keys(queryMap).forEach(key => {
-        url.searchParams.append(key, queryMap[key]);
-    });
+    // (20190122 katherinem) Issue #13440 - Workaround for Microsoft Edge not properly encoding query params with spaces
+    // See the Edge bug at: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/20228961/
+
+    // Since this is a very specific workaround for a particular browser bug, let's just ignore it in coverage. The `else` is what we want to test
+    /* istanbul ignore if */
+    if (new platform.URLSearchParams({ q: ' +' }).toString() !== 'q=+%2B') {
+        Object.keys(queryMap).forEach(key => {
+            let value = queryMap[key].toString().includes(' ')
+                ? queryMap[key]
+                      .split(' ')
+                      .map(encodeURIComponent)
+                      .join(' ')
+                : queryMap[key];
+            url.searchParams.append(key, value);
+        });
+    } else {
+        Object.keys(queryMap).forEach(key => {
+            url.searchParams.append(key, queryMap[key]);
+        });
+    }
 }
 
 /**
@@ -362,7 +384,7 @@ class Plug {
             throw new Error('A full, valid URL must be specified');
         }
         try {
-            this._url = new _URL$1(url);
+            this._url = new platform.URL(url);
         } catch (e) {
             throw new Error(`Unable to construct a URL object from ${url}`);
         }
@@ -653,8 +675,7 @@ function _doXhr({ xhr, body, progressInfo }) {
     return new Promise((resolve, reject) => {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                const status = xhr.status;
-                if (status >= 200 && status <= 300) {
+                if (xhr.status >= 200 && xhr.status <= 300) {
                     progressInfo.callback({ loaded: progressInfo.size, total: progressInfo.size });
                     resolve(xhr);
                 } else {

@@ -32,6 +32,9 @@ import { modelParser } from './lib/modelParser.js';
 import { utility } from './lib/utility.js';
 import { kcsTransitionsModel } from './models/kcsTransitions.model.js';
 import { kcsStateModel } from './models/kcsState.model.js';
+import { apiErrorModel } from './models/apiError.model.js';
+
+const _errorParser = modelParser.createParser(apiErrorModel);
 
 /**
  * A class for handling KCS actions
@@ -54,7 +57,7 @@ export class PageKcs {
         return this._plug
             .at('state')
             .get()
-            .catch(err => Promise.reject(err))
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(kcsStateModel));
     }
@@ -67,7 +70,7 @@ export class PageKcs {
         return this._plug
             .at('validtransitions')
             .get()
-            .catch(err => Promise.reject(err))
+            .catch(err => Promise.reject(_errorParser(err)))
             .then(r => r.json())
             .then(modelParser.createParser(kcsTransitionsModel));
     }
@@ -88,7 +91,7 @@ export class PageKcs {
             .at('state')
             .withParams()
             .post(JSON.stringify(state), utility.jsonRequestType)
-            .catch(err => Promise.reject(err));
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -115,7 +118,7 @@ export class PageKcs {
                 }),
                 utility.jsonRequestType
             )
-            .catch(err => Promise.reject(err));
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 
     /**
@@ -126,7 +129,7 @@ export class PageKcs {
         return this._plug
             .at('initialize')
             .post(utility.jsonRequestType)
-            .catch(err => Promise.reject(err));
+            .catch(err => Promise.reject(_errorParser(err)));
     }
 }
 </code></pre>
