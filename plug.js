@@ -18,7 +18,6 @@
  */
 /* global Headers, Request, fetch */
 import { platform } from './lib/platform.js';
-const _URL = platform.URL;
 
 function _isRedirectResponse(response) {
     if (!response.headers.has('location')) {
@@ -138,13 +137,19 @@ function addURLSegments(url, ...segments) {
     url.pathname = `${pathName}${path}`;
 }
 function addURLQueryParams(url, queryMap) {
-
     // (20190122 katherinem) Issue #13440 - Workaround for Microsoft Edge not properly encoding query params with spaces
-    if((new URLSearchParams({q: " +"})).toString() != "q=+%2B") {
+    // See the Edge bug at: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/20228961/
+
+    // Since this is a very specific workaround for a particular browser bug, let's just ignore it in coverage. The `else` is what we want to test
+    /* istanbul ignore if */
+    if (new platform.URLSearchParams({ q: ' +' }).toString() !== 'q=+%2B') {
         Object.keys(queryMap).forEach(key => {
-            let value = queryMap[key].toString().includes(' ') ?
-                queryMap[key].split(' ').map(encodeURIComponent).join(' ') :
-                queryMap[key];
+            let value = queryMap[key].toString().includes(' ')
+                ? queryMap[key]
+                      .split(' ')
+                      .map(encodeURIComponent)
+                      .join(' ')
+                : queryMap[key];
             url.searchParams.append(key, value);
         });
     } else {
@@ -189,7 +194,7 @@ export class Plug {
             throw new Error('A full, valid URL must be specified');
         }
         try {
-            this._url = new _URL(url);
+            this._url = new platform.URL(url);
         } catch (e) {
             throw new Error(`Unable to construct a URL object from ${url}`);
         }

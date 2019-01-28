@@ -1,5 +1,6 @@
 /* eslint-env node */
 module.exports = {
+    automock: false,
     collectCoverage: true,
     collectCoverageFrom: ['<rootDir>/*.js', '<rootDir>/lib/*.js'],
     coverageDirectory: '__coverage-node__',

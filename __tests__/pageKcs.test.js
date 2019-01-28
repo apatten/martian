@@ -56,6 +56,7 @@ describe('PageKcs', () => {
     });
     describe('failures', () => {
         const mockFailed = new Error('pageKcs API failure');
+        const parsedFailure = { message: 'pageKcs API failure' };
         beforeEach(() => {
             fetch.mockReject(mockFailed);
         });
@@ -64,23 +65,23 @@ describe('PageKcs', () => {
         });
         it('can fail getting kcs state', async () => {
             expect.assertions(1);
-            await expect(kcs.getState()).rejects.toEqual(mockFailed);
+            await expect(kcs.getState()).rejects.toEqual(parsedFailure);
         });
         it('can fail setting a kcs state', async () => {
             expect.assertions(1);
-            await expect(kcs.setState()).rejects.toEqual(mockFailed);
+            await expect(kcs.setState()).rejects.toEqual(parsedFailure);
         });
         it('can fail getting kcs valid transitions', async () => {
             expect.assertions(1);
-            await expect(kcs.getValidTransitions()).rejects.toEqual(mockFailed);
+            await expect(kcs.getValidTransitions()).rejects.toEqual(parsedFailure);
         });
         it('can fail initializing a kcs state', async () => {
             expect.assertions(1);
-            await expect(kcs.initialize()).rejects.toEqual(mockFailed);
+            await expect(kcs.initialize()).rejects.toEqual(parsedFailure);
         });
         it('can fail setting a kcs flag state', async () => {
             expect.assertions(1);
-            await expect(kcs.setFlag({ state: false }, 'flagDetail')).rejects.toEqual(mockFailed);
+            await expect(kcs.setFlag({ state: false }, 'flagDetail')).rejects.toEqual(parsedFailure);
         });
     });
 });
