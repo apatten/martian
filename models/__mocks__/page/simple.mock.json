@@ -10,6 +10,7 @@
   "namespace": "main",
   "path": {
     "@seo": "true",
+    "@type": "custom",
     "#text": "Category_2/Page_Title"
   },
   "path.original": "Category_2/Page_Title_Original",

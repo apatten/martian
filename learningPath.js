@@ -20,7 +20,7 @@ export class LearningPath {
 
     /**
      * Get the learning path data.
-     * @param {String|Number} revision The positive integer or GUID that refers to a specific revision to fetch. If not supplied, the latest revision will be fetched.
+     * @param {String|Number} [revision] The positive integer or GUID that refers to a specific revision to fetch. If not supplied, the latest revision will be fetched.
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel representing the learning path.
      */
     getInfo(revision) {
