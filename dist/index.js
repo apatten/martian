@@ -1075,6 +1075,8 @@ const pageModel = [
     { field: 'language.effective', name: 'languageEffective' },
     { field: 'timeuuid' },
     { field: ['path', '#text'] },
+    { field: ['path', '@type'], name: 'pathType' },
+    { field: ['path', '@seo'], name: 'pathSeo', transform: 'boolean' },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
     {
@@ -3593,13 +3595,15 @@ class GroupManager {
 }
 
 const learningPathModel = [
-    { field: 'title' },
     { field: '@name', name: 'name' },
-    { field: 'summary' },
-    { field: 'pages', isArray: true, transform: pageModel },
+    { field: '@editable', name: 'editable', transform: 'boolean' },
+    { field: '@revision', name: 'revision', transform: 'number' },
     { field: 'edittime', name: 'editTime' },
+    { field: 'title' },
+    { field: 'summary' },
+    { field: 'category' },
     { field: 'uri.learningpath', name: 'uri' },
-    { field: 'category' }
+    { field: 'pages', isArray: true, transform: pageModel }
 ];
 
 const learningPathsModel = [
@@ -3621,7 +3625,7 @@ class LearningPath {
 
     /**
      * Get the learning path data.
-     * @param {String|Number} revision The positive integer or GUID that refers to a specific revision to fetch. If not supplied, the latest revision will be fetched.
+     * @param {String|Number} [revision] The positive integer or GUID that refers to a specific revision to fetch. If not supplied, the latest revision will be fetched.
      * @returns {Promise} A promise that, when resolved, yields a learningPathModel representing the learning path.
      */
     getInfo(revision) {
