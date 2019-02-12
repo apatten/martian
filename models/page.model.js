@@ -16,6 +16,8 @@ const pageModel = [
     { field: 'language.effective', name: 'languageEffective' },
     { field: 'timeuuid' },
     { field: ['path', '#text'] },
+    { field: ['path', '@type'], name: 'pathType' },
+    { field: ['path', '@seo'], name: 'pathSeo', transform: 'boolean' },
     { field: 'restriction' },
     { field: '@revision', name: 'revision', transform: 'number' },
     {
